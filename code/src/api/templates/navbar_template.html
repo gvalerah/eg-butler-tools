@@ -1,0 +1,322 @@
+    <!-- ----------------------------- -->
+    <!-- EG Suite Tools                -->
+    <!-- gen_menu_functions.py         -->
+    <!-- Gen_Menu::Gen_Menu() -------- -->
+    <!-- ----------------------------- -->
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-sm bg-primary navbar-dark fixed-top" data-spy="affix" data-offset-top="197" >
+      <div id="navbarCollapse" class="collapse navbar-collapse">
+        <!-- Brand -->
+        <a class="navbar-brand" href="http://www.emtecgroup.net"><img src="/static/img/logo_customer.png" title="" alt="LOGO" height=64 style="background-color:white"></a>
+        <!-- Links -->
+        <ul class="navbar-nav">
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [1, 3, 2, 4, 5, 6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Butler</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/login">login</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/logout">logout</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [1, 4, 6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Solicitante</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?User_Id=0">Solicitudes</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [2, 4, 6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Aprobador</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=4">Solicitadas</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=8">Revisadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=16">Aprobadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=32">Rechazadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=128">Completadas</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request">Todas las Solicitudes</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [3, 4, 6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Observador</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=1">Creadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=2">Eliminadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=4">Solicitadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=8">Revisadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=16">Aprobadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=32">Rechazadas</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=64">Errores</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request?Status=128">Completadas</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request">Todas las Solicitudes</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [4, 6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Tablas</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Categories_Query">Categorias</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Clusters_Query">Clusters</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Disk_Images_Query">Imagenes de Disco</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Domains_Query">Dominios</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Interface_Query">Interfaz</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Subnets_Query">Sub Redes</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request_Type_Query">Tipos de Solicitudes</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Projects_Query">Proyectos</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Requests_Query">Solicitudes</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Nutanix_Prism_VM_Query">Nutanix Prism VM</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Nutanix_Prism_VM_Images_Query">Nutanix VM Imagenes</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Roles_Query">Roles</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Users_Query">Usuarios</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [4, 6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Herramientas</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/update/Cost_Centers">Actualiza Centros de Costo</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/update/Categories">Actualiza Categorias</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/update/Images">actualiza Imagenes</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>God</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Clusters_Query">Clusters</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Subnets_Query">Sub Nets</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Request_Type_Query">Request Types</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Nutanix_Prism_Query">Nutanix Prism</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Nutanix_VM_Images_Query">Nutanix VM Images</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Roles_Query">Roles</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Users_Query">Users</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Show_Requests">Requests</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in [1, 2, 4, 5, 6] %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Ayuda</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/butler_faq">Uso de Butler</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/butler_about">Sobre Butler</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+        </ul>
+        <ul class="navbar navbar-nav">
+{% if current_user.is_authenticated %}
+{% if current_user.is_authenticated %}
+{%- if current_user.role.id in (1, 2, 3, 4, 5, 6) %}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Account</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/register">Register User</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/change-password">Change Password</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/change-email">Change Email</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/logout">Log Out</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+{%- endif -%}
+{% endif %}
+{% else %}
+          <li><a href="{{ url_for('auth.login') }}"><h3>Log In</h3></a></li>
+{% endif %}
+        </ul>
+        <table>
+               {% if butlerdata is defined %}
+                   {% if butlerdata.BUTLER_PERIOD is defined %}
+                   <tr>
+                       <td>
+                       <!-- PERIOD -->
+                       Current: {{butlerdata.BUTLER_PERIOD.current}}
+                       Active <a href="/forms/Set_Period"><font color="yellow">{{butlerdata.BUTLER_PERIOD.active}}</font></a>
+                       </td>
+                   </tr>
+                   {% endif %}
+               {% endif %}
+                   <tr><td><font color="yellow">Powered by:</font></td></tr>
+                   <tr><td style="background-color:white">
+                       <a class="navbar-brand" href="http://www.emtecgroup.net"><img src="/static/img/logo_emtec.png" height=64 title="" alt="Emtec Group"></a></tr>
+                       </td>
+                   </tr>
+        </table>
+      </div>
+    </nav>
+    </div>
+    <!-- ----------------------------- -->

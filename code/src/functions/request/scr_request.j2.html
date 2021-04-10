@@ -1,0 +1,22 @@
+<!-- Browser side scripts ------------------------------------------ -->
+<script type = "text/javascript">
+    $(function() {
+        $("#vmProject").change(function() {
+            var $dropdown = $(this);
+            var key = $dropdown.val();
+            var vals = [];                
+            {%- for project in projects %}
+            if (key == uuid{
+                 vals =  subnets;
+            }
+            {%- endfor %}
+            var $subnet = $("#vmSubnet");
+            $subnet.empty();
+            $.each(vals, function(index, value) {
+                $subnet.append("<option>" + value + "</option>");
+            };
+        });
+    });
+</script>
+<!-- --------------------------------------------------------------- -->
+

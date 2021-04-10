@@ -1,0 +1,307 @@
+<h1>EG Butler (c)</h1>
+<p>Powered by Emtec Group</p>
+<h1>Gesti&oacute;n de solicitudes</h1>
+<p><strong>EG Butler</strong> permite la gesti&oacute;n de solicitudes de provisionamiento de m&aacute;quinas virtuales en la soluci&oacute;n IaaS para le cliente <strong><em>AGUAS ANDINAS</em></strong></p>
+<h2>Proceso de Aprovisionamiento Autom&aacute;tico</h2>
+<p>Es el proceso que permite provisionar los recursos requeridos para implementar una m&aacute;quina virtual en la plataforma IaaS de <strong><em>AGUAS ANDINAS</em></strong>, para lo cual se crea una solicitud con el m&iacute;nimo indispensable de datos requeridos para esta creaci&oacute;n, esta solicitud est&aacute; sujeta a aprobaci&oacute;n antes del inicio del provisionamiento autom&aacute;tico, una vez aprobada la solicitud <strong>EG Butler</strong> orquesta la creaci&oacute;n de la m&aacute;quina virtual en la plataforma <strong>Iaas</strong>, inicia el monitoreo de disponibilidad via <strong>EG Monitor</strong> (c) y activa la tarificaci&oacute;n de servicios seg&uacute;n los recursos provisionados usando <strong>EG Collector</strong> (c).</p>
+<p>En este proceso se consieran 2 roles principales:</p>
+<h3>Solicitante</h3>
+<p>Usuario autorizado para solicitar provisionamiento de m&aacute;quinas virtuales, estos usuarios est&aacute;n predefinidos y se identifican en el sistema usando una combinaci&oacute;n de nombre de usuario y contrase&ntilde;a.</p>
+<h3>Aprobador</h3>
+<p>Usuario autorizado para modificar y aprobar las solicitudes de m&aacute;quinas virtuales ingresadas por los Solicitantes</p>
+<p><strong>EG Butler</strong> pone a disposici&oacute;n de los usuarios del sistema una interfaz de usuario dise&ntilde;ada para ser simple e intuitiva, todo se inicia con la identificaci&oacute;n del usuario:</p>
+<p><img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/butler_login.png"></p>
+<p>Una vez identificado, el usuario tiene acceso a las funciones generales del sistema de acuerdo al perfil asignado a su rol en el proceso, para los roles <strong><em>Solicitante</em></strong> y <strong><em>Aprobador</em></strong>, sendas opciones de men&uacute; se habilitan y el usuario centraliza sus acciones usando estas opciones principales.</p>
+<p><img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/request_list.png"></p>
+<p>El listado de solicitudes permite la visualizaci&oacute;n de las solicitudes de forma que puedan gestionarse usando siempre una vista familiar.</p>
+<p>A partir de esta visualizaci&oacute;n el usuario tiene funciones generales de acuerdo a su perfil:</p>
+<p>Para el Solicitante:</p>
+<table>
+<thead>
+<tr>
+<th>Acci&oacute;n</th>
+<th>Descripci&oacute;n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Retorno</strong></td>
+<td>Regresa a la pantalla anterior, deja sin efecto cualquier acci&oacute;n vigente</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Nueva</strong></td>
+<td>Creaci&oacute;n de una nueva solicitud</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Principal</strong></td>
+<td>Regresa apantalla principal del sistema, deja sin efecto cualquier acci&oacute;n en curso</td>
+</tr>
+</tbody>
+</table>
+<p>Para el Aprobador</p>
+<table>
+<thead>
+<tr>
+<th>Acci&oacute;n</th>
+<th>Descripci&oacute;n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Retorno</strong></td>
+<td>Regresa a la pantalla anterior, deja sin efecto cualquier acci&oacute;n vigente</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Nueva</strong></td>
+<td>Creaci&oacute;n de una nueva solicitud</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Principal</strong></td>
+<td>Regresa a la pantalla principal del sistema, deja sin efecto cualquier acci&oacute;n en curso</td>
+</tr>
+</tbody>
+</table>
+<p>El listado de solicitudes permite acciones directas sobre cada solicitud identificada por un n&uacute;mero de solicitud, las herramientas consideradas son:</p>
+<table>
+<thead>
+<tr>
+<th>Acci&oacute;n</th>
+<th>Descripci&oacute;n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Detalle</strong></td>
+<td>Muestra el detalle de la solicitud. El nivel de detalle esta especificado seg&uacute;n el rol del usuario.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Edici&oacute;n</strong></td>
+<td>Visualiza el formulario de modificaci&oacute;n de la solicitud, este permitir&aacute; la edici&oacute;n de los detalles y/o estado de la solicitud dependiendo del rol del usuario y el estado vigente de la solicitud.</td>
+</tr>
+</tbody>
+</table>
+<h2>Edici&oacute;n de Una Solicitud</h2>
+<p><img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/request_form.png"></p>
+<p><strong>EG Butler</strong> esta dise&ntilde;ado para minimizar los datos requeridos para un provisionamiento efectivo de m&aacute;quinas virtuales en la plataforma IaaS de <strong><em>AGUAS ANDINAS</em></strong>. El Usuario puede modificar los datos requeridos por una solicitud de acuerdo a los siguientes criterios:</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Descripci&oacute;n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Nombre</strong></td>
+<td>Nombre asociado a la m&aacute;quina virtual, este identificador ser&aacute; utilizado como base para crear el identificador &uacute;nico en toda la plataforma IaaS y la integraci&oacute; con los otros m&oacute;dulos <strong>EG Suite</strong></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>CPU</strong></td>
+<td>N&uacute;mero de CPUs virtuales a provisionar en la m&aacute;quina virtual durante el proceso de provisionamiento inicial autom&aacute;tico.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>RAM</strong></td>
+<td>Cantidad de memoria virtual en GB a provisionar en la m&aacute;quina virtual durante el proceso de provisionamiento inicial autom&aacute;tico.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Centro de Costo</strong></td>
+<td>Agrupamiento utilizado para distribuci&oacute;n de costos de recursos aprovisionados , esta distribuci&oacute;n se utiliza durante el proceso de tarificaci&oacute;n. los <strong><em>"centros de costo"</em></strong> se listar&aacute;n como opciones aqui, seg&uacute;n sean implementados en la infraestructura IaaS.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Tipo de Disco</strong></td>
+<td>Especifica el tipo de almacenamiento a utilizar en el aprovisionamiento, solo se usar&aacute; un solo tipo de almacenamiento por cada maquina virtual, el cual aplicar&aacute; para todos los discos virtuales que se provisionen, los tipos se listar&aacute;n como opciones aqui pudiendo ser HDD,SSD,... seg&uacute;n sean implementados en la infraestructura IaaS.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Discos</strong></td>
+<td>Matriz con la opci&oacute;n para provisionar hasta 12 discos en la primera solicitud, a cada disco se le puede asignar un tama&ntilde;o en GB de almacenamiento y opcionalmente indicar una imagen de disco a cargar autom&aacute;ticamente en el proceso de creaci&oacute;n.</td>
+</tr>
+</tbody>
+</table>
+<p>Una vez definidos los valores requeridos el usuario tiene las siguientes opciones:</p>
+<table>
+<thead>
+<tr>
+<th>Opci&oacute;n</th>
+<th>Descripci&oacute;n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Grabar</strong></td>
+<td>Guardar los datos nuevos o modificados segun corresponda, en el caso del <strong>Solicitante</strong> iterar&aacute; entre una nueva solicitud o las modificaciones a una existente antes de ser <strong><em>completada</em></strong>.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Completado</strong></td>
+<td>Los solicitantes, cuando ya no deseen modificar su solicitud pueden <strong><em>"completarla"</em></strong>, en este momento quedar&aacute; a disposici&oacute;n de los aprobadores para ser <strong><em>Revisada</em>*, </strong><em>Rechazada<strong><em> o </em></strong>Aprobada</em>**.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Eliminar</strong></td>
+<td>Los solicitantes pueden cancelar su solicitud siempre y cuando no haya sido aun gestionada por un aprobador (<strong><em>Revisada</em></strong>, <strong><em>Rechazada</em></strong> o <strong><em>Aprobada</em></strong>)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Cancelar</strong></td>
+<td>Abortar cualquier modificaci&oacute;n realizada a los campos de la solicitud, no cambia el estado de la solicitud y se retorna a la pantalla del listado de solicitudes correspondiente.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Rechazar</strong></td>
+<td>Los aprobadores pueden rechazar una solicitud si esta no cumple con los requisitos administrativos correspondientes o en su defecto recibe una petici&oacute;n por parte de un soliictante que ha decidido eliminar la solicitud pero esta ya ha sido <strong><em>Revisada</em></strong> por un <strong>Aprobador</strong>. Este es un estado final y la solicitud no puede proseguir.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Aprobar</strong></td>
+<td>Los aprobadores despu&eacute;s de revisar la solicitud deciden si la aprueban, ejecutada esta acci&oacute;n se activa el proceso de provisionamiento autom&aacute;tico, el avance del proceso puede ser seguido consultando el estado de una solicitud espec&iacute;fica via el listado de solicitudes correspondientes.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Retorno</strong></td>
+<td>En diversas ocaciones y seg&uacute;n el perfil del usuario, es posible que no existan acciones espec&iacute;ficas que afecten el estado de la solicitud, es as&iacute; que la &uacute;nica opci&oacute;n posible se retornar a la pantalla anterior.</td>
+</tr>
+</tbody>
+</table>
+<h2>Visualizaci&oacute;n de la solicitud</h2>
+<p><img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/request_show.png"></p>
+<p>Esta vista permite visualizar el estado general de una solicitud incluyendo historial de estado, tambi&eacute;n muestra una estimaci&oacute;n del costo mensual aproximado a cargar por cada m&aacute;quina virtual provisionada, esta estimaci&oacute;n se hace en funci&oacute;n del tarifario vigente y considerando el provisionamiento de los recursos especificados en la solicitud por un periodo de treinta dias calendarios.</p>
+<h2>Matriz de Estados</h2>
+<p>Una solicitud tiene un ciclo de vida que representa las diversas etapas que deben cumplirse en el proceso de solicitud de tal forma que todo este listo antes de activar el provisionamiento autom&aacute;tico de recursos:</p>
+<p><img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/request_states.png"></p>
+<p>Es as&iacute; que una solicitud puede <strong><em>"navegar"</em></strong> entre los siguientes estados:</p>
+<table>
+<thead>
+<tr>
+<th>Estado</th>
+<th>Descripci&oacute;n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Creada</strong></td>
+<td>El solicitante ha definido las caracter&iacute;sticas de la m&aacute;quina virtual deseada asi como los detalles asociados al agrupamiento correspondiente para el proceso de distribuci&oacute;n de la facturaci&oacute;n. La Solicitud se mantiene en estado <strong><em>Creada</em></strong> a pesar de las modificaciones que el usuario le haga. Esta puede ser modificada tantas veces com el usuario requieran antes de someterla a aprobaci&oacute;</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Cancelada</strong></td>
+<td>El solicitante ha abortado el proceso de solicitud, el registro de la misma queda disponible por consulta y auditoria, sin embargo este es un estado final, la solicitud no proceder&aacute; a ning&uacute;n estado futuro. El <strong>Solicitante</strong> puede eliminar la solicitud hasta antes que sea gestionada por un <strong>Aprobador</strong> (<strong><em>Revisada</em></strong>,<strong><em>Aprobada</em></strong> o <strong><em>Rechazada</em></strong>).</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Solicitada</strong></td>
+<td>El solicitante ha completado las modificaciones a su solicitud y la somete a aprobaci&oacute;n. Una vez en este estado, la solicitud puede ser gestionada solo por el Aprobador quien puede modificarla (<strong>Revisada</strong>) , rechazarla o aprobarla.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Revisada</strong></td>
+<td>La solicitud ha sido modificada por el <strong>Aprobador</strong>, en t&eacute;rminos de recursos y distribuci&oacute;n para facturaci&oacute;n, estas revisiones pueden darse tantas veces como sea requerido, el solicitante no puede cancelar una solicitud una vez revisada o promovida a estados superiores (<strong><em>Aprobada</em></strong> o <strong><em>Rechazada</em></strong>)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Rechazada</strong></td>
+<td>La solitud ha sido rechazada por el aprobador, Este es un estado final.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Aprobada</strong></td>
+<td>La solicitud ha sido aprobada y queda en proceso de provisionamiento autom&aacute;tico, futuros estados son gestionados autom&aacute;ticamente por <strong>EG Butler</strong> hasta llegar a un estado final (<strong><em>Completada</em></strong> o <strong><em>Error</em></strong>)</td>
+</tr>
+</tbody>
+</table>

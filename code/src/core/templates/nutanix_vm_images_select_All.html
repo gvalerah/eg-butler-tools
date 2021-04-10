@@ -1,0 +1,183 @@
+
+{# =====================================================================
+   Auto-Generated code. Do not modify 
+   (C) Sertechno/Emtec Group (2018,2019)
+   GLVH @ 2020-11-22 15:51:21.331733
+   ===================================================================#}
+
+{%- extends "base.html" -%}
+{%- import "bootstrap/wtf.html" as wtf -%}
+{%- import "_macros.html" as macros -%}
+
+{%- block head -%}
+{{ super() }}
+{%- endblock -%}
+
+{%- block content -%}
+{{ super() }}
+{%- endblock -%}
+
+{%- block page_content -%}
+    <!-- AG 2020-11-22 15:51:21.331755 -->
+    <!-- ------------------------ -->
+    <!-- gen_templates_select_all -->
+    <!-- ------------------------ -->
+    <!-- div class="page-header" -->
+
+    <div class="row"> <!-- Period row container -->
+
+{%- if collectordata is defined  -%}
+        <!-- collectordata = {{collectordata}} -->
+{%- if collectordata.COLLECTOR_PERIOD is defined -%}
+        <!-- PERIOD -->
+        <div class="col-sm"> <!--  Period container -->
+        <table>
+            <tr><td>Current period:</td><td><b>{{collectordata.COLLECTOR_PERIOD.current}}</b></td>
+                <td>Active period:</td><td><b>{{collectordata.COLLECTOR_PERIOD.active}}</b></td>
+{%- if collectordata.CONFIG is defined -%}
+                <td>CIT sharding:</td><td><b>{{collectordata.CONFIG.COLLECTOR_CIT_SHARDING}}</b></td>
+{%- endif -%}
+            </tr>
+        </table>
+        </div>
+{%- endif -%}
+{%- endif -%}
+
+    </div>
+    <div class="row"> <!-- Header row container -->
+        
+        <div class="col-sm"> <!--  Title container -->
+            <h2>NUTANIX_VM_IMAGES:</h2>Page {{rows.page}} of {{rows.pages}}, {{rows.total}} rows<br>
+            <a href="#" onclick="history.go(-1)"><img src="/static/img/prev.svg"  color=yellow width="32" height="32" title="" alt="Return"></a>        
+        </div>
+        <div class="col-sm"> <!-- 'filters' container -->
+            <small>
+{%- set x = options['filters']|length + options['groups_by']|length + options['orders_by']|length + options['limit']|length -%}
+{%- if x > 0 -%}
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>x</th>
+                            <th>Filter</th>
+                            <th>trash</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+{%- for filter in options['filters'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{filter.header}} {{filter.operator}} {{filter.regexp}}</td>
+                    <td><a href='/select/Nutanix_VM_Images_Query?iad={{filter.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Filter'></a></td>
+                    </tr>
+{%- endfor -%}
+                
+{%- for group in options['groups_by'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{group.header}}</td>
+                    <td><a href='/select/Nutanix_VM_Images_Query?iad={{group.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Group'></a></td>
+                    </tr>
+{%- endfor -%}
+                
+{%- for order in options['orders_by'] -%}
+                    <tr>
+{%- if order.order == 'ASC' -%}
+                        <td><img src='/static/img/sort-ascending-yellow.svg'  style="background-color:blue;" color=white width='16' height='16' title='' alt='Ascending'></td>
+{%- else -%}
+                        <td><img src='/static/img/sort-descending-yellow.svg'  style="background-color:blue;" color=yellow width='16' height='16' title='' alt='Descending'></td>
+{%- endif -%}
+                    <td>{{order.header}} {{order.order}}</td>
+                    <td><a href='/select/Nutanix_VM_Images_Query?iad={{order.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Order'></a></td>
+                    <tr>
+{%- endfor -%}
+                
+{%- for limit in options['limit'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{limit.limit}}</td>
+                    </tr>
+                <a href='/select/Nutanix_VM_Images_Query?iad={{limit.id}}'><img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Limit'></a><br>
+{%- endfor -%}    
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>{{x}}</td>
+                    </tr>
+                </tfoot>
+                </table>
+{%- endif -%}
+            
+            </small>
+        </div>
+        <!-- /div -->
+    </div>
+
+    <div class="row">  <!-- Actual content container -->
+        <div class="col">  <!-- Actual content container -->
+            <small>
+            <table class="table table-striped table-hover table-sm">
+                <thead class="thead-dark">
+                    <tr><th>imageservice_uuid_diskclone<br>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,imageservice_uuid_diskclone:imageservice_uuid_diskclone,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,imageservice_uuid_diskclone:imageservice_uuid_diskclone,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>description<br>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,description:description,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,description:description,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>size_mib<br>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,size_mib:size_mib,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,size_mib:size_mib,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>comments<br>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,comments:comments,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_VM_Images_Query?ia=ORDER,comments:comments,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th></th><th></th> </tr>
+                    <tr>
+                        <form action="/select/Nutanix_VM_Images_Query"><th><input type="text" name=imageservice_uuid_diskclone value="{{request.args.to_dict()['imageservice_uuid_diskclone']}}"></th><th><input type="text" name=description value="{{request.args.to_dict()['description']}}"></th><th><input type="text" name=size_mib value="{{request.args.to_dict()['size_mib']}}"></th><th><input type="text" name=comments value="{{request.args.to_dict()['comments']}}"></th><th></th><th></th>     
+                            <input type="image" name="filter" value="Filter" src="/static/img/filter.svg"  color=yellow width="32" height="32" title="" alt="Filter">
+                            <input type="image" name="export" value="Export" src="/static/img/download-cloud.svg"  color=yellow width="32" height="32" title="" alt="Export">
+                            <input type="image" name="add"    value="Add"    src="/static/img/add.svg"     color=yellow width="32" height="32" title="" alt="Add">
+                        </form></tr>
+                </thead>
+
+                <tbody>
+
+
+{# Will build cells for all items in rows #}
+
+
+
+{% for Nutanix_VM_Images in rows.items %}
+                        <tr>
+<td>{{Nutanix_VM_Images.imageservice_uuid_diskclone}}</td><td>{{Nutanix_VM_Images.description}}</td><td>{{Nutanix_VM_Images.size_mib}}</td><td>{{Nutanix_VM_Images.comments}}</td><td><a href="/forms/Nutanix_VM_Images?imageservice_uuid_diskclone={{ Nutanix_VM_Images.imageservice_uuid_diskclone }}"><img src="/static/img/edit.svg" width="16" height="16" title="" alt="Edit"></a></td>
+                        <td><a href="/forms/Nutanix_VM_Images_delete?imageservice_uuid_diskclone={{ Nutanix_VM_Images.imageservice_uuid_diskclone }}"><img src="/static/img/delete.svg" width="16" height="16" title="" alt="Delete"></a></td>
+                  
+
+{# Will include relations if any 20200225 #}
+</tr>
+{%- endfor -%} 
+                </tbody>
+            </table>
+            
+            </small>
+        </div>
+    </div>
+
+    <div class="row">   <!-- pagination row -->
+        <div class="col">   <!-- pagination row -->
+            <div class="pagination">
+                {{ macros.pagination_widget(rows, '.select_Nutanix_VM_Images_query') }}
+            </div>
+        </div>
+    </div>
+
+    <!-- ------------------------ -->
+    <!-- gen_templates_select_all -->
+    <!-- ------------------------ -->
+{%- endblock -%}
+
+{# ===================================================================#}

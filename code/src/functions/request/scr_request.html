@@ -1,0 +1,23 @@
+<!-- Browser side scripts ------------------------------------------ -->
+<script type = "text/javascript">
+    $(function() {
+        $("#vmProject").change(function() {
+            var $dropdown = $(this);
+            var key = $dropdown.val();
+            var vals = [];                
+            if (key  ==   '665a501f-5185-44b9-9bdf-22a16c13c279'){
+                 vals =  ['a289545d-1543-489c-aa60-522d8565731d'];
+            }
+            if (key  ==   '8b017f9d-9f14-46cb-9de6-9b1bae0166dd'){
+                 vals =  ['a289545d-1543-489c-aa60-522d8565731d'];
+            }
+            var $subnet = $("#vmSubnet");
+            $subnet.empty();
+            $.each(vals, function(index, value) {
+                $subnet.append("<option>" + value + "</option>");
+            };
+        });
+    });
+</script>
+<!-- --------------------------------------------------------------- -->
+

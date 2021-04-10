@@ -1,0 +1,227 @@
+<h1>Solicitud de Aprovisionamiento de Maquina Virtual</h1>
+  <form action="#">
+    <table bgcolor=lightcyan>
+      <tr>
+        <td>
+        <hr>
+            <!-- Main VM fields request form -->
+            <table>            
+              <tr>
+                <td width=256><b>Nombre de MV   </b></td>
+                <td><input type="text" name=""</td>
+              </tr>
+              <tr>
+                <td><b>N&uacute;mero de CPUs </b></td>
+                <td><input type="number" name="0"</td>
+              </tr>
+              <tr>
+                <td><b>Memoria RAM  </b></td>
+                <td><input type="number" name="0"</td> GB
+              </tr>
+              <tr>
+                <td><b>Centro de Costo</b></td>
+                <td>
+                  <select name="0" id="vmcc">
+                      <option value="1005">AAAA Produccion</option>
+                      <option value="1006">AAAA Desarrollo</option>
+                      <option value="1007">AAAA QA</option>
+                      <option value="1008">AAAA Contingencia</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><b>Tipo de disco</b></td>
+                <td>
+                  <select name="stype" id="stype">
+                      <option value="5">Standard VM (SATA storage)</option>
+                      <option value="6">Special  VM (SSD storage)</option>
+                      <option value="7">Hybrid   VM (Hybrid storage)</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <hr>
+          <!-- VM required storage specifications -->
+          <table>
+            <theader>
+              <tr>
+                <th width=256>Disco #</th>
+                <th><b>Tama&ntilde;o en GB</b></th>
+                <th><b>Imagen de Disco</b></th>
+              </tr>
+            </theader>
+            <tbody>
+                <tr>
+                  <td align=center>1</td>
+                  <td><input type="number" name="fsize0"></td>
+                  <td>
+                    <select name="fimage0" id="fimage0">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>2</td>
+                  <td><input type="number" name="fsize1"></td>
+                  <td>
+                    <select name="fimage1" id="fimage1">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>3</td>
+                  <td><input type="number" name="fsize2"></td>
+                  <td>
+                    <select name="fimage2" id="fimage2">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>4</td>
+                  <td><input type="number" name="fsize3"></td>
+                  <td>
+                    <select name="fimage3" id="fimage3">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>5</td>
+                  <td><input type="number" name="fsize4"></td>
+                  <td>
+                    <select name="fimage4" id="fimage4">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>6</td>
+                  <td><input type="number" name="fsize5"></td>
+                  <td>
+                    <select name="fimage5" id="fimage5">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>7</td>
+                  <td><input type="number" name="fsize6"></td>
+                  <td>
+                    <select name="fimage6" id="fimage6">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>8</td>
+                  <td><input type="number" name="fsize7"></td>
+                  <td>
+                    <select name="fimage7" id="fimage7">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>9</td>
+                  <td><input type="number" name="fsize8"></td>
+                  <td>
+                    <select name="fimage8" id="fimage8">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>10</td>
+                  <td><input type="number" name="fsize9"></td>
+                  <td>
+                    <select name="fimage9" id="fimage9">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>11</td>
+                  <td><input type="number" name="fsize10"></td>
+                  <td>
+                    <select name="fimage10" id="fimage10">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td align=center>12</td>
+                  <td><input type="number" name="fsize11"></td>
+                  <td>
+                    <select name="fimage11" id="fimage11">
+                        <option value="0">None</option>
+                        <option value="100">Windows Server 2012 r3 sp 1</option>
+                        <option value="192">Centos 6 rel. 7945</option>
+                        <option value="214">Centos 7 rel. 8110</option>
+                        <option value="318">Centos 8 rel. 12345</option>
+                    </select>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        <hr>
+        </td>
+      </tr>
+    </table>
+    <!-- Button options as per user role -->
+    <!-- Options for Requestor role -->
+    <input type="submit" value="Guardar">
+    <input type="submit" value="Completado">
+    <input type="submit" value="Eliminar">
+    <input type="submit" value="Cancelar">
+  </form>
+

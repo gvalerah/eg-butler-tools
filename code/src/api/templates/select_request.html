@@ -1,0 +1,78 @@
+{# ================================================================== #}
+{# Request Report Template                                            #}
+{# For Customer on a defined period and status                        #}
+{# (c) Sertechno 2020                                                 #}
+{# GLVH @ 2020-11-07                                                  #}
+{# ================================================================== #}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block title %}Butler{% endblock %}
+{% block head %}
+   {{ super() }}
+{% endblock %}
+{% block page_content %}
+<div class="page-header">
+    <h2>Solicitudes: </h2>
+    <a href="#" onclick="history.go(-1)">
+        <img src="/static/img/back.png"
+        color=yellow width="32" height="32" title="" alt="Back">
+    </a>
+    <a href="/forms/Request"> 
+        <img src="/static/img/add.png"
+        color=yellow width="32" height="32" title="" alt="Add">
+    </a>
+    <a href="/"> 
+        <img src="/static/img/home.png"
+        color=yellow width="32" height="32" title="" alt="Home">
+    </a>
+</div>
+
+    <table class="table table-striped table-hover table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th>SOLICITUD</th><th>USUARIO</th><th>CENTRO DE COSTO</th><th>ESTADO</th><th>FECHA</th></th><th>MAQUINA VIRTUAL</th><th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {# ---------------------------------------------------------
+               Since pagination will be used, pagination object 'rows'
+               is required and actual page rows.items should be iterated
+               ------------------------------------------------------ #}
+            {%- for row in rows.items %}
+            <tr>
+                <td><a href="/report/Request?Id={{row.requests.Id}}">{{row.requests.Id}}</a></td>
+                <td><b>{{row.Users.username}}</b></td>
+                <td><b>{{row.Cost_Centers.CC_Description}}</b></td>
+                <td><b>{{get_request_status_description(row.requests.Status)|join(', ')}}</b></td>
+                <td>{{row.requests.Last_Status_Time.strftime('%d/%m/%y %H:%M')}}</td>
+                <td><b>{{row.nutanix_prism_vm.vm_name}}</b> ({{get_vm_resume(row.nutanix_prism_vm)}})</td>
+                <td>
+                    <a href="/report/Request?Id={{row.requests.Id}}">
+                        <img src="/static/img/search.png"
+                            color=yellow width="32" height="32" title="" alt="Ver">
+                    </a>
+                    <a href="/forms/Request?Id={{row.requests.Id}}">
+                        <img src="/static/img/edit.png"
+                            color=yellow width="32" height="32" title="" alt="Editar">
+                    </a>
+                </td>
+            </tr>
+            {%- endfor %}
+        </tbody>
+    </table>
+    {# -----------------------------------------------------------------
+       Pagination code, requites pagination objets 'rows' and 
+       destination route
+       -------------------------------------------------------------- #}
+    <div>
+        <div class="row">   <!-- pagination row -->
+            <div class="col">   <!-- pagination row -->
+                <div class="pagination">
+                    {{ macros.pagination_widget(rows, '.select_Request') }}
+                </div>
+            </div>
+    </div>
+
+{% endblock %}
+{# ================================================================== #}

@@ -1,0 +1,95 @@
+<h1>Solicitud de Aprovisionamiento de Maquina Virtual</h1>
+  <form action="#">
+    <table bgcolor=lightcyan>
+      <tr>
+        <td>
+        <hr>
+            <!-- Main VM fields request form -->
+            <table>            
+              <tr>
+                <td width=256><b>Nombre de MV   </b></td>
+                <td><input type="text" name="{{data.vmname}}"</td>
+              </tr>
+              <tr>
+                <td><b>N&uacute;mero de CPUs </b></td>
+                <td><input type="number" name="{{data.vmcpu}}"</td>
+              </tr>
+              <tr>
+                <td><b>Memoria RAM  </b></td>
+                <td><input type="number" name="{{data.vmram}}"</td> GB
+              </tr>
+              <tr>
+                <td><b>Centro de Costo</b></td>
+                <td>
+                  <select name="{{data.vmcc}}" id="vmcc">
+                    {%- for value,option in data.cc_list %}
+                      <option value="{{value}}">{{option}}</option>
+                    {%- endfor %}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><b>Tipo de disco</b></td>
+                <td>
+                  <select name="stype" id="stype">
+                    {%- for value,option in data.stype_list %}
+                      <option value="{{value}}">{{option}}</option>
+                    {%- endfor %}
+                  </select>
+                </td>
+              </tr>
+            </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <hr>
+          <!-- VM required storage specifications -->
+          <table>
+            <theader>
+              <tr>
+                <th width=256>Disco #</th>
+                <th><b>Tama&ntilde;o en GB</b></th>
+                <th><b>Imagen de Disco</b></th>
+              </tr>
+            </theader>
+            <tbody>
+                {%- for i in range(12) %}
+                <tr>
+                  <td align=center>{{i+1}}</td>
+                  <td><input type="number" name="fsize{{i}}"></td>
+                  <td>
+                    <select name="fimage{{i}}" id="fimage{{i}}">
+                      {%- for image in data.image_list %}
+                        <option value="{{image[0]}}">{{image[1]}}</option>
+                      {%- endfor %}
+                    </select>
+                  </td>
+                </tr>
+                {%- endfor %}
+            </tbody>
+          </table>
+        <hr>
+        </td>
+      </tr>
+    </table>
+    <!-- Button options as per user role -->
+    {%- if data.role == 'Requestor' %}
+    <!-- Options for Requestor role -->
+    <input type="submit" value="Guardar">
+    <input type="submit" value="Completado">
+    <input type="submit" value="Eliminar">
+    <input type="submit" value="Cancelar">
+    {%- elif data.role == 'Approver' %}
+    <!-- Options for Approver role -->
+    <input type="submit" value="Guardar">
+    <input type="submit" value="Eliminar">
+    <input type="submit" value="Rechazar">
+    <input type="submit" value="Aprobar">
+    <input type="submit" value="Cancelar">
+    {%- else %}
+    <!-- Options for Other/Viewer role -->
+    <input type="submit" value="Retorno">
+    {%- endif %}
+  </form>
+

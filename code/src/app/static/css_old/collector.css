@@ -1,0 +1,36 @@
+body {
+    background-color: lightyellow;
+}
+
+h1   {
+    color: blue;
+}
+
+h2   {
+    color: blue;
+}
+
+h3   {color: red;
+}
+
+p    {color: black;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    color: black;
+    backgroud-color: white;
+}
+
+tr#00   {
+    color: yellow; backgroud-color: blue;
+}
+
+tr#01     {
+    backgroud-color: yellow;
+}
+
+tr#02      {
+    backgroud-color: cyan;
+}

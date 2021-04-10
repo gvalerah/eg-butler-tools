@@ -1,0 +1,222 @@
+
+{# =====================================================================
+   Auto-Generated code. Do not modify 
+   (C) Sertechno/Emtec Group (2018,2019)
+   GLVH @ 2020-07-01 10:28:29.158565
+   ===================================================================#}
+
+{%- extends "base.html" -%}
+{%- import "bootstrap/wtf.html" as wtf -%}
+{%- import "_macros.html" as macros -%}
+
+{%- block head -%}
+{{ super() }}
+{%- endblock -%}
+
+{%- block content -%}
+{{ super() }}
+{%- endblock -%}
+
+{%- block page_content -%}
+    <!-- AG 2020-07-01 10:28:29.158579 -->
+    <!-- ------------------------ -->
+    <!-- gen_templates_select_all -->
+    <!-- ------------------------ -->
+    <!-- div class="page-header" -->
+
+    <div class="row"> <!-- Period row container -->
+
+{%- if collectordata is defined  -%}
+        <!-- collectordata = {{collectordata}} -->
+{%- if collectordata.COLLECTOR_PERIOD is defined -%}
+        <!-- PERIOD -->
+        <div class="col-sm"> <!--  Period container -->
+        <table>
+            <tr><td>Current period:</td><td><b>{{collectordata.COLLECTOR_PERIOD.current}}</b></td>
+                <td>Active period:</td><td><b>{{collectordata.COLLECTOR_PERIOD.active}}</b></td>
+{%- if collectordata.CONFIG is defined -%}
+                <td>CIT sharding:</td><td><b>{{collectordata.CONFIG.COLLECTOR_CIT_SHARDING}}</b></td>
+{%- endif -%}
+            </tr>
+        </table>
+        </div>
+{%- endif -%}
+{%- endif -%}
+
+    </div>
+    <div class="row"> <!-- Header row container -->
+        
+        <div class="col-sm"> <!--  Title container -->
+            <h2>NUTANIX_PRISM:</h2>Page {{rows.page}} of {{rows.pages}}, {{rows.total}} rows<br>
+            <a href="#" onclick="history.go(-1)"><img src="/static/img/prev.svg"  color=yellow width="32" height="32" title="" alt="Return"></a>        
+        </div>
+        <div class="col-sm"> <!-- 'filters' container -->
+            <small>
+{%- set x = options['filters']|length + options['groups_by']|length + options['orders_by']|length + options['limit']|length -%}
+{%- if x > 0 -%}
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>x</th>
+                            <th>Filter</th>
+                            <th>trash</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+{%- for filter in options['filters'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{filter.header}} {{filter.operator}} {{filter.regexp}}</td>
+                    <td><a href='/select/Nutanix_Prism_Query?iad={{filter.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Filter'></a></td>
+                    </tr>
+{%- endfor -%}
+                
+{%- for group in options['groups_by'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{group.header}}</td>
+                    <td><a href='/select/Nutanix_Prism_Query?iad={{group.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Group'></a></td>
+                    </tr>
+{%- endfor -%}
+                
+{%- for order in options['orders_by'] -%}
+                    <tr>
+{%- if order.order == 'ASC' -%}
+                        <td><img src='/static/img/sort-ascending-yellow.svg'  style="background-color:blue;" color=white width='16' height='16' title='' alt='Ascending'></td>
+{%- else -%}
+                        <td><img src='/static/img/sort-descending-yellow.svg'  style="background-color:blue;" color=yellow width='16' height='16' title='' alt='Descending'></td>
+{%- endif -%}
+                    <td>{{order.header}} {{order.order}}</td>
+                    <td><a href='/select/Nutanix_Prism_Query?iad={{order.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Order'></a></td>
+                    <tr>
+{%- endfor -%}
+                
+{%- for limit in options['limit'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{limit.limit}}</td>
+                    </tr>
+                <a href='/select/Nutanix_Prism_Query?iad={{limit.id}}'><img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Limit'></a><br>
+{%- endfor -%}    
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>{{x}}</td>
+                    </tr>
+                </tfoot>
+                </table>
+{%- endif -%}
+            
+            </small>
+        </div>
+        <!-- /div -->
+    </div>
+
+    <div class="row">  <!-- Actual content container -->
+        <div class="col">  <!-- Actual content container -->
+            <small>
+            <table class="table table-striped table-hover table-sm">
+                <thead class="thead-dark">
+                    <tr><th>Request_Id<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,Request_Id:Request_Id,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,Request_Id:Request_Id,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>cluster_uuid<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,cluster_uuid:cluster_uuid,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,cluster_uuid:cluster_uuid,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_name<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_name:vm_name,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_name:vm_name,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>power_state<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,power_state:power_state,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,power_state:power_state,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vcpus_per_socket<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vcpus_per_socket:vcpus_per_socket,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vcpus_per_socket:vcpus_per_socket,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>num_sockets<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,num_sockets:num_sockets,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,num_sockets:num_sockets,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>memory_size_mib<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,memory_size_mib:memory_size_mib,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,memory_size_mib:memory_size_mib,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>imageservice_uuid_diskclone<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,imageservice_uuid_diskclone:imageservice_uuid_diskclone,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,imageservice_uuid_diskclone:imageservice_uuid_diskclone,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>first_disk_size_mib<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,first_disk_size_mib:first_disk_size_mib,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,first_disk_size_mib:first_disk_size_mib,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>first_nic_subnet_uuid<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,first_nic_subnet_uuid:first_nic_subnet_uuid,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,first_nic_subnet_uuid:first_nic_subnet_uuid,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>Comments<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,Comments:Comments,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,Comments:Comments,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_ip<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_ip:vm_ip,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_ip:vm_ip,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_username<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_username:vm_username,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_username:vm_username,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_password<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_password:vm_password,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,vm_password:vm_password,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>backup_set_1<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,backup_set_1:backup_set_1,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,backup_set_1:backup_set_1,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>backup_set_2<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,backup_set_2:backup_set_2,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,backup_set_2:backup_set_2,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>backup_set_3<br>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,backup_set_3:backup_set_3,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_Query?ia=ORDER,backup_set_3:backup_set_3,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th></th><th></th> </tr>
+                    <tr>
+                        <form action="/select/Nutanix_Prism_Query"><th><input type="text" name=Request_Id value="{{request.args.to_dict()['Request_Id']}}"></th><th><input type="text" name=cluster_uuid value="{{request.args.to_dict()['cluster_uuid']}}"></th><th><input type="text" name=vm_name value="{{request.args.to_dict()['vm_name']}}"></th><th><input type="text" name=power_state value="{{request.args.to_dict()['power_state']}}"></th><th><input type="text" name=vcpus_per_socket value="{{request.args.to_dict()['vcpus_per_socket']}}"></th><th><input type="text" name=num_sockets value="{{request.args.to_dict()['num_sockets']}}"></th><th><input type="text" name=memory_size_mib value="{{request.args.to_dict()['memory_size_mib']}}"></th><th><input type="text" name=imageservice_uuid_diskclone value="{{request.args.to_dict()['imageservice_uuid_diskclone']}}"></th><th><input type="text" name=first_disk_size_mib value="{{request.args.to_dict()['first_disk_size_mib']}}"></th><th><input type="text" name=first_nic_subnet_uuid value="{{request.args.to_dict()['first_nic_subnet_uuid']}}"></th><th><input type="text" name=Comments value="{{request.args.to_dict()['Comments']}}"></th><th><input type="text" name=vm_ip value="{{request.args.to_dict()['vm_ip']}}"></th><th><input type="text" name=vm_username value="{{request.args.to_dict()['vm_username']}}"></th><th><input type="text" name=vm_password value="{{request.args.to_dict()['vm_password']}}"></th><th><input type="text" name=backup_set_1 value="{{request.args.to_dict()['backup_set_1']}}"></th><th><input type="text" name=backup_set_2 value="{{request.args.to_dict()['backup_set_2']}}"></th><th><input type="text" name=backup_set_3 value="{{request.args.to_dict()['backup_set_3']}}"></th><th></th><th></th>     
+                            <input type="image" name="filter" value="Filter" src="/static/img/filter.svg"  color=yellow width="32" height="32" title="" alt="Filter">
+                            <input type="image" name="export" value="Export" src="/static/img/download-cloud.svg"  color=yellow width="32" height="32" title="" alt="Export">
+                            <input type="image" name="add"    value="Add"    src="/static/img/add.svg"     color=yellow width="32" height="32" title="" alt="Add">
+                        </form></tr>
+                </thead>
+
+                <tbody>
+
+
+{# Will build cells for all items in rows #}
+
+
+
+{% for Nutanix_Prism,Request_Id,cluster_uuid,imageservice_uuid_diskclone,first_nic_subnet_uuid in rows.items %}
+                        <tr>
+<td>{{"{:s}".format(Request_Id)}}</td><td>{{"{:s}".format(cluster_uuid)}}</td><td>{{Nutanix_Prism.vm_name}}</td><td>{{Nutanix_Prism.power_state}}</td><td>{{Nutanix_Prism.vcpus_per_socket}}</td><td>{{Nutanix_Prism.num_sockets}}</td><td>{{Nutanix_Prism.memory_size_mib}}</td><td>{{"{:s}".format(imageservice_uuid_diskclone)}}</td><td>{{Nutanix_Prism.first_disk_size_mib}}</td><td>{{"{:s}".format(first_nic_subnet_uuid)}}</td><td>{{Nutanix_Prism.Comments}}</td><td>{{Nutanix_Prism.vm_ip}}</td><td>{{Nutanix_Prism.vm_username}}</td><td>{{Nutanix_Prism.vm_password}}</td><td>{{Nutanix_Prism.backup_set_1}}</td><td>{{Nutanix_Prism.backup_set_2}}</td><td>{{Nutanix_Prism.backup_set_3}}</td><td><a href="/forms/Nutanix_Prism?Request_Id={{ Nutanix_Prism.Request_Id }}"><img src="/static/img/edit.svg" width="16" height="16" title="" alt="Edit"></a></td>
+                        <td><a href="/forms/Nutanix_Prism_delete?Request_Id={{ Nutanix_Prism.Request_Id }}"><img src="/static/img/delete.svg" width="16" height="16" title="" alt="Delete"></a></td>
+                  
+
+{# Will include relations if any 20200225 #}
+</tr>
+{%- endfor -%} 
+                </tbody>
+            </table>
+            
+            </small>
+        </div>
+    </div>
+
+    <div class="row">   <!-- pagination row -->
+        <div class="col">   <!-- pagination row -->
+            <div class="pagination">
+                {{ macros.pagination_widget(rows, '.select_Nutanix_Prism_query') }}
+            </div>
+        </div>
+    </div>
+
+    <!-- ------------------------ -->
+    <!-- gen_templates_select_all -->
+    <!-- ------------------------ -->
+{%- endblock -%}
+
+{# ===================================================================#}

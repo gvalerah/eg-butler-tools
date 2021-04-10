@@ -1,0 +1,168 @@
+{# ================================================================== 
+   Request Report Template                                            
+   For Customer on a defined period and status                        
+   (c) Sertechno 2020                                                 
+   GLVH @ 2020-11-07                                                  
+   ================================================================== #}
+{# Removes App header for "body_only" mode -------------------------- #}
+{%- if body_only is not defined %}
+    {%- extends "base.html" %}
+{%- endif %}
+{%- import "bootstrap/wtf.html" as wtf %}
+{%- import "_macros.html" as macros %}
+{%- block title %}Butler{%- endblock %}
+{# Head block not available if not base.html "body_only" mode ------- #}
+{%- if body_only is not defined %}
+    {%- block head %}
+       {{ super() }}
+    {%- endblock %}
+{%- endif %}
+{%- block page_content %}
+<div class="page-header">
+    <h2>Detalle de Solicitud {{row.0.Id}}:</h2>
+    {# Removes Action icons for "body_only" mode #}
+    {%- if body_only is not defined %}
+        <a href="/select/Request">
+            <img src="/static/img/back.png"
+            color=yellow width="32" height="32" title="" alt="Add">
+        </a>
+        <a href="/forms/Request?Id={{row.0.Id}}">
+            <img src="/static/img/edit.png"
+            color=yellow width="32" height="32" title="" alt="Edit">
+        </a>
+        <a href="/">
+            <img src="/static/img/home.png"
+            color=yellow width="32" height="32" title="" alt="Home">
+        </a>
+    {%- endif %}
+</div>
+    {%- if body_only is not defined %}
+    <table class="table table-striped table-hover table-sm">
+    {%- else %}
+    <table border=1 class="table table-striped table-hover table-sm">
+    {%- endif %}
+        <thead class="thead-dark">
+            <tr>
+                <th style="width:33%;" class="text-center">SOLICITUD</th>
+                <th class="text-center">MAQUINA VIRTUAL</th>
+                <th class="text-center">ALMACENAMIENTO y CONECTIVIDAD</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%- if row is defined and row is not none %}
+            <tr>
+                <td>
+                    <table>
+                        <tr><td>Solicitud       </td><td>{{row.0.Id}}</td></tr>
+                        <tr><td>Centro de Costo </td><td><b>{{row.Cost_Centers.CC_Description}}</b></td></tr>
+                        <tr><td>Estado          </td><td><b>{{data.status_description|join(", ")}}</b></td></tr>
+                        <tr><td>Creado          </td><td>{{row.0.Creation_Time}}</td></tr>
+                        <tr><td>Actualizado     </td><td>{{row.0.Last_Status_Time}}</td></tr>
+                        <tr><td>Requerido       </td><td>{{row.1.request_text}}</td></tr>
+                        {%- if data.role > data.roles.REQUESTOR %}
+                        <tr><td>Tipo            </td><td>{{row.request_type.Description}}</td></tr>
+                        <tr><td>Usuario         </td><td><b>{{row.Users.username}}</b></td></tr>
+                        <tr><td>Aprobador       </td><td>
+                        {%- for user in data.users %}
+                            {%- if user.0 == row.0.Approver_Id %}
+                              <b>{{user.1}}</b>
+                            {%- endif %}
+                        {%- endfor %}
+                        </td>
+                        </tr>
+                        <tr><td>Comentarios     </td><td>{{row.0.Comments}}</td></tr>
+                        <tr><td>Tarea UUID      </td><td>{{row.0.Task_uuid}}</td></tr>
+                        <tr><td>Tarea estado    </td><td>{{row.0.Task_status}}</td></tr>
+                        <tr><td>Tracking        </td><td>{{row.0.Id}} sts:{{row.0.Status}} usr:{{row.0.User_Id}} app:{{row.0.Approver_Id}} cc:{{row.0.CC_Id}} uuid:{{row.0.uuid}}</td></tr>
+                        {%- endif %}
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr><td>Solicitud        </td><td>{{row.1.Request_Id}}</td></tr>
+                        <tr><td>Nombre           </td><td><b>{{row.1.vm_name}}</b></td></tr>
+                        <tr><td>CPUs por socket  </td><td><b>{{row.1.vcpus_per_socket}}</b></td></tr>
+                        <tr><td>Sockets          </td><td><b>{{row.1.num_sockets}}</b></td></tr>
+                        <tr><td>Número de CPUs   </td><td><b>{{row.1.num_sockets*row.1.vcpus_per_socket}}</b></td></tr>
+                        <tr><td>Memoria RAM      </td><td><b>{{row.1.memory_size_gib}}</b> GB</td></tr>
+                        <tr><td>Tipo de Disco    </td><td><b>{{data.storage_type}}</b></td></tr>
+                        <tr><td>Tipo de Disco    </td><td><b>{{get_description('types',data.storage_type,data)}}</b></td></tr>
+                        <tr><td>Total disco      </td><td><b>{{data.storage}}</b> GB</td></tr>
+                        <tr><td>Mensual estimado </td><td><b>{{"%.12f"|format(data.month)}}</b> UF</td></tr>
+                        {%- if data.role > 1 %}
+                        <tr><td>Cluster          </td><td>{{get_description('clusters',row.1.cluster_uuid,data)}}</td></tr>
+                        <tr><td>Projecto         </td><td>{{get_description('projects',row.1.project_uuid,data)}}</td></tr>
+                        <tr><td>Categoria        </td><td>{{get_description('categories',row.1.category_name,data)}}</td></tr>
+                        <tr><td>Subnet           </td><td>{{get_description('subnets',row.1.subnet_uuid,data)}}</td></tr>
+                        <tr><td>Encendido        </td><td>{{row.1.power_state}}</td></tr>
+                        <tr><td>Memoria RAM en MB</td><td>{{row.1.memory_size_mib}}</td></tr>
+                        <tr><td>Comentarios      </td><td>{{row.1.Comments}}</td></tr>
+                        <tr><td>Direccion IP     </td><td>{{row.1.vm_ip}}</td></tr>
+                        <tr><td>Usuario          </td><td>{{row.1.vm_username}}</td></tr>
+                        <tr><td>Contraseña       </td><td>{{row.1.vm_password}}</td></tr>
+                        <tr><td>DRP activado     </td><td>{{row.1.vm_drp}}</td></tr>
+                            {%- if data.debug is defined and data.debug %}
+                                <tr><td>Cluster   UUID</td><td>{{row.1.cluster_uuid}}</td></tr>
+                                <tr><td>Projecto  UUID</td><td>{{row.1.project_uuid}}</td></tr>
+                                <tr><td>Categoria UUID</td><td>{{row.1.category_name}}</td></tr>
+                                <tr><td>Subnet    UUID</td><td>{{row.1.subnet_uuid}}</td></tr>
+                            {%- endif %}
+                        {%- endif %}
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr><td>CD ROM requerido</td><td>{{row.1.vm_cdrom}}</td></tr>
+                        {%- if row.1.disk_0_size > 0 %}<tr><td>Disco 1 </td><td>{{row.1.disk_0_size}} GB <b>{{data.disk_images[0]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_1_size > 0 %}<tr><td>Disco 2 </td><td>{{row.1.disk_1_size}} GB <b>{{data.disk_images[1]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_2_size > 0 %}<tr><td>Disco 3 </td><td>{{row.1.disk_2_size}} GB <b>{{data.disk_images[2]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_3_size > 0 %}<tr><td>Disco 4 </td><td>{{row.1.disk_3_size}} GB <b>{{data.disk_images[3]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_4_size > 0 %}<tr><td>Disco 5 </td><td>{{row.1.disk_4_size}} GB <b>{{data.disk_images[4]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_5_size > 0 %}<tr><td>Disco 6 </td><td>{{row.1.disk_5_size}} GB <b>{{data.disk_images[5]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_6_size > 0 %}<tr><td>Disco 7 </td><td>{{row.1.disk_6_size}} GB <b>{{data.disk_images[6]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_7_size > 0 %}<tr><td>Disco 8 </td><td>{{row.1.disk_7_size}} GB <b>{{data.disk_images[7]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_8_size > 0 %}<tr><td>Disco 9 </td><td>{{row.1.disk_8_size}} GB <b>{{data.disk_images[8]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_9_size > 0 %}<tr><td>Disco 10</td><td>{{row.1.disk_9_size}} GB <b>{{data.disk_images[9]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_10_size > 0 %}<tr><td>Disco 11</td><td>{{row.1.disk_10_size}} GB <b>{{data.disk_images[10]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_11_size > 0 %}<tr><td>Disco 12</td><td>{{row.1.disk_11_size}} GB <b>{{data.disk_images[11]}}</b></td></tr>{%- endif %}
+                        {%- if data.role > 1 %}
+                        {%- if row.1.backup_set_1 is not none %}<tr><td>Grupo backup 1</td><td>{{row.1.backup_set_1}}</td></tr>{%- endif %}
+                        {%- if row.1.backup_set_2 is not none %}<tr><td>Grupo backup 2</td><td>{{row.1.backup_set_2}}</td></tr>{%- endif %}
+                        {%- if row.1.backup_set_3 is not none %}<tr><td>Grupo backup 3</td><td>{{row.1.backup_set_3}}</td></tr>{%- endif %}
+                        {%- endif %}
+                    </table>
+                    <table>
+                        {%- if row.1.subnet_uuid is not none %}<tr><td>{{get_description('subnets',row.1.subnet_uuid,data)}}</td><td>{{row.vm_ip}}</td></tr>{%- endif %}
+                        {%- if row.1.nic_0_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_0_vlan,data )}}</td><td>{{row.nic_0_ip}}</td></tr>{%- endif %}
+                        {%- if row.1.nic_1_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_1_vlan,data )}}</td><td>{{row.nic_1_ip}}</td></tr>{%- endif %}
+                        {%- if row.1.nic_2_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_2_vlan,data )}}</td><td>{{row.nic_2_ip}}</td></tr>{%- endif %}
+                    </table>
+                </td>
+            </tr>
+            {%- endif %}
+        </tbody>
+    </table>
+    {%- if data.debug is defined and data.debug %}
+        <b>DEBUG MODE is ON: data.debug is defined and True then debug data follows:</b><br>
+        <hr>                    
+        <h2>body_only: {{body_only}}</h2>
+        <hr>                    
+        row = {{row.0}}<br>
+        {%- if has_status is defined %}
+            {%- for status in data.status %}
+                {% if has_status(row.0.Status,data.status[status]) %}
+                    Status = {{row.0.Status}} has status {{status}} {{data.status[status]}}<br> 
+                {% endif %}
+            {%- endfor %}
+        {%- else %}
+            <b>WARNING: has_status() not found<br></b>
+            row.0.Status={{row.0.Status}}<br>
+            data.status[row.0.Status]={{data.status[row.0.Status]}}<br>
+        {%- endif %}
+        <hr>
+        rox = {{row.1}}
+        <hr>
+        data = {{data}}
+    {%- endif %}
+{%- endblock %}
+{# ================================================================== #}

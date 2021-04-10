@@ -1,0 +1,300 @@
+
+{# =====================================================================
+   Auto-Generated code. Do not modify 
+   (C) Sertechno/Emtec Group (2018,2019)
+   GLVH @ 2020-11-22 15:51:21.064886
+   ===================================================================#}
+
+{%- extends "base.html" -%}
+{%- import "bootstrap/wtf.html" as wtf -%}
+{%- import "_macros.html" as macros -%}
+
+{%- block head -%}
+{{ super() }}
+{%- endblock -%}
+
+{%- block content -%}
+{{ super() }}
+{%- endblock -%}
+
+{%- block page_content -%}
+    <!-- AG 2020-11-22 15:51:21.064927 -->
+    <!-- ------------------------ -->
+    <!-- gen_templates_select_all -->
+    <!-- ------------------------ -->
+    <!-- div class="page-header" -->
+
+    <div class="row"> <!-- Period row container -->
+
+{%- if collectordata is defined  -%}
+        <!-- collectordata = {{collectordata}} -->
+{%- if collectordata.COLLECTOR_PERIOD is defined -%}
+        <!-- PERIOD -->
+        <div class="col-sm"> <!--  Period container -->
+        <table>
+            <tr><td>Current period:</td><td><b>{{collectordata.COLLECTOR_PERIOD.current}}</b></td>
+                <td>Active period:</td><td><b>{{collectordata.COLLECTOR_PERIOD.active}}</b></td>
+{%- if collectordata.CONFIG is defined -%}
+                <td>CIT sharding:</td><td><b>{{collectordata.CONFIG.COLLECTOR_CIT_SHARDING}}</b></td>
+{%- endif -%}
+            </tr>
+        </table>
+        </div>
+{%- endif -%}
+{%- endif -%}
+
+    </div>
+    <div class="row"> <!-- Header row container -->
+        
+        <div class="col-sm"> <!--  Title container -->
+            <h2>NUTANIX_PRISM_VM:</h2>Page {{rows.page}} of {{rows.pages}}, {{rows.total}} rows<br>
+            <a href="#" onclick="history.go(-1)"><img src="/static/img/prev.svg"  color=yellow width="32" height="32" title="" alt="Return"></a>        
+        </div>
+        <div class="col-sm"> <!-- 'filters' container -->
+            <small>
+{%- set x = options['filters']|length + options['groups_by']|length + options['orders_by']|length + options['limit']|length -%}
+{%- if x > 0 -%}
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>x</th>
+                            <th>Filter</th>
+                            <th>trash</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+{%- for filter in options['filters'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{filter.header}} {{filter.operator}} {{filter.regexp}}</td>
+                    <td><a href='/select/Nutanix_Prism_VM_Query?iad={{filter.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Filter'></a></td>
+                    </tr>
+{%- endfor -%}
+                
+{%- for group in options['groups_by'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{group.header}}</td>
+                    <td><a href='/select/Nutanix_Prism_VM_Query?iad={{group.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Group'></a></td>
+                    </tr>
+{%- endfor -%}
+                
+{%- for order in options['orders_by'] -%}
+                    <tr>
+{%- if order.order == 'ASC' -%}
+                        <td><img src='/static/img/sort-ascending-yellow.svg'  style="background-color:blue;" color=white width='16' height='16' title='' alt='Ascending'></td>
+{%- else -%}
+                        <td><img src='/static/img/sort-descending-yellow.svg'  style="background-color:blue;" color=yellow width='16' height='16' title='' alt='Descending'></td>
+{%- endif -%}
+                    <td>{{order.header}} {{order.order}}</td>
+                    <td><a href='/select/Nutanix_Prism_VM_Query?iad={{order.id}}'>
+                        <img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Order'></a></td>
+                    <tr>
+{%- endfor -%}
+                
+{%- for limit in options['limit'] -%}
+                    <tr>
+                    <td><img src='/static/img/filter.svg'  color=yellow width='16' height='16' title='' alt='Filter'></td>
+                    <td>{{limit.limit}}</td>
+                    </tr>
+                <a href='/select/Nutanix_Prism_VM_Query?iad={{limit.id}}'><img src='/static/img/delete.svg'  color=yellow width='16' height='16' title='' alt='Delete Limit'></a><br>
+{%- endfor -%}    
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>{{x}}</td>
+                    </tr>
+                </tfoot>
+                </table>
+{%- endif -%}
+            
+            </small>
+        </div>
+        <!-- /div -->
+    </div>
+
+    <div class="row">  <!-- Actual content container -->
+        <div class="col">  <!-- Actual content container -->
+            <small>
+            <table class="table table-striped table-hover table-sm">
+                <thead class="thead-dark">
+                    <tr><th>Request_Id<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,Request_Id:Request_Id,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,Request_Id:Request_Id,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>project_uuid<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,project_uuid:project_uuid,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,project_uuid:project_uuid,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>category_name<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,category_name:category_name,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,category_name:category_name,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>cluster_uuid<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,cluster_uuid:cluster_uuid,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,cluster_uuid:cluster_uuid,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_name<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_name:vm_name,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_name:vm_name,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>power_state<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,power_state:power_state,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,power_state:power_state,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vcpus_per_socket<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vcpus_per_socket:vcpus_per_socket,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vcpus_per_socket:vcpus_per_socket,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>num_sockets<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,num_sockets:num_sockets,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,num_sockets:num_sockets,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>memory_size_mib<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,memory_size_mib:memory_size_mib,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,memory_size_mib:memory_size_mib,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>memory_size_gib<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,memory_size_gib:memory_size_gib,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,memory_size_gib:memory_size_gib,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>Comments<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,Comments:Comments,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,Comments:Comments,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_ip<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_ip:vm_ip,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_ip:vm_ip,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>subnet_uuid<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,subnet_uuid:subnet_uuid,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,subnet_uuid:subnet_uuid,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_username<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_username:vm_username,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_username:vm_username,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>vm_password<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_password:vm_password,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,vm_password:vm_password,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>backup_set_1<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,backup_set_1:backup_set_1,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,backup_set_1:backup_set_1,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>backup_set_2<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,backup_set_2:backup_set_2,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,backup_set_2:backup_set_2,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>backup_set_3<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,backup_set_3:backup_set_3,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,backup_set_3:backup_set_3,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_type<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_type:disk_type,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_type:disk_type,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_0_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_0_image:disk_0_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_0_image:disk_0_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_0_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_0_size:disk_0_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_0_size:disk_0_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_1_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_1_image:disk_1_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_1_image:disk_1_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_1_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_1_size:disk_1_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_1_size:disk_1_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_2_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_2_image:disk_2_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_2_image:disk_2_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_2_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_2_size:disk_2_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_2_size:disk_2_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_3_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_3_image:disk_3_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_3_image:disk_3_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_3_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_3_size:disk_3_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_3_size:disk_3_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_4_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_4_image:disk_4_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_4_image:disk_4_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_4_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_4_size:disk_4_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_4_size:disk_4_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_5_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_5_image:disk_5_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_5_image:disk_5_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_5_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_5_size:disk_5_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_5_size:disk_5_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_6_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_6_image:disk_6_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_6_image:disk_6_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_6_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_6_size:disk_6_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_6_size:disk_6_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_7_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_7_image:disk_7_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_7_image:disk_7_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_7_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_7_size:disk_7_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_7_size:disk_7_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_8_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_8_image:disk_8_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_8_image:disk_8_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_8_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_8_size:disk_8_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_8_size:disk_8_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_9_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_9_image:disk_9_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_9_image:disk_9_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_9_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_9_size:disk_9_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_9_size:disk_9_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_10_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_10_image:disk_10_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_10_image:disk_10_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_10_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_10_size:disk_10_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_10_size:disk_10_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_11_image<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_11_image:disk_11_image,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_11_image:disk_11_image,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th>disk_11_size<br>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_11_size:disk_11_size,ASC' ><img src='/static/img/sort-ascending-yellow.svg'  width='16' height='16' title='' alt='Sort ascending'></a>
+                            <a href='/select/Nutanix_Prism_VM_Query?ia=ORDER,disk_11_size:disk_11_size,DESC'><img src='/static/img/sort-descending-yellow.svg' width='16' height='16' title='' alt='Sort descending'></a>
+                        </th><th></th><th></th> </tr>
+                    <tr>
+                        <form action="/select/Nutanix_Prism_VM_Query"><th><input type="text" name=Request_Id value="{{request.args.to_dict()['Request_Id']}}"></th><th><input type="text" name=project_uuid value="{{request.args.to_dict()['project_uuid']}}"></th><th><input type="text" name=category_name value="{{request.args.to_dict()['category_name']}}"></th><th><input type="text" name=cluster_uuid value="{{request.args.to_dict()['cluster_uuid']}}"></th><th><input type="text" name=vm_name value="{{request.args.to_dict()['vm_name']}}"></th><th><input type="text" name=power_state value="{{request.args.to_dict()['power_state']}}"></th><th><input type="text" name=vcpus_per_socket value="{{request.args.to_dict()['vcpus_per_socket']}}"></th><th><input type="text" name=num_sockets value="{{request.args.to_dict()['num_sockets']}}"></th><th><input type="text" name=memory_size_mib value="{{request.args.to_dict()['memory_size_mib']}}"></th><th><input type="text" name=memory_size_gib value="{{request.args.to_dict()['memory_size_gib']}}"></th><th><input type="text" name=Comments value="{{request.args.to_dict()['Comments']}}"></th><th><input type="text" name=vm_ip value="{{request.args.to_dict()['vm_ip']}}"></th><th><input type="text" name=subnet_uuid value="{{request.args.to_dict()['subnet_uuid']}}"></th><th><input type="text" name=vm_username value="{{request.args.to_dict()['vm_username']}}"></th><th><input type="text" name=vm_password value="{{request.args.to_dict()['vm_password']}}"></th><th><input type="text" name=backup_set_1 value="{{request.args.to_dict()['backup_set_1']}}"></th><th><input type="text" name=backup_set_2 value="{{request.args.to_dict()['backup_set_2']}}"></th><th><input type="text" name=backup_set_3 value="{{request.args.to_dict()['backup_set_3']}}"></th><th><input type="text" name=disk_type value="{{request.args.to_dict()['disk_type']}}"></th><th><input type="text" name=disk_0_image value="{{request.args.to_dict()['disk_0_image']}}"></th><th><input type="text" name=disk_0_size value="{{request.args.to_dict()['disk_0_size']}}"></th><th><input type="text" name=disk_1_image value="{{request.args.to_dict()['disk_1_image']}}"></th><th><input type="text" name=disk_1_size value="{{request.args.to_dict()['disk_1_size']}}"></th><th><input type="text" name=disk_2_image value="{{request.args.to_dict()['disk_2_image']}}"></th><th><input type="text" name=disk_2_size value="{{request.args.to_dict()['disk_2_size']}}"></th><th><input type="text" name=disk_3_image value="{{request.args.to_dict()['disk_3_image']}}"></th><th><input type="text" name=disk_3_size value="{{request.args.to_dict()['disk_3_size']}}"></th><th><input type="text" name=disk_4_image value="{{request.args.to_dict()['disk_4_image']}}"></th><th><input type="text" name=disk_4_size value="{{request.args.to_dict()['disk_4_size']}}"></th><th><input type="text" name=disk_5_image value="{{request.args.to_dict()['disk_5_image']}}"></th><th><input type="text" name=disk_5_size value="{{request.args.to_dict()['disk_5_size']}}"></th><th><input type="text" name=disk_6_image value="{{request.args.to_dict()['disk_6_image']}}"></th><th><input type="text" name=disk_6_size value="{{request.args.to_dict()['disk_6_size']}}"></th><th><input type="text" name=disk_7_image value="{{request.args.to_dict()['disk_7_image']}}"></th><th><input type="text" name=disk_7_size value="{{request.args.to_dict()['disk_7_size']}}"></th><th><input type="text" name=disk_8_image value="{{request.args.to_dict()['disk_8_image']}}"></th><th><input type="text" name=disk_8_size value="{{request.args.to_dict()['disk_8_size']}}"></th><th><input type="text" name=disk_9_image value="{{request.args.to_dict()['disk_9_image']}}"></th><th><input type="text" name=disk_9_size value="{{request.args.to_dict()['disk_9_size']}}"></th><th><input type="text" name=disk_10_image value="{{request.args.to_dict()['disk_10_image']}}"></th><th><input type="text" name=disk_10_size value="{{request.args.to_dict()['disk_10_size']}}"></th><th><input type="text" name=disk_11_image value="{{request.args.to_dict()['disk_11_image']}}"></th><th><input type="text" name=disk_11_size value="{{request.args.to_dict()['disk_11_size']}}"></th><th></th><th></th>     
+                            <input type="image" name="filter" value="Filter" src="/static/img/filter.svg"  color=yellow width="32" height="32" title="" alt="Filter">
+                            <input type="image" name="export" value="Export" src="/static/img/download-cloud.svg"  color=yellow width="32" height="32" title="" alt="Export">
+                            <input type="image" name="add"    value="Add"    src="/static/img/add.svg"     color=yellow width="32" height="32" title="" alt="Add">
+                        </form></tr>
+                </thead>
+
+                <tbody>
+
+
+{# Will build cells for all items in rows #}
+
+
+
+{% for Nutanix_Prism_VM,Request_Id,project_uuid,category_name,cluster_uuid,subnet_uuid in rows.items %}
+                        <tr>
+<td>{{"{:s}".format(Request_Id)}}</td><td>{{"{:s}".format(project_uuid)}}</td><td>{{"{:s}".format(category_name)}}</td><td>{{"{:s}".format(cluster_uuid)}}</td><td>{{Nutanix_Prism_VM.vm_name}}</td><td>{{Nutanix_Prism_VM.power_state}}</td><td>{{Nutanix_Prism_VM.vcpus_per_socket}}</td><td>{{Nutanix_Prism_VM.num_sockets}}</td><td>{{Nutanix_Prism_VM.memory_size_mib}}</td><td>{{Nutanix_Prism_VM.memory_size_gib}}</td><td>{{Nutanix_Prism_VM.Comments}}</td><td>{{Nutanix_Prism_VM.vm_ip}}</td><td>{{"{:s}".format(subnet_uuid)}}</td><td>{{Nutanix_Prism_VM.vm_username}}</td><td>{{Nutanix_Prism_VM.vm_password}}</td><td>{{Nutanix_Prism_VM.backup_set_1}}</td><td>{{Nutanix_Prism_VM.backup_set_2}}</td><td>{{Nutanix_Prism_VM.backup_set_3}}</td><td>{{Nutanix_Prism_VM.disk_type}}</td><td>{{Nutanix_Prism_VM.disk_0_image}}</td><td>{{Nutanix_Prism_VM.disk_0_size}}</td><td>{{Nutanix_Prism_VM.disk_1_image}}</td><td>{{Nutanix_Prism_VM.disk_1_size}}</td><td>{{Nutanix_Prism_VM.disk_2_image}}</td><td>{{Nutanix_Prism_VM.disk_2_size}}</td><td>{{Nutanix_Prism_VM.disk_3_image}}</td><td>{{Nutanix_Prism_VM.disk_3_size}}</td><td>{{Nutanix_Prism_VM.disk_4_image}}</td><td>{{Nutanix_Prism_VM.disk_4_size}}</td><td>{{Nutanix_Prism_VM.disk_5_image}}</td><td>{{Nutanix_Prism_VM.disk_5_size}}</td><td>{{Nutanix_Prism_VM.disk_6_image}}</td><td>{{Nutanix_Prism_VM.disk_6_size}}</td><td>{{Nutanix_Prism_VM.disk_7_image}}</td><td>{{Nutanix_Prism_VM.disk_7_size}}</td><td>{{Nutanix_Prism_VM.disk_8_image}}</td><td>{{Nutanix_Prism_VM.disk_8_size}}</td><td>{{Nutanix_Prism_VM.disk_9_image}}</td><td>{{Nutanix_Prism_VM.disk_9_size}}</td><td>{{Nutanix_Prism_VM.disk_10_image}}</td><td>{{Nutanix_Prism_VM.disk_10_size}}</td><td>{{Nutanix_Prism_VM.disk_11_image}}</td><td>{{Nutanix_Prism_VM.disk_11_size}}</td><td><a href="/forms/Nutanix_Prism_VM?Request_Id={{ Nutanix_Prism_VM.Request_Id }}"><img src="/static/img/edit.svg" width="16" height="16" title="" alt="Edit"></a></td>
+                        <td><a href="/forms/Nutanix_Prism_VM_delete?Request_Id={{ Nutanix_Prism_VM.Request_Id }}"><img src="/static/img/delete.svg" width="16" height="16" title="" alt="Delete"></a></td>
+                  
+
+{# Will include relations if any 20200225 #}
+</tr>
+{%- endfor -%} 
+                </tbody>
+            </table>
+            
+            </small>
+        </div>
+    </div>
+
+    <div class="row">   <!-- pagination row -->
+        <div class="col">   <!-- pagination row -->
+            <div class="pagination">
+                {{ macros.pagination_widget(rows, '.select_Nutanix_Prism_VM_query') }}
+            </div>
+        </div>
+    </div>
+
+    <!-- ------------------------ -->
+    <!-- gen_templates_select_all -->
+    <!-- ------------------------ -->
+{%- endblock -%}
+
+{# ===================================================================#}

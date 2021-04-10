@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Butler{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    
+    <h1>Butler v 1.1.0</h1>
+    <p>(c) EMTEC GROUP 2018/2019/2020 - GLVH</p>
+    <!-- <p>Flask Current Application Name is "{{ data["name"] }}"</p> -->
+    <hr>
+    <!-- <p>Butler local C Context Name is "{{ data["app_name"] }}"</p> -->
+    {% if current_user.is_authenticated %}
+        <p>Current logged in user is '{{ current_user.username }}' with role '{{ current_user.role.name}}'</p>
+        <hr>
+        <p>({{current_user.password_hash[17:]}}-{{"%04X"|format(current_user.role.permissions)}})</p>         
+    {% else %}
+        <p>No user is authenticated in Butler now. You can login <a href="{{ url_for('auth.login') }}"><b>here</b></a></p>     
+    {% endif %}
+    <hr>
+    <p>Your browser is "{{ data["user_agent"] }}"</p>
+    <p>Local time is @ {{ data["date_time"] }}</p>
+    <hr> 
+    {# % if current_user.is_authenticated %}
+    <p> current_user: {{current_user}} </p>    
+    <p> current_user.role: {{current_user.role}} </p>    
+    <p> dict current_user.role: {{current_user.role.__dict__}} </p>    
+    <p> current_user.role.name: {{current_user.role.name}} </p>    
+    <p> current_user.role.id: {{current_user.role.id}} </p>  
+    <p> current_user.role.id in 1,2,3: {{current_user.role.id in (1,2,3)}} </p>  
+    <p> current_user.role.id in 2,3,4,5: {{current_user.role.id in (2,3,4,5)}} </p>  
+    BUTLER PERIOD={{butlerdata.BUTLER_PERIOD}}
+    {% endif % #}
+</div>
+
+{% endblock %}
+
+
+

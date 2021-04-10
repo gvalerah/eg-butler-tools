@@ -1,0 +1,7 @@
+arg 1 =
+DEBUG =
+[3;J[H[2J
+Testing Happy Transaction ...
+curl -k -s -u butler:butlerpassword -H 'Accept: application/json' -X GET http://192.168.0.6:8100/api/eg-monitor/host -d { "address":"10.26.1.247" ,"vars.os":"Linux" ,"pretty": true  }
+{"results": [{"code": 200, "status": "[{\"name\": \"collector\", \"address\": \"192.168.56.118\"}, {\"name\": \"eg-suite-lab-monitor.localdomain\", \"address\": \"127.0.0.1\"}, {\"name\": \"Mock\", \"address\": \"192.168.56.111\"}, {\"name\": \"butler\", \"address\": \"192.168.56.105\"}]"}]}
+

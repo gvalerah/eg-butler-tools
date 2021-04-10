@@ -1,0 +1,33 @@
+
+{# =====================================================================
+   Auto-Generated code. Do not modify 
+   (C) Sertechno/Emtec Group (2018,2019)
+   GLVH @ 2020-11-22 15:51:22.427817
+   ===================================================================#}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block title %}EG Suite{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block page_content %}<!-- AG 2020-11-22 15:51:22.427831 -->
+<!-- ------------------------ -->
+<!-- gen_templates_form       -->
+<!-- ------------------------ -->
+<div class="page-header">
+<h2>Subnets: </h2>
+    <a href="#" onclick="history.go(-1)">
+        <img src="/static/img/prev.svg"  color=yellow width="32" height="32" title="" alt="Add">
+    </a>        
+</div>
+{{ wtf.quick_form(form) }}
+<hr>
+<!-- ------------------ -->
+<!-- gen_templates_form -->
+<!-- ------------------ -->   
+<!-- ATENCION CODIGO DE CHILD NO HA SIDO PROBADO --> 
+<!-- DEBE MANEJARSE PAGINACION DE DETALLE : MEJORA --> 
+
+{% endblock %}
+{# ================================================================== #}

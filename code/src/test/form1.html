@@ -1,0 +1,88 @@
+<html>
+<h1>Solicitud de Aprovisionamiento de Maquina Virtual</h1>
+	<form action="#">
+		<table bgcolor=cyan>
+			<tr>
+				<td>
+				<table bgcolor=cyan>
+					<tr><td width=128><b>Nombre de MV   </b></td><td><input type="text" name="vmname"</td></tr>
+					<tr><td>          <b>Número de CPUs </b></td><td><input type="number" name="vmcpu"</td>        </tr>
+					<tr><td>          <b>Memoria RAM    </b></td><td><input type="number" name="vmram"</td> GB     </tr>
+					<tr><td>          <b>Centro de Costo</b></td>
+						<td>
+							<select name="vmcc" id="vmcc">
+								<option value="prod">AAAA Producción  </option>
+								<option value="desa">AAAA Desarrollo  </option>
+								<option value="qa"  >AAAA QA          </option>
+								<option value="cont">AAAA Contingencia</option>
+							</select>
+						</td>
+					</tr>
+					<tr><td><b>Tipo de disco</b></td>
+						<td>
+							<select name="stype" id="stype">
+								<option value="ccvmhdd">Standard VM (SATA storage)  </option>
+								<option value="ccvmssd">Special  VM (SSD storage)   </option>
+								<option value="ccvmhyb">Standard VM (Hybrid storage)</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table bgcolor=cyan>
+						<theader>
+							<tr bgcolor=cyan>
+								<td width=128>Disco #</td>
+								<td><b>Tamaño en GB</b></td>
+								<td><b>Imagen de Disco</b></td></b>
+							</tr>
+						</theader>
+						<tbody>
+							<tr><td>1</td>
+								<td><input type="text" name="fsize1"></td>
+								<td>
+									<select name="fimage1" id="fimage1">
+										<option value="None"></option>
+										<option value="img1">Windows 12 SP 3</option>
+										<option value="img2">Centos 7 rel 1010</option>
+									</select>
+								</td>
+							</tr>
+							<tr><td>2</td>
+								<td><input type="text" name="fsize2"></td>
+								<td>
+									<select name="fimage2" id="fimage2">
+										<option value="None"></option>
+										<option value="img1">Windows 12 SP 3</option>
+										<option value="img2">Centos 7 rel 1010</option>
+									</select>
+								</td>
+							</tr>
+							<tr><td>3</td>
+								<td><input type="text" name="fsize3"></td>
+								<td>
+									<select name="fimage3" id="fimage3">
+										<option value="None"></option>
+										<option value="img1">Windows 12 SP 3</option>
+										<option value="img2">Centos 7 rel 1010</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<input type="submit" value="Guardar">
+		<input type="submit" value="Completado">
+		<input type="submit" value="Eliminar">
+		<input type="submit" value="Cancelar">
+		<input type="submit" value="Rechazar">
+		<input type="submit" value="Aprobar">
+		<input type="submit" value="Cancelar">
+		<input type="submit" value="Retorno">
+	</form>
+</html>

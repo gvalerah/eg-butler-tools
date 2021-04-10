@@ -1,0 +1,32 @@
+
+{# =====================================================================
+   Auto-Generated code. Do not modify 
+   (C) Sertechno/Emtec Group (2018,2019)
+   GLVH @ 2020-11-22 15:51:19.802880
+   ===================================================================#}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block title %}EG Suite{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block page_content %}<!-- AG 2020-11-22 15:51:19.802894 -->
+<!-- ------------------------ -->
+<!-- gen_templates_delete     -->
+<!-- ------------------------ -->
+<div class="page-header">
+    <table>
+        {% for d in session.data %}
+        <tr><td>{{d}}</td><td>:</td><td>{{session.data[d]}}</td></tr>    
+        {% endfor %}
+    </table><h2>Categories: </h2><a href="#" onclick="history.go(-1)">
+        <img src="/static/img/prev.svg" width="32" height="32" title="" alt="Return">
+    </a>        
+</div>
+{{ wtf.quick_form(form) }}<hr>
+<!-- -------------------- -->
+<!-- gen_templates_delete -->
+<!-- -------------------- -->
+{% endblock %}
+{# ================================================================== #}

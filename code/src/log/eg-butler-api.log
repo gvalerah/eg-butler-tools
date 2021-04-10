@@ -1,0 +1,112 @@
+2020-10-05 12:07:11,087 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 12:07:11,093 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7f2d9d299378>
+2020-10-05 12:07:11,097 | INFO | _log | * Running on http://0.0.0.0:8100/ (Press CTRL+C to quit)
+2020-10-05 12:07:11,098 | INFO | _log | * Restarting with stat
+2020-10-05 12:07:11,306 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 12:07:11,312 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7f676e044378>
+2020-10-05 12:07:11,316 | WARNING | _log | * Debugger is active!
+2020-10-05 12:07:11,318 | INFO | _log | * Debugger PIN: 211-966-661
+2020-10-05 14:30:55,540 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 14:30:55,546 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7fe3f2e51378>
+2020-10-05 14:30:55,551 | INFO | _log | * Running on http://0.0.0.0:8100/ (Press CTRL+C to quit)
+2020-10-05 14:30:55,551 | INFO | _log | * Restarting with stat
+2020-10-05 14:30:55,757 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 14:30:55,764 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7f7fd416d378>
+2020-10-05 14:30:55,767 | WARNING | _log | * Debugger is active!
+2020-10-05 14:30:55,769 | INFO | _log | * Debugger PIN: 211-966-661
+2020-10-05 14:36:29,106 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 14:36:29,113 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7f0174fbe378>
+2020-10-05 14:36:29,117 | INFO | _log | * Running on http://0.0.0.0:8100/ (Press CTRL+C to quit)
+2020-10-05 14:36:29,118 | INFO | _log | * Restarting with stat
+2020-10-05 14:36:29,327 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 14:36:29,333 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7fc0af463378>
+2020-10-05 14:36:29,337 | WARNING | _log | * Debugger is active!
+2020-10-05 14:36:29,338 | INFO | _log | * Debugger PIN: 211-966-661
+2020-10-05 14:41:23,969 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 14:41:23,976 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7ff62851d378>
+2020-10-05 14:41:23,980 | INFO | _log | * Running on http://0.0.0.0:8100/ (Press CTRL+C to quit)
+2020-10-05 14:41:23,981 | INFO | _log | * Restarting with stat
+2020-10-05 14:41:24,186 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 14:41:24,193 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=<function debug at 0x7f20297ef378>
+2020-10-05 14:41:24,196 | WARNING | _log | * Debugger is active!
+2020-10-05 14:41:24,198 | INFO | _log | * Debugger PIN: 211-966-661
+2020-10-05 16:55:06,119 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 16:55:06,125 | INFO | <module> |=======================
+2020-10-05 16:55:06,125 | INFO | <module> |app           = <Flask 'eg-butler-api'>
+2020-10-05 16:55:06,125 | INFO | <module> |configuration = ./eg-butler.ini
+2020-10-05 16:55:06,125 | INFO | <module> |=======================
+2020-10-05 16:55:06,125 | INFO | <module> |log_folder   = /home/gvalera/eg-butler/log
+2020-10-05 16:55:06,125 | INFO | <module> |log_filename = /home/gvalera/eg-butler/log/eg-butler-api.log
+2020-10-05 16:55:06,125 | INFO | <module> |log_level    = 5
+2020-10-05 16:55:06,125 | INFO | <module> |log_format   = %(asctime)s | %(levelname)s | %(funcName)s |%(message)s
+2020-10-05 16:55:06,125 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False
+2020-10-05 16:55:06,125 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False
+2020-10-05 16:55:06,309 | INFO | _log | * Running on http://0.0.0.0:8100/ (Press CTRL+C to quit)
+2020-10-05 16:55:42,205 | INFO | <module> |Application 'eg-butler-api' logging ON
+2020-10-05 16:55:42,211 | INFO | <module> |=======================
+2020-10-05 16:55:42,211 | INFO | <module> |app           = <Flask 'eg-butler-api'>
+2020-10-05 16:55:42,211 | INFO | <module> |configuration = ./eg-butler.ini
+2020-10-05 16:55:42,211 | INFO | <module> |=======================
+2020-10-05 16:55:42,212 | INFO | <module> |log_folder   = /home/gvalera/eg-butler/log
+2020-10-05 16:55:42,212 | INFO | <module> |log_filename = /home/gvalera/eg-butler/log/eg-butler-api.log
+2020-10-05 16:55:42,212 | INFO | <module> |log_level    = 5
+2020-10-05 16:55:42,212 | INFO | <module> |log_format   = %(asctime)s | %(levelname)s | %(funcName)s |%(message)s
+2020-10-05 16:55:42,212 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False
+2020-10-05 16:55:42,212 | INFO | <module> |Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False
+2020-10-05 16:55:42,278 | INFO | _log | * Running on http://0.0.0.0:8100/ (Press CTRL+C to quit)
+'2020-10-05 18:00:25,956 | eg-butler-api | INFO | Application 'eg-butler-api' logging ON'
+'2020-10-05 19:12:09,081 | eg-butler-api | INFO | Application 'eg-butler-api' logging ON'
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | ======================='
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | app           = <Flask 'eg-butler-api'>'
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | configuration = ./eg-butler.ini'
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | ======================='
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | log_folder   = /home/gvalera/eg-butler/log'
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | log_filename = /home/gvalera/eg-butler/log/eg-butler-api.log'
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | log_level    = 5'
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | log_format   = '%(asctime)s | %(name)s | %(levelname)s | %(message)s''
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-05 19:12:09,088 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-05 19:20:01,310 | eg-butler-api | INFO | Application 'eg-butler-api' logging ON'
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | ======================='
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | app           = <Flask 'eg-butler-api'>'
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | configuration = ./eg-butler.ini'
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | ======================='
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | log_folder   = /home/gvalera/eg-butler/log'
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | log_filename = /home/gvalera/eg-butler/log/eg-butler-api.log'
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | log_level    = 5'
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | log_format   = '%(asctime)s | %(name)s | %(levelname)s | %(message)s''
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-05 19:20:01,316 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-05 20:41:14,440 | eg-butler-api | INFO | Application 'eg-butler-api' logging ON'
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | ======================='
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | app           = <Flask 'eg-butler-api'>'
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | configuration = ./eg-butler.ini'
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | ======================='
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | log_folder   = /home/gvalera/eg-butler/log'
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | log_filename = /home/gvalera/eg-butler/log/eg-butler-api.log'
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | log_level    = 10'
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | log_format   = '%(asctime)s | %(name)s | %(levelname)s | %(message)s''
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-05 20:41:14,448 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-06 14:42:54,174 | eg-butler-api | INFO | Application 'eg-butler-api' logging ON'
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | ======================='
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | app           = <Flask 'eg-butler-api'>'
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | configuration = ./eg-butler.ini'
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | ======================='
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | log_folder   = /home/gvalera/eg-butler/log'
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | log_filename = /home/gvalera/eg-butler/log/eg-butler-api.log'
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | log_level    = 10'
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | log_format   = '%(asctime)s | %(name)s | %(levelname)s | %(message)s''
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-06 14:42:54,193 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-06 14:44:46,841 | eg-butler-api | INFO | Application 'eg-butler-api' logging ON'
+'2020-10-06 14:44:46,848 | eg-butler-api | INFO | ======================='
+'2020-10-06 14:44:46,848 | eg-butler-api | INFO | app           = <Flask 'eg-butler-api'>'
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | configuration = ./eg-butler.ini'
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | ======================='
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | log_folder   = /home/gvalera/eg-butler/log'
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | log_filename = /home/gvalera/eg-butler/log/eg-butler-api.log'
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | log_level    = 10'
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | log_format   = '%(asctime)s | %(name)s | %(levelname)s | %(message)s''
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'
+'2020-10-06 14:44:46,849 | eg-butler-api | INFO | Application 'eg-butler-api' host=0.0.0.0 port=8100 debug=False'

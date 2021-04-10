@@ -1,0 +1,327 @@
+    <!-- ----------------------------- -->
+    <!-- gen_menu_functions - Gen_Menu -->
+    <!-- ----------------------------- -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark navbar-fixed-top" data-spy="affix" data-offset-top="197" style="position: fixed;top: 0;width: 100%;">
+      <div class="container-fluid">
+      <div id="navbarCollapse" class="collapse navbar-collapse">
+        <!-- Brand -->
+        <a class="navbar-brand" href="http://www.emtecgroup.net"><img src="/static/img/logo_emtec.jpg" title="" alt="Emtec Group" ></a>
+        <!-- Links -->
+        <ul class="navbar-nav">
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (1, 2, 3, 4, 5, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Collector</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/login">Login</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/logout">Logout</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (1, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Customer</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/User_Data_View">Query User Data</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_User_Resume">View Charging Data</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Export_User_Resume">Report Charging Data</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Claims</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (3, 4, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Tables</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Platforms_Query">Platforms</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Customers_Query">Customers</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Cost_Centers_Query">Cost Centers</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Configuration_Items_Query">Configuration Items</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Charge_Units_Query">Charge Units</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Charge_Items_Query">Charge Items</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Rates_Query">Rates</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Countries_Query">Countries</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Currencies_Query">Currencies</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Countries_Currencies_Query">Countries & Currencies</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Exchange_Rates_Query">Exchange Rates</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Measure_Units_Query">Measure Units</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/CIT_Generations_Query">Charge Items Generation Types</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Charge Items Status Types</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/CU_Types_Query">Charge Unit Types</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/CU_Operations_Query">Charge Unit Conversion Operations</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Rat_Periods_Query">Rate Periods</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <b>Demo Version Only</b>
+                      <a class="dropdown-item" href="/select/Trace_Query">Trace records</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Dev_Tables_Query">Tables</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/select/Dev_Forms_Query">Forms</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/reports/DB_Status">DB Status</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (3, 4, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Charging Data</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/reports/Data_Consistency">Data Consistency Check</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_Charging_Resume">Monthly Pre-Charging View (Customer)</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_Charging_Resume_Level">Monthly Pre-Charging View (Customer) Resume</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_Charging_Resume_CC">Monthly Pre-Charging View (Cost Center)</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_Charging_Resume_Platform">Monthly Pre-Charging View (Platform)</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_Charging_Resume_All">Monthly Pre-Charging View (All)</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Delete Saved Pre-Charging Views</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Change_CIT_State">Change Charge Items State</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Create Periodic Charge Unit</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Create Manual Charge Item</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Import_Cost_Centers">Inject Cost centers</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Inject Configuration Items</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Inject Charge Units</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Inject Charge Items</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Inject Rates</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (2, 3, 4, 5, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Reports</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Export_Charging_Resume">Monthly Pre_Charging (Customer)</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Monthly Pre_Charging (Cost Center)</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Monthly Pre_Charging (Platform)</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Monthly Pre_Charging (All)</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/demo">Delete Saved Pre-Charging Reports</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (4, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Options</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/plugins">Custom Add Ons</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <b>Administrator</b>
+                      <a class="dropdown-item" href="/demo">System Status</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <b>BETA VERSION</b>
+                      <a class="dropdown-item" href="/forms/Get_Stats_Per_Type">Statistics: Use Per Type</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_Graph_Stats_Per_Type">Statistics: Graph: Use Per Type</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/forms/Get_Graph_Stats_Per_Type_Filter">Statistics: Graph: Use Per Type Advanced</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (1, 2, 3, 4, 5, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Help</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/collector_faq">FAQ</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/collector_about">About Collector</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+        </ul>
+        <ul class="navbar navbar-nav">
+          {%- if current_user.is_authenticated -%}
+          {%- if current_user.is_authenticated -%}
+            {%- if current_user.role.id in (1, 2, 3, 4, 5, 6) -%}
+              <!-- ------------------------------- -->
+              <!-- gen_menu_functions - Gen_Option -->
+              <!-- ------------------------------- -->
+                <!-- Dropdown -->
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>Account</h3></a>
+                    <div class="dropdown-menu">
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/register">Register User</a>
+                      <hr>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/change-password">Change Password</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/change-email">Change Email</a>
+                      <!-- -------------------------------gso -->
+                      <!-- gen_menu_functions - Gen_SubOption -->
+                      <a class="dropdown-item" href="/auth/logout">Log Out</a>
+                      <!-- -------------------------------gso -->
+                    </div>
+                  </li>
+              <!-- -----------------------------go -->
+            {%- endif -%}
+          {%- endif -%}
+          {%- else -%}
+          <li><a href="{{ url_for('auth.login') }}"><h3>Log In</h3></a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+      </div>
+    </nav>
+    <!-- ----------------------------- -->

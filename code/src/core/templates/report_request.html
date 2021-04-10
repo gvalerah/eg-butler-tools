@@ -1,0 +1,126 @@
+{# ================================================================== #}
+{# Request Report Template                                            #}
+{# For Customer on a defined period and status                        #}
+{# (c) Sertechno 2020                                                 #}
+{# GLVH @ 2020-11-07                                                  #}
+{# ================================================================== #}
+{# Removes App header for "body_only" mode -------------------------- #}
+{%- if body_only is not defined %}
+    {%- extends "base.html" %}
+{%- endif %}
+{%- import "bootstrap/wtf.html" as wtf %}
+{%- import "_macros.html" as macros %}
+{%- block title %}Butler{%- endblock %}
+{# Head block not available if not base.html "body_only" mode ------- #}
+{%- if body_only is not defined %}
+    {%- block head %}
+       {{ super() }}
+    {%- endblock %}
+{%- endif %}
+{%- block page_content %}
+<div class="page-header">
+    <h2>Detalle de Solicitud {{row.0.Id}}: </h2>
+    {# Removes Action icons for "body_only" mode #}
+    {%- if body_only is not defined %}
+        <a href="/select/Request">
+            <img src="/static/img/back.png"
+            color=yellow width="32" height="32" title="" alt="Add">
+        </a>
+        <a href="/forms/Request?Id={{row.0.Id}}">
+            <img src="/static/img/edit.png"
+            color=yellow width="32" height="32" title="" alt="Edit">
+        </a>
+        <a href="/">
+            <img src="/static/img/home.png"
+            color=yellow width="32" height="32" title="" alt="Home">
+        </a>
+    {%- endif %}
+</div>
+    {%- if body_only is not defined %}
+    <table class="table table-striped table-hover table-sm">
+    {%- else %}
+    <table border=1 class="table table-striped table-hover table-sm">
+    {%- endif %}
+        <thead class="thead-dark">
+            <tr>
+                <th style="width:512px;" class="text-center">SOLICITUD</th>
+                <th class="text-center">MAQUINA VIRTUAL</th>
+                <th class="text-center">ALMACENAMIENTO</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%- if row is defined and row is not none %}
+            <tr>
+                <td>
+                    <table>
+                        <tr><td>Solicitud       </td><td>{{row.0.Id}}</td></tr>
+                        <!-- <tr><td>Centro de Costo </td><td>{{row.0.CC_Id}} <b>{{row.Cost_Centers.CC_Code}} {{row.Cost_Centers.CC_Description}}</b></td></tr> -->
+                        <tr><td>Centro de Costo </td><td><b>{{row.Cost_Centers.CC_Description}}</b></td></tr>
+                        <!-- <tr><td>Estado     </td><td>{{row.0.Status}} <b>{{data.status_description|join(", ")}}</b></td></tr> -->
+                        <tr><td>Estado          </td><td><b>{{data.status_description|join(", ")}}</b></td></tr>
+                        <tr><td>Creado          </td><td>{{row.0.Creation_Time}}</td></tr>
+                        <tr><td>Actualizado     </td><td>{{row.0.Last_Status_Time}}</td></tr>
+                        {%- if data.role > data.roles.REQUESTOR %}
+                        <tr><td>Tipo            </td><td>{{row.request_type.Description}}</td></tr>
+                        <!-- <tr><td>Tipo            </td><td>{{row.0.Type}}</td></tr> -->
+                        <!-- <tr><td>Usuario         </td><td>{{row.requests.User_Id}} <b>{{row.Users.username}}</b></td></tr> -->
+                        <tr><td>Usuario         </td><td><b>{{row.Users.username}}</b></td></tr>
+                        <tr><td>Aprobador       </td><td>{{row.0.Approver_Id}}</td></tr>
+                        <tr><td>Comentarios     </td><td>{{row.0.Comments}}</td></tr>
+                        <tr><td>Tarea UUID      </td><td>{{row.0.Task_uuid}}</td></tr>
+                        <tr><td>Tarea estado    </td><td>{{row.0.Task_status}}</td></tr>
+                        {%- endif %}
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr><td>Solicitud            </td><td>{{row.1.Request_Id}}</td></tr>
+                        <tr><td>Nombre deMV          </td><td><b>{{row.1.vm_name}}</b></td></tr>
+                        <tr><td>N&uacute;mero de CPUs</td><td><b>{{row.1.num_sockets}}</b></td></tr>
+                        <tr><td>Memoria RAM          </td><td><b>{{row.1.memory_size_gib}}</b> GB</td></tr>
+                        <!-- <tr><td>Tipo de Disco        </td><td>{{row.1.disk_type}} <b>{{data.storage_type}}</b></td></tr> -->
+                        <tr><td>Tipo de Disco        </td><td><b>{{data.storage_type}}</b></td></tr>
+                        <tr><td>Total disco          </td><td><b>{{data.storage}}</b> GB</td></tr>
+                        <tr><td>Mensual estimado     </td><td><b>{{"%.12f"|format(data.month)}}</b> UF</td></tr>
+                        {%- if row.Users.role_id > 1 %}
+                        <tr><td>Projecto UUID    </td><td>{{row.1.project_uuid}}</td></tr>
+                        <tr><td>Categoria        </td><td>{{row.1.category_name}}</td></tr>
+                        <tr><td>Cluster UUID     </td><td>{{row.1.cluster_uuid}}</td></tr>
+                        <tr><td>Encendido        </td><td>{{row.1.power_state}}</td></tr>
+                        <tr><td>CPUs por Socket  </td><td>{{row.1.vcpus_per_socket}}</td></tr>
+                        <tr><td>Memoria RAM en MB</td><td>{{row.1.memory_size_mib}}</td></tr>
+                        <tr><td>Comentarios      </td><td>{{row.1.Comments}}</td></tr>
+                        <tr><td>Direccion IP     </td><td>{{row.1.vm_ip}}</td></tr>
+                        <tr><td>Subnet UUID      </td><td>{{row.1.subnet_uuid}}</td></tr>
+                        <tr><td>Usuario          </td><td>{{row.1.vm_username}}</td></tr>
+                        <tr><td>Contrase&ntilde;a</td><td>{{row.1.vm_password}}</td></tr>
+                        {%- endif %}
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr><td>Disco 1 </td><td>{{row.1.disk_0_size}} GB <b>{{data.disk_images[0]}}</b></td></tr>
+                        <tr><td>Disco 2 </td><td>{{row.1.disk_1_size}} GB <b>{{data.disk_images[1]}}</b></td></tr>
+                        <tr><td>Disco 3 </td><td>{{row.1.disk_2_size}} GB <b>{{data.disk_images[2]}}</b></td></tr>
+                        <tr><td>Disco 4 </td><td>{{row.1.disk_3_size}} GB <b>{{data.disk_images[3]}}</b></td></tr>
+                        <tr><td>Disco 5 </td><td>{{row.1.disk_4_size}} GB <b>{{data.disk_images[4]}}</b></td></tr>
+                        <tr><td>Disco 6 </td><td>{{row.1.disk_5_size}} GB <b>{{data.disk_images[5]}}</b></td></tr>
+                        <tr><td>Disco 7 </td><td>{{row.1.disk_6_size}} GB <b>{{data.disk_images[6]}}</b></td></tr>
+                        <tr><td>Disco 8 </td><td>{{row.1.disk_7_size}} GB <b>{{data.disk_images[7]}}</b></td></tr>
+                        <tr><td>Disco 9 </td><td>{{row.1.disk_8_size}} GB <b>{{data.disk_images[8]}}</b></td></tr>
+                        <tr><td>Disco 10</td><td>{{row.1.disk_9_size}} GB <b>{{data.disk_images[9]}}</b></td></tr>
+                        <tr><td>Disco 11</td><td>{{row.1.disk_10_size}} GB <b>{{data.disk_images[10]}}</b></td></tr>
+                        <tr><td>Disco 12</td><td>{{row.1.disk_11_size}} GB <b>{{data.disk_images[11]}}</b></td></tr>
+                        {%- if row.Users.role_id > 1 %}
+                        <tr><td>Grupo backup 1</td><td>{{row.1.backup_set_1}}</td></tr>
+                        <tr><td>Grupo backup 2</td><td>{{row.1.backup_set_2}}</td></tr>
+                        <tr><td>Grupo backup 3</td><td>{{row.1.backup_set_3}}</td></tr>
+                        {%- endif %}
+                    </table>
+                </td>
+            </tr>
+            {%- endif %}
+        </tbody>
+    </table>
+{%- endblock %}
+{# ================================================================== #}

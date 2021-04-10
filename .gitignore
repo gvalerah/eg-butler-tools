@@ -1,0 +1,10 @@
+*.tmp
+*.sav
+*.bak
+*.pyc
+*.tgz
+*.tgz*
+dist
+build
+loco*
+temp

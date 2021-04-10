@@ -1,0 +1,71 @@
+<!-- * extends "bootstrap/base.html" * -->
+{% extends "bootstrap/base.html" %}
+<!-- * extended "bootstrap/base.html" * -->
+<!-- * block head * -->
+{% block head %}
+  <!-- Collector Header Required Code -->
+  <!-- GLVH 2018 -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link   rel="stylesheet"  href = "{{ url_for('static', filename = 'css/bootstrap.min.css') }}">
+  <script                   src  = "{{ url_for('static', filename = 'js/jquery.min.js'     ) }}"></script>
+  <script                   src  = "{{ url_for('static', filename = 'js/popper.min.js'     ) }}"></script>
+  <script                   src  = "{{ url_for('static', filename = 'js/bootstrap.min.js'  ) }}"></script>
+  <!-- Browser tab icon -->
+  <link rel="shortcut icon" href = "{{ url_for('static', filename = 'img/favicon.ico') }}" type="image/x-icon">
+  <link rel="icon"          href = "{{ url_for('static', filename = 'img/favicon.ico') }}" type="image/x-icon">
+  <style>
+  body {
+    margin-top: 129px;
+  }
+  </style>
+  <!-- --------- -->
+  
+{% endblock head %}
+
+<!-- * endblock head * -->
+{% block title %}
+Butler
+{% endblock title %}
+<!-- div class="row"> <!-- gen_menu: * block content_navbar * -->
+{% block navbar %}
+<!-- gen_menu:block content_navbar 2020-11-22 15:51:17.430020 -->
+<!-- gen_menu:block content_navbar /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/templates/navbar_template.html -->
+<!-- gen_menu:block content_navbar /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/templates/base.html -->
+{% include "navbar_template.html" %}
+<!-- gen_menu:block content_navbar included -->
+{% endblock navbar %}
+<!-- div>  <!-- gen_menu: * endblock content_navbar * -->
+{% block content %}
+<div class="container-fluid">  <!-- gen_menu: * block content * -->
+   <div class="row"><!-- gen_menu: * block messages * -->
+{% block messages %}
+    <!-- gen_menu:messages loop start -->
+{%- with messages = get_flashed_messages() -%}
+{%- if messages -%}
+         <ul class=flashes>
+{%- for message in messages -%}
+           <div class="alert alert-warning">
+             <button type="button" class="close" data-dismiss="alert">&times;</button>
+{{ message }}
+           </div>
+{%- endfor -%}
+         </ul>
+{%- endif -%}
+{%- endwith -%}
+    <!-- gen_menu:messages loop end -->
+{% endblock messages %}
+   </div>  <!-- gen_menu: * endblock messages * -->
+{% block page_content %}
+{% endblock page_content %}
+</div> <!-- gen_menu: * endblock content * -->
+{% endblock content %}
+{% block scripts %}
+       <!-- gen_menu:block content footer start -->
+       <!-- Example indicates that those scripts should run near the </body> tag -->
+       <script src="/static/js/jquery-3.3.1.js"      crossorigin="anonymous"></script>
+       <script src="/static/js/popper.min.js"      crossorigin="anonymous"></script>
+       <script src="/static/js/bootstrap.min.js"   crossorigin="anonymous"></script>
+       <!-- gen_menu: Butler:__main__ AUTOGEN Signature @ 2020-11-22 15:51:17.430052 -->
+       <!-- gen_menu:block content footer end -->
+{% endblock scripts %}
