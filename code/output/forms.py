@@ -26,7 +26,7 @@ from wtforms.validators     import Regexp, Required
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_categories.py
@@ -50,7 +50,7 @@ class frm_categories_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_clusters.py
@@ -77,7 +77,7 @@ class frm_clusters_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_cost_centers.py
@@ -105,7 +105,7 @@ class frm_cost_centers_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_disk_images.py
@@ -136,7 +136,7 @@ class frm_disk_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_domains.py
@@ -161,7 +161,7 @@ class frm_domains_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_interface.py
@@ -190,7 +190,7 @@ class frm_interface_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_prism_vm.py
@@ -269,7 +269,7 @@ class frm_nutanix_prism_vm_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_vm_images.py
@@ -295,7 +295,7 @@ class frm_nutanix_vm_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_projects.py
@@ -320,7 +320,7 @@ class frm_projects_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_rates.py
@@ -352,7 +352,7 @@ class frm_rates_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_requests.py
@@ -386,7 +386,7 @@ class frm_requests_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_request_type.py
@@ -411,7 +411,7 @@ class frm_request_type_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_roles.py
@@ -437,7 +437,7 @@ class frm_Role_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_subnets.py
@@ -469,7 +469,7 @@ class frm_subnets_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-06 18:38:09
+# GLVH @ 2021-04-16 13:26:00
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_users.py
