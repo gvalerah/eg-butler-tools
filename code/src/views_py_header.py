@@ -4,8 +4,8 @@
 # Static Header File. 
 # GLVH 2020-10-11
 # ----------------------------------------------------------------------
+from datetime       import datetime
 from time           import strftime
-from datetime       import datetime     
 from pprint         import pformat                    
 from pprint         import pprint                    
 from sqlalchemy     import exc

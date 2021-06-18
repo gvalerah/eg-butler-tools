@@ -4,8 +4,8 @@
 # Static Header File. 
 # GLVH 2020-10-11
 # ----------------------------------------------------------------------
+from datetime       import datetime
 from time           import strftime
-from datetime       import datetime     
 from pprint         import pformat                    
 from pprint         import pprint                    
 from sqlalchemy     import exc
@@ -138,7 +138,7 @@ def butler_about():
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_models_code.py:445 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/includes/models_py_imports.py
 from emtec.butler.db.flask_models import categories
@@ -175,15 +175,15 @@ from emtec.butler.forms import frm_User,frm_User_delete
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_categories.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.050797
+#  GLVH @ 2021-06-17 19:12:05.568348
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:01.050821
+# gen_views_form.html:AG 2021-06-17 19:12:05.568370
 @main.route('/forms/Categories', methods=['GET', 'POST'])
 @login_required
 
@@ -295,9 +295,9 @@ def forms_Categories():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.062633
+#  GLVH @ 2021-06-17 19:12:05.577784
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:01.062648
+# gen_views_delete.html:AG 2021-06-17 19:12:05.577809
 @main.route('/forms/Categories_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -362,10 +362,10 @@ def forms_Categories_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.081270
+#  GLVH @ 2021-06-17 19:12:05.596762
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:01.081284        
+# gen_views_select_query.html:AG 2021-06-17 19:12:05.596777        
 @main.route('/select/Categories_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -542,9 +542,9 @@ def select_Categories_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.132865
+#  GLVH @ 2021-06-17 19:12:05.631000
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:01.132880
+# gen_views_api.html:AG 2021-06-17 19:12:05.631016
 # table_name: Categories
 # class_name: categories
 # is shardened: False
@@ -708,8 +708,10 @@ def api_patch_Categories(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'category_description' in request.json.keys():
-                    row.category_description = request.json.get('category_description')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'category_description' in request.args:
+                        row.category_description = request.args.get('category_description')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -717,15 +719,21 @@ def api_patch_Categories(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Categories' category_name = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Categories with category_name = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -776,15 +784,15 @@ def api_delete_Categories(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_clusters.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.239820
+#  GLVH @ 2021-06-17 19:12:05.733395
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:01.239876
+# gen_views_form.html:AG 2021-06-17 19:12:05.733416
 @main.route('/forms/Clusters', methods=['GET', 'POST'])
 @login_required
 
@@ -902,9 +910,9 @@ def forms_Clusters():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.248809
+#  GLVH @ 2021-06-17 19:12:05.753779
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:01.248821
+# gen_views_delete.html:AG 2021-06-17 19:12:05.753798
 @main.route('/forms/Clusters_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -969,10 +977,10 @@ def forms_Clusters_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.268126
+#  GLVH @ 2021-06-17 19:12:05.772277
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:01.268141        
+# gen_views_select_query.html:AG 2021-06-17 19:12:05.772293        
 @main.route('/select/Clusters_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1194,9 +1202,9 @@ def select_Clusters_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.300705
+#  GLVH @ 2021-06-17 19:12:05.804366
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:01.300721
+# gen_views_api.html:AG 2021-06-17 19:12:05.804384
 # table_name: Clusters
 # class_name: clusters
 # is shardened: False
@@ -1375,14 +1383,16 @@ def api_patch_Clusters(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'cluster_name' in request.json.keys():
-                    row.cluster_name = request.json.get('cluster_name')
-                if 'cluster_username' in request.json.keys():
-                    row.cluster_username = request.json.get('cluster_username')
-                if 'cluster_password' in request.json.keys():
-                    row.cluster_password = request.json.get('cluster_password')
-                if 'cluster_ip' in request.json.keys():
-                    row.cluster_ip = request.json.get('cluster_ip')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'cluster_name' in request.args:
+                        row.cluster_name = request.args.get('cluster_name')
+                    if 'cluster_username' in request.args:
+                        row.cluster_username = request.args.get('cluster_username')
+                    if 'cluster_password' in request.args:
+                        row.cluster_password = request.args.get('cluster_password')
+                    if 'cluster_ip' in request.args:
+                        row.cluster_ip = request.args.get('cluster_ip')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -1390,15 +1400,21 @@ def api_patch_Clusters(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Clusters' cluster_uuid = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Clusters with cluster_uuid = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -1449,15 +1465,15 @@ def api_delete_Clusters(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_cost_centers.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.409242
+#  GLVH @ 2021-06-17 19:12:05.918007
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:01.409259
+# gen_views_form.html:AG 2021-06-17 19:12:05.918025
 @main.route('/forms/Cost_Centers', methods=['GET', 'POST'])
 @login_required
 
@@ -1574,9 +1590,9 @@ def forms_Cost_Centers():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.418780
+#  GLVH @ 2021-06-17 19:12:05.928413
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:01.418802
+# gen_views_delete.html:AG 2021-06-17 19:12:05.928433
 @main.route('/forms/Cost_Centers_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -1641,10 +1657,10 @@ def forms_Cost_Centers_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.439509
+#  GLVH @ 2021-06-17 19:12:05.946225
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:01.439523        
+# gen_views_select_query.html:AG 2021-06-17 19:12:05.946241        
 @main.route('/select/Cost_Centers_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1909,9 +1925,9 @@ def select_Cost_Centers_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.480151
+#  GLVH @ 2021-06-17 19:12:05.986675
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:01.480168
+# gen_views_api.html:AG 2021-06-17 19:12:05.986696
 # table_name: Cost_Centers
 # class_name: cost_centers
 # is shardened: True
@@ -2100,18 +2116,20 @@ def api_patch_Cost_Centers(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'CC_Code' in request.json.keys():
-                    row.CC_Code = request.json.get('CC_Code')
-                if 'CC_Description' in request.json.keys():
-                    row.CC_Description = request.json.get('CC_Description')
-                if 'Cur_Code' in request.json.keys():
-                    row.Cur_Code = request.json.get('Cur_Code')
-                if 'CC_Parent_Code' in request.json.keys():
-                    row.CC_Parent_Code = request.json.get('CC_Parent_Code')
-                if 'CC_Reg_Exp' in request.json.keys():
-                    row.CC_Reg_Exp = request.json.get('CC_Reg_Exp')
-                if 'CC_Reference' in request.json.keys():
-                    row.CC_Reference = request.json.get('CC_Reference')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'CC_Code' in request.args:
+                        row.CC_Code = request.args.get('CC_Code')
+                    if 'CC_Description' in request.args:
+                        row.CC_Description = request.args.get('CC_Description')
+                    if 'Cur_Code' in request.args:
+                        row.Cur_Code = request.args.get('Cur_Code')
+                    if 'CC_Parent_Code' in request.args:
+                        row.CC_Parent_Code = request.args.get('CC_Parent_Code')
+                    if 'CC_Reg_Exp' in request.args:
+                        row.CC_Reg_Exp = request.args.get('CC_Reg_Exp')
+                    if 'CC_Reference' in request.args:
+                        row.CC_Reference = request.args.get('CC_Reference')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -2119,15 +2137,21 @@ def api_patch_Cost_Centers(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Cost_Centers' CC_Id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Cost_Centers with CC_Id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -2176,15 +2200,15 @@ def api_delete_Cost_Centers(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_disk_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.603555
+#  GLVH @ 2021-06-17 19:12:06.108514
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:01.603796
+# gen_views_form.html:AG 2021-06-17 19:12:06.108537
 @main.route('/forms/Disk_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -2301,9 +2325,9 @@ def forms_Disk_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.617527
+#  GLVH @ 2021-06-17 19:12:06.121594
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:01.617543
+# gen_views_delete.html:AG 2021-06-17 19:12:06.121612
 @main.route('/forms/Disk_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -2368,10 +2392,10 @@ def forms_Disk_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.640316
+#  GLVH @ 2021-06-17 19:12:06.140253
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:01.640332        
+# gen_views_select_query.html:AG 2021-06-17 19:12:06.140269        
 @main.route('/select/Disk_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -2653,9 +2677,9 @@ def select_Disk_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.672935
+#  GLVH @ 2021-06-17 19:12:06.171674
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:01.672950
+# gen_views_api.html:AG 2021-06-17 19:12:06.171690
 # table_name: Disk_Images
 # class_name: disk_images
 # is shardened: False
@@ -2854,22 +2878,24 @@ def api_patch_Disk_Images(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'name' in request.json.keys():
-                    row.name = request.json.get('name')
-                if 'annotation' in request.json.keys():
-                    row.annotation = request.json.get('annotation')
-                if 'image_type' in request.json.keys():
-                    row.image_type = request.json.get('image_type')
-                if 'image_state' in request.json.keys():
-                    row.image_state = request.json.get('image_state')
-                if 'vm_disk_size' in request.json.keys():
-                    row.vm_disk_size = request.json.get('vm_disk_size')
-                if 'vm_disk_size_mib' in request.json.keys():
-                    row.vm_disk_size_mib = request.json.get('vm_disk_size_mib')
-                if 'vm_disk_size_gib' in request.json.keys():
-                    row.vm_disk_size_gib = request.json.get('vm_disk_size_gib')
-                if 'cluster' in request.json.keys():
-                    row.cluster = request.json.get('cluster')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'name' in request.args:
+                        row.name = request.args.get('name')
+                    if 'annotation' in request.args:
+                        row.annotation = request.args.get('annotation')
+                    if 'image_type' in request.args:
+                        row.image_type = request.args.get('image_type')
+                    if 'image_state' in request.args:
+                        row.image_state = request.args.get('image_state')
+                    if 'vm_disk_size' in request.args:
+                        row.vm_disk_size = request.args.get('vm_disk_size')
+                    if 'vm_disk_size_mib' in request.args:
+                        row.vm_disk_size_mib = request.args.get('vm_disk_size_mib')
+                    if 'vm_disk_size_gib' in request.args:
+                        row.vm_disk_size_gib = request.args.get('vm_disk_size_gib')
+                    if 'cluster' in request.args:
+                        row.cluster = request.args.get('cluster')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -2877,15 +2903,21 @@ def api_patch_Disk_Images(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Disk_Images' uuid = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Disk_Images with uuid = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -2936,15 +2968,15 @@ def api_delete_Disk_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_domains.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.786517
+#  GLVH @ 2021-06-17 19:12:06.272273
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:01.786541
+# gen_views_form.html:AG 2021-06-17 19:12:06.272290
 @main.route('/forms/Domains', methods=['GET', 'POST'])
 @login_required
 
@@ -3049,9 +3081,9 @@ def forms_Domains():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.797095
+#  GLVH @ 2021-06-17 19:12:06.282404
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:01.797110
+# gen_views_delete.html:AG 2021-06-17 19:12:06.282422
 @main.route('/forms/Domains_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3116,10 +3148,10 @@ def forms_Domains_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.816624
+#  GLVH @ 2021-06-17 19:12:06.303489
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:01.816645        
+# gen_views_select_query.html:AG 2021-06-17 19:12:06.303513        
 @main.route('/select/Domains_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -3311,9 +3343,9 @@ def select_Domains_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.849843
+#  GLVH @ 2021-06-17 19:12:06.337362
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:01.849858
+# gen_views_api.html:AG 2021-06-17 19:12:06.337385
 # table_name: Domains
 # class_name: domains
 # is shardened: False
@@ -3482,10 +3514,12 @@ def api_patch_Domains(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'Name' in request.json.keys():
-                    row.Name = request.json.get('Name')
-                if 'Comments' in request.json.keys():
-                    row.Comments = request.json.get('Comments')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'Name' in request.args:
+                        row.Name = request.args.get('Name')
+                    if 'Comments' in request.args:
+                        row.Comments = request.args.get('Comments')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -3493,15 +3527,21 @@ def api_patch_Domains(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Domains' Domain_Id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Domains with Domain_Id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -3552,15 +3592,15 @@ def api_delete_Domains(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_interface.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.974309
+#  GLVH @ 2021-06-17 19:12:06.446987
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:01.974323
+# gen_views_form.html:AG 2021-06-17 19:12:06.447004
 @main.route('/forms/Interface', methods=['GET', 'POST'])
 @login_required
 
@@ -3674,9 +3714,9 @@ def forms_Interface():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:01.983535
+#  GLVH @ 2021-06-17 19:12:06.457031
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:01.983549
+# gen_views_delete.html:AG 2021-06-17 19:12:06.457047
 @main.route('/forms/Interface_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3741,10 +3781,10 @@ def forms_Interface_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.001284
+#  GLVH @ 2021-06-17 19:12:06.477964
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:02.001300        
+# gen_views_select_query.html:AG 2021-06-17 19:12:06.477978        
 @main.route('/select/Interface_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -4011,9 +4051,9 @@ def select_Interface_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.038805
+#  GLVH @ 2021-06-17 19:12:06.510940
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:02.038822
+# gen_views_api.html:AG 2021-06-17 19:12:06.510957
 # table_name: Interface
 # class_name: interface
 # is shardened: False
@@ -4207,20 +4247,22 @@ def api_patch_Interface(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'User_Id' in request.json.keys():
-                    row.User_Id = request.json.get('User_Id')
-                if 'Table_name' in request.json.keys():
-                    row.Table_name = request.json.get('Table_name')
-                if 'Option_Type' in request.json.keys():
-                    row.Option_Type = request.json.get('Option_Type')
-                if 'Argument_1' in request.json.keys():
-                    row.Argument_1 = request.json.get('Argument_1')
-                if 'Argument_2' in request.json.keys():
-                    row.Argument_2 = request.json.get('Argument_2')
-                if 'Argument_3' in request.json.keys():
-                    row.Argument_3 = request.json.get('Argument_3')
-                if 'Is_Active' in request.json.keys():
-                    row.Is_Active = request.json.get('Is_Active')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'User_Id' in request.args:
+                        row.User_Id = request.args.get('User_Id')
+                    if 'Table_name' in request.args:
+                        row.Table_name = request.args.get('Table_name')
+                    if 'Option_Type' in request.args:
+                        row.Option_Type = request.args.get('Option_Type')
+                    if 'Argument_1' in request.args:
+                        row.Argument_1 = request.args.get('Argument_1')
+                    if 'Argument_2' in request.args:
+                        row.Argument_2 = request.args.get('Argument_2')
+                    if 'Argument_3' in request.args:
+                        row.Argument_3 = request.args.get('Argument_3')
+                    if 'Is_Active' in request.args:
+                        row.Is_Active = request.args.get('Is_Active')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -4228,15 +4270,21 @@ def api_patch_Interface(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Interface' Id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Interface with Id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -4285,15 +4333,15 @@ def api_delete_Interface(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_prism_vm.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.290535
+#  GLVH @ 2021-06-17 19:12:06.741250
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:02.290549
+# gen_views_form.html:AG 2021-06-17 19:12:06.741266
 @main.route('/forms/Nutanix_Prism_VM', methods=['GET', 'POST'])
 @login_required
 
@@ -4321,7 +4369,7 @@ def forms_Nutanix_Prism_VM():
     if row is None:
         row=nutanix_prism_vm()
         session['is_new_row']=True
-    session['data'] =  {  'Request_Id':row.Request_Id, 'project_uuid':row.project_uuid, 'category_name':row.category_name, 'cluster_uuid':row.cluster_uuid, 'vm_name':row.vm_name, 'power_state':row.power_state, 'vcpus_per_socket':row.vcpus_per_socket, 'num_sockets':row.num_sockets, 'memory_size_mib':row.memory_size_mib, 'memory_size_gib':row.memory_size_gib, 'Comments':row.Comments, 'vm_uuid':row.vm_uuid, 'vm_ip':row.vm_ip, 'subnet_uuid':row.subnet_uuid, 'vm_username':row.vm_username, 'vm_password':row.vm_password, 'backup_set_1':row.backup_set_1, 'backup_set_2':row.backup_set_2, 'backup_set_3':row.backup_set_3, 'disk_type':row.disk_type, 'disk_0_image':row.disk_0_image, 'disk_0_size':row.disk_0_size, 'disk_1_image':row.disk_1_image, 'disk_1_size':row.disk_1_size, 'disk_2_image':row.disk_2_image, 'disk_2_size':row.disk_2_size, 'disk_3_image':row.disk_3_image, 'disk_3_size':row.disk_3_size, 'disk_4_image':row.disk_4_image, 'disk_4_size':row.disk_4_size, 'disk_5_image':row.disk_5_image, 'disk_5_size':row.disk_5_size, 'disk_6_image':row.disk_6_image, 'disk_6_size':row.disk_6_size, 'disk_7_image':row.disk_7_image, 'disk_7_size':row.disk_7_size, 'disk_8_image':row.disk_8_image, 'disk_8_size':row.disk_8_size, 'disk_9_image':row.disk_9_image, 'disk_9_size':row.disk_9_size, 'disk_10_image':row.disk_10_image, 'disk_10_size':row.disk_10_size, 'disk_11_image':row.disk_11_image, 'disk_11_size':row.disk_11_size, 'vm_drp':row.vm_drp, 'vm_cdrom':row.vm_cdrom, 'drp_cluster_uuid':row.drp_cluster_uuid, 'nic_0_vlan':row.nic_0_vlan, 'nic_0_ip':row.nic_0_ip, 'nic_0_mac':row.nic_0_mac, 'nic_1_vlan':row.nic_1_vlan, 'nic_1_ip':row.nic_1_ip, 'nic_1_mac':row.nic_1_mac, 'nic_2_vlan':row.nic_2_vlan, 'nic_2_ip':row.nic_2_ip, 'nic_2_mac':row.nic_2_mac, 'request_text':row.request_text }
+    session['data'] =  {  'Request_Id':row.Request_Id, 'project_uuid':row.project_uuid, 'category_name':row.category_name, 'cluster_uuid':row.cluster_uuid, 'vm_name':row.vm_name, 'power_state':row.power_state, 'vcpus_per_socket':row.vcpus_per_socket, 'num_sockets':row.num_sockets, 'memory_size_mib':row.memory_size_mib, 'memory_size_gib':row.memory_size_gib, 'Comments':row.Comments, 'vm_uuid':row.vm_uuid, 'vm_ip':row.vm_ip, 'subnet_uuid':row.subnet_uuid, 'vm_username':row.vm_username, 'vm_password':row.vm_password, 'backup_set_1':row.backup_set_1, 'backup_set_2':row.backup_set_2, 'backup_set_3':row.backup_set_3, 'disk_type':row.disk_type, 'disk_0_image':row.disk_0_image, 'disk_0_size':row.disk_0_size, 'disk_1_image':row.disk_1_image, 'disk_1_size':row.disk_1_size, 'disk_2_image':row.disk_2_image, 'disk_2_size':row.disk_2_size, 'disk_3_image':row.disk_3_image, 'disk_3_size':row.disk_3_size, 'disk_4_image':row.disk_4_image, 'disk_4_size':row.disk_4_size, 'disk_5_image':row.disk_5_image, 'disk_5_size':row.disk_5_size, 'disk_6_image':row.disk_6_image, 'disk_6_size':row.disk_6_size, 'disk_7_image':row.disk_7_image, 'disk_7_size':row.disk_7_size, 'disk_8_image':row.disk_8_image, 'disk_8_size':row.disk_8_size, 'disk_9_image':row.disk_9_image, 'disk_9_size':row.disk_9_size, 'disk_10_image':row.disk_10_image, 'disk_10_size':row.disk_10_size, 'disk_11_image':row.disk_11_image, 'disk_11_size':row.disk_11_size, 'vm_drp':row.vm_drp, 'vm_drp_remote':row.vm_drp_remote, 'vm_cdrom':row.vm_cdrom, 'drp_cluster_uuid':row.drp_cluster_uuid, 'nic_0_vlan':row.nic_0_vlan, 'nic_0_ip':row.nic_0_ip, 'nic_0_mac':row.nic_0_mac, 'nic_1_vlan':row.nic_1_vlan, 'nic_1_ip':row.nic_1_ip, 'nic_1_mac':row.nic_1_mac, 'nic_2_vlan':row.nic_2_vlan, 'nic_2_ip':row.nic_2_ip, 'nic_2_mac':row.nic_2_mac, 'request_text':row.request_text }
     
     form = frm_nutanix_prism_vm()
     
@@ -4382,6 +4430,7 @@ def forms_Nutanix_Prism_VM():
             row.disk_11_image = form.disk_11_image.data
             row.disk_11_size = form.disk_11_size.data
             row.vm_drp = form.vm_drp.data
+            row.vm_drp_remote = form.vm_drp_remote.data
             row.vm_cdrom = form.vm_cdrom.data
             row.drp_cluster_uuid = form.drp_cluster_uuid.data
             row.nic_0_vlan = form.nic_0_vlan.data
@@ -4484,6 +4533,7 @@ def forms_Nutanix_Prism_VM():
     form.disk_11_image.data = row.disk_11_image
     form.disk_11_size.data = row.disk_11_size
     form.vm_drp.data = row.vm_drp
+    form.vm_drp_remote.data = row.vm_drp_remote
     form.vm_cdrom.data = row.vm_cdrom
     form.drp_cluster_uuid.data = row.drp_cluster_uuid
     form.nic_0_vlan.data = row.nic_0_vlan
@@ -4514,9 +4564,9 @@ def forms_Nutanix_Prism_VM():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.299417
+#  GLVH @ 2021-06-17 19:12:06.751305
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:02.299430
+# gen_views_delete.html:AG 2021-06-17 19:12:06.751318
 @main.route('/forms/Nutanix_Prism_VM_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -4529,7 +4579,7 @@ def forms_Nutanix_Prism_VM_delete():
 
     if row is None:
         row=nutanix_prism_vm()
-    session['data'] =  {  'Request_Id':row.Request_Id, 'project_uuid':row.project_uuid, 'category_name':row.category_name, 'cluster_uuid':row.cluster_uuid, 'vm_name':row.vm_name, 'power_state':row.power_state, 'vcpus_per_socket':row.vcpus_per_socket, 'num_sockets':row.num_sockets, 'memory_size_mib':row.memory_size_mib, 'memory_size_gib':row.memory_size_gib, 'Comments':row.Comments, 'vm_uuid':row.vm_uuid, 'vm_ip':row.vm_ip, 'subnet_uuid':row.subnet_uuid, 'vm_username':row.vm_username, 'vm_password':row.vm_password, 'backup_set_1':row.backup_set_1, 'backup_set_2':row.backup_set_2, 'backup_set_3':row.backup_set_3, 'disk_type':row.disk_type, 'disk_0_image':row.disk_0_image, 'disk_0_size':row.disk_0_size, 'disk_1_image':row.disk_1_image, 'disk_1_size':row.disk_1_size, 'disk_2_image':row.disk_2_image, 'disk_2_size':row.disk_2_size, 'disk_3_image':row.disk_3_image, 'disk_3_size':row.disk_3_size, 'disk_4_image':row.disk_4_image, 'disk_4_size':row.disk_4_size, 'disk_5_image':row.disk_5_image, 'disk_5_size':row.disk_5_size, 'disk_6_image':row.disk_6_image, 'disk_6_size':row.disk_6_size, 'disk_7_image':row.disk_7_image, 'disk_7_size':row.disk_7_size, 'disk_8_image':row.disk_8_image, 'disk_8_size':row.disk_8_size, 'disk_9_image':row.disk_9_image, 'disk_9_size':row.disk_9_size, 'disk_10_image':row.disk_10_image, 'disk_10_size':row.disk_10_size, 'disk_11_image':row.disk_11_image, 'disk_11_size':row.disk_11_size, 'vm_drp':row.vm_drp, 'vm_cdrom':row.vm_cdrom, 'drp_cluster_uuid':row.drp_cluster_uuid, 'nic_0_vlan':row.nic_0_vlan, 'nic_0_ip':row.nic_0_ip, 'nic_0_mac':row.nic_0_mac, 'nic_1_vlan':row.nic_1_vlan, 'nic_1_ip':row.nic_1_ip, 'nic_1_mac':row.nic_1_mac, 'nic_2_vlan':row.nic_2_vlan, 'nic_2_ip':row.nic_2_ip, 'nic_2_mac':row.nic_2_mac, 'request_text':row.request_text }
+    session['data'] =  {  'Request_Id':row.Request_Id, 'project_uuid':row.project_uuid, 'category_name':row.category_name, 'cluster_uuid':row.cluster_uuid, 'vm_name':row.vm_name, 'power_state':row.power_state, 'vcpus_per_socket':row.vcpus_per_socket, 'num_sockets':row.num_sockets, 'memory_size_mib':row.memory_size_mib, 'memory_size_gib':row.memory_size_gib, 'Comments':row.Comments, 'vm_uuid':row.vm_uuid, 'vm_ip':row.vm_ip, 'subnet_uuid':row.subnet_uuid, 'vm_username':row.vm_username, 'vm_password':row.vm_password, 'backup_set_1':row.backup_set_1, 'backup_set_2':row.backup_set_2, 'backup_set_3':row.backup_set_3, 'disk_type':row.disk_type, 'disk_0_image':row.disk_0_image, 'disk_0_size':row.disk_0_size, 'disk_1_image':row.disk_1_image, 'disk_1_size':row.disk_1_size, 'disk_2_image':row.disk_2_image, 'disk_2_size':row.disk_2_size, 'disk_3_image':row.disk_3_image, 'disk_3_size':row.disk_3_size, 'disk_4_image':row.disk_4_image, 'disk_4_size':row.disk_4_size, 'disk_5_image':row.disk_5_image, 'disk_5_size':row.disk_5_size, 'disk_6_image':row.disk_6_image, 'disk_6_size':row.disk_6_size, 'disk_7_image':row.disk_7_image, 'disk_7_size':row.disk_7_size, 'disk_8_image':row.disk_8_image, 'disk_8_size':row.disk_8_size, 'disk_9_image':row.disk_9_image, 'disk_9_size':row.disk_9_size, 'disk_10_image':row.disk_10_image, 'disk_10_size':row.disk_10_size, 'disk_11_image':row.disk_11_image, 'disk_11_size':row.disk_11_size, 'vm_drp':row.vm_drp, 'vm_drp_remote':row.vm_drp_remote, 'vm_cdrom':row.vm_cdrom, 'drp_cluster_uuid':row.drp_cluster_uuid, 'nic_0_vlan':row.nic_0_vlan, 'nic_0_ip':row.nic_0_ip, 'nic_0_mac':row.nic_0_mac, 'nic_1_vlan':row.nic_1_vlan, 'nic_1_ip':row.nic_1_ip, 'nic_1_mac':row.nic_1_mac, 'nic_2_vlan':row.nic_2_vlan, 'nic_2_ip':row.nic_2_ip, 'nic_2_mac':row.nic_2_mac, 'request_text':row.request_text }
                        
     form = frm_nutanix_prism_vm_delete()
 
@@ -4583,10 +4633,10 @@ def forms_Nutanix_Prism_VM_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.332592
+#  GLVH @ 2021-06-17 19:12:06.772810
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:02.332607        
+# gen_views_select_query.html:AG 2021-06-17 19:12:06.772826        
 @main.route('/select/Nutanix_Prism_VM_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -4719,6 +4769,7 @@ def select_Nutanix_Prism_VM_query():
     disk_11_image =  request.args.get('disk_11_image',None,type=str)
     disk_11_size =  request.args.get('disk_11_size',None,type=str)
     vm_drp =  request.args.get('vm_drp',None,type=str)
+    vm_drp_remote =  request.args.get('vm_drp_remote',None,type=str)
     vm_cdrom =  request.args.get('vm_cdrom',None,type=str)
     drp_cluster_uuid =  request.args.get('drp_cluster_uuid',None,type=str)
     nic_0_vlan =  request.args.get('nic_0_vlan',None,type=str)
@@ -5245,6 +5296,17 @@ def select_Nutanix_Prism_VM_query():
                 )
     
     
+    if vm_drp_remote is not None and len(vm_drp_remote)>0:
+            set_query_option(engine=db.engine,Interface=Interface,
+                User_Id=current_user.id,
+                Table_name=class_name,
+                Option_Type=OPTION_FILTER,
+                Argument_1='vm_drp_remote:vm_drp_remote',
+                Argument_2='LIKE',
+                Argument_3='\"%%%s%%\"'%vm_drp_remote
+                )
+    
+    
     if vm_cdrom is not None and len(vm_cdrom)>0:
             set_query_option(engine=db.engine,Interface=Interface,
                 User_Id=current_user.id,
@@ -5392,7 +5454,7 @@ def select_Nutanix_Prism_VM_query():
         rows = query.all()
         for row in rows:
             dict['detail'].append({})
-            for column in ['Request_Id', 'project_uuid', 'category_name', 'cluster_uuid', 'vm_name', 'power_state', 'vcpus_per_socket', 'num_sockets', 'memory_size_mib', 'memory_size_gib', 'Comments', 'vm_uuid', 'vm_ip', 'subnet_uuid', 'vm_username', 'vm_password', 'backup_set_1', 'backup_set_2', 'backup_set_3', 'disk_type', 'disk_0_image', 'disk_0_size', 'disk_1_image', 'disk_1_size', 'disk_2_image', 'disk_2_size', 'disk_3_image', 'disk_3_size', 'disk_4_image', 'disk_4_size', 'disk_5_image', 'disk_5_size', 'disk_6_image', 'disk_6_size', 'disk_7_image', 'disk_7_size', 'disk_8_image', 'disk_8_size', 'disk_9_image', 'disk_9_size', 'disk_10_image', 'disk_10_size', 'disk_11_image', 'disk_11_size', 'vm_drp', 'vm_cdrom', 'drp_cluster_uuid', 'nic_0_vlan', 'nic_0_ip', 'nic_0_mac', 'nic_1_vlan', 'nic_1_ip', 'nic_1_mac', 'nic_2_vlan', 'nic_2_ip', 'nic_2_mac', 'request_text']:
+            for column in ['Request_Id', 'project_uuid', 'category_name', 'cluster_uuid', 'vm_name', 'power_state', 'vcpus_per_socket', 'num_sockets', 'memory_size_mib', 'memory_size_gib', 'Comments', 'vm_uuid', 'vm_ip', 'subnet_uuid', 'vm_username', 'vm_password', 'backup_set_1', 'backup_set_2', 'backup_set_3', 'disk_type', 'disk_0_image', 'disk_0_size', 'disk_1_image', 'disk_1_size', 'disk_2_image', 'disk_2_size', 'disk_3_image', 'disk_3_size', 'disk_4_image', 'disk_4_size', 'disk_5_image', 'disk_5_size', 'disk_6_image', 'disk_6_size', 'disk_7_image', 'disk_7_size', 'disk_8_image', 'disk_8_size', 'disk_9_image', 'disk_9_size', 'disk_10_image', 'disk_10_size', 'disk_11_image', 'disk_11_size', 'vm_drp', 'vm_drp_remote', 'vm_cdrom', 'drp_cluster_uuid', 'nic_0_vlan', 'nic_0_ip', 'nic_0_mac', 'nic_1_vlan', 'nic_1_ip', 'nic_1_mac', 'nic_2_vlan', 'nic_2_ip', 'nic_2_mac', 'request_text']:
                 dict['detail'][count].update( { column:str(row.__getattribute__(column))})
                 
             count += 1
@@ -5402,7 +5464,7 @@ def select_Nutanix_Prism_VM_query():
         dataframe      = json_normalize(data, 'detail').assign(**data['header'])
         fh,output_file = tempfile.mkstemp(suffix='', prefix='%_'%table_name, dir='/tmp', text=False)
         xlsx_file      = '%s/%s'%(current_app.root_path,url_for('static',filename='%s.xls'%(output_file)))
-        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['Request_Id', 'project_uuid', 'category_name', 'cluster_uuid', 'vm_name', 'power_state', 'vcpus_per_socket', 'num_sockets', 'memory_size_mib', 'memory_size_gib', 'Comments', 'vm_uuid', 'vm_ip', 'subnet_uuid', 'vm_username', 'vm_password', 'backup_set_1', 'backup_set_2', 'backup_set_3', 'disk_type', 'disk_0_image', 'disk_0_size', 'disk_1_image', 'disk_1_size', 'disk_2_image', 'disk_2_size', 'disk_3_image', 'disk_3_size', 'disk_4_image', 'disk_4_size', 'disk_5_image', 'disk_5_size', 'disk_6_image', 'disk_6_size', 'disk_7_image', 'disk_7_size', 'disk_8_image', 'disk_8_size', 'disk_9_image', 'disk_9_size', 'disk_10_image', 'disk_10_size', 'disk_11_image', 'disk_11_size', 'vm_drp', 'vm_cdrom', 'drp_cluster_uuid', 'nic_0_vlan', 'nic_0_ip', 'nic_0_mac', 'nic_1_vlan', 'nic_1_ip', 'nic_1_mac', 'nic_2_vlan', 'nic_2_ip', 'nic_2_mac', 'request_text'])
+        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['Request_Id', 'project_uuid', 'category_name', 'cluster_uuid', 'vm_name', 'power_state', 'vcpus_per_socket', 'num_sockets', 'memory_size_mib', 'memory_size_gib', 'Comments', 'vm_uuid', 'vm_ip', 'subnet_uuid', 'vm_username', 'vm_password', 'backup_set_1', 'backup_set_2', 'backup_set_3', 'disk_type', 'disk_0_image', 'disk_0_size', 'disk_1_image', 'disk_1_size', 'disk_2_image', 'disk_2_size', 'disk_3_image', 'disk_3_size', 'disk_4_image', 'disk_4_size', 'disk_5_image', 'disk_5_size', 'disk_6_image', 'disk_6_size', 'disk_7_image', 'disk_7_size', 'disk_8_image', 'disk_8_size', 'disk_9_image', 'disk_9_size', 'disk_10_image', 'disk_10_size', 'disk_11_image', 'disk_11_size', 'vm_drp', 'vm_drp_remote', 'vm_cdrom', 'drp_cluster_uuid', 'nic_0_vlan', 'nic_0_ip', 'nic_0_mac', 'nic_1_vlan', 'nic_1_ip', 'nic_1_mac', 'nic_2_vlan', 'nic_2_ip', 'nic_2_mac', 'request_text'])
         return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file.replace('/','_')+'.xls')
     elif mode == 'add':
         return redirect(url_for('.forms_%s'%table_name))
@@ -5545,6 +5607,9 @@ def select_Nutanix_Prism_VM_query():
             if field == 'vm_drp':
                 if value is not None:
                     query = query.filter_by(vm_drp=value)
+            if field == 'vm_drp_remote':
+                if value is not None:
+                    query = query.filter_by(vm_drp_remote=value)
             if field == 'vm_cdrom':
                 if value is not None:
                     query = query.filter_by(vm_cdrom=value)
@@ -5614,9 +5679,9 @@ def select_Nutanix_Prism_VM_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.369258
+#  GLVH @ 2021-06-17 19:12:06.805955
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:02.369289
+# gen_views_api.html:AG 2021-06-17 19:12:06.805971
 # table_name: Nutanix_Prism_VM
 # class_name: nutanix_prism_vm
 # is shardened: False
@@ -5740,6 +5805,8 @@ def api_get_Nutanix_Prism_VM(id=None):
                         query = query.filter(Nutanix_Prism_VM.disk_11_size == request.args.get('disk_11_size'))
                     if 'vm_drp' in request.args:
                         query = query.filter(Nutanix_Prism_VM.vm_drp == request.args.get('vm_drp'))
+                    if 'vm_drp_remote' in request.args:
+                        query = query.filter(Nutanix_Prism_VM.vm_drp_remote == request.args.get('vm_drp_remote'))
                     if 'vm_cdrom' in request.args:
                         query = query.filter(Nutanix_Prism_VM.vm_cdrom == request.args.get('vm_cdrom'))
                     if 'drp_cluster_uuid' in request.args:
@@ -5846,6 +5913,7 @@ def api_post_Nutanix_Prism_VM():
             row.disk_11_image = request.json.get('disk_11_image',None)
             row.disk_11_size = request.json.get('disk_11_size',0)
             row.vm_drp = request.json.get('vm_drp',0)
+            row.vm_drp_remote = request.json.get('vm_drp_remote',0)
             row.vm_cdrom = request.json.get('vm_cdrom',0)
             row.drp_cluster_uuid = request.json.get('drp_cluster_uuid',None)
             row.nic_0_vlan = request.json.get('nic_0_vlan',None)
@@ -5987,6 +6055,8 @@ def api_put_Nutanix_Prism_VM(id):
                     row.disk_11_size = request.json.get('disk_11_size')
                 if 'vm_drp' in request.json.keys():
                     row.vm_drp = request.json.get('vm_drp')
+                if 'vm_drp_remote' in request.json.keys():
+                    row.vm_drp_remote = request.json.get('vm_drp_remote')
                 if 'vm_cdrom' in request.json.keys():
                     row.vm_cdrom = request.json.get('vm_cdrom')
                 if 'drp_cluster_uuid' in request.json.keys():
@@ -6055,118 +6125,122 @@ def api_patch_Nutanix_Prism_VM(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'project_uuid' in request.json.keys():
-                    row.project_uuid = request.json.get('project_uuid')
-                if 'category_name' in request.json.keys():
-                    row.category_name = request.json.get('category_name')
-                if 'cluster_uuid' in request.json.keys():
-                    row.cluster_uuid = request.json.get('cluster_uuid')
-                if 'vm_name' in request.json.keys():
-                    row.vm_name = request.json.get('vm_name')
-                if 'power_state' in request.json.keys():
-                    row.power_state = request.json.get('power_state')
-                if 'vcpus_per_socket' in request.json.keys():
-                    row.vcpus_per_socket = request.json.get('vcpus_per_socket')
-                if 'num_sockets' in request.json.keys():
-                    row.num_sockets = request.json.get('num_sockets')
-                if 'memory_size_mib' in request.json.keys():
-                    row.memory_size_mib = request.json.get('memory_size_mib')
-                if 'memory_size_gib' in request.json.keys():
-                    row.memory_size_gib = request.json.get('memory_size_gib')
-                if 'Comments' in request.json.keys():
-                    row.Comments = request.json.get('Comments')
-                if 'vm_uuid' in request.json.keys():
-                    row.vm_uuid = request.json.get('vm_uuid')
-                if 'vm_ip' in request.json.keys():
-                    row.vm_ip = request.json.get('vm_ip')
-                if 'subnet_uuid' in request.json.keys():
-                    row.subnet_uuid = request.json.get('subnet_uuid')
-                if 'vm_username' in request.json.keys():
-                    row.vm_username = request.json.get('vm_username')
-                if 'vm_password' in request.json.keys():
-                    row.vm_password = request.json.get('vm_password')
-                if 'backup_set_1' in request.json.keys():
-                    row.backup_set_1 = request.json.get('backup_set_1')
-                if 'backup_set_2' in request.json.keys():
-                    row.backup_set_2 = request.json.get('backup_set_2')
-                if 'backup_set_3' in request.json.keys():
-                    row.backup_set_3 = request.json.get('backup_set_3')
-                if 'disk_type' in request.json.keys():
-                    row.disk_type = request.json.get('disk_type')
-                if 'disk_0_image' in request.json.keys():
-                    row.disk_0_image = request.json.get('disk_0_image')
-                if 'disk_0_size' in request.json.keys():
-                    row.disk_0_size = request.json.get('disk_0_size')
-                if 'disk_1_image' in request.json.keys():
-                    row.disk_1_image = request.json.get('disk_1_image')
-                if 'disk_1_size' in request.json.keys():
-                    row.disk_1_size = request.json.get('disk_1_size')
-                if 'disk_2_image' in request.json.keys():
-                    row.disk_2_image = request.json.get('disk_2_image')
-                if 'disk_2_size' in request.json.keys():
-                    row.disk_2_size = request.json.get('disk_2_size')
-                if 'disk_3_image' in request.json.keys():
-                    row.disk_3_image = request.json.get('disk_3_image')
-                if 'disk_3_size' in request.json.keys():
-                    row.disk_3_size = request.json.get('disk_3_size')
-                if 'disk_4_image' in request.json.keys():
-                    row.disk_4_image = request.json.get('disk_4_image')
-                if 'disk_4_size' in request.json.keys():
-                    row.disk_4_size = request.json.get('disk_4_size')
-                if 'disk_5_image' in request.json.keys():
-                    row.disk_5_image = request.json.get('disk_5_image')
-                if 'disk_5_size' in request.json.keys():
-                    row.disk_5_size = request.json.get('disk_5_size')
-                if 'disk_6_image' in request.json.keys():
-                    row.disk_6_image = request.json.get('disk_6_image')
-                if 'disk_6_size' in request.json.keys():
-                    row.disk_6_size = request.json.get('disk_6_size')
-                if 'disk_7_image' in request.json.keys():
-                    row.disk_7_image = request.json.get('disk_7_image')
-                if 'disk_7_size' in request.json.keys():
-                    row.disk_7_size = request.json.get('disk_7_size')
-                if 'disk_8_image' in request.json.keys():
-                    row.disk_8_image = request.json.get('disk_8_image')
-                if 'disk_8_size' in request.json.keys():
-                    row.disk_8_size = request.json.get('disk_8_size')
-                if 'disk_9_image' in request.json.keys():
-                    row.disk_9_image = request.json.get('disk_9_image')
-                if 'disk_9_size' in request.json.keys():
-                    row.disk_9_size = request.json.get('disk_9_size')
-                if 'disk_10_image' in request.json.keys():
-                    row.disk_10_image = request.json.get('disk_10_image')
-                if 'disk_10_size' in request.json.keys():
-                    row.disk_10_size = request.json.get('disk_10_size')
-                if 'disk_11_image' in request.json.keys():
-                    row.disk_11_image = request.json.get('disk_11_image')
-                if 'disk_11_size' in request.json.keys():
-                    row.disk_11_size = request.json.get('disk_11_size')
-                if 'vm_drp' in request.json.keys():
-                    row.vm_drp = request.json.get('vm_drp')
-                if 'vm_cdrom' in request.json.keys():
-                    row.vm_cdrom = request.json.get('vm_cdrom')
-                if 'drp_cluster_uuid' in request.json.keys():
-                    row.drp_cluster_uuid = request.json.get('drp_cluster_uuid')
-                if 'nic_0_vlan' in request.json.keys():
-                    row.nic_0_vlan = request.json.get('nic_0_vlan')
-                if 'nic_0_ip' in request.json.keys():
-                    row.nic_0_ip = request.json.get('nic_0_ip')
-                if 'nic_0_mac' in request.json.keys():
-                    row.nic_0_mac = request.json.get('nic_0_mac')
-                if 'nic_1_vlan' in request.json.keys():
-                    row.nic_1_vlan = request.json.get('nic_1_vlan')
-                if 'nic_1_ip' in request.json.keys():
-                    row.nic_1_ip = request.json.get('nic_1_ip')
-                if 'nic_1_mac' in request.json.keys():
-                    row.nic_1_mac = request.json.get('nic_1_mac')
-                if 'nic_2_vlan' in request.json.keys():
-                    row.nic_2_vlan = request.json.get('nic_2_vlan')
-                if 'nic_2_ip' in request.json.keys():
-                    row.nic_2_ip = request.json.get('nic_2_ip')
-                if 'nic_2_mac' in request.json.keys():
-                    row.nic_2_mac = request.json.get('nic_2_mac')
-                if 'request_text' in request.json.keys():
-                    row.request_text = request.json.get('request_text')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'project_uuid' in request.args:
+                        row.project_uuid = request.args.get('project_uuid')
+                    if 'category_name' in request.args:
+                        row.category_name = request.args.get('category_name')
+                    if 'cluster_uuid' in request.args:
+                        row.cluster_uuid = request.args.get('cluster_uuid')
+                    if 'vm_name' in request.args:
+                        row.vm_name = request.args.get('vm_name')
+                    if 'power_state' in request.args:
+                        row.power_state = request.args.get('power_state')
+                    if 'vcpus_per_socket' in request.args:
+                        row.vcpus_per_socket = request.args.get('vcpus_per_socket')
+                    if 'num_sockets' in request.args:
+                        row.num_sockets = request.args.get('num_sockets')
+                    if 'memory_size_mib' in request.args:
+                        row.memory_size_mib = request.args.get('memory_size_mib')
+                    if 'memory_size_gib' in request.args:
+                        row.memory_size_gib = request.args.get('memory_size_gib')
+                    if 'Comments' in request.args:
+                        row.Comments = request.args.get('Comments')
+                    if 'vm_uuid' in request.args:
+                        row.vm_uuid = request.args.get('vm_uuid')
+                    if 'vm_ip' in request.args:
+                        row.vm_ip = request.args.get('vm_ip')
+                    if 'subnet_uuid' in request.args:
+                        row.subnet_uuid = request.args.get('subnet_uuid')
+                    if 'vm_username' in request.args:
+                        row.vm_username = request.args.get('vm_username')
+                    if 'vm_password' in request.args:
+                        row.vm_password = request.args.get('vm_password')
+                    if 'backup_set_1' in request.args:
+                        row.backup_set_1 = request.args.get('backup_set_1')
+                    if 'backup_set_2' in request.args:
+                        row.backup_set_2 = request.args.get('backup_set_2')
+                    if 'backup_set_3' in request.args:
+                        row.backup_set_3 = request.args.get('backup_set_3')
+                    if 'disk_type' in request.args:
+                        row.disk_type = request.args.get('disk_type')
+                    if 'disk_0_image' in request.args:
+                        row.disk_0_image = request.args.get('disk_0_image')
+                    if 'disk_0_size' in request.args:
+                        row.disk_0_size = request.args.get('disk_0_size')
+                    if 'disk_1_image' in request.args:
+                        row.disk_1_image = request.args.get('disk_1_image')
+                    if 'disk_1_size' in request.args:
+                        row.disk_1_size = request.args.get('disk_1_size')
+                    if 'disk_2_image' in request.args:
+                        row.disk_2_image = request.args.get('disk_2_image')
+                    if 'disk_2_size' in request.args:
+                        row.disk_2_size = request.args.get('disk_2_size')
+                    if 'disk_3_image' in request.args:
+                        row.disk_3_image = request.args.get('disk_3_image')
+                    if 'disk_3_size' in request.args:
+                        row.disk_3_size = request.args.get('disk_3_size')
+                    if 'disk_4_image' in request.args:
+                        row.disk_4_image = request.args.get('disk_4_image')
+                    if 'disk_4_size' in request.args:
+                        row.disk_4_size = request.args.get('disk_4_size')
+                    if 'disk_5_image' in request.args:
+                        row.disk_5_image = request.args.get('disk_5_image')
+                    if 'disk_5_size' in request.args:
+                        row.disk_5_size = request.args.get('disk_5_size')
+                    if 'disk_6_image' in request.args:
+                        row.disk_6_image = request.args.get('disk_6_image')
+                    if 'disk_6_size' in request.args:
+                        row.disk_6_size = request.args.get('disk_6_size')
+                    if 'disk_7_image' in request.args:
+                        row.disk_7_image = request.args.get('disk_7_image')
+                    if 'disk_7_size' in request.args:
+                        row.disk_7_size = request.args.get('disk_7_size')
+                    if 'disk_8_image' in request.args:
+                        row.disk_8_image = request.args.get('disk_8_image')
+                    if 'disk_8_size' in request.args:
+                        row.disk_8_size = request.args.get('disk_8_size')
+                    if 'disk_9_image' in request.args:
+                        row.disk_9_image = request.args.get('disk_9_image')
+                    if 'disk_9_size' in request.args:
+                        row.disk_9_size = request.args.get('disk_9_size')
+                    if 'disk_10_image' in request.args:
+                        row.disk_10_image = request.args.get('disk_10_image')
+                    if 'disk_10_size' in request.args:
+                        row.disk_10_size = request.args.get('disk_10_size')
+                    if 'disk_11_image' in request.args:
+                        row.disk_11_image = request.args.get('disk_11_image')
+                    if 'disk_11_size' in request.args:
+                        row.disk_11_size = request.args.get('disk_11_size')
+                    if 'vm_drp' in request.args:
+                        row.vm_drp = request.args.get('vm_drp')
+                    if 'vm_drp_remote' in request.args:
+                        row.vm_drp_remote = request.args.get('vm_drp_remote')
+                    if 'vm_cdrom' in request.args:
+                        row.vm_cdrom = request.args.get('vm_cdrom')
+                    if 'drp_cluster_uuid' in request.args:
+                        row.drp_cluster_uuid = request.args.get('drp_cluster_uuid')
+                    if 'nic_0_vlan' in request.args:
+                        row.nic_0_vlan = request.args.get('nic_0_vlan')
+                    if 'nic_0_ip' in request.args:
+                        row.nic_0_ip = request.args.get('nic_0_ip')
+                    if 'nic_0_mac' in request.args:
+                        row.nic_0_mac = request.args.get('nic_0_mac')
+                    if 'nic_1_vlan' in request.args:
+                        row.nic_1_vlan = request.args.get('nic_1_vlan')
+                    if 'nic_1_ip' in request.args:
+                        row.nic_1_ip = request.args.get('nic_1_ip')
+                    if 'nic_1_mac' in request.args:
+                        row.nic_1_mac = request.args.get('nic_1_mac')
+                    if 'nic_2_vlan' in request.args:
+                        row.nic_2_vlan = request.args.get('nic_2_vlan')
+                    if 'nic_2_ip' in request.args:
+                        row.nic_2_ip = request.args.get('nic_2_ip')
+                    if 'nic_2_mac' in request.args:
+                        row.nic_2_mac = request.args.get('nic_2_mac')
+                    if 'request_text' in request.args:
+                        row.request_text = request.args.get('request_text')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -6174,15 +6248,21 @@ def api_patch_Nutanix_Prism_VM(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Nutanix_Prism_VM' Request_Id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Nutanix_Prism_VM with Request_Id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -6233,15 +6313,15 @@ def api_delete_Nutanix_Prism_VM(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_vm_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.483391
+#  GLVH @ 2021-06-17 19:12:06.912495
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:02.483406
+# gen_views_form.html:AG 2021-06-17 19:12:06.912511
 @main.route('/forms/Nutanix_VM_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -6348,9 +6428,9 @@ def forms_Nutanix_VM_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.493185
+#  GLVH @ 2021-06-17 19:12:06.922538
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:02.493201
+# gen_views_delete.html:AG 2021-06-17 19:12:06.922565
 @main.route('/forms/Nutanix_VM_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -6415,10 +6495,10 @@ def forms_Nutanix_VM_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.512388
+#  GLVH @ 2021-06-17 19:12:06.944666
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:02.512402        
+# gen_views_select_query.html:AG 2021-06-17 19:12:06.944680        
 @main.route('/select/Nutanix_VM_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -6625,9 +6705,9 @@ def select_Nutanix_VM_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.546520
+#  GLVH @ 2021-06-17 19:12:06.975656
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:02.546535
+# gen_views_api.html:AG 2021-06-17 19:12:06.975673
 # table_name: Nutanix_VM_Images
 # class_name: nutanix_vm_images
 # is shardened: False
@@ -6801,12 +6881,14 @@ def api_patch_Nutanix_VM_Images(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'description' in request.json.keys():
-                    row.description = request.json.get('description')
-                if 'size_mib' in request.json.keys():
-                    row.size_mib = request.json.get('size_mib')
-                if 'comments' in request.json.keys():
-                    row.comments = request.json.get('comments')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'description' in request.args:
+                        row.description = request.args.get('description')
+                    if 'size_mib' in request.args:
+                        row.size_mib = request.args.get('size_mib')
+                    if 'comments' in request.args:
+                        row.comments = request.args.get('comments')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -6814,15 +6896,21 @@ def api_patch_Nutanix_VM_Images(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Nutanix_VM_Images' imageservice_uuid_diskclone = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Nutanix_VM_Images with imageservice_uuid_diskclone = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -6873,15 +6961,15 @@ def api_delete_Nutanix_VM_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_projects.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.657170
+#  GLVH @ 2021-06-17 19:12:07.082999
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:02.657185
+# gen_views_form.html:AG 2021-06-17 19:12:07.083033
 @main.route('/forms/Projects', methods=['GET', 'POST'])
 @login_required
 
@@ -6995,9 +7083,9 @@ def forms_Projects():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.665824
+#  GLVH @ 2021-06-17 19:12:07.098371
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:02.665841
+# gen_views_delete.html:AG 2021-06-17 19:12:07.098387
 @main.route('/forms/Projects_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -7062,10 +7150,10 @@ def forms_Projects_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.684245
+#  GLVH @ 2021-06-17 19:12:07.117495
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:02.684261        
+# gen_views_select_query.html:AG 2021-06-17 19:12:07.117510        
 @main.route('/select/Projects_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -7257,9 +7345,9 @@ def select_Projects_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.717914
+#  GLVH @ 2021-06-17 19:12:07.159563
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:02.717929
+# gen_views_api.html:AG 2021-06-17 19:12:07.159580
 # table_name: Projects
 # class_name: projects
 # is shardened: False
@@ -7428,10 +7516,12 @@ def api_patch_Projects(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'project_name' in request.json.keys():
-                    row.project_name = request.json.get('project_name')
-                if 'project_subnets' in request.json.keys():
-                    row.project_subnets = request.json.get('project_subnets')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'project_name' in request.args:
+                        row.project_name = request.args.get('project_name')
+                    if 'project_subnets' in request.args:
+                        row.project_subnets = request.args.get('project_subnets')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -7439,15 +7529,21 @@ def api_patch_Projects(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Projects' project_uuid = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Projects with project_uuid = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -7498,15 +7594,15 @@ def api_delete_Projects(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_rates.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.866507
+#  GLVH @ 2021-06-17 19:12:07.304244
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:02.866522
+# gen_views_form.html:AG 2021-06-17 19:12:07.304263
 @main.route('/forms/Rates', methods=['GET', 'POST'])
 @login_required
 
@@ -7631,9 +7727,9 @@ def forms_Rates():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.877694
+#  GLVH @ 2021-06-17 19:12:07.313611
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:02.877745
+# gen_views_delete.html:AG 2021-06-17 19:12:07.313627
 @main.route('/forms/Rates_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -7698,10 +7794,10 @@ def forms_Rates_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.897985
+#  GLVH @ 2021-06-17 19:12:07.332734
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:02.898002        
+# gen_views_select_query.html:AG 2021-06-17 19:12:07.332762        
 @main.route('/select/Rates_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -8026,9 +8122,9 @@ def select_Rates_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:02.933253
+#  GLVH @ 2021-06-17 19:12:07.368643
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:02.933269
+# gen_views_api.html:AG 2021-06-17 19:12:07.368660
 # table_name: Rates
 # class_name: rates
 # is shardened: True
@@ -8237,26 +8333,28 @@ def api_patch_Rates(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'Typ_Code' in request.json.keys():
-                    row.Typ_Code = request.json.get('Typ_Code')
-                if 'Cus_Id' in request.json.keys():
-                    row.Cus_Id = request.json.get('Cus_Id')
-                if 'Pla_Id' in request.json.keys():
-                    row.Pla_Id = request.json.get('Pla_Id')
-                if 'CC_Id' in request.json.keys():
-                    row.CC_Id = request.json.get('CC_Id')
-                if 'CI_Id' in request.json.keys():
-                    row.CI_Id = request.json.get('CI_Id')
-                if 'Rat_Price' in request.json.keys():
-                    row.Rat_Price = request.json.get('Rat_Price')
-                if 'Cur_Code' in request.json.keys():
-                    row.Cur_Code = request.json.get('Cur_Code')
-                if 'MU_Code' in request.json.keys():
-                    row.MU_Code = request.json.get('MU_Code')
-                if 'Rat_Period' in request.json.keys():
-                    row.Rat_Period = request.json.get('Rat_Period')
-                if 'Rat_Type' in request.json.keys():
-                    row.Rat_Type = request.json.get('Rat_Type')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'Typ_Code' in request.args:
+                        row.Typ_Code = request.args.get('Typ_Code')
+                    if 'Cus_Id' in request.args:
+                        row.Cus_Id = request.args.get('Cus_Id')
+                    if 'Pla_Id' in request.args:
+                        row.Pla_Id = request.args.get('Pla_Id')
+                    if 'CC_Id' in request.args:
+                        row.CC_Id = request.args.get('CC_Id')
+                    if 'CI_Id' in request.args:
+                        row.CI_Id = request.args.get('CI_Id')
+                    if 'Rat_Price' in request.args:
+                        row.Rat_Price = request.args.get('Rat_Price')
+                    if 'Cur_Code' in request.args:
+                        row.Cur_Code = request.args.get('Cur_Code')
+                    if 'MU_Code' in request.args:
+                        row.MU_Code = request.args.get('MU_Code')
+                    if 'Rat_Period' in request.args:
+                        row.Rat_Period = request.args.get('Rat_Period')
+                    if 'Rat_Type' in request.args:
+                        row.Rat_Type = request.args.get('Rat_Type')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -8264,15 +8362,21 @@ def api_patch_Rates(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Rates' Rat_Id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Rates with Rat_Id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -8321,15 +8425,15 @@ def api_delete_Rates(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_requests.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.254141
+#  GLVH @ 2021-06-17 19:12:07.682022
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:03.254158
+# gen_views_form.html:AG 2021-06-17 19:12:07.682037
 @main.route('/forms/Requests', methods=['GET', 'POST'])
 @login_required
 
@@ -8466,9 +8570,9 @@ def forms_Requests():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.263795
+#  GLVH @ 2021-06-17 19:12:07.691068
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:03.263810
+# gen_views_delete.html:AG 2021-06-17 19:12:07.691081
 @main.route('/forms/Requests_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -8535,10 +8639,10 @@ def forms_Requests_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.282023
+#  GLVH @ 2021-06-17 19:12:07.711370
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:03.282063        
+# gen_views_select_query.html:AG 2021-06-17 19:12:07.711385        
 @main.route('/select/Requests_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -8890,9 +8994,9 @@ def select_Requests_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.320855
+#  GLVH @ 2021-06-17 19:12:07.743336
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:03.320871
+# gen_views_api.html:AG 2021-06-17 19:12:07.743368
 # table_name: Requests
 # class_name: requests
 # is shardened: False
@@ -9111,30 +9215,32 @@ def api_patch_Requests(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'Type' in request.json.keys():
-                    row.Type = request.json.get('Type')
-                if 'User_Id' in request.json.keys():
-                    row.User_Id = request.json.get('User_Id')
-                if 'Approver_Id' in request.json.keys():
-                    row.Approver_Id = request.json.get('Approver_Id')
-                if 'Status' in request.json.keys():
-                    row.Status = request.json.get('Status')
-                if 'Creation_Time' in request.json.keys():
-                    row.Creation_Time = request.json.get('Creation_Time')
-                if 'Last_Status_Time' in request.json.keys():
-                    row.Last_Status_Time = request.json.get('Last_Status_Time')
-                if 'Comments' in request.json.keys():
-                    row.Comments = request.json.get('Comments')
-                if 'Task_uuid' in request.json.keys():
-                    row.Task_uuid = request.json.get('Task_uuid')
-                if 'Task_status' in request.json.keys():
-                    row.Task_status = request.json.get('Task_status')
-                if 'CC_Id' in request.json.keys():
-                    row.CC_Id = request.json.get('CC_Id')
-                if 'uuid' in request.json.keys():
-                    row.uuid = request.json.get('uuid')
-                if 'User_Comments' in request.json.keys():
-                    row.User_Comments = request.json.get('User_Comments')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'Type' in request.args:
+                        row.Type = request.args.get('Type')
+                    if 'User_Id' in request.args:
+                        row.User_Id = request.args.get('User_Id')
+                    if 'Approver_Id' in request.args:
+                        row.Approver_Id = request.args.get('Approver_Id')
+                    if 'Status' in request.args:
+                        row.Status = request.args.get('Status')
+                    if 'Creation_Time' in request.args:
+                        row.Creation_Time = request.args.get('Creation_Time')
+                    if 'Last_Status_Time' in request.args:
+                        row.Last_Status_Time = request.args.get('Last_Status_Time')
+                    if 'Comments' in request.args:
+                        row.Comments = request.args.get('Comments')
+                    if 'Task_uuid' in request.args:
+                        row.Task_uuid = request.args.get('Task_uuid')
+                    if 'Task_status' in request.args:
+                        row.Task_status = request.args.get('Task_status')
+                    if 'CC_Id' in request.args:
+                        row.CC_Id = request.args.get('CC_Id')
+                    if 'uuid' in request.args:
+                        row.uuid = request.args.get('uuid')
+                    if 'User_Comments' in request.args:
+                        row.User_Comments = request.args.get('User_Comments')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -9142,15 +9248,21 @@ def api_patch_Requests(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Requests' Id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Requests with Id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -9199,15 +9311,15 @@ def api_delete_Requests(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_request_type.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.049425
+#  GLVH @ 2021-06-17 19:12:07.472280
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:03.049441
+# gen_views_form.html:AG 2021-06-17 19:12:07.472295
 @main.route('/forms/Request_Type', methods=['GET', 'POST'])
 @login_required
 
@@ -9321,9 +9433,9 @@ def forms_Request_Type():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.060965
+#  GLVH @ 2021-06-17 19:12:07.481753
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:03.060981
+# gen_views_delete.html:AG 2021-06-17 19:12:07.481768
 @main.route('/forms/Request_Type_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -9388,10 +9500,10 @@ def forms_Request_Type_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.080015
+#  GLVH @ 2021-06-17 19:12:07.501215
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:03.080030        
+# gen_views_select_query.html:AG 2021-06-17 19:12:07.501230        
 @main.route('/select/Request_Type_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9583,9 +9695,9 @@ def select_Request_Type_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.113733
+#  GLVH @ 2021-06-17 19:12:07.534383
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:03.113747
+# gen_views_api.html:AG 2021-06-17 19:12:07.534400
 # table_name: Request_Type
 # class_name: request_type
 # is shardened: False
@@ -9754,10 +9866,12 @@ def api_patch_Request_Type(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'Description' in request.json.keys():
-                    row.Description = request.json.get('Description')
-                if 'Table_Name' in request.json.keys():
-                    row.Table_Name = request.json.get('Table_Name')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'Description' in request.args:
+                        row.Description = request.args.get('Description')
+                    if 'Table_Name' in request.args:
+                        row.Table_Name = request.args.get('Table_Name')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -9765,15 +9879,21 @@ def api_patch_Request_Type(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Request_Type' Id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Request_Type with Id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -9824,15 +9944,15 @@ def api_delete_Request_Type(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_roles.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.429767
+#  GLVH @ 2021-06-17 19:12:07.842168
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:03.429782
+# gen_views_form.html:AG 2021-06-17 19:12:07.842183
 @main.route('/forms/Roles', methods=['GET', 'POST'])
 @login_required
 
@@ -9948,9 +10068,9 @@ def forms_Roles():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.439640
+#  GLVH @ 2021-06-17 19:12:07.850823
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:03.439655
+# gen_views_delete.html:AG 2021-06-17 19:12:07.850838
 @main.route('/forms/Roles_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10015,10 +10135,10 @@ def forms_Roles_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.456790
+#  GLVH @ 2021-06-17 19:12:07.868488
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:03.456808        
+# gen_views_select_query.html:AG 2021-06-17 19:12:07.868504        
 @main.route('/select/Roles_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -10225,9 +10345,9 @@ def select_Roles_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.490543
+#  GLVH @ 2021-06-17 19:12:07.908245
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:03.490577
+# gen_views_api.html:AG 2021-06-17 19:12:07.908265
 # table_name: Roles
 # class_name: Role
 # is shardened: False
@@ -10401,12 +10521,14 @@ def api_patch_Roles(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'name' in request.json.keys():
-                    row.name = request.json.get('name')
-                if 'default' in request.json.keys():
-                    row.default = request.json.get('default')
-                if 'permissions' in request.json.keys():
-                    row.permissions = request.json.get('permissions')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'name' in request.args:
+                        row.name = request.args.get('name')
+                    if 'default' in request.args:
+                        row.default = request.args.get('default')
+                    if 'permissions' in request.args:
+                        row.permissions = request.args.get('permissions')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -10414,15 +10536,21 @@ def api_patch_Roles(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Roles' id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Roles with id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -10473,15 +10601,15 @@ def api_delete_Roles(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_subnets.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.614090
+#  GLVH @ 2021-06-17 19:12:08.030254
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:03.614105
+# gen_views_form.html:AG 2021-06-17 19:12:08.030269
 @main.route('/forms/Subnets', methods=['GET', 'POST'])
 @login_required
 
@@ -10609,9 +10737,9 @@ def forms_Subnets():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.641292
+#  GLVH @ 2021-06-17 19:12:08.039366
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:03.641308
+# gen_views_delete.html:AG 2021-06-17 19:12:08.039417
 @main.route('/forms/Subnets_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10676,10 +10804,10 @@ def forms_Subnets_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.659931
+#  GLVH @ 2021-06-17 19:12:08.056276
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:03.659945        
+# gen_views_select_query.html:AG 2021-06-17 19:12:08.056292        
 @main.route('/select/Subnets_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -10976,9 +11104,9 @@ def select_Subnets_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.691934
+#  GLVH @ 2021-06-17 19:12:08.089335
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:03.691952
+# gen_views_api.html:AG 2021-06-17 19:12:08.089367
 # table_name: Subnets
 # class_name: subnets
 # is shardened: False
@@ -11182,24 +11310,26 @@ def api_patch_Subnets(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'name' in request.json.keys():
-                    row.name = request.json.get('name')
-                if 'vlan_id' in request.json.keys():
-                    row.vlan_id = request.json.get('vlan_id')
-                if 'vswitch_name' in request.json.keys():
-                    row.vswitch_name = request.json.get('vswitch_name')
-                if 'type' in request.json.keys():
-                    row.type = request.json.get('type')
-                if 'default_gateway_ip' in request.json.keys():
-                    row.default_gateway_ip = request.json.get('default_gateway_ip')
-                if 'range' in request.json.keys():
-                    row.range = request.json.get('range')
-                if 'prefix_length' in request.json.keys():
-                    row.prefix_length = request.json.get('prefix_length')
-                if 'subnet_ip' in request.json.keys():
-                    row.subnet_ip = request.json.get('subnet_ip')
-                if 'cluster' in request.json.keys():
-                    row.cluster = request.json.get('cluster')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'name' in request.args:
+                        row.name = request.args.get('name')
+                    if 'vlan_id' in request.args:
+                        row.vlan_id = request.args.get('vlan_id')
+                    if 'vswitch_name' in request.args:
+                        row.vswitch_name = request.args.get('vswitch_name')
+                    if 'type' in request.args:
+                        row.type = request.args.get('type')
+                    if 'default_gateway_ip' in request.args:
+                        row.default_gateway_ip = request.args.get('default_gateway_ip')
+                    if 'range' in request.args:
+                        row.range = request.args.get('range')
+                    if 'prefix_length' in request.args:
+                        row.prefix_length = request.args.get('prefix_length')
+                    if 'subnet_ip' in request.args:
+                        row.subnet_ip = request.args.get('subnet_ip')
+                    if 'cluster' in request.args:
+                        row.cluster = request.args.get('cluster')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -11207,15 +11337,21 @@ def api_patch_Subnets(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Subnets' uuid = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Subnets with uuid = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -11266,15 +11402,15 @@ def api_delete_Subnets(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_users.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.821057
+#  GLVH @ 2021-06-17 19:12:08.211259
 # ======================================================================        
-# gen_views_form.html:AG 2021-04-16 13:26:03.821073
+# gen_views_form.html:AG 2021-06-17 19:12:08.211275
 @main.route('/forms/Users', methods=['GET', 'POST'])
 @login_required
 
@@ -11390,9 +11526,9 @@ def forms_Users():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.829614
+#  GLVH @ 2021-06-17 19:12:08.221067
 # ======================================================================        
-# gen_views_delete.html:AG 2021-04-16 13:26:03.829627
+# gen_views_delete.html:AG 2021-06-17 19:12:08.221082
 @main.route('/forms/Users_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -11459,10 +11595,10 @@ def forms_Users_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.849405
+#  GLVH @ 2021-06-17 19:12:08.239543
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-04-16 13:26:03.849487        
+# gen_views_select_query.html:AG 2021-06-17 19:12:08.239560        
 @main.route('/select/Users_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -11724,9 +11860,9 @@ def select_Users_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-04-16 13:26:03.900989
+#  GLVH @ 2021-06-17 19:12:08.271179
 # ======================================================================
-# gen_views_api.html:AG 2021-04-16 13:26:03.901017
+# gen_views_api.html:AG 2021-06-17 19:12:08.271194
 # table_name: Users
 # class_name: User
 # is shardened: False
@@ -11915,18 +12051,20 @@ def api_patch_Users(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
-                if 'username' in request.json.keys():
-                    row.username = request.json.get('username')
-                if 'role_id' in request.json.keys():
-                    row.role_id = request.json.get('role_id')
-                if 'email' in request.json.keys():
-                    row.email = request.json.get('email')
-                if 'password_hash' in request.json.keys():
-                    row.password_hash = request.json.get('password_hash')
-                if 'confirmed' in request.json.keys():
-                    row.confirmed = request.json.get('confirmed')
-                if 'CC_Id' in request.json.keys():
-                    row.CC_Id = request.json.get('CC_Id')
+                db.session.rollback()
+                if request.args is not None and len(request.args):
+                    if 'username' in request.args:
+                        row.username = request.args.get('username')
+                    if 'role_id' in request.args:
+                        row.role_id = request.args.get('role_id')
+                    if 'email' in request.args:
+                        row.email = request.args.get('email')
+                    if 'password_hash' in request.args:
+                        row.password_hash = request.args.get('password_hash')
+                    if 'confirmed' in request.args:
+                        row.confirmed = request.args.get('confirmed')
+                    if 'CC_Id' in request.args:
+                        row.CC_Id = request.args.get('CC_Id')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -11934,15 +12072,21 @@ def api_patch_Users(id):
                 db.session.refresh(row)
                 db.session.close()
                 message = f"Modified 'Users' id = {id}"
-                row     = json.loads(row.get_json())
+                try:
+                    row     = json.loads(row.get_json())
+                except:
+                    row     = None
             else:
                 code    = API_NOT_FOUND
                 message = f"Not found Users with id = {id}"
                 row     = None
+                db.session.rollback()
         except Exception as e:
             emtec_handle_general_exception(e,fp=sys.stderr)
             code    = API_SYSTEM_ERROR
             message = str(e)
+            row     = None
+            db.session.rollback()
     else:
         code    = API_ERROR
         message = 'Unauthorized request'
@@ -11999,6 +12143,8 @@ def api_delete_Users(id):
 # Support functions
 import copy
 
+from emtec.butler.functions import *
+
 # View functions        
 
 # receives a code or Id and returns cost center object
@@ -12021,15 +12167,18 @@ def get_cost_center(code):
     return cc
     
 # get cost centers uses codes NOT ids
-def get_cost_centers(CC_TOP):
+def get_cost_centers(CC_TOP=None):
     cc_list = []
+    print(f"{this()}: CC_TOP={CC_TOP} {type(CC_TOP)}")
     try:
-        if type(CC_TOP) == str:
-            result = db.session.query(
+        if type(CC_TOP) == str:            
+        #f CC_TOP is not None:            
+            query = db.session.query(
                         Cost_Centers
-                        #.filter(Cost_Centers.CC_Id==CC_TOP
-                        ).filter(Cost_Centers.CC_Parent_Code==CC_TOP
-                        ).all()
+                        ).filter(Cost_Centers.CC_Parent_Code==CC_TOP)
+            logger.debug(f"{this()}: query = {query}")
+            print(f"{this()}: query = {query}")
+            result = query.all()
             for row in result:
                 # Load Top Cost Center if found (should be only 1)
                 cc_list.append((row.CC_Id,row.CC_Code,row.CC_Description))
@@ -12040,7 +12189,6 @@ def get_cost_centers(CC_TOP):
                 for child in children:
                     cc_list.append((child.CC_Id,child.CC_Code,child.CC_Description))
                     # Recursive call to get deeper CCs
-                    #c_list = cc_list + get_cost_centers(child.CC_Id)
                     cc_list = cc_list + get_cost_centers(child.CC_Parent_Code)
             cc_list=unique_list(cc_list)
         # Returns a list of tuples with unique (Id,Code,Description)
@@ -12070,7 +12218,6 @@ def get_cost_centers_fast(CC_TOP,maximum=9999999999):
     logger.debug(f"{this()}: {len(cc_list)} CCs in list")        
     return cc_list    
 
-
 """ --------------------------------------------------------------------
 ==>  13 corporativo CC_Code%30000000 != 0 and CC_Code%10000 == 0
 ==>  37 gerencias   CC_Code%30000000 != 0 and CC_Code%10000 != 0 and CC_Code%100 == 0 
@@ -12094,7 +12241,7 @@ def get_corporate_list(top_cost_center_code,ccs=None):
         code = int(cc[1])
         if code > int(top_cost_center_code) and code%10000 == 0:
             corporate_list.append([cc[0],cc[2]])
-    logger.debug(f"{this()}: {pformat(corporate_list)}")
+    logger.trace(f"{this()}: {pformat(corporate_list)}")
     logger.debug(f"{this()}: {len(corporate_list)} CCs Corporate")
     return corporate_list
 
@@ -12138,7 +12285,7 @@ def get_cc_list(top_cost_center_code,ccs=None):
         ccid = code%int(top_cost_center_code)
         if code != int(top_cost_center_code) and ccid<100 != 0 and ccid%10 == 0 :
             cc_list.append([cc[0],cc[2]])
-    logger.debug(f"{this()}: {pformat(cc_list)}")
+    logger.trace(f"{this()}: {pformat(cc_list)}")
     logger.debug(f"{this()}: {len(cc_list)} CCs Ambientes")
     return cc_list
 
@@ -12148,18 +12295,19 @@ def get_type_list(top_cost_center_code,ccs=None):
     # These need to come from Collector Cost Centers
     # Gets all depending cost centers and returns module 100 '00' in
     # list -------------------------------------------------------------
+
+    # Codigo omitido temporalmente elimnar hardcode luego
     ctype_list = []
     logger.debug(f"{this()}: top_cost_center_code={top_cost_center_code}")
     if ccs is None:
         ccs = get_cost_centers(top_cost_center_code)
+    else:
+        logger.debug(f"{this()}: ccs ={len(ccs)}")
     logger.debug(f"{this()}: {len(ccs)} CCs found below {top_cost_center_code}")
     for cc in ccs:
-        #ode = int(cc[1])%top_cost_center_code
-        code = int(cc[1])
-        ccid = code%int(top_cost_center_code)
-        if code != int(top_cost_center_code) and ccid < 10 :
+        if int(cc[1]) % int(top_cost_center_code) < 10 :
             ctype_list.append([cc[0],cc[2]])
-    logger.debug(f"{this()}: {pformat(ctype_list)}")
+    logger.trace(f"{this()}: {pformat(ctype_list)}")
     logger.debug(f"{this()}: {len(ctype_list)} CCs Tipos de discos")
     return ctype_list
 #    ==> 370 discos      CC_Code%30000000 != 0 and CC_Code%10000 != 0 and CC_Code%100 != 0 and CC_Code%10 != 0
@@ -12217,6 +12365,122 @@ def get_subnet_list():
         subnet_list.append([subnet.get_dict()])
     logger.trace(f"{this()}: {pformat(subnet_list)}")
     return subnet_list
+
+def get_cluster_uuid(data,cluster_name):
+    for uuid,name in data.get('clusters'):
+        if name == cluster_name:
+            return uuid
+    return None
+    
+def get_cluster_name(data,cluster_uuid):
+    for uuid,name in data.get('clusters'):
+        if uuid == cluster_uuid:
+            return name
+    return None
+    
+def get_project_uuid(data,project_name):
+    for uuid,name in data.get('projects'):
+        if name == project_name:
+            return uuid
+    return None
+
+def get_category_description(data,category_name):
+    for name,description in data.get('categories'):
+        if name == category_name:
+            return description
+    return None
+
+def get_environment_code(data,environment_name):
+    logger.debug(f"{this()}: environment={environment_name} {data.get('ccs')}")
+    for code,name in data.get('ccs'):
+        logger.debug(f"{this()}: code={code} name={name}")
+        if name == environment_name:
+            return code
+    return None
+
+def get_environment_name(data,environment_code):
+    logger.debug(f"{this()}: environment={environment_code} {data.get('ccs')}")
+    for code,name in data.get('ccs'):
+        logger.debug(f"{this()}: code={code} name={name}")
+        if code == environment_code:
+            return name
+    return None
+    
+def get_environments(filename,data):
+    environments = None
+    logger.debug(f"{this()}: In filename={filename}")
+    try:
+        with open(filename,'r') as fp:
+            environments = json.load(fp)
+        logger.debug(f"{this()}: environments = {environments.keys()}")
+        for e in environments.keys():
+            environment = environments.get(e)
+            logger.debug(f"{this()}: environment '{e}' clusters = {environment.keys()}")
+            try:
+                for c in environment.keys():
+                    cluster_uuid     = get_cluster_uuid(data,c)
+                    environment_code = get_environment_code(data,e)
+                    environments[e][c].update({'uuid':cluster_uuid})
+                    environments[e][c].update({'environment':environment_code})
+                    if cluster_uuid is not None:
+                        try:
+                            logger.debug(f"{this()}: environment '{e}' cluster = {c}")
+                            cluster = environment[c]
+                            project_name         = cluster['project'].get('name')
+                            category_name        = cluster['category'].get('name')
+                            project_uuid         = get_project_uuid(data,project_name)
+                            category_description = get_category_description(data,category_name)
+                            environments[e][c]['project'].update({'uuid':project_uuid})
+                            environments[e][c]['category'].update({'description':category_description})
+                        except Exception as e:
+                            logger.warning(f"{this()}: environment '{e}' cluster = {c} {str(e)}")
+                    else:
+                            logger.warning(f"{this()}: environment '{e}' cluster = {c} INVALID")                        
+            except Exception as e:
+                logger.error(f"{this()}: environment '{e}' cluster = {c} {str(e)}")
+    except Exception as e:
+        logger.critical(f"INVALID ENVIRONMENTS: filename={filename} exception: {str(e)}")
+    return environments
+    
+def get_environments_codes(data,environments):
+    logger.debug(f"{this()}: In")
+    E={}
+    try:
+        logger.debug(f"{this()}: environments = {environments.keys()}")
+        for e in environments.keys():
+            environment_code = get_environment_code(data,e) 
+            E.update({environment_code:{}})
+            environment = environments.get(e)
+            logger.debug(f"{this()}: environment '{e}' clusters = {environment.keys()}")
+            try:
+                for c in environment.keys():
+                    cluster = environment[c]
+                    cluster_uuid = get_cluster_uuid(data,c)
+                    if cluster_uuid is not None:
+                        E[environment_code].update({
+                            cluster_uuid:{
+                                'project' : get_project_uuid(data,cluster['project'].get('name')),
+                                'category': cluster['category'].get('name'),
+                                'project_name' : cluster['project'].get('name'),
+                                'category_description': cluster['category'].get('description')
+                            }
+                        })
+            except Exception as e:
+                logger.error(f"{this()}: environment '{e}' cluster = {c} {str(e)}")
+    except Exception as e:
+        logger.critical(f"INVALID ENVIRONMENTS: exception: {str(e)}")
+    return E
+    
+def get_environment_attributes(data,environment=None,cluster=None,code=None,uuid=None):
+    if environment is None:
+        environment = get_environment_name(data,code)
+    if cluster is None:
+        environment = get_cluster_name(data,uuid)
+        
+    cluster = data.get('environments').get('environment').get('cluster')
+    project_uuid  = cluster.get('project').get('uuid')
+    category_name = cluster.get('category').get('name')
+    return project_uuid,category_name
     
 def get_project_subnet_list():
     # List of subnets need to be refreshed from Nutanix Cluster --------
@@ -12260,7 +12524,7 @@ def get_project_subnet_options():
                     uuid,name=project_subnet.split(':')
                     # Load valid subnet pairs only
                     if uuid not in ['','0',None] and name not in ['','0',None]:
-                        subnets.append([f'{uuid}',f'{name}:{project.project_name}'])
+                        subnets.append([f'{uuid}',f'{name} @ {project.project_name}'])
             except Exception as e:
                 emtec_handle_general_exception(e,logger=logger)
         if len(subnets):
@@ -12288,14 +12552,14 @@ def get_user_list():
 def get_rates(margin=1,CC_Id=1):
     # Cost Centers related to Storage types ----------------------------
     # These need to come from Collector Cost Centers
-    logger.debug(f"{this()}: loading rates for cc={CC_Id} and a margin of {margin}") 
+    logger.debug(f"{this()}: cc={CC_Id} and a margin of {margin}") 
     rates = {}
     try:
         dsk_rate = 0
         rows = db.session.query(Rates).all()
         # Load Rates and margin factor
         for row in rows:
-            logger.debug(f"row={row.Rat_Id} {row.Typ_Code} {row.Rat_Price} {row.CC_Id}")
+            logger.trace(f"row={row.Rat_Id} {row.Typ_Code} {row.Rat_Price} {row.CC_Id}")
             if row.Typ_Code == 'NUL':
                 # Gets Margin Factor from scepcial NUL type rate
                 margin = 1 + row.Rat_Price
@@ -12351,7 +12615,8 @@ def get_db_rates(margin=1):
     # adjust rates to estimate billing rate, applies margin factor
     for rate in rates:
         rates[rate] *= margin
-    logger.debug(f"{this()}: {pformat(rates)}")
+    logger.trace(f"{this()}: {len(rates)} rates loaded")
+    logger.trace(f"{this()}: {pformat(rates)}")
     return rates
 
 def get_monthly_rate(row,rox):
@@ -12361,7 +12626,7 @@ def get_monthly_rate(row,rox):
         # CC_Id need to be built
         rates = get_rates(CC_Id=row.CC_Id)
         logger.debug(f"{this()}: rates={rates}")
-        logger.debug(f"{this()}: row.CC_Id     = {rox.disk_type}")
+        logger.debug(f"{this()}: row.CC_Id     = {row.CC_Id}")
         logger.debug(f"{this()}: rox.disk_type = {rox.disk_type}")
         for i in range(12):
             storage += getattr(rox,f'disk_{i}_size')            
@@ -12391,9 +12656,9 @@ def get_monthly_rate(row,rox):
     except Exception as e:
         logger.warning(f"{this()}: exception {str(e)}")
         return 0
-    
-def get_description(tabla,codigo,data):
-    """ Gets description for a table based system """
+
+""" def get_description(tabla,codigo,data):
+    ''' Gets description for a table based system '''
     logger.debug(f'{this()}: tabla={tabla} codigo={codigo}')
     descripcion=''
     try:
@@ -12419,8 +12684,9 @@ def get_description(tabla,codigo,data):
         logger.error(f"{this()}: exception: {str(e)}")
     logger.debug(f"{this()}: return descripcion = '{descripcion}'")
     return descripcion
-    
-def get_vm_resume(vm):    
+"""    
+
+""" def get_vm_resume(vm):    
     cpu=ram=dsk=tip=None
     if vm is not None:
         cpu = vm.num_sockets * vm.vcpus_per_socket
@@ -12437,8 +12703,9 @@ def get_vm_resume(vm):
         else:
             tip = None
     return f"{cpu} CPU x {ram} GB x {dsk} GB {tip}"
+"""
 
-def notify_request(Id,subject_detail=None,data=None):
+def notify_request(Id,subject_detail=None,data=None,recipients=None):
     logger.debug(f'{this()}:Enter')
     from    flask_mail          import Message
     if current_app.config['BUTLER_REQUEST_NOTIFICATIONS']:
@@ -12450,18 +12717,19 @@ def notify_request(Id,subject_detail=None,data=None):
             # Look for Requets's user's ids
             row = requests.query.filter(requests.Id == Id).one()
             # Look for all possible email recipients
-            rows = User.query.filter(
-                        User.id.in_(
-                            [   row.User_Id,
-                                row.Approver_Id,
-                                current_user.id
-                            ]
-                        )
-                        ).filter(User.email.isnot(None)
-                        ).all()
-            recipients = []
-            for row in rows:
-                recipients.append(row.email)
+            if recipients is None:
+                rows = User.query.filter(
+                            User.id.in_(
+                                [   row.User_Id,
+                                    row.Approver_Id,
+                                    current_user.id
+                                ]
+                            )
+                            ).filter(User.email.isnot(None)
+                            ).all()
+                recipients = []
+                for row in rows:
+                    recipients.append(row.email)
             # simplify list
             recipients = unique_list(recipients)
             logger.debug(f"{this()}: recipients = {recipients}")
@@ -12582,8 +12850,9 @@ def load_form(form,row,rox):
             logger.debug(f"{this()}: top:{form.vmTopCC} co:{form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
         form.vmStatus.data   = row.Status
         for i in range(12):
-            getattr(form,f'vmDisk{i}Size').data  = getattr(rox,f'disk_{i}_size') 
-            getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image') 
+            getattr(form,f'vmDisk{i}Size').data  = getattr(rox,f'disk_{i}_size')
+            if i == 0: 
+                getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image') 
         calculate_form(form,row,rox)
         logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
         logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
@@ -12609,7 +12878,9 @@ def load_form(form,row,rox):
         form.vmBackUpSet2       = rox.backup_set_2
         form.vmBackUpSet3       = rox.backup_set_3
         # Flags
+        form.vmCDROM.data       = rox.vm_cdrom
         form.vmDRP.data         = rox.vm_drp
+        form.vmDRPRemote.data   = rox.vm_drp_remote
         
         # Fix some initial values --------------------------------------
         # networking
@@ -12635,6 +12906,9 @@ def load_form(form,row,rox):
         if form.vmDRP.data is None:
             form.vmDRP.data = False
             logger.debug(f'{this()}: form.vmDRP.data adjusted to = {form.vmDRP.data}')
+        if form.vmDRPRemote.data is None:
+            form.vmDRPRemote.data = False
+            logger.debug(f'{this()}: form.vmDRPRemote.data adjusted to = {form.vmDRPRemote.data}')
         if form.vmCDROM.data is None:
             form.vmCDROM.data = False
             logger.debug(f'{this()}: form.vmCDROM.data adjusted to = {form.vmCDROM.data}')
@@ -12669,7 +12943,6 @@ def save_form(form,row,rox):
         logger.debug(f"{this()}: top:{form.vmTopCC} corporate:{corporate} management:{management} environment:{environment} disk_type:{disk_type}")    
         row.CC_Id   = form.vmTopCC + corporate + management + environment + disk_type
         logger.debug(f"{this()}: top:{form.vmTopCC} corporate:{corporate} management:{management} environment:{environment} disk_type:{disk_type} -> {row.CC_Id}")    
-        
         # Ownership
         rox.cluster_uuid  = form.vmCluster.data
         rox.project_uuid  = form.vmProject.data
@@ -12680,10 +12953,12 @@ def save_form(form,row,rox):
         rox.memory_size_gib  = form.vmRAM.data
         rox.memory_size_mib  = form.vmRAM.data * 1024
         # Storage ----------------------------------------------------------
+        #ox.disk_type        = form.vmType.data % 10
         rox.disk_type        = form.vmType.data
         for i in range(12):
             setattr( rox, f'disk_{i}_size' , getattr( form, f'vmDisk{i}Size').data  ) 
-            setattr( rox, f'disk_{i}_image', getattr( form, f'vmDisk{i}Image').data ) 
+            if i == 0:
+                setattr( rox, f'disk_{i}_image', getattr( form, f'vmDisk{i}Image').data ) 
         for i in range(3):
             setattr( rox, f'nic_{i}_vlan' , getattr( form, f'vmNic{i}Vlan').data  ) 
             setattr( rox, f'nic_{i}_ip',    getattr( form, f'vmNic{i}Ip').data ) 
@@ -12694,6 +12969,7 @@ def save_form(form,row,rox):
         rox.backup_set_3  = form.vmBackUpSet3.data
         # Flags
         rox.vm_drp        = form.vmDRP.data         
+        rox.vm_drp_remote = form.vmDRPRemote.data         
         rox.vm_cdrom      = form.vmCDROM.data         
         # Networking      
         #form.vmSubnet.data      = f'{rox.subnet_uuid}:{rox.project_uuid}'
@@ -12730,7 +13006,24 @@ def output_Request(Id,data=None):
     logger.debug(f'{this()}: Enter')
 
     row=rox=None
-    
+    top_cost_center_code = data.get('top_cost_center_code')
+    all_cc_list = get_cost_centers_fast(top_cost_center_code)
+    logger.debug(f"all_cc_list={len(all_cc_list)} cost centers found") 
+    logger.debug(f'{this()}: inicializa listas de opciones ...') 
+    corporate_list         = get_corporate_list (top_cost_center_code,all_cc_list)
+    department_list,gd_map = get_department_list(top_cost_center_code,all_cc_list)
+    cc_list                = get_cc_list        (top_cost_center_code,all_cc_list)
+    type_list              = get_type_list      (top_cost_center_code,all_cc_list)
+    logger.debug(f"corporate_list ={len(corporate_list)} corporates") 
+    logger.debug(f"department_list={len(department_list)} departments") 
+    logger.debug(f"cc_list        ={len(cc_list)} ccs means environments in ths context") 
+    logger.debug(f"type_list      ={len(type_list)} types (of disk)") 
+
+    data.update({'corporates' :corporate_list})
+    data.update({'departments':department_list})
+    data.update({'ccs'        :cc_list})
+    data.update({'types'      :type_list})
+
     image_list          = get_image_list()
     vmDiskImage_choices = [('','')]
     
@@ -12761,7 +13054,7 @@ def output_Request(Id,data=None):
             data.update({'month':0})
             # Gets Monthly Rates as per Rates Table
             rates = get_rates(CC_Id=row.requests.CC_Id)
-            for i in range(12):
+            for i in range(1):
                 uuid=getattr(row.nutanix_prism_vm,f'disk_{i}_image')
                 name=''
                 for image in vmDiskImage_choices:
@@ -12770,22 +13063,22 @@ def output_Request(Id,data=None):
                         break
                 data['disk_images'].append(name)
                 
-                cpu = row.nutanix_prism_vm.num_sockets * rates['CPU']
-                ram = row.nutanix_prism_vm.memory_size_gib * rates['RAM']
-                data['storage'] = 0
-                data['storage_type'] = ''
-                for i in range(12):
-                    data['storage'] += getattr(row.nutanix_prism_vm,f'disk_{i}_size')
-                try:
-                    if row.nutanix_prism_vm.disk_type%100 in [11,12,13]:
-                        data['storage_type'] = ['HDD','SSD','HYB'][row.nutanix_prism_vm.disk_type%100-11]
-                        dsk = data['storage'] * rates[data['storage_type']]
-                    else:
-                        dsk = 0
-                except Exception as e:
-                    logger.error(f'{this()}: exception = {str(e)}')
+            cpu = row.nutanix_prism_vm.num_sockets * rates['CPU']
+            ram = row.nutanix_prism_vm.memory_size_gib * rates['RAM']
+            data['storage'] = 0
+            data['storage_type'] = ''
+            for i in range(12):
+                data['storage'] += getattr(row.nutanix_prism_vm,f'disk_{i}_size')
+            try:
+                if row.nutanix_prism_vm.disk_type%10 in [1,2,3]:
+                    data['storage_type'] = ['HDD','SSD','HYB'][row.nutanix_prism_vm.disk_type%10-1]
+                    dsk = data['storage'] * rates[data['storage_type']]
+                else:
                     dsk = 0
-                data['month'] = cpu + ram + dsk
+            except Exception as e:
+                logger.error(f'{this()}: exception = {str(e)}')
+                dsk = 0
+            data['month'] = cpu + ram + dsk
         else:
             data.update({'status_description':f'ERROR: Solicitud {Id} no encontrada.'})
             data.update({'disk_images':[]})
@@ -12794,6 +13087,7 @@ def output_Request(Id,data=None):
             data['storage'] = 0
             data['storage_type'] = ''
             data['month'] = 0
+        
     # will render template and return HTML text
     current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
@@ -12819,10 +13113,12 @@ def output_Request(Id,data=None):
 # GLVH @ 2020-11-06
 # ======================================================================
 import jinja2
-from pprint             import pformat
-from sqlalchemy         import desc
-from emtec.debug        import *
-from emtec.butler.forms import frm_request
+from pprint                 import pformat
+from sqlalchemy             import desc
+from emtec.debug            import *
+from emtec.data             import *
+from emtec.butler.forms     import frm_request
+from emtec.butler.functions import *
 
 # Templates will reside on view_request_template.py
 # Functions will reside on view_request_functions.py
@@ -12853,37 +13149,38 @@ def select_Request():
     logger.debug(f'{this()}: User_id = {User_Id}')    
     # Setup query for required fields only, no need to load all table
     # fields
+    # 20210603 cambiado de modelo flask a ORM requests -> Requests
     query = db.session.query(
-                requests.Id,
-                requests.Status,
-                requests.Last_Status_Time,
+                Requests.Id,
+                Requests.Status,
+                Requests.Last_Status_Time,
                 nutanix_prism_vm.vm_name,
                 Users.username,
                 Cost_Centers.CC_Description#,
                 ).join(nutanix_prism_vm,
-                    nutanix_prism_vm.Request_Id == requests.Id
+                    nutanix_prism_vm.Request_Id == Requests.Id
                 ).join(Users,
-                    Users.id == requests.User_Id
+                    Users.id == Requests.User_Id
                 ).join(Cost_Centers,
-                    Cost_Centers.CC_Id == requests.CC_Id
+                    Cost_Centers.CC_Id == Requests.CC_Id
                 )
     # Various filters to conditionaly implement
     # Filter by REQUESTOR, requestor can not see others user's requests
     if current_user.role_id == ROLE_REQUESTOR:
-        query = query.filter(requests.User_Id == current_user.id)
+        query = query.filter(Requests.User_Id == current_user.id)
     # Select requests with "Status" Flag on, as per request argument
     if Status is not None:
         # See specific bitwise operator use for comparison
         # This is an AND comparison between:
         # request.Status AND Status <> request.Status & Status
-        query = query.filter(requests.Status.op("&")(Status))
+        query = query.filter(Requests.Status.op("&")(Status))
     if User_Id is not None:
         if User_Id and current_user.role_id != ROLE_REQUESTOR:
-            query = query.filter(requests.User_Id == User_Id)
+            query = query.filter(Requests.User_Id == User_Id)
         else:
-            query = query.filter(requests.User_Id == current_user.id)
+            query = query.filter(Requests.User_Id == current_user.id)
     # Will allways order by time, newer first
-    query = query.order_by(desc(requests.Last_Status_Time))
+    query = query.order_by(desc(Requests.Last_Status_Time))
     logger.debug(f'{this()}: query   = {query}')    
     
     # Actually query DB and get all requests upon filter
@@ -12920,8 +13217,16 @@ def select_Request():
 @main.route('/forms/Request', methods=['GET', 'POST'])
 @login_required
 def forms_Request():
-    logger.debug(f'{this()}: Enter')
-    logger.debug(f'{this()}: logger.handlers = {logger.handlers}')
+    logger.debug(f"{this()}: Enter")
+    logger.debug(f"{this()}: logger.handlers       = {logger.handlers}")
+    logger.debug(f"{this()}: session               = {session}")
+    logger.debug(f"{this()}: session dir           = {dir(session)}")
+    logger.debug(f"{this()}: session keys          = {session.keys()}")
+    logger.debug(f"{this()}: session.prev_row      = {session.get('prev_row')}")
+    if session.get('data') is not None:
+        logger.debug(f"{this()}: session.data.prev_row = {session.get('data').get('prev_row')}")
+    logger.debug(f"{this()}: request               = {request}")
+    logger.debug(f"{this()}: request dir           = {dir(request)}")
     
     # Get Id if any
     Id  =  request.args.get('Id',0,type=int)
@@ -12931,15 +13236,16 @@ def forms_Request():
     # Setup initial data -----------------------------------------------
     # look for initial data in DB if any
     logger.debug(f'{this()}: load row from DB for Id={Id}')
-    row =  requests.query.filter(requests.Id == Id).first()
+    # 20210603 GV row =  Requests.query.filter(Requests.Id == Id).first()
+    row =  db.session.query(Requests).filter(Requests.Id == Id).first()
     if row is None:
         logger.debug(f'{this()}: row no existe inicializa objetos vacios')
-        row=requests()
-        rox=nutanix_prism_vm()
+        row=Requests()
+        rox=Nutanix_Prism_VM()
         session['is_new_row']=True
     else:
         logger.debug(f'{this()}: load rox from DB for row.Id={row.Id}')
-        rox =  nutanix_prism_vm.query.filter(nutanix_prism_vm.Request_Id == row.Id).first()
+        rox =  db.session.query(Nutanix_Prism_VM).filter(Nutanix_Prism_VM.Request_Id == row.Id).first()
         if rox is None:
             logger.debug(f'{this()}: rox no existe inicializa objeto vacio')
             rox=nutanix_prism_vm()
@@ -13009,43 +13315,21 @@ def forms_Request():
         
     logger.debug(f'{this()}: inicializa listas de opciones ...') 
     
-    corporate_list  = get_corporate_list(session['data']['top_cost_center_code'],all_cc_list)
+    corporate_list         = get_corporate_list (session['data']['top_cost_center_code'],all_cc_list)
     department_list,gd_map = get_department_list(session['data']['top_cost_center_code'],all_cc_list)
-    cc_list         = get_cc_list(session['data']['top_cost_center_code'],all_cc_list)
-    type_list       = get_type_list(session['data']['top_cost_center_code'],all_cc_list)
-    image_list      = get_image_list()
-    cluster_list    = get_cluster_list()
-    project_list    = get_project_list()
-    category_list   = get_category_list()
-    subnet_list     = get_project_subnet_list()
-    subnet_options  = get_project_subnet_options()
-    user_list       = get_user_list()
-    rates_list      = get_db_rates()
-    logger.debug(f"{this()}: subnet_list = {subnet_list}")
-    logger.debug(f"{this()}: subnet_options = {subnet_options}")
+    cc_list                = get_cc_list        (session['data']['top_cost_center_code'],all_cc_list)
+    type_list              = get_type_list      (session['data']['top_cost_center_code'],all_cc_list)
+    image_list             = get_image_list()
+    cluster_list           = get_cluster_list()
+    project_list           = get_project_list()
+    category_list          = get_category_list()
+    subnet_list            = get_project_subnet_list()
+    subnet_options         = get_project_subnet_options()
+    user_list              = get_user_list()
+    rates_list             = get_db_rates()
+    logger.trace(f"{this()}: subnet_list = {subnet_list}")
+    logger.trace(f"{this()}: subnet_options = {subnet_options}")
 
-    # Javascript/JQuery scripts array initialization -------------------
-    scripts = []
-    for template in Script_Templates:
-        script = jinja2.Template(template
-                        ).render(
-                            subnet_options = subnet_options,
-                            rates          = rates_list,
-                            gd_map         = gd_map
-                        )
-        scripts.append(Markup(script))
-    # Updates JS/JQ functions/events file as per actual DATA -----------
-    # Alert include temporary process id for concurrency of sessions ---
-    jspath = f"{current_app.root_path}/static/js"
-    jsfile = f"{jspath}/butler.requests.{current_user.id}.js"
-    logger.debug(f"{this()}: ACTUALIZANDO : {jsfile} ...")
-    with open(jsfile,'w') as fp:
-        fp.write(f"// {jsfile}{datetime.now()}\n")
-        fp.write(f"// updated: {datetime.now()}\n")
-        for script in scripts:
-            fp.write(f"{script}\n")
-        fp.write(f"// {jsfile}:EOF\n")
-    # ------------------------------------------------------------------
     logger.debug(f"{this()}: updating session data ...")
     session['data'].update({'clusters'      : cluster_list})
     session['data'].update({'projects'      : project_list})
@@ -13061,10 +13345,41 @@ def forms_Request():
     session['data'].update({'users'         : user_list})
     session['data'].update({'subnet_options': get_project_subnet_options()})
     session['data'].update({'rates'         : rates_list})
+    # since session data is allmost full populated we can construct
+    # environments now 
+    environments = get_environments(current_app.config['BUTLER_ENVIRONMENTS'],session['data'])
+    session['data'].update({'environments'  : environments})
+    environments_codes = get_environments_codes(session['data'],environments)
+    session['data'].update({'environments_codes'  : environments_codes})
+    
     # Populates vm Data with all captured session data -----------------
     form.vmData.update(session['data'])
     
-    logger.debug(f"session['data']=\n{pformat(session['data'])}")
+    logger.trace(f"session['data']=\n{pformat(session['data'])}")
+
+    # Javascript/JQuery scripts array initialization -------------------
+    scripts = []
+    for template in Script_Templates:
+        script = jinja2.Template(template
+                        ).render(
+                            subnet_options     = subnet_options,
+                            rates              = rates_list,
+                            gd_map             = gd_map,
+                            environments_codes = environments_codes
+                        )
+        scripts.append(Markup(script))
+    # Updates JS/JQ functions/events file as per actual DATA -----------
+    # Alert include temporary process id for concurrency of sessions ---
+    jspath = f"{current_app.root_path}/static/js"
+    jsfile = f"{jspath}/butler.requests.{current_user.id}.js"
+    logger.debug(f"{this()}: ACTUALIZANDO : {jsfile} ...")
+    with open(jsfile,'w') as fp:
+        fp.write(f"// {jsfile}{datetime.now()}\n")
+        fp.write(f"// updated: {datetime.now()}\n")
+        for script in scripts:
+            fp.write(f"{script}\n")
+        fp.write(f"// {jsfile}:EOF\n")
+    # ------------------------------------------------------------------
 
     vmCorporate_choices = []
     vmDepartment_choices = []
@@ -13098,14 +13413,14 @@ def forms_Request():
     form.vmCategory.choices = category_list
     form.vmSubnet.choices = subnet_list
     subnet_list_other=[('','')]+subnet_list
-    logger.debug(f"{this()}: subnet_list   ={pformat(subnet_list)}")
-    logger.debug(f"{this()}: subnet_options={pformat(subnet_options)}")
-    logger.debug(f"{this()}: subnet_list_other={pformat(subnet_list_other)}")
+    logger.trace(f"{this()}: subnet_list   ={pformat(subnet_list)}")
+    logger.trace(f"{this()}: subnet_options={pformat(subnet_options)}")
+    logger.trace(f"{this()}: subnet_list_other={pformat(subnet_list_other)}")
     for i in range(3):
         setattr(getattr(form,f'vmNic{i}Vlan'),'choices',subnet_list_other)
         logger.trace(f"{this()}: vmNic{i}Vlan.choices = {getattr(form,f'vmNic{i}Vlan').choices}")
         
-    for i in range(12):
+    for i in range(1):
         getattr(form,f'vmDisk{i}Image').choices = vmDiskImage_choices
     # ------------------------------------------------------------------
 
@@ -13113,27 +13428,31 @@ def forms_Request():
     logger.debug(f"{this()}: form.errors         = {form.errors}")
     # Will check if all validated
     if form.is_submitted() and len(form.errors)==0:
-        logger.debug(f"{this()}: will call form.validate()")
+        # logger.warning(f"{this()}: form.vmProject = {form.vmProject} {form.vmProjectName}")
+        # logger.warning(f"{this()}: form.vmProject.data = {form.vmProject.data} {form.vmProjectName.data}")
+        logger.warning(f"{this()}: will call form.validate()")
         try:
             form.validate()
         except Exception as e:
             emtec_handle_general_exception(e,logger=logger)
-        logger.debug(f"{this()}: return from form.validate()")
+        # logger.warning(f"{this()}: form.vmProject = {form.vmProject} {form.vmProjectName}")
+        # logger.warning(f"{this()}: form.vmProject.data = {form.vmProject.data} {form.vmProjectName.data}")
+        logger.warning(f"{this()}: return from form.validate() errors={len(form.errors)}")
         if len(form.errors) != 0:
             logger.warning(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
             print(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
         else:
-            logger.debug(f"no errors will evaluate button pushed")
+            logger.warning(f"no errors will evaluate button pushed")
             # --------------------------------------------------------------
             # Basic Requestor's submits
             # --------------------------------------------------------------
             # Guardar ------------------------------------------------------
             if     form.submit_Guardar.data and row.Status < BUTLER_STATUS['REQUESTED']:
                 # Get data from context ------------------------------------
-                row.Id               = Id     
-                row.Type             = 1     # Nutanix VM 
-                row.User_Id          = current_user.id 
-                rox.Request_Id       = row.Id 
+                row.Id         = Id     
+                row.Type       = 1     # Nutanix VM 
+                row.User_Id    = current_user.id 
+                rox.Request_Id = row.Id 
                 save_form(form,row,rox)
                 # Aqui ajusta valor en BD ----------------------------------
                 try:
@@ -13148,8 +13467,8 @@ def forms_Request():
                         # specific query to get last id, other approach seem
                         # not to work
                         rox.Request_Id = db.session.query(
-                            func.max(requests.Id)
-                            ).filter(requests.User_Id == current_user.id
+                            func.max(Requests.Id)
+                            ).filter(Requests.User_Id == current_user.id
                             ).scalar()
                         Id = rox.Request_Id
                         db.session.add(rox)
@@ -13166,13 +13485,26 @@ def forms_Request():
                         notify_request(Id,f'Creada por {current_user.username}',form.vmData)
                         message=Markup(f'<b>Nueva solicitud {Id} creada OK</b>')
                     else:
-                        if session['new_row'] != session['prev_row']:
-                            logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                        # Check this code, cookie must transport premodification state
+                        # so we can save audit data conditionaly
+                        logger.warning(f"session.get('prev_row')={session.get('prev_row')}")
+                        logger.warning(f"form.vmData.get('prev_row')={form.vmData.get('prev_row')}")
+                        session['prev_row']=form.vmData.get('prev_row')
+                        if session.get('prev_row') is not None:
+                            logger.warning(f"session.prev_row is available")
+                            if session['new_row'] != session['prev_row']:
+                                logger.warning(f"change detected for session.prev_row is available")
+                                logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                                logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
+                                notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
+                                message=Markup(f"<b>Solicitud {Id} Modificada</b>")
+                            else:
+                                logger.warning(f"change NOT detected for session.prev_row is available")
+                                message=Markup(f'<b>Solicitud {Id} no fue modificada</b>')                        
+                        else:
                             logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                             notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
-                            message=Markup(f"<b>Solicitud {Id} Modificada</b>")
-                        else:
-                            message=Markup(f'<b>Solicitud {Id} no fue modificada</b>')                        
+                            message=Markup(f"<b>Solicitud {Id} Modificada</b>")                            
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -13183,6 +13515,7 @@ def forms_Request():
                 return redirect(url_for('.select_Request' ))
             # Completado ---------------------------------------------------
             elif   form.submit_Completado.data:
+                save_form(form,row,rox)
                 # Aqui ajusta valor en BD
                 try:
                     if row.Id > 0:
@@ -13194,7 +13527,8 @@ def forms_Request():
                         db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Completada por {current_user.username}. En Proceso de aprobación.',form.vmData)
                     message=Markup('<b>Solicitud en Aprobacion</b>')
@@ -13221,7 +13555,8 @@ def forms_Request():
                         db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Cancelada por {current_user.username}',form.vmData)
                     message=Markup(f'<b>Solicitud {Id} Cancelada</b>')
@@ -13251,7 +13586,7 @@ def forms_Request():
                 try:
                     session['new_row']   = str(row)+str(rox)
                     # Check for changes in request
-                    if session['new_row'] != session['prev_row']:
+                    if session.get('new_row') is not None:
                         row.Status           = row.Status | REQUEST_REVIEWED
                         row.Last_Status_Time = datetime.now()
                         row.Approver_Id      = current_user.id
@@ -13262,7 +13597,8 @@ def forms_Request():
                         db.session.merge(rox)
                         db.session.commit()
                         ## GV db.session.close()
-                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                        if session.get('prev_row') is not None:
+                            logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                         logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                         notify_request(Id,f'Solicitud {Id} Modificada por {current_user.username}',form.vmData)
                         message=Markup(f"<b>Solicitud {Id} Modificada por '{current_user.username}'</b>")
@@ -13288,7 +13624,8 @@ def forms_Request():
                     db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Rechazada por {current_user.username}',form.vmData)
                     message=Markup('<b>Solicitud Rechazada</b>')
@@ -13302,6 +13639,7 @@ def forms_Request():
                 return redirect(url_for('.select_Request' ))
             # Aprobar ------------------------------------------------------
             elif   form.submit_Aprobar.data:
+                save_form(form,row,rox)
                 # Aqui ajusta valor en BD
                 try:
                     row.Status           = REQUEST_APPROVED
@@ -13312,7 +13650,8 @@ def forms_Request():
                     db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Aprobada por {current_user.username}',form.vmData)
                     message=Markup('<b>Solicitud {Id} Aprobada</b>')
@@ -13354,8 +13693,14 @@ def forms_Request():
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
     current_app.jinja_env.globals.update(has_status=has_status)
     current_app.jinja_env.globals.update(get_description=get_description)
+    current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
     session['prev_row'] = str(row)+str(rox)   
     session['is_new_row'] = False
+    session['data']['prev_row'] = session['prev_row']
+    session['data']['is_new_row'] = session['is_new_row']
+    
+    logger.debug(f"{this()}: session.prev_row   = {session.get('prev_row',None)}")
+    logger.debug(f"{this()}: session.is_new_row = {session.get('is_new_row',None)}")
     logger.trace(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
     logger.trace(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
     form.vmData.update(session['data'])
@@ -13410,6 +13755,24 @@ def report_Request(ID=None):
             f'{image.name} ({int(image.vm_disk_size_gib)} GB)')
             )
     cc_top_id           = get_cost_center(current_app.config['BUTLER_TOP_COST_CENTER']).CC_Id
+    
+    all_cc_list = get_cost_centers_fast(cc_top_id)
+    
+    logger.debug("**********************************************")
+    logger.debug(f"all_cc_list={len(all_cc_list)} cost centers") 
+    logger.debug(f'{this()}: inicializa listas de opciones ...') 
+    
+    '''
+    corporate_list         = get_corporate_list (cc_top_id,all_cc_list)
+    department_list,gd_map = get_department_list(cc_top_id,all_cc_list)
+    cc_list                = get_cc_list        (cc_top_id,all_cc_list)
+    type_list              = get_type_list      (cc_top_id,all_cc_list)
+    logger.debug(f"corporate_list  = {len(corporate_list)} corporates") 
+    logger.debug(f"department_list = {len(department_list)} departments") 
+    logger.debug(f"cc_list         = {len(cc_list)} ccs environments?") 
+    logger.debug(f"type_list       = {len(type_list)} types (of disk)") 
+    '''
+    
     data['role']        = current_user.role_id
     data['roles']       = ROLES
     data['status']      = BUTLER_STATUS
@@ -13420,10 +13783,10 @@ def report_Request(ID=None):
     data['subnets']     = get_subnet_list()
     data['users']       = get_user_list()
     data['images']      = get_image_list()
-    data['corporates']  = get_corporate_list(cc_top_id)
-    data['departments'] = get_department_list(cc_top_id)
-    data['ccs']         = get_cc_list(cc_top_id)
-    data['types']       = get_type_list(cc_top_id)
+    data['corporates']  = get_corporate_list(cc_top_id,all_cc_list)
+    data['departments'] = get_department_list(cc_top_id,all_cc_list)
+    data['ccs']         = get_cc_list(cc_top_id,all_cc_list)
+    data['types']       = get_type_list(cc_top_id,all_cc_list)
     data['month']       = 0
     data['status_description'] = ''
     data['disk_images']        = []
@@ -13434,32 +13797,34 @@ def report_Request(ID=None):
     if Id > 0:
         # GV db.session.close()
         row = db.session.query(
-                requests,
-                nutanix_prism_vm,
+                Requests,
+                Nutanix_Prism_VM,
                 Users,
                 Cost_Centers,
-                request_type
-                ).join(nutanix_prism_vm,nutanix_prism_vm.Request_Id==requests.Id
-                ).join(Users,Users.id==requests.User_Id
-                ).join(Cost_Centers,Cost_Centers.CC_Id==requests.CC_Id
-                ).join(request_type,request_type.Id==requests.Type
-                ).filter(requests.Id == Id
+                Request_Type
+                ).join(Nutanix_Prism_VM,Nutanix_Prism_VM.Request_Id==Requests.Id
+                ).join(Users,Users.id==Requests.User_Id
+                ).join(Cost_Centers,Cost_Centers.CC_Id==Requests.CC_Id
+                ).join(Request_Type,Request_Type.Id==Requests.Type
+                ).filter(Requests.Id == Id
                 ).first()
         # GV db.session.close()
-        data['status_description'] = get_request_status_description(row[0].Status)
-        data['storage_type']       = row[1].disk_type
+        data['status_description'] = get_request_status_description(row.Requests.Status)
+        data['storage_type']       = row.Nutanix_Prism_VM.disk_type
         # Gets Monthly Rates as per Rates Table
         #rates = get_rates()
         for i in range(12):
-            uuid = getattr(row.nutanix_prism_vm,f'disk_{i}_image')
-            data['disk_images'].append(get_description('images',uuid,data))
-            data['storage'] += getattr(row.nutanix_prism_vm,f'disk_{i}_size')
-        data['month'] = get_monthly_rate(row.requests,row.nutanix_prism_vm)
+            if i == 0:
+                uuid = getattr(row.Nutanix_Prism_VM,f'disk_{i}_image')
+                data['disk_images'].append(get_description('images',uuid,data))
+            data['storage'] += getattr(row.Nutanix_Prism_VM,f'disk_{i}_size')
+        data['month'] = get_monthly_rate(row.Requests,row.Nutanix_Prism_VM)
     # will render for screen or body only depending on call
     current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
     current_app.jinja_env.globals.update(has_status=has_status)
     current_app.jinja_env.globals.update(get_description=get_description)
+    current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
     
     if ID is None:
         return render_template(
@@ -13485,6 +13850,7 @@ def report_Request(ID=None):
 # GLVH @ 2021-03-20 adds support for 'other nics'
 # Gerardo L Valera gvalera@emtecgroup.net
 # ======================================================================
+# src: view_request_templates.py
 
 # Templates
 # JavaScript/JQuery script templates
@@ -13492,9 +13858,10 @@ def report_Request(ID=None):
 scr_functions_template="""
 // Updates Subnets options upon Selected project -----------------------
 function subnets() {
+    //window.alert( "subnets(): IN" );            
     // GET UUID FOR CURRENT PROJECT, IMPORTANT ON ON CHANGE ... --------
-    var $dropdown    = $("#vmProject");
-    var project_uuid = $dropdown.val();
+    var project = $("#vmProject");
+    var project_uuid = project.val();
     // POPULATE SUBNETS LIST FOR PROPER PROJECT, ON LINE ---------------
     var subnets = [];                
     {%- for project in subnet_options %}
@@ -13505,9 +13872,10 @@ function subnets() {
     // -----------------------------------------------------------------
     // PRIMARY SUB NET OPTIONS INITIALIZATION --------------------------    
     var $subnet = $("#vmSubnet");
+    var subnet_uuid = $subnet.val();
     $subnet.empty();    
     $.each(subnets, function(index, [uuid,name]) {
-        if ( uuid == $subnet.val() ) {
+        if ( uuid == subnet_uuid ) {
             $subnet.append("<option selected value='" + uuid + "'>" + name + "</option>");
         } else {
             $subnet.append("<option value='" + uuid + "'>" + name + "</option>");
@@ -13515,12 +13883,13 @@ function subnets() {
     });
     // OTHER SUBNETS OPTIONS INITIALIZATION ----------------------------
     // other nic cards may be empty ...
-    subnets.unshift(["",":"])
+    subnets.unshift(["",":"]);
     {%- for i in range(3) %}
-    var $nic{{i}} = $("#vmNic{{i}}Vlan");
+    var $nic{{i}} = $("#vmNic{{i}}Vlan");    
+    var nic_uuid = $nic{{i}}.val();
     $nic{{i}}.empty();
     $.each(subnets, function(index,[uuid,name]) {
-        if ( uuid == $subnet.val() ) {
+        if ( uuid == nic_uuid ) {
             $nic{{i}}.append("<option selected value='" + uuid + "'>" + name + "</option>");
         } else {
             $nic{{i}}.append("<option value='" + uuid + "'>" + name + "</option>");
@@ -13621,6 +13990,7 @@ function get_rate(type,cc) {
     $("#vmMessage3").val("get_rate() returns for " + type + ":" + cc + " rateid = " + rateid + " rate = "+rate);
     return rate;
 };
+
 // Calculates expected monthy rate upon VM configuration ---------------
 function get_month() {
     //window.alert( "get_month() IN" );            
@@ -13649,6 +14019,7 @@ function get_month() {
 function load() {
     //window.alert( "load() IN" );            
     managements();
+    set_attributes();
     subnets();
     summary();
 };
@@ -13656,6 +14027,7 @@ function load() {
 """
 scr_request_template="""
 // Project change event ------------------------------------------------ 
+{# obsolete dropdown version (SelectField)
 $("#vmProject").on('change',function() {
     //window.alert( "#vmProject".on.change(): IN" );            
     var $dropdown = $(this);
@@ -13668,6 +14040,31 @@ $("#vmProject").on('change',function() {
     {%- endfor %}
     subnets();
 });
+#}
+$("#vmProject").on('change',function() {
+    //window.alert( "vmProject.on.change(): IN" );            
+    var key = $("#vmProject").val();
+    var vals = [];                
+    {%- for project in subnet_options %}
+    if (key == "{{project.0}}"){
+         vals =  {{project.1}};
+    }
+    {%- endfor %}
+    subnets();
+});
+
+$("#vmProjectName").on('change',function() {
+    window.alert( "vmProjectName.on.change(): IN" );            
+    var key = $("#vmProject").val();
+    var vals = [];                
+    {%- for project in subnet_options %}
+    if (key == "{{project.0}}"){
+         vals =  {{project.1}};
+    }
+    {%- endfor %}
+    subnets();
+});
+
 // Corporate change event ---------------------------------------------- 
 $("#vmCorporate").on('change',function() {
     //window.alert( "#vmProject".on.change(): IN" );            
@@ -13682,6 +14079,60 @@ $("#vmCorporate").on('change',function() {
     managements();
     summary();
 });
+
+
+// sets Project and Category depending on Environment and Cluster ------
+function set_attributes() {
+    var environment = $("#vmCC").val();
+    var cluster     = $("#vmCluster").val();
+    var envid       = environment + ':' + cluster ;
+    
+    var envs = [
+    {%- for e in environments_codes %}
+        {%- for c in environments_codes[e] %}
+        ["{{e}}:{{c}}","{{environments_codes[e][c]['project']}}","{{environments_codes[e][c]['category']}}","{{environments_codes[e][c]['project_name']}}","{{environments_codes[e][c]['category_description']}}"],
+        {%- endfor %}
+    {%- endfor %}
+    ];
+    
+    // searchs specific environment:cluster pair for Project & Category
+    //window.alert( "env id: " + envid + " len= " + envs.length );            
+    for (e=0;e<envs.length;e++){
+        //window.alert( "env" + e + ": " + envs[e][0] + envs[e][1] + envs[e][3] );            
+        if ( envs[e][0] == envid) {
+            //window.alert( "match env" + e + ": " + envs[e][0] + " " + envs[e][1] + " " + envs[e][3] );            
+            //vmProject.val(envs[e][1]);
+            $("#vmProject").val(envs[e][1]);
+            $("#vmCategory").val(envs[e][2]);
+            $("#vmProjectName").val(envs[e][3]);
+            $("#vmCategoryName").val(envs[e][4]);
+            break;
+        }
+    }
+    //window.alert( "project: " + vmProject.val() + " " + vmProjectName.val()  );            
+
+    //window.alert( "callig subnets ..."  );            
+    //window.alert( "project: " + $("#vmProject").val() + " " + $("#vmProjectName").val()  );            
+    
+    $("#vmMessage4").val("project: " + $("#vmProject").val() + " " + $("#vmProjectName").val());
+
+    subnets();
+    return;           
+};
+
+
+// Environment change event -------------------------------------------- 
+$("#vmCC").on('change',function() {
+    set_attributes();
+    summary();
+});
+
+// Cluster change event ------------------------------------------------ 
+$("#vmCluster").on('change',function() {
+    set_attributes();
+    summary();
+});
+
 
 """
 scr_cpu_template="""
@@ -13733,8 +14184,10 @@ function check_image_size(i) {
 function check_disk_size(i){
     //window.alert( "check_disk_size("+i+") IN"   );            
     var Image = $("#vmDisk"+i+"Image");
-    if ( ! Image.val() == "" ){
-        check_image_size(i);
+    if (i == 0){
+        if ( ! Image.val() == "" ){
+            check_image_size(i);
+        }
     }
     summary();
 };
@@ -13749,7 +14202,9 @@ $("#vmCC").on( 'change' , function(){summary();} );
 $("#vmType").on( 'change' , function(){summary();} );
 {%- for i in range(12) %}
 $("#vmDisk{{i}}Size").on('change',function(){check_disk_size({{i}});});
+{%- if i == 0 %}
 $("#vmDisk{{i}}Image").on('change',function(){check_image_size({{i}});});
+{%- endif %}
 {%- endfor %}
 // document ON LOAD event setup ----------------------------------------
 window.onload = load();

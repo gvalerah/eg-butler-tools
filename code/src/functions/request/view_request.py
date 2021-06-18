@@ -5,10 +5,12 @@
 # GLVH @ 2020-11-06
 # ======================================================================
 import jinja2
-from pprint             import pformat
-from sqlalchemy         import desc
-from emtec.debug        import *
-from emtec.butler.forms import frm_request
+from pprint                 import pformat
+from sqlalchemy             import desc
+from emtec.debug            import *
+from emtec.data             import *
+from emtec.butler.forms     import frm_request
+from emtec.butler.functions import *
 
 # Templates will reside on view_request_template.py
 # Functions will reside on view_request_functions.py
@@ -39,37 +41,38 @@ def select_Request():
     logger.debug(f'{this()}: User_id = {User_Id}')    
     # Setup query for required fields only, no need to load all table
     # fields
+    # 20210603 cambiado de modelo flask a ORM requests -> Requests
     query = db.session.query(
-                requests.Id,
-                requests.Status,
-                requests.Last_Status_Time,
+                Requests.Id,
+                Requests.Status,
+                Requests.Last_Status_Time,
                 nutanix_prism_vm.vm_name,
                 Users.username,
                 Cost_Centers.CC_Description#,
                 ).join(nutanix_prism_vm,
-                    nutanix_prism_vm.Request_Id == requests.Id
+                    nutanix_prism_vm.Request_Id == Requests.Id
                 ).join(Users,
-                    Users.id == requests.User_Id
+                    Users.id == Requests.User_Id
                 ).join(Cost_Centers,
-                    Cost_Centers.CC_Id == requests.CC_Id
+                    Cost_Centers.CC_Id == Requests.CC_Id
                 )
     # Various filters to conditionaly implement
     # Filter by REQUESTOR, requestor can not see others user's requests
     if current_user.role_id == ROLE_REQUESTOR:
-        query = query.filter(requests.User_Id == current_user.id)
+        query = query.filter(Requests.User_Id == current_user.id)
     # Select requests with "Status" Flag on, as per request argument
     if Status is not None:
         # See specific bitwise operator use for comparison
         # This is an AND comparison between:
         # request.Status AND Status <> request.Status & Status
-        query = query.filter(requests.Status.op("&")(Status))
+        query = query.filter(Requests.Status.op("&")(Status))
     if User_Id is not None:
         if User_Id and current_user.role_id != ROLE_REQUESTOR:
-            query = query.filter(requests.User_Id == User_Id)
+            query = query.filter(Requests.User_Id == User_Id)
         else:
-            query = query.filter(requests.User_Id == current_user.id)
+            query = query.filter(Requests.User_Id == current_user.id)
     # Will allways order by time, newer first
-    query = query.order_by(desc(requests.Last_Status_Time))
+    query = query.order_by(desc(Requests.Last_Status_Time))
     logger.debug(f'{this()}: query   = {query}')    
     
     # Actually query DB and get all requests upon filter
@@ -106,8 +109,16 @@ def select_Request():
 @main.route('/forms/Request', methods=['GET', 'POST'])
 @login_required
 def forms_Request():
-    logger.debug(f'{this()}: Enter')
-    logger.debug(f'{this()}: logger.handlers = {logger.handlers}')
+    logger.debug(f"{this()}: Enter")
+    logger.debug(f"{this()}: logger.handlers       = {logger.handlers}")
+    logger.debug(f"{this()}: session               = {session}")
+    logger.debug(f"{this()}: session dir           = {dir(session)}")
+    logger.debug(f"{this()}: session keys          = {session.keys()}")
+    logger.debug(f"{this()}: session.prev_row      = {session.get('prev_row')}")
+    if session.get('data') is not None:
+        logger.debug(f"{this()}: session.data.prev_row = {session.get('data').get('prev_row')}")
+    logger.debug(f"{this()}: request               = {request}")
+    logger.debug(f"{this()}: request dir           = {dir(request)}")
     
     # Get Id if any
     Id  =  request.args.get('Id',0,type=int)
@@ -117,15 +128,16 @@ def forms_Request():
     # Setup initial data -----------------------------------------------
     # look for initial data in DB if any
     logger.debug(f'{this()}: load row from DB for Id={Id}')
-    row =  requests.query.filter(requests.Id == Id).first()
+    # 20210603 GV row =  Requests.query.filter(Requests.Id == Id).first()
+    row =  db.session.query(Requests).filter(Requests.Id == Id).first()
     if row is None:
         logger.debug(f'{this()}: row no existe inicializa objetos vacios')
-        row=requests()
-        rox=nutanix_prism_vm()
+        row=Requests()
+        rox=Nutanix_Prism_VM()
         session['is_new_row']=True
     else:
         logger.debug(f'{this()}: load rox from DB for row.Id={row.Id}')
-        rox =  nutanix_prism_vm.query.filter(nutanix_prism_vm.Request_Id == row.Id).first()
+        rox =  db.session.query(Nutanix_Prism_VM).filter(Nutanix_Prism_VM.Request_Id == row.Id).first()
         if rox is None:
             logger.debug(f'{this()}: rox no existe inicializa objeto vacio')
             rox=nutanix_prism_vm()
@@ -195,43 +207,21 @@ def forms_Request():
         
     logger.debug(f'{this()}: inicializa listas de opciones ...') 
     
-    corporate_list  = get_corporate_list(session['data']['top_cost_center_code'],all_cc_list)
+    corporate_list         = get_corporate_list (session['data']['top_cost_center_code'],all_cc_list)
     department_list,gd_map = get_department_list(session['data']['top_cost_center_code'],all_cc_list)
-    cc_list         = get_cc_list(session['data']['top_cost_center_code'],all_cc_list)
-    type_list       = get_type_list(session['data']['top_cost_center_code'],all_cc_list)
-    image_list      = get_image_list()
-    cluster_list    = get_cluster_list()
-    project_list    = get_project_list()
-    category_list   = get_category_list()
-    subnet_list     = get_project_subnet_list()
-    subnet_options  = get_project_subnet_options()
-    user_list       = get_user_list()
-    rates_list      = get_db_rates()
-    logger.debug(f"{this()}: subnet_list = {subnet_list}")
-    logger.debug(f"{this()}: subnet_options = {subnet_options}")
+    cc_list                = get_cc_list        (session['data']['top_cost_center_code'],all_cc_list)
+    type_list              = get_type_list      (session['data']['top_cost_center_code'],all_cc_list)
+    image_list             = get_image_list()
+    cluster_list           = get_cluster_list()
+    project_list           = get_project_list()
+    category_list          = get_category_list()
+    subnet_list            = get_project_subnet_list()
+    subnet_options         = get_project_subnet_options()
+    user_list              = get_user_list()
+    rates_list             = get_db_rates()
+    logger.trace(f"{this()}: subnet_list = {subnet_list}")
+    logger.trace(f"{this()}: subnet_options = {subnet_options}")
 
-    # Javascript/JQuery scripts array initialization -------------------
-    scripts = []
-    for template in Script_Templates:
-        script = jinja2.Template(template
-                        ).render(
-                            subnet_options = subnet_options,
-                            rates          = rates_list,
-                            gd_map         = gd_map
-                        )
-        scripts.append(Markup(script))
-    # Updates JS/JQ functions/events file as per actual DATA -----------
-    # Alert include temporary process id for concurrency of sessions ---
-    jspath = f"{current_app.root_path}/static/js"
-    jsfile = f"{jspath}/butler.requests.{current_user.id}.js"
-    logger.debug(f"{this()}: ACTUALIZANDO : {jsfile} ...")
-    with open(jsfile,'w') as fp:
-        fp.write(f"// {jsfile}{datetime.now()}\n")
-        fp.write(f"// updated: {datetime.now()}\n")
-        for script in scripts:
-            fp.write(f"{script}\n")
-        fp.write(f"// {jsfile}:EOF\n")
-    # ------------------------------------------------------------------
     logger.debug(f"{this()}: updating session data ...")
     session['data'].update({'clusters'      : cluster_list})
     session['data'].update({'projects'      : project_list})
@@ -247,10 +237,41 @@ def forms_Request():
     session['data'].update({'users'         : user_list})
     session['data'].update({'subnet_options': get_project_subnet_options()})
     session['data'].update({'rates'         : rates_list})
+    # since session data is allmost full populated we can construct
+    # environments now 
+    environments = get_environments(current_app.config['BUTLER_ENVIRONMENTS'],session['data'])
+    session['data'].update({'environments'  : environments})
+    environments_codes = get_environments_codes(session['data'],environments)
+    session['data'].update({'environments_codes'  : environments_codes})
+    
     # Populates vm Data with all captured session data -----------------
     form.vmData.update(session['data'])
     
-    logger.debug(f"session['data']=\n{pformat(session['data'])}")
+    logger.trace(f"session['data']=\n{pformat(session['data'])}")
+
+    # Javascript/JQuery scripts array initialization -------------------
+    scripts = []
+    for template in Script_Templates:
+        script = jinja2.Template(template
+                        ).render(
+                            subnet_options     = subnet_options,
+                            rates              = rates_list,
+                            gd_map             = gd_map,
+                            environments_codes = environments_codes
+                        )
+        scripts.append(Markup(script))
+    # Updates JS/JQ functions/events file as per actual DATA -----------
+    # Alert include temporary process id for concurrency of sessions ---
+    jspath = f"{current_app.root_path}/static/js"
+    jsfile = f"{jspath}/butler.requests.{current_user.id}.js"
+    logger.debug(f"{this()}: ACTUALIZANDO : {jsfile} ...")
+    with open(jsfile,'w') as fp:
+        fp.write(f"// {jsfile}{datetime.now()}\n")
+        fp.write(f"// updated: {datetime.now()}\n")
+        for script in scripts:
+            fp.write(f"{script}\n")
+        fp.write(f"// {jsfile}:EOF\n")
+    # ------------------------------------------------------------------
 
     vmCorporate_choices = []
     vmDepartment_choices = []
@@ -284,14 +305,14 @@ def forms_Request():
     form.vmCategory.choices = category_list
     form.vmSubnet.choices = subnet_list
     subnet_list_other=[('','')]+subnet_list
-    logger.debug(f"{this()}: subnet_list   ={pformat(subnet_list)}")
-    logger.debug(f"{this()}: subnet_options={pformat(subnet_options)}")
-    logger.debug(f"{this()}: subnet_list_other={pformat(subnet_list_other)}")
+    logger.trace(f"{this()}: subnet_list   ={pformat(subnet_list)}")
+    logger.trace(f"{this()}: subnet_options={pformat(subnet_options)}")
+    logger.trace(f"{this()}: subnet_list_other={pformat(subnet_list_other)}")
     for i in range(3):
         setattr(getattr(form,f'vmNic{i}Vlan'),'choices',subnet_list_other)
         logger.trace(f"{this()}: vmNic{i}Vlan.choices = {getattr(form,f'vmNic{i}Vlan').choices}")
         
-    for i in range(12):
+    for i in range(1):
         getattr(form,f'vmDisk{i}Image').choices = vmDiskImage_choices
     # ------------------------------------------------------------------
 
@@ -299,27 +320,31 @@ def forms_Request():
     logger.debug(f"{this()}: form.errors         = {form.errors}")
     # Will check if all validated
     if form.is_submitted() and len(form.errors)==0:
-        logger.debug(f"{this()}: will call form.validate()")
+        # logger.warning(f"{this()}: form.vmProject = {form.vmProject} {form.vmProjectName}")
+        # logger.warning(f"{this()}: form.vmProject.data = {form.vmProject.data} {form.vmProjectName.data}")
+        logger.warning(f"{this()}: will call form.validate()")
         try:
             form.validate()
         except Exception as e:
             emtec_handle_general_exception(e,logger=logger)
-        logger.debug(f"{this()}: return from form.validate()")
+        # logger.warning(f"{this()}: form.vmProject = {form.vmProject} {form.vmProjectName}")
+        # logger.warning(f"{this()}: form.vmProject.data = {form.vmProject.data} {form.vmProjectName.data}")
+        logger.warning(f"{this()}: return from form.validate() errors={len(form.errors)}")
         if len(form.errors) != 0:
             logger.warning(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
             print(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
         else:
-            logger.debug(f"no errors will evaluate button pushed")
+            logger.warning(f"no errors will evaluate button pushed")
             # --------------------------------------------------------------
             # Basic Requestor's submits
             # --------------------------------------------------------------
             # Guardar ------------------------------------------------------
             if     form.submit_Guardar.data and row.Status < BUTLER_STATUS['REQUESTED']:
                 # Get data from context ------------------------------------
-                row.Id               = Id     
-                row.Type             = 1     # Nutanix VM 
-                row.User_Id          = current_user.id 
-                rox.Request_Id       = row.Id 
+                row.Id         = Id     
+                row.Type       = 1     # Nutanix VM 
+                row.User_Id    = current_user.id 
+                rox.Request_Id = row.Id 
                 save_form(form,row,rox)
                 # Aqui ajusta valor en BD ----------------------------------
                 try:
@@ -334,8 +359,8 @@ def forms_Request():
                         # specific query to get last id, other approach seem
                         # not to work
                         rox.Request_Id = db.session.query(
-                            func.max(requests.Id)
-                            ).filter(requests.User_Id == current_user.id
+                            func.max(Requests.Id)
+                            ).filter(Requests.User_Id == current_user.id
                             ).scalar()
                         Id = rox.Request_Id
                         db.session.add(rox)
@@ -352,13 +377,26 @@ def forms_Request():
                         notify_request(Id,f'Creada por {current_user.username}',form.vmData)
                         message=Markup(f'<b>Nueva solicitud {Id} creada OK</b>')
                     else:
-                        if session['new_row'] != session['prev_row']:
-                            logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                        # Check this code, cookie must transport premodification state
+                        # so we can save audit data conditionaly
+                        logger.warning(f"session.get('prev_row')={session.get('prev_row')}")
+                        logger.warning(f"form.vmData.get('prev_row')={form.vmData.get('prev_row')}")
+                        session['prev_row']=form.vmData.get('prev_row')
+                        if session.get('prev_row') is not None:
+                            logger.warning(f"session.prev_row is available")
+                            if session['new_row'] != session['prev_row']:
+                                logger.warning(f"change detected for session.prev_row is available")
+                                logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                                logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
+                                notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
+                                message=Markup(f"<b>Solicitud {Id} Modificada</b>")
+                            else:
+                                logger.warning(f"change NOT detected for session.prev_row is available")
+                                message=Markup(f'<b>Solicitud {Id} no fue modificada</b>')                        
+                        else:
                             logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                             notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
-                            message=Markup(f"<b>Solicitud {Id} Modificada</b>")
-                        else:
-                            message=Markup(f'<b>Solicitud {Id} no fue modificada</b>')                        
+                            message=Markup(f"<b>Solicitud {Id} Modificada</b>")                            
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -369,6 +407,7 @@ def forms_Request():
                 return redirect(url_for('.select_Request' ))
             # Completado ---------------------------------------------------
             elif   form.submit_Completado.data:
+                save_form(form,row,rox)
                 # Aqui ajusta valor en BD
                 try:
                     if row.Id > 0:
@@ -380,7 +419,8 @@ def forms_Request():
                         db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Completada por {current_user.username}. En Proceso de aprobación.',form.vmData)
                     message=Markup('<b>Solicitud en Aprobacion</b>')
@@ -407,7 +447,8 @@ def forms_Request():
                         db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Cancelada por {current_user.username}',form.vmData)
                     message=Markup(f'<b>Solicitud {Id} Cancelada</b>')
@@ -437,7 +478,7 @@ def forms_Request():
                 try:
                     session['new_row']   = str(row)+str(rox)
                     # Check for changes in request
-                    if session['new_row'] != session['prev_row']:
+                    if session.get('new_row') is not None:
                         row.Status           = row.Status | REQUEST_REVIEWED
                         row.Last_Status_Time = datetime.now()
                         row.Approver_Id      = current_user.id
@@ -448,7 +489,8 @@ def forms_Request():
                         db.session.merge(rox)
                         db.session.commit()
                         ## GV db.session.close()
-                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                        if session.get('prev_row') is not None:
+                            logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                         logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                         notify_request(Id,f'Solicitud {Id} Modificada por {current_user.username}',form.vmData)
                         message=Markup(f"<b>Solicitud {Id} Modificada por '{current_user.username}'</b>")
@@ -474,7 +516,8 @@ def forms_Request():
                     db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Rechazada por {current_user.username}',form.vmData)
                     message=Markup('<b>Solicitud Rechazada</b>')
@@ -488,6 +531,7 @@ def forms_Request():
                 return redirect(url_for('.select_Request' ))
             # Aprobar ------------------------------------------------------
             elif   form.submit_Aprobar.data:
+                save_form(form,row,rox)
                 # Aqui ajusta valor en BD
                 try:
                     row.Status           = REQUEST_APPROVED
@@ -498,7 +542,8 @@ def forms_Request():
                     db.session.merge(rox)
                     db.session.commit()
                     ## GV db.session.close()
-                    logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
+                    if session.get('prev_row') is not None:
+                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
                     notify_request(Id,f'Aprobada por {current_user.username}',form.vmData)
                     message=Markup('<b>Solicitud {Id} Aprobada</b>')
@@ -540,8 +585,14 @@ def forms_Request():
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
     current_app.jinja_env.globals.update(has_status=has_status)
     current_app.jinja_env.globals.update(get_description=get_description)
+    current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
     session['prev_row'] = str(row)+str(rox)   
     session['is_new_row'] = False
+    session['data']['prev_row'] = session['prev_row']
+    session['data']['is_new_row'] = session['is_new_row']
+    
+    logger.debug(f"{this()}: session.prev_row   = {session.get('prev_row',None)}")
+    logger.debug(f"{this()}: session.is_new_row = {session.get('is_new_row',None)}")
     logger.trace(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
     logger.trace(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
     form.vmData.update(session['data'])
@@ -596,6 +647,24 @@ def report_Request(ID=None):
             f'{image.name} ({int(image.vm_disk_size_gib)} GB)')
             )
     cc_top_id           = get_cost_center(current_app.config['BUTLER_TOP_COST_CENTER']).CC_Id
+    
+    all_cc_list = get_cost_centers_fast(cc_top_id)
+    
+    logger.debug("**********************************************")
+    logger.debug(f"all_cc_list={len(all_cc_list)} cost centers") 
+    logger.debug(f'{this()}: inicializa listas de opciones ...') 
+    
+    '''
+    corporate_list         = get_corporate_list (cc_top_id,all_cc_list)
+    department_list,gd_map = get_department_list(cc_top_id,all_cc_list)
+    cc_list                = get_cc_list        (cc_top_id,all_cc_list)
+    type_list              = get_type_list      (cc_top_id,all_cc_list)
+    logger.debug(f"corporate_list  = {len(corporate_list)} corporates") 
+    logger.debug(f"department_list = {len(department_list)} departments") 
+    logger.debug(f"cc_list         = {len(cc_list)} ccs environments?") 
+    logger.debug(f"type_list       = {len(type_list)} types (of disk)") 
+    '''
+    
     data['role']        = current_user.role_id
     data['roles']       = ROLES
     data['status']      = BUTLER_STATUS
@@ -606,10 +675,10 @@ def report_Request(ID=None):
     data['subnets']     = get_subnet_list()
     data['users']       = get_user_list()
     data['images']      = get_image_list()
-    data['corporates']  = get_corporate_list(cc_top_id)
-    data['departments'] = get_department_list(cc_top_id)
-    data['ccs']         = get_cc_list(cc_top_id)
-    data['types']       = get_type_list(cc_top_id)
+    data['corporates']  = get_corporate_list(cc_top_id,all_cc_list)
+    data['departments'] = get_department_list(cc_top_id,all_cc_list)
+    data['ccs']         = get_cc_list(cc_top_id,all_cc_list)
+    data['types']       = get_type_list(cc_top_id,all_cc_list)
     data['month']       = 0
     data['status_description'] = ''
     data['disk_images']        = []
@@ -620,32 +689,34 @@ def report_Request(ID=None):
     if Id > 0:
         # GV db.session.close()
         row = db.session.query(
-                requests,
-                nutanix_prism_vm,
+                Requests,
+                Nutanix_Prism_VM,
                 Users,
                 Cost_Centers,
-                request_type
-                ).join(nutanix_prism_vm,nutanix_prism_vm.Request_Id==requests.Id
-                ).join(Users,Users.id==requests.User_Id
-                ).join(Cost_Centers,Cost_Centers.CC_Id==requests.CC_Id
-                ).join(request_type,request_type.Id==requests.Type
-                ).filter(requests.Id == Id
+                Request_Type
+                ).join(Nutanix_Prism_VM,Nutanix_Prism_VM.Request_Id==Requests.Id
+                ).join(Users,Users.id==Requests.User_Id
+                ).join(Cost_Centers,Cost_Centers.CC_Id==Requests.CC_Id
+                ).join(Request_Type,Request_Type.Id==Requests.Type
+                ).filter(Requests.Id == Id
                 ).first()
         # GV db.session.close()
-        data['status_description'] = get_request_status_description(row[0].Status)
-        data['storage_type']       = row[1].disk_type
+        data['status_description'] = get_request_status_description(row.Requests.Status)
+        data['storage_type']       = row.Nutanix_Prism_VM.disk_type
         # Gets Monthly Rates as per Rates Table
         #rates = get_rates()
         for i in range(12):
-            uuid = getattr(row.nutanix_prism_vm,f'disk_{i}_image')
-            data['disk_images'].append(get_description('images',uuid,data))
-            data['storage'] += getattr(row.nutanix_prism_vm,f'disk_{i}_size')
-        data['month'] = get_monthly_rate(row.requests,row.nutanix_prism_vm)
+            if i == 0:
+                uuid = getattr(row.Nutanix_Prism_VM,f'disk_{i}_image')
+                data['disk_images'].append(get_description('images',uuid,data))
+            data['storage'] += getattr(row.Nutanix_Prism_VM,f'disk_{i}_size')
+        data['month'] = get_monthly_rate(row.Requests,row.Nutanix_Prism_VM)
     # will render for screen or body only depending on call
     current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
     current_app.jinja_env.globals.update(has_status=has_status)
     current_app.jinja_env.globals.update(get_description=get_description)
+    current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
     
     if ID is None:
         return render_template(

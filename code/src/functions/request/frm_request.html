@@ -23,7 +23,7 @@
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
                             <td width=32></td>
                             <td width=192><b>Cluster</b></td>
-                            <td>
+                            <td width=320>
                               <select class="form-control" name="vmCluster" id="vmCluster">
                                 {%- for value,option in form.vmCluster.choices %}
                                   {%- if value == form.vmCluster.data %}
@@ -43,18 +43,7 @@
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
                             <td width=32></td>
                             <td><b>Proyecto</b></td>
-                            <td>
-                              <!-- GV 202010318 select class="form-control" name="vmProject" id="vmProject" onchange="get_subnet_options(this.value)" -->
-                              <select class="form-control" name="vmProject" id="vmProject" onchange="get_project_subnet_options(this.value)">
-                                {%- for value,option in form.vmProject.choices %}
-                                  {%- if value == form.vmProject.data %}
-                                  <option selected value="{{value}}">{{option}}</option>
-                                  {%- else %}
-                                  <option value="{{value}}">{{option}}</option>
-                                  {%- endif %}
-                                {%- endfor %}
-                              </select>
-                            </td>
+                            <td><input class="form-control-plaintext" id="vmProjectName" name="vmProjectName" type="text" value="Project Name" style="color:blue;font-weight:bold;"></td>
                         {%- endif %}
                     </tr>
                     <tr>
@@ -64,26 +53,9 @@
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
                             <td width=32></td>
                             <td><b>Categoria</b></td>
-                            <td>
-                              <select class="form-control" name="vmCategory" id="vmCategory">
-                                {%- for value,option in form.vmCategory.choices %}
-                                  {%- if value == form.vmCategory.data %}
-                                  <option selected value="{{value}}">{{option}}</option>
-                                  {%- else %}
-                                  <option             value="{{value}}">{{option}}</option>
-                                  {%- endif %}
-                                {%- endfor %}
-                              </select>
-                            </td>
+                            <td><input class="form-control-plaintext" id="vmCategoryName" name="vmCategoryName" type="text" value="Category Name" style="color:blue;font-weight:bold;"></td>
                         {%- endif  %}
                     </tr>
-                    <!--tr>
-                        <td><b>Número de CPUs </b></td>
-                        <! -- td style="color:blue"><b>{{ form.vmCPS.data * form.vmSockets.data }}</b></td - ->
-                        <td style="color:blue"><b>
-                            <input class="form-control-plaintext" id="vmCPU" name="vmCPU" type="text" style="color:blue;font-weight:bold;" value="{{ form.vmCPS.data * form.vmSockets.data }}">
-                        </b></td>
-                    </tr-->
                     <tr>
                         <td><b>Memoria RAM en GB</b></td>
                         <!-- <td><input class="form-control" id="vmRAM" name="vmRAM" type="number" value="{{rox.memory_size_gib}}"></td> -->
@@ -94,7 +66,12 @@
                             <!-- EXPERIMENTO OK-->
                             <td width=32></td>
                             <td><b>Subred</b></td>
-                            <td><select class="form-control" name="vmSubnet" id="vmSubnet"></select></td>
+                            <td>
+                                <select class="form-control" name="vmSubnet" id="vmSubnet">
+                                    <option selected value="{{form.vmSubnet.data.split(':').0}}">{{"vmSubnetName"}}</option>
+                                </select>
+                            </td>
+                            
                             <!-- FIN DE EXPERIMENTO OK -->
                             
                         {%- endif  %}
@@ -118,9 +95,18 @@
                         
                             <!-- EXPERIMENTO OK-->
                             <td width=32></td>
-                            <td><b>DRP</b></td>
-                            <td>{{ form.vmDRP }}</td>
-
+                            <td><b>Copias de Seguridad</b></td>
+                            <td>
+                                <table border=0>
+                                    <td><b>Locales</b></td>
+                                    <td width=16></td>
+                                    <td>{{ form.vmDRP }}</td>
+                                    <td width=32></td>
+                                    <td><b>Remotas</b></td>
+                                    <td width=16></td>
+                                    <td>{{ form.vmDRPRemote }}</td>
+                                </table>
+                            </td>
                             <!-- FIN DE EXPERIMENTO OK -->
                             
                         {%- endif  %}
@@ -191,7 +177,7 @@
                           </select>
                         </td>
                         <td></td>
-                        <td><b>Mensual estimado UF</b></td>
+                        <td><b>Mensual estimado</b></td>
                         <td><input class="form-control-plaintext" id="vmMonth" name="vmMonth" type="text" value="Month" style="color:blue;font-weight:bold;"></td>
                         {#%- if form.vmData.extra is defined and form.vmData.extra %}
                         <td width=32></td>
@@ -212,27 +198,21 @@
         <tr><td><input class="form-control-plaintext" id="vmMessage1" name="vmMessage1" type="text" value="Message 1" style="color:red;font-weight:bold;"></td></tr>
         <tr><td><input class="form-control-plaintext" id="vmMessage2" name="vmMessage2" type="text" value="Message 2" style="color:red;font-weight:bold;"></td></tr>
         <tr><td><input class="form-control-plaintext" id="vmMessage3" name="vmMessage3" type="text" value="Message 3" style="color:red;font-weight:bold;"></td></tr>
+        <tr><td><input class="form-control-plaintext" id="vmMessage4" name="vmMessage4" type="text" value="Message 4" style="color:red;font-weight:bold;"></td></tr>
+        
         {%- endif %}
         <tr>
             <td>
             <hr>
             <!-- VM required storage specifications ---------------- -->
-            <table> <!-- DISCOS ------------------------------------ -->
+            <table> <!-- DISCOS BOOT IMAGE ------------------------- -->
                 <thead>
                     <tr>
-                        <th width=32><b>Disco #</b></th>
-                        <th width=64><b>Tamaño en GB</b></th>
-                        <th width=32><b></b></th>
-                        <th width=384><b>Imagen de Disco</b></th>
-                        <th width=32><b></b></th>
-                        <th width=256><b>Otra Subnet</b></th>
+                        <th><b>Imagen de arranque</b></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td align=center>{{1}}</td>
-                        <td><input class="form-control" id="vmDisk0Size" name="vmDisk0Size" type="number" value={{form.vmDisk0Size.data}}></td>
-                        <td></td>
                         <td>
                             <select class="form-control" name="vmDisk0Image" id="vmDisk0Image">
                               {%- for value,option in form.vmDisk0Image.choices %}
@@ -244,230 +224,87 @@
                               {%- endfor %}
                             </select>
                         </td>
-                        <td></td>
-                        <td><select class="form-control" name="vmNic0Vlan" id="vmNic0Vlan"></select></td>
                     </tr>
-
+                </tbody>
+            </table>
+            <table> <!-- DISCOS ------------------------------------ -->
+                <thead>
                     <tr>
+                        <th align=center width=32><b>Disco #</b></th>
+                        <th align=center width=128><b>Tamaño en GB</b></th>
+                        <th align=center width=32><b>#</b></th>
+                        <th align=center width=128><b>GB</b></th>
+                        <th align=center width=32><b>#</b></th>
+                        <th align=center width=128><b>GB</b></th>
+                        <th align=center width=32><b>#</b></th>
+                        <th align=center width=128><b>GB</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align=center>{{1}}</td>
+                        <td width=64><input class="form-control" id="vmDisk0Size" name="vmDisk0Size" type="number" value={{form.vmDisk0Size.data}}></td>
                         <td align=center>{{2}}</td>
                         <td><input class="form-control" id="vmDisk1Size" name="vmDisk1Size" type="number" value={{form.vmDisk1Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk1Image" id="vmDisk1Image">
-                              {%- for value,option in form.vmDisk1Image.choices %}
-                                {%- if value == form.vmDisk1Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
-                        <td></td>
-                        <td><select class="form-control" name="vmNic1Vlan" id="vmNic1Vlan"></select></td>
-                    </tr>
-                    <tr>
                         <td align=center>{{3}}</td>
                         <td><input class="form-control" id="vmDisk2Size" name="vmDisk2Size" type="number" value={{form.vmDisk2Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk2Image" id="vmDisk2Image">
-                              {%- for value,option in form.vmDisk2Image.choices %}
-                                {%- if value == form.vmDisk2Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
-                        <td></td>
-                        <td><select class="form-control" name="vmNic2Vlan" id="vmNic2Vlan"></select></td>
-                    </tr>
-                    <tr>
                         <td align=center>{{4}}</td>
                         <td><input class="form-control" id="vmDisk3Size" name="vmDisk3Size" type="number" value={{form.vmDisk3Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk3Image" id="vmDisk3Image">
-                              {%- for value,option in form.vmDisk3Image.choices %}
-                                {%- if value == form.vmDisk3Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
                     </tr>
                     <tr>
                         <td align=center>{{5}}</td>
                         <td><input class="form-control" id="vmDisk4Size" name="vmDisk4Size" type="number" value={{form.vmDisk4Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk4Image" id="vmDisk4Image">
-                              {%- for value,option in form.vmDisk4Image.choices %}
-                                {%- if value == form.vmDisk4Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <td align=center>{{6}}</td>
                         <td><input class="form-control" id="vmDisk5Size" name="vmDisk5Size" type="number" value={{form.vmDisk5Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk5Image" id="vmDisk5Image">
-                              {%- for value,option in form.vmDisk5Image.choices %}
-                                {%- if value == form.vmDisk5Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <td align=center>{{7}}</td>
                         <td><input class="form-control" id="vmDisk6Size" name="vmDisk6Size" type="number" value={{form.vmDisk6Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk6Image" id="vmDisk6Image">
-                              {%- for value,option in form.vmDisk6Image.choices %}
-                                {%- if value == form.vmDisk6Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <td align=center>{{8}}</td>
                         <td><input class="form-control" id="vmDisk7Size" name="vmDisk7Size" type="number" value={{form.vmDisk7Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk7Image" id="vmDisk7Image">
-                              {%- for value,option in form.vmDisk7Image.choices %}
-                                {%- if value == form.vmDisk7Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
                         </tr>
                     <tr>
                         <td align=center>{{9}}</td>
                         <td><input class="form-control" id="vmDisk8Size" name="vmDisk8Size" type="number" value={{form.vmDisk8Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk8Image" id="vmDisk8Image">
-                              {%- for value,option in form.vmDisk8Image.choices %}
-                                {%- if value == form.vmDisk8Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <td align=center>{{10}}</td>
                         <td><input class="form-control" id="vmDisk9Size" name="vmDisk9Size" type="number" value={{form.vmDisk9Size.data}}></td>
-                        <td></td>
-                        <td>
-                            <select class="form-control" name="vmDisk9Image" id="vmDisk0Image">
-                              {%- for value,option in form.vmDisk9Image.choices %}
-                                {%- if value == form.vmDisk9Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
                         <td align=center>{{11}}</td>
                         <td><input class="form-control" id="vmDisk10Size" name="vmDisk10Size" type="number" value={{form.vmDisk10Size.data}}></td>
-                        <td></td>
+                        <td align=center>{{12}}</td>
+                        <td><input class="form-control" id="vmDisk11Size" name="vmDisk11Size" type="number" value={{form.vmDisk11Size.data}}></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- SUBNETS -->
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <th width=256><b>Otras Subredes</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
                         <td>
-                            <select class="form-control" name="vmDisk10Image" id="vmDisk10Image">
-                              {%- for value,option in form.vmDisk10Image.choices %}
-                                {%- if value == form.vmDisk10Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
+                            <select class="form-control" name="vmNic0Vlan" id="vmNic0Vlan">
+                                <option selected value="{{form.vmNic0Vlan.data.split(':').0}}">{{"vmNic0VlanName"}}</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <td align=center>{{12}}</td>
-                        <td><input class="form-control" id="vmDisk11Size" name="vmDisk11Size" type="number" value={{form.vmDisk11Size.data}}></td>
-                        <td></td>
                         <td>
-                            <select class="form-control" name="vmDisk11Image" id="vmDisk11Image">
-                              {%- for value,option in form.vmDisk11Image.choices %}
-                                {%- if value == form.vmDisk11Image.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endfor %}
+                            <select class="form-control" name="vmNic1Vlan" id="vmNic1Vlan">
+                                <option selected value="{{form.vmNic1Vlan.data.split(':').0}}">{{"vmNic1VlanName"}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control" name="vmNic2Vlan" id="vmNic2Vlan">
+                                <option selected value="{{form.vmNic2Vlan.data.split(':').0}}">{{"vmNic2VlanName"}}</option>
                             </select>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <!-- SUBNETS -->
-            {%- if form.vmData.debug is defined and form.vmData.debug %}
-            <!--hr>
-            <table> <!- - OTHER SUBNETS ----------------------------- - ->
-                <thead>
-                    <tr>
-                        <th width=256><b>Otra Subnet #</b></th>
-                        <th width=256><b>Name</b></th>
-                        <th width=32><b></b></th>
-                        <th width=256><b>IP Address</b></th>
-                        <th width=256><b>MAC Address</b></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td align=center>{{2}}</td>
-                        <td><select class="form-control" name="vmNic0Vlan" id="vmNic0Vlan"></select></td>
-                        <td></td>
-                        <td><input class="form-control" id="vmNic0Ip" name="vmNic0Ip" type="text" value={{form.vmNic0Ip.data}}></td>
-                        <td><input class="form-control" id="vmNic0Mac" name="vmNic0Mac" type="text" value={{form.vmNic0Mac.data}}></td>
-                    </tr>                
-                    <tr>
-                        <td align=center>{{3}}</td>
-                        <td><select class="form-control" name="vmNic1Vlan" id="vmNic1Vlan"></select></td>
-                        <td></td>
-                        <td><input class="form-control" id="vmNic1Ip" name="vmNic1Ip" type="text" value={{form.vmNic1Ip.data}}></td>
-                        <td><input class="form-control" id="vmNic1Mac" name="vmNic1Mac" type="text" value={{form.vmNic1Mac.data}}></td>
-                    </tr>                
-                    <tr>
-                        <td align=center>{{4}}</td>
-                        <td><select class="form-control" name="vmNic2Vlan" id="vmNic2Vlan"></select></td>
-                        <td></td>
-                        <td><input class="form-control" id="vmNic2Ip" name="vmNic2Ip" type="text" value={{form.vmNic2Ip.data}}></td>
-                        <td><input class="form-control" id="vmNic2Mac" name="vmNic2Mac" type="text" value={{form.vmNic2Mac.data}}></td>
-                    </tr>                
-                </tbody>
-            </table -->
-            {% endif %}
             <hr>
             </td>
         </tr>
@@ -490,20 +327,20 @@
         {%- if row.Status is none or row.Status == 0 or has_status(row.Status,form.vmData.status.NONE) %}
             <!-- Options for non Created Request ----------------------- -->
             <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="Guardar">
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"   type="submit" value="Retorno">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- elif has_status(row.Status,form.vmData.status.CREATED) %}
             <!-- Options for Created Request ----------------------- -->
             <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="Guardar">
             <input class="btn btn-default" id="submit_Completado" name="submit_Completado" type="submit" value="Completado" >
             <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="Cancelar">
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"   type="submit" value="Retorno">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- elif has_status(row.Status,form.vmData.status.REQUESTED) %}
             <!-- Options for Requested Request - ---------------------->
             <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="Cancelar">
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"   type="submit" value="Retorno">    
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">    
         {%- else %}
             <!-- Options for Inactive Request ---------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"     type="submit" value="Retorno">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- endif %}
     {%- elif form.vmData.rolename == 'Approver' %}
         <!-- Options for Approver role ----------------------------- -->
@@ -512,23 +349,25 @@
             <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="Guardar">
             <input class="btn btn-default" id="submit_Rechazar"   name="submit_Rechazar"   type="submit" value="Rechazar">
             <input class="btn btn-default" id="submit_Aprobar"    name="submit_Aprobar"    type="submit" value="Aprobar">
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"   type="submit" value="Retorno">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- elif has_status(row.Status,[form.vmData.status.REJECTED,form.vmData.status.APPROVED]) %}
             <!-- Options for Handled Request ----------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"   type="submit" value="Retorno">    
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">    
         {%- else %}
             <!-- Options for Inactive or post approved Request ----- -->
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"     type="submit" value="Retorno">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- endif %}
     {%- else %}
         <!-- Options for Other/Viewer role ------------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"   name="submit_Retorno"     type="submit" value="Retorno">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
     {%- endif %}
-    <hr>
     <!-- HIDDEN DATA -->
-    <input id="vmTopCC"   name="vmTopCC"     type="hidden" value="{{form.vmTopCC}}">
+    <input id="vmTopCC"    name="vmTopCC"    type="hidden" value="{{form.vmTopCC}}">
+    <input id="vmProject"  name="vmProject"  type="hidden" value="{{form.vmProject.data}}">
+    <input id="vmCategory" name="vmCategory" type="hidden" value="{{form.vmCategory.data}}">
     <!-- HIDDEN DATA COMPLETE -->
     {%- if form.vmData.debug is defined and form.vmData.debug %}
+        <hr>
         <!--DEBUG DATA FOLLOWS ------------------------------------- -->
         <b>DEBUG MODE is ON: form.vmData.debug is defined and True then debug data follows:</b><br>
         <hr> 
@@ -543,49 +382,9 @@
         <hr>
         rox = {{rox}}
         <hr>
-        form.vmData = {{form.vmData}}
+        {# form.vmData = {{form.vmData}} #}
+        {{object_to_html_table(form.vmData,1)|safe}}
         <!--DEBUG DATA complete ------------------------------------ -->
     {%- endif %}
     
 </form>
-
-
-
-                        
-                        {# *********************************************
-                        <!-- EXPERIMENTO -->
-                        <td width=32></td>
-                        
-                        <td width=256><b>Subred OLD</b></td>
-                        <td>
-                          <!-- form.vmSubnet.choices = {{form.vmSubnet.choices}} -->
-                          <!-- form.vmSubnet.data    = {{form.vmSubnet.data}} -->
-                          <select class="form-control" name="vmSubnet" id="vmSubnet">
-                            {%- for value,option in form.vmSubnet.choices %}
-                            <!-- value={{value}} option={{option}} -->
-                              {% if option is not string %}
-                                <!-- option is not string -->
-                                <optgroup label='{{value}}'>
-                                {%- for subnet in option %}    
-                                    <!-- subnet={{subnet}} -->
-                                    {%- if subnet.0 == form.vmSubnet.data %}
-                                    <option selected value="{{subnet.0}}">{{subnet.1}}</option>
-                                    {%- else %}
-                                    <option value="{{subnet.0}}">{{subnet.1}}</option>                
-                                    {%- endif %}
-                                {%- endfor %}
-                                </optgroup>  
-                              {% else %}
-                                <!-- option is string -->
-                                {%- if value == form.vmSubnet.data %}
-                                <option selected value="{{value}}">{{option}}</option>
-                                {%- else %}
-                                <option value="{{value}}">{{option}}</option>
-                                {%- endif %}
-                              {%- endif %}
-                            {%- endfor %}
-                          </select>
-                        </td>
-
-                        <!-- FIN DE EXPERIMENTO -->
-                        ********************************************* #}

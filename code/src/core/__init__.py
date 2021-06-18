@@ -29,6 +29,7 @@ from    emtec.butler.db.orm_model       import *
 
 import re
 
+mail                                = Mail()
 db                                  = SQLAlchemy()
 #login_manager                       = LoginManager()
 
@@ -38,13 +39,13 @@ db                                  = SQLAlchemy()
 
 # create logger logger
 add_Logging_Levels()
-logger                              = logging.getLogger('Butler-API')
+logger                              = logging.getLogger('Butler-CORE')
 
 def create_app(config_file='butler.ini',config_name='production',C=None):
     config_ini = ConfigParser(interpolation=ExtendedInterpolation())
     config_ini.read( config_file )
     
-    app = Flask(__name__,root_path='%s/api'%C.app_folder)
+    app = Flask(__name__,root_path='%s/core'%C.app_folder)
     # Calls configuration Manager
     # setup all driver specifics here
     rdbms=config_ini.get('DB','rdbms',fallback='mysql')
@@ -74,6 +75,8 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
             )
     # Butler app config variables here
     app.config.update({'BUTLER_CONFIG_FILE':           config_file})
+    app.config.update({'app_home':                     config_ini.get       ('General','app_home')})
+    app.config.update({'app_folder':                   config_ini.get       ('General','app_folder')})
     app.config.update({'BUTLER_MAIL_SUBJECT_PREFIX':   config_ini.get       ('General','BUTLER_MAIL_SUBJECT_PREFIX',fallback='[EG Butler]')})
     #pp.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin <gvalera@emtecgroup.net>')})
     app.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin <gerardovalera@hotmail.com>')})
@@ -83,7 +86,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'BUTLER_REQUEST_NOTIFICATIONS': config_ini.getboolean('General','BUTLER_REQUEST_NOTIFICATIONS',fallback=False)})
     # default app config settings
     app.config.update({'NAME':                          config_ini.get       ('General','NAME',fallback='Butler')})
-    app.config.update({'SECRET_KEY':                    config_ini.get       ('General','SECRET_KEY',fallback='hard to guess string')})
+    app.config.update({'SECRET_KEY':                    config_ini.get       ('General','SECRET_KEY',fallback='Hard to guess string')})
     app.config.update({'SQLALCHEMY_DATABASE_URI':       DATABASE_URL})
     app.config.update({'SQLALCHEMY_COMMIT_ON_TEARDOWN': config_ini.getboolean('General','SQLALCHEMY_COMMIT_ON_TEARDOWN',fallback=True)})
     app.config.update({'SQLALCHEMY_TRACK_MODIFICATIONS':config_ini.getboolean('General','SQLALCHEMY_TRACK_MODIFICATIONS',fallback=False)})
@@ -154,10 +157,19 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'NUTANIX_PROTOCOL'  :   config_ini.get    ('Nutanix'  ,'PROTOCOL',fallback='https'    )})
     app.config.update({'NUTANIX_PROJECT'   :   config_ini.get    ('Nutanix'  ,'PROJECT' ,fallback='Butler'   )})
     app.config.update({'NUTANIX_PROJECT_UUID': config_ini.get    ('Nutanix'  ,'PROJECT_UUID' ,fallback=None  )})
+    app.config.update({'NUTANIX_TIMEOUT'   :   config_ini.getint ('Nutanix'  ,'TIMEOUT' ,fallback=5  )})
+    app.config.update({'NUTANIX_LOCAL_SCHEDULE_TYPE'        : config_ini.get   ('Nutanix','LOCAL_SCHEDULE_TYPE'        ,fallback=None )})
+    app.config.update({'NUTANIX_LOCAL_EVERY_NTH'            : config_ini.getint('Nutanix','LOCAL_EVERY_NTH'            ,fallback=0    )})
+    app.config.update({'NUTANIX_LOCAL_LOCAL_MAX_SNAPSHOTS'  : config_ini.getint('Nutanix','LOCAL_LOCAL_MAX_SNAPSHOTS'  ,fallback=0    )})
+    app.config.update({'NUTANIX_LOCAL_REMOTE_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','LOCAL_REMOTE_MAX_SNAPSHOTS' ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_SCHEDULE_TYPE'       : config_ini.get   ('Nutanix','REMOTE_SCHEDULE_TYPE'       ,fallback=None )})
+    app.config.update({'NUTANIX_REMOTE_EVERY_NTH'           : config_ini.getint('Nutanix','REMOTE_EVERY_NTH'           ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_LOCAL_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','REMOTE_LOCAL_MAX_SNAPSHOTS' ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_REMOTE_MAX_SNAPSHOTS': config_ini.getint('Nutanix','REMOTE_REMOTE_MAX_SNAPSHOTS',fallback=0    )})
     
     # get all keys in General Section
     # this lets setup app config variable without
-    # modifiing this initialization code
+    # modifying this initialization code
     # if key is not in app.config then its appended
     all_keys = dict(config_ini.items('General'))
     for key in all_keys:
@@ -173,7 +185,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
         print("create_app: %-40s = %s"%("C.app_folder",C.app_folder))
         print("create_app: %-40s = %s"%("config_ini",config_ini))
         for key in app.config.keys():
-            if key == key.upper():
+            if key == key.upper() or True:
                 print("create_app: %-40s = %s"%(key,app.config[key]))
         print("%-40s = %s"%("create_app: app.root_path",app.root_path))
 
@@ -181,7 +193,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     
     # Inititializes applications (incomplete by now)
     #bootstrap.init_app      (app)
-    #mail.init_app           (app)
+    mail.init_app           (app)
     #moment.init_app         (app)
     db.init_app             (app)
     #login_manager.init_app  (app)
@@ -196,6 +208,8 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     """
     print(f'app={app}')
+    print(f'db={db}')
+    print(f'mail={mail}')
     #print(f'main_blueprint={main_blueprint}')
     #print(f'auth_blueprint={auth_blueprint}')
 

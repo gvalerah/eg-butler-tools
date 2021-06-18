@@ -1,11 +1,23 @@
     # source: code/src/include/models/flask_users_methods.py
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
+        '''
         if self.role is None:
             if self.username == current_app.config['BUTLER_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xfe).first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
+        '''
+        print(f"ENTRO A INIT DE User  con self={self}")
+        print(f"ENTRO A INIT DE User  con kwargs={kwargs}")
+        if self.role_id is None:
+            if self.role is None:
+                if self.username == current_app.config['BUTLER_ADMIN']:
+                    self.role = Role.query.filter_by(permissions=0xfe).first()
+                if self.role is None:
+                    self.role = Role.query.filter_by(default=True).first()
+        else:
+            self.role = Role.query.filter_by(id=self.role_id).first()
 
 
     @property
@@ -86,5 +98,5 @@
         return self.can(Permission.CUSTOMER)
 
     def __repr__(self):
-        return '<User %r role=%r id=%r>' % (self.username,self.role)
+        return '<User %r role=%r/%r id=%r>' % (self.username,self.role,self.role_id)
 

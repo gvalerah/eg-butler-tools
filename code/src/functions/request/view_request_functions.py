@@ -9,6 +9,8 @@
 # Support functions
 import copy
 
+from emtec.butler.functions import *
+
 # View functions        
 
 # receives a code or Id and returns cost center object
@@ -31,15 +33,18 @@ def get_cost_center(code):
     return cc
     
 # get cost centers uses codes NOT ids
-def get_cost_centers(CC_TOP):
+def get_cost_centers(CC_TOP=None):
     cc_list = []
+    print(f"{this()}: CC_TOP={CC_TOP} {type(CC_TOP)}")
     try:
-        if type(CC_TOP) == str:
-            result = db.session.query(
+        if type(CC_TOP) == str:            
+        #f CC_TOP is not None:            
+            query = db.session.query(
                         Cost_Centers
-                        #.filter(Cost_Centers.CC_Id==CC_TOP
-                        ).filter(Cost_Centers.CC_Parent_Code==CC_TOP
-                        ).all()
+                        ).filter(Cost_Centers.CC_Parent_Code==CC_TOP)
+            logger.debug(f"{this()}: query = {query}")
+            print(f"{this()}: query = {query}")
+            result = query.all()
             for row in result:
                 # Load Top Cost Center if found (should be only 1)
                 cc_list.append((row.CC_Id,row.CC_Code,row.CC_Description))
@@ -50,7 +55,6 @@ def get_cost_centers(CC_TOP):
                 for child in children:
                     cc_list.append((child.CC_Id,child.CC_Code,child.CC_Description))
                     # Recursive call to get deeper CCs
-                    #c_list = cc_list + get_cost_centers(child.CC_Id)
                     cc_list = cc_list + get_cost_centers(child.CC_Parent_Code)
             cc_list=unique_list(cc_list)
         # Returns a list of tuples with unique (Id,Code,Description)
@@ -80,7 +84,6 @@ def get_cost_centers_fast(CC_TOP,maximum=9999999999):
     logger.debug(f"{this()}: {len(cc_list)} CCs in list")        
     return cc_list    
 
-
 """ --------------------------------------------------------------------
 ==>  13 corporativo CC_Code%30000000 != 0 and CC_Code%10000 == 0
 ==>  37 gerencias   CC_Code%30000000 != 0 and CC_Code%10000 != 0 and CC_Code%100 == 0 
@@ -104,7 +107,7 @@ def get_corporate_list(top_cost_center_code,ccs=None):
         code = int(cc[1])
         if code > int(top_cost_center_code) and code%10000 == 0:
             corporate_list.append([cc[0],cc[2]])
-    logger.debug(f"{this()}: {pformat(corporate_list)}")
+    logger.trace(f"{this()}: {pformat(corporate_list)}")
     logger.debug(f"{this()}: {len(corporate_list)} CCs Corporate")
     return corporate_list
 
@@ -148,7 +151,7 @@ def get_cc_list(top_cost_center_code,ccs=None):
         ccid = code%int(top_cost_center_code)
         if code != int(top_cost_center_code) and ccid<100 != 0 and ccid%10 == 0 :
             cc_list.append([cc[0],cc[2]])
-    logger.debug(f"{this()}: {pformat(cc_list)}")
+    logger.trace(f"{this()}: {pformat(cc_list)}")
     logger.debug(f"{this()}: {len(cc_list)} CCs Ambientes")
     return cc_list
 
@@ -158,18 +161,19 @@ def get_type_list(top_cost_center_code,ccs=None):
     # These need to come from Collector Cost Centers
     # Gets all depending cost centers and returns module 100 '00' in
     # list -------------------------------------------------------------
+
+    # Codigo omitido temporalmente elimnar hardcode luego
     ctype_list = []
     logger.debug(f"{this()}: top_cost_center_code={top_cost_center_code}")
     if ccs is None:
         ccs = get_cost_centers(top_cost_center_code)
+    else:
+        logger.debug(f"{this()}: ccs ={len(ccs)}")
     logger.debug(f"{this()}: {len(ccs)} CCs found below {top_cost_center_code}")
     for cc in ccs:
-        #ode = int(cc[1])%top_cost_center_code
-        code = int(cc[1])
-        ccid = code%int(top_cost_center_code)
-        if code != int(top_cost_center_code) and ccid < 10 :
+        if int(cc[1]) % int(top_cost_center_code) < 10 :
             ctype_list.append([cc[0],cc[2]])
-    logger.debug(f"{this()}: {pformat(ctype_list)}")
+    logger.trace(f"{this()}: {pformat(ctype_list)}")
     logger.debug(f"{this()}: {len(ctype_list)} CCs Tipos de discos")
     return ctype_list
 #    ==> 370 discos      CC_Code%30000000 != 0 and CC_Code%10000 != 0 and CC_Code%100 != 0 and CC_Code%10 != 0
@@ -227,6 +231,122 @@ def get_subnet_list():
         subnet_list.append([subnet.get_dict()])
     logger.trace(f"{this()}: {pformat(subnet_list)}")
     return subnet_list
+
+def get_cluster_uuid(data,cluster_name):
+    for uuid,name in data.get('clusters'):
+        if name == cluster_name:
+            return uuid
+    return None
+    
+def get_cluster_name(data,cluster_uuid):
+    for uuid,name in data.get('clusters'):
+        if uuid == cluster_uuid:
+            return name
+    return None
+    
+def get_project_uuid(data,project_name):
+    for uuid,name in data.get('projects'):
+        if name == project_name:
+            return uuid
+    return None
+
+def get_category_description(data,category_name):
+    for name,description in data.get('categories'):
+        if name == category_name:
+            return description
+    return None
+
+def get_environment_code(data,environment_name):
+    logger.debug(f"{this()}: environment={environment_name} {data.get('ccs')}")
+    for code,name in data.get('ccs'):
+        logger.debug(f"{this()}: code={code} name={name}")
+        if name == environment_name:
+            return code
+    return None
+
+def get_environment_name(data,environment_code):
+    logger.debug(f"{this()}: environment={environment_code} {data.get('ccs')}")
+    for code,name in data.get('ccs'):
+        logger.debug(f"{this()}: code={code} name={name}")
+        if code == environment_code:
+            return name
+    return None
+    
+def get_environments(filename,data):
+    environments = None
+    logger.debug(f"{this()}: In filename={filename}")
+    try:
+        with open(filename,'r') as fp:
+            environments = json.load(fp)
+        logger.debug(f"{this()}: environments = {environments.keys()}")
+        for e in environments.keys():
+            environment = environments.get(e)
+            logger.debug(f"{this()}: environment '{e}' clusters = {environment.keys()}")
+            try:
+                for c in environment.keys():
+                    cluster_uuid     = get_cluster_uuid(data,c)
+                    environment_code = get_environment_code(data,e)
+                    environments[e][c].update({'uuid':cluster_uuid})
+                    environments[e][c].update({'environment':environment_code})
+                    if cluster_uuid is not None:
+                        try:
+                            logger.debug(f"{this()}: environment '{e}' cluster = {c}")
+                            cluster = environment[c]
+                            project_name         = cluster['project'].get('name')
+                            category_name        = cluster['category'].get('name')
+                            project_uuid         = get_project_uuid(data,project_name)
+                            category_description = get_category_description(data,category_name)
+                            environments[e][c]['project'].update({'uuid':project_uuid})
+                            environments[e][c]['category'].update({'description':category_description})
+                        except Exception as e:
+                            logger.warning(f"{this()}: environment '{e}' cluster = {c} {str(e)}")
+                    else:
+                            logger.warning(f"{this()}: environment '{e}' cluster = {c} INVALID")                        
+            except Exception as e:
+                logger.error(f"{this()}: environment '{e}' cluster = {c} {str(e)}")
+    except Exception as e:
+        logger.critical(f"INVALID ENVIRONMENTS: filename={filename} exception: {str(e)}")
+    return environments
+    
+def get_environments_codes(data,environments):
+    logger.debug(f"{this()}: In")
+    E={}
+    try:
+        logger.debug(f"{this()}: environments = {environments.keys()}")
+        for e in environments.keys():
+            environment_code = get_environment_code(data,e) 
+            E.update({environment_code:{}})
+            environment = environments.get(e)
+            logger.debug(f"{this()}: environment '{e}' clusters = {environment.keys()}")
+            try:
+                for c in environment.keys():
+                    cluster = environment[c]
+                    cluster_uuid = get_cluster_uuid(data,c)
+                    if cluster_uuid is not None:
+                        E[environment_code].update({
+                            cluster_uuid:{
+                                'project' : get_project_uuid(data,cluster['project'].get('name')),
+                                'category': cluster['category'].get('name'),
+                                'project_name' : cluster['project'].get('name'),
+                                'category_description': cluster['category'].get('description')
+                            }
+                        })
+            except Exception as e:
+                logger.error(f"{this()}: environment '{e}' cluster = {c} {str(e)}")
+    except Exception as e:
+        logger.critical(f"INVALID ENVIRONMENTS: exception: {str(e)}")
+    return E
+    
+def get_environment_attributes(data,environment=None,cluster=None,code=None,uuid=None):
+    if environment is None:
+        environment = get_environment_name(data,code)
+    if cluster is None:
+        environment = get_cluster_name(data,uuid)
+        
+    cluster = data.get('environments').get('environment').get('cluster')
+    project_uuid  = cluster.get('project').get('uuid')
+    category_name = cluster.get('category').get('name')
+    return project_uuid,category_name
     
 def get_project_subnet_list():
     # List of subnets need to be refreshed from Nutanix Cluster --------
@@ -270,7 +390,7 @@ def get_project_subnet_options():
                     uuid,name=project_subnet.split(':')
                     # Load valid subnet pairs only
                     if uuid not in ['','0',None] and name not in ['','0',None]:
-                        subnets.append([f'{uuid}',f'{name}:{project.project_name}'])
+                        subnets.append([f'{uuid}',f'{name} @ {project.project_name}'])
             except Exception as e:
                 emtec_handle_general_exception(e,logger=logger)
         if len(subnets):
@@ -298,14 +418,14 @@ def get_user_list():
 def get_rates(margin=1,CC_Id=1):
     # Cost Centers related to Storage types ----------------------------
     # These need to come from Collector Cost Centers
-    logger.debug(f"{this()}: loading rates for cc={CC_Id} and a margin of {margin}") 
+    logger.debug(f"{this()}: cc={CC_Id} and a margin of {margin}") 
     rates = {}
     try:
         dsk_rate = 0
         rows = db.session.query(Rates).all()
         # Load Rates and margin factor
         for row in rows:
-            logger.debug(f"row={row.Rat_Id} {row.Typ_Code} {row.Rat_Price} {row.CC_Id}")
+            logger.trace(f"row={row.Rat_Id} {row.Typ_Code} {row.Rat_Price} {row.CC_Id}")
             if row.Typ_Code == 'NUL':
                 # Gets Margin Factor from scepcial NUL type rate
                 margin = 1 + row.Rat_Price
@@ -361,7 +481,8 @@ def get_db_rates(margin=1):
     # adjust rates to estimate billing rate, applies margin factor
     for rate in rates:
         rates[rate] *= margin
-    logger.debug(f"{this()}: {pformat(rates)}")
+    logger.trace(f"{this()}: {len(rates)} rates loaded")
+    logger.trace(f"{this()}: {pformat(rates)}")
     return rates
 
 def get_monthly_rate(row,rox):
@@ -371,7 +492,7 @@ def get_monthly_rate(row,rox):
         # CC_Id need to be built
         rates = get_rates(CC_Id=row.CC_Id)
         logger.debug(f"{this()}: rates={rates}")
-        logger.debug(f"{this()}: row.CC_Id     = {rox.disk_type}")
+        logger.debug(f"{this()}: row.CC_Id     = {row.CC_Id}")
         logger.debug(f"{this()}: rox.disk_type = {rox.disk_type}")
         for i in range(12):
             storage += getattr(rox,f'disk_{i}_size')            
@@ -401,9 +522,9 @@ def get_monthly_rate(row,rox):
     except Exception as e:
         logger.warning(f"{this()}: exception {str(e)}")
         return 0
-    
-def get_description(tabla,codigo,data):
-    """ Gets description for a table based system """
+
+""" def get_description(tabla,codigo,data):
+    ''' Gets description for a table based system '''
     logger.debug(f'{this()}: tabla={tabla} codigo={codigo}')
     descripcion=''
     try:
@@ -429,8 +550,9 @@ def get_description(tabla,codigo,data):
         logger.error(f"{this()}: exception: {str(e)}")
     logger.debug(f"{this()}: return descripcion = '{descripcion}'")
     return descripcion
-    
-def get_vm_resume(vm):    
+"""    
+
+""" def get_vm_resume(vm):    
     cpu=ram=dsk=tip=None
     if vm is not None:
         cpu = vm.num_sockets * vm.vcpus_per_socket
@@ -447,8 +569,9 @@ def get_vm_resume(vm):
         else:
             tip = None
     return f"{cpu} CPU x {ram} GB x {dsk} GB {tip}"
+"""
 
-def notify_request(Id,subject_detail=None,data=None):
+def notify_request(Id,subject_detail=None,data=None,recipients=None):
     logger.debug(f'{this()}:Enter')
     from    flask_mail          import Message
     if current_app.config['BUTLER_REQUEST_NOTIFICATIONS']:
@@ -460,18 +583,19 @@ def notify_request(Id,subject_detail=None,data=None):
             # Look for Requets's user's ids
             row = requests.query.filter(requests.Id == Id).one()
             # Look for all possible email recipients
-            rows = User.query.filter(
-                        User.id.in_(
-                            [   row.User_Id,
-                                row.Approver_Id,
-                                current_user.id
-                            ]
-                        )
-                        ).filter(User.email.isnot(None)
-                        ).all()
-            recipients = []
-            for row in rows:
-                recipients.append(row.email)
+            if recipients is None:
+                rows = User.query.filter(
+                            User.id.in_(
+                                [   row.User_Id,
+                                    row.Approver_Id,
+                                    current_user.id
+                                ]
+                            )
+                            ).filter(User.email.isnot(None)
+                            ).all()
+                recipients = []
+                for row in rows:
+                    recipients.append(row.email)
             # simplify list
             recipients = unique_list(recipients)
             logger.debug(f"{this()}: recipients = {recipients}")
@@ -592,8 +716,9 @@ def load_form(form,row,rox):
             logger.debug(f"{this()}: top:{form.vmTopCC} co:{form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
         form.vmStatus.data   = row.Status
         for i in range(12):
-            getattr(form,f'vmDisk{i}Size').data  = getattr(rox,f'disk_{i}_size') 
-            getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image') 
+            getattr(form,f'vmDisk{i}Size').data  = getattr(rox,f'disk_{i}_size')
+            if i == 0: 
+                getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image') 
         calculate_form(form,row,rox)
         logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
         logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
@@ -619,7 +744,9 @@ def load_form(form,row,rox):
         form.vmBackUpSet2       = rox.backup_set_2
         form.vmBackUpSet3       = rox.backup_set_3
         # Flags
+        form.vmCDROM.data       = rox.vm_cdrom
         form.vmDRP.data         = rox.vm_drp
+        form.vmDRPRemote.data   = rox.vm_drp_remote
         
         # Fix some initial values --------------------------------------
         # networking
@@ -645,6 +772,9 @@ def load_form(form,row,rox):
         if form.vmDRP.data is None:
             form.vmDRP.data = False
             logger.debug(f'{this()}: form.vmDRP.data adjusted to = {form.vmDRP.data}')
+        if form.vmDRPRemote.data is None:
+            form.vmDRPRemote.data = False
+            logger.debug(f'{this()}: form.vmDRPRemote.data adjusted to = {form.vmDRPRemote.data}')
         if form.vmCDROM.data is None:
             form.vmCDROM.data = False
             logger.debug(f'{this()}: form.vmCDROM.data adjusted to = {form.vmCDROM.data}')
@@ -679,7 +809,6 @@ def save_form(form,row,rox):
         logger.debug(f"{this()}: top:{form.vmTopCC} corporate:{corporate} management:{management} environment:{environment} disk_type:{disk_type}")    
         row.CC_Id   = form.vmTopCC + corporate + management + environment + disk_type
         logger.debug(f"{this()}: top:{form.vmTopCC} corporate:{corporate} management:{management} environment:{environment} disk_type:{disk_type} -> {row.CC_Id}")    
-        
         # Ownership
         rox.cluster_uuid  = form.vmCluster.data
         rox.project_uuid  = form.vmProject.data
@@ -690,10 +819,12 @@ def save_form(form,row,rox):
         rox.memory_size_gib  = form.vmRAM.data
         rox.memory_size_mib  = form.vmRAM.data * 1024
         # Storage ----------------------------------------------------------
+        #ox.disk_type        = form.vmType.data % 10
         rox.disk_type        = form.vmType.data
         for i in range(12):
             setattr( rox, f'disk_{i}_size' , getattr( form, f'vmDisk{i}Size').data  ) 
-            setattr( rox, f'disk_{i}_image', getattr( form, f'vmDisk{i}Image').data ) 
+            if i == 0:
+                setattr( rox, f'disk_{i}_image', getattr( form, f'vmDisk{i}Image').data ) 
         for i in range(3):
             setattr( rox, f'nic_{i}_vlan' , getattr( form, f'vmNic{i}Vlan').data  ) 
             setattr( rox, f'nic_{i}_ip',    getattr( form, f'vmNic{i}Ip').data ) 
@@ -704,6 +835,7 @@ def save_form(form,row,rox):
         rox.backup_set_3  = form.vmBackUpSet3.data
         # Flags
         rox.vm_drp        = form.vmDRP.data         
+        rox.vm_drp_remote = form.vmDRPRemote.data         
         rox.vm_cdrom      = form.vmCDROM.data         
         # Networking      
         #form.vmSubnet.data      = f'{rox.subnet_uuid}:{rox.project_uuid}'
@@ -740,7 +872,24 @@ def output_Request(Id,data=None):
     logger.debug(f'{this()}: Enter')
 
     row=rox=None
-    
+    top_cost_center_code = data.get('top_cost_center_code')
+    all_cc_list = get_cost_centers_fast(top_cost_center_code)
+    logger.debug(f"all_cc_list={len(all_cc_list)} cost centers found") 
+    logger.debug(f'{this()}: inicializa listas de opciones ...') 
+    corporate_list         = get_corporate_list (top_cost_center_code,all_cc_list)
+    department_list,gd_map = get_department_list(top_cost_center_code,all_cc_list)
+    cc_list                = get_cc_list        (top_cost_center_code,all_cc_list)
+    type_list              = get_type_list      (top_cost_center_code,all_cc_list)
+    logger.debug(f"corporate_list ={len(corporate_list)} corporates") 
+    logger.debug(f"department_list={len(department_list)} departments") 
+    logger.debug(f"cc_list        ={len(cc_list)} ccs means environments in ths context") 
+    logger.debug(f"type_list      ={len(type_list)} types (of disk)") 
+
+    data.update({'corporates' :corporate_list})
+    data.update({'departments':department_list})
+    data.update({'ccs'        :cc_list})
+    data.update({'types'      :type_list})
+
     image_list          = get_image_list()
     vmDiskImage_choices = [('','')]
     
@@ -771,7 +920,7 @@ def output_Request(Id,data=None):
             data.update({'month':0})
             # Gets Monthly Rates as per Rates Table
             rates = get_rates(CC_Id=row.requests.CC_Id)
-            for i in range(12):
+            for i in range(1):
                 uuid=getattr(row.nutanix_prism_vm,f'disk_{i}_image')
                 name=''
                 for image in vmDiskImage_choices:
@@ -780,22 +929,22 @@ def output_Request(Id,data=None):
                         break
                 data['disk_images'].append(name)
                 
-                cpu = row.nutanix_prism_vm.num_sockets * rates['CPU']
-                ram = row.nutanix_prism_vm.memory_size_gib * rates['RAM']
-                data['storage'] = 0
-                data['storage_type'] = ''
-                for i in range(12):
-                    data['storage'] += getattr(row.nutanix_prism_vm,f'disk_{i}_size')
-                try:
-                    if row.nutanix_prism_vm.disk_type%100 in [11,12,13]:
-                        data['storage_type'] = ['HDD','SSD','HYB'][row.nutanix_prism_vm.disk_type%100-11]
-                        dsk = data['storage'] * rates[data['storage_type']]
-                    else:
-                        dsk = 0
-                except Exception as e:
-                    logger.error(f'{this()}: exception = {str(e)}')
+            cpu = row.nutanix_prism_vm.num_sockets * rates['CPU']
+            ram = row.nutanix_prism_vm.memory_size_gib * rates['RAM']
+            data['storage'] = 0
+            data['storage_type'] = ''
+            for i in range(12):
+                data['storage'] += getattr(row.nutanix_prism_vm,f'disk_{i}_size')
+            try:
+                if row.nutanix_prism_vm.disk_type%10 in [1,2,3]:
+                    data['storage_type'] = ['HDD','SSD','HYB'][row.nutanix_prism_vm.disk_type%10-1]
+                    dsk = data['storage'] * rates[data['storage_type']]
+                else:
                     dsk = 0
-                data['month'] = cpu + ram + dsk
+            except Exception as e:
+                logger.error(f'{this()}: exception = {str(e)}')
+                dsk = 0
+            data['month'] = cpu + ram + dsk
         else:
             data.update({'status_description':f'ERROR: Solicitud {Id} no encontrada.'})
             data.update({'disk_images':[]})
@@ -804,6 +953,7 @@ def output_Request(Id,data=None):
             data['storage'] = 0
             data['storage_type'] = ''
             data['month'] = 0
+        
     # will render template and return HTML text
     current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)

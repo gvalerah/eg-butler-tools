@@ -1,7 +1,7 @@
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:67 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/ORM_model_schema.py
@@ -131,6 +131,7 @@ def Create_Tables(engine):
                 Column( 'disk_11_image',String(45) ),
                 Column( 'disk_11_size',Integer ),
                 Column( 'vm_drp',Boolean ),
+                Column( 'vm_drp_remote',Boolean ),
                 Column( 'vm_cdrom',Boolean ),
                 Column( 'drp_cluster_uuid',String(45) ),
                 Column( 'nic_0_vlan',String(45) ),

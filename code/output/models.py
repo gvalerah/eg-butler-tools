@@ -84,7 +84,7 @@ def load_user(user_id):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_categories.py
@@ -117,7 +117,7 @@ class categories(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_clusters.py
@@ -156,7 +156,7 @@ class clusters(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
@@ -197,7 +197,7 @@ class cost_centers(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
@@ -241,7 +241,7 @@ def get_cost_centers(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_disk_images.py
@@ -286,7 +286,7 @@ class disk_images(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_domains.py
@@ -319,7 +319,7 @@ class domains(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_interface.py
@@ -362,7 +362,7 @@ class interface(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_prism_vm.py
@@ -421,6 +421,7 @@ class nutanix_prism_vm(db.Model,Serializer):
     disk_11_image    = db.Column( db.String(45) )
     disk_11_size     = db.Column( db.Integer, default=0 )
     vm_drp           = db.Column( db.Boolean, default=0 )
+    vm_drp_remote    = db.Column( db.Boolean, default=0 )
     vm_cdrom         = db.Column( db.Boolean, default=0 )
     drp_cluster_uuid = db.Column( db.String(45) )
     nic_0_vlan       = db.Column( db.String(45) )
@@ -437,7 +438,7 @@ class nutanix_prism_vm(db.Model,Serializer):
 
     # looking for include file: /home/gvalera/GIT/EG-Suite-Tools/Butler/code/src/include/models/flask_nutanix_prism_vm_properties.py
     # file: /home/gvalera/GIT/EG-Suite-Tools/Butler/code/src/include/models/flask_nutanix_prism_vm_properties.py not found
-    def __init__(self, Request_Id=None, project_uuid='None', category_name='None', cluster_uuid='None', vm_name='None', power_state=1, vcpus_per_socket=1, num_sockets=1, memory_size_mib=0, memory_size_gib=0, Comments=None, vm_uuid='None', vm_ip='None', subnet_uuid='None', vm_username='None', vm_password='None', backup_set_1=0, backup_set_2=0, backup_set_3=0, disk_type=0, disk_0_image='None', disk_0_size=0, disk_1_image='None', disk_1_size=0, disk_2_image='None', disk_2_size=0, disk_3_image='None', disk_3_size=0, disk_4_image='None', disk_4_size=0, disk_5_image='None', disk_5_size=0, disk_6_image='None', disk_6_size=0, disk_7_image='None', disk_7_size=0, disk_8_image='None', disk_8_size=0, disk_9_image='None', disk_9_size=0, disk_10_image='None', disk_10_size=0, disk_11_image='None', disk_11_size=0, vm_drp=0, vm_cdrom=0, drp_cluster_uuid='None', nic_0_vlan='None', nic_0_ip='None', nic_0_mac='None', nic_1_vlan='None', nic_1_ip='None', nic_1_mac='None', nic_2_vlan='None', nic_2_ip='None', nic_2_mac='None', request_text=None):
+    def __init__(self, Request_Id=None, project_uuid='None', category_name='None', cluster_uuid='None', vm_name='None', power_state=1, vcpus_per_socket=1, num_sockets=1, memory_size_mib=0, memory_size_gib=0, Comments=None, vm_uuid='None', vm_ip='None', subnet_uuid='None', vm_username='None', vm_password='None', backup_set_1=0, backup_set_2=0, backup_set_3=0, disk_type=0, disk_0_image='None', disk_0_size=0, disk_1_image='None', disk_1_size=0, disk_2_image='None', disk_2_size=0, disk_3_image='None', disk_3_size=0, disk_4_image='None', disk_4_size=0, disk_5_image='None', disk_5_size=0, disk_6_image='None', disk_6_size=0, disk_7_image='None', disk_7_size=0, disk_8_image='None', disk_8_size=0, disk_9_image='None', disk_9_size=0, disk_10_image='None', disk_10_size=0, disk_11_image='None', disk_11_size=0, vm_drp=0, vm_drp_remote=0, vm_cdrom=0, drp_cluster_uuid='None', nic_0_vlan='None', nic_0_ip='None', nic_0_mac='None', nic_1_vlan='None', nic_1_ip='None', nic_1_mac='None', nic_2_vlan='None', nic_2_ip='None', nic_2_mac='None', request_text=None):
         self.Request_Id       = Request_Id
         self.project_uuid     = project_uuid
         self.category_name    = category_name
@@ -483,6 +484,7 @@ class nutanix_prism_vm(db.Model,Serializer):
         self.disk_11_image    = disk_11_image
         self.disk_11_size     = disk_11_size
         self.vm_drp           = vm_drp
+        self.vm_drp_remote    = vm_drp_remote
         self.vm_cdrom         = vm_cdrom
         self.drp_cluster_uuid = drp_cluster_uuid
         self.nic_0_vlan       = nic_0_vlan
@@ -497,13 +499,13 @@ class nutanix_prism_vm(db.Model,Serializer):
         self.request_text     = request_text
 
     def __repr__(self):
-        return "<Nutanix_Prism_VM( Request_Id='%s', project_uuid='%s', category_name='%s', cluster_uuid='%s', vm_name='%s', power_state='%s', vcpus_per_socket='%s', num_sockets='%s', memory_size_mib='%s', memory_size_gib='%s', Comments='%s', vm_uuid='%s', vm_ip='%s', subnet_uuid='%s', vm_username='%s', vm_password='%s', backup_set_1='%s', backup_set_2='%s', backup_set_3='%s', disk_type='%s', disk_0_image='%s', disk_0_size='%s', disk_1_image='%s', disk_1_size='%s', disk_2_image='%s', disk_2_size='%s', disk_3_image='%s', disk_3_size='%s', disk_4_image='%s', disk_4_size='%s', disk_5_image='%s', disk_5_size='%s', disk_6_image='%s', disk_6_size='%s', disk_7_image='%s', disk_7_size='%s', disk_8_image='%s', disk_8_size='%s', disk_9_image='%s', disk_9_size='%s', disk_10_image='%s', disk_10_size='%s', disk_11_image='%s', disk_11_size='%s', vm_drp='%s', vm_cdrom='%s', drp_cluster_uuid='%s', nic_0_vlan='%s', nic_0_ip='%s', nic_0_mac='%s', nic_1_vlan='%s', nic_1_ip='%s', nic_1_mac='%s', nic_2_vlan='%s', nic_2_ip='%s', nic_2_mac='%s', request_text='%s')>" % \
-                ( self.Request_Id, self.project_uuid, self.category_name, self.cluster_uuid, self.vm_name, self.power_state, self.vcpus_per_socket, self.num_sockets, self.memory_size_mib, self.memory_size_gib, self.Comments, self.vm_uuid, self.vm_ip, self.subnet_uuid, self.vm_username, self.vm_password, self.backup_set_1, self.backup_set_2, self.backup_set_3, self.disk_type, self.disk_0_image, self.disk_0_size, self.disk_1_image, self.disk_1_size, self.disk_2_image, self.disk_2_size, self.disk_3_image, self.disk_3_size, self.disk_4_image, self.disk_4_size, self.disk_5_image, self.disk_5_size, self.disk_6_image, self.disk_6_size, self.disk_7_image, self.disk_7_size, self.disk_8_image, self.disk_8_size, self.disk_9_image, self.disk_9_size, self.disk_10_image, self.disk_10_size, self.disk_11_image, self.disk_11_size, self.vm_drp, self.vm_cdrom, self.drp_cluster_uuid, self.nic_0_vlan, self.nic_0_ip, self.nic_0_mac, self.nic_1_vlan, self.nic_1_ip, self.nic_1_mac, self.nic_2_vlan, self.nic_2_ip, self.nic_2_mac, self.request_text)
+        return "<Nutanix_Prism_VM( Request_Id='%s', project_uuid='%s', category_name='%s', cluster_uuid='%s', vm_name='%s', power_state='%s', vcpus_per_socket='%s', num_sockets='%s', memory_size_mib='%s', memory_size_gib='%s', Comments='%s', vm_uuid='%s', vm_ip='%s', subnet_uuid='%s', vm_username='%s', vm_password='%s', backup_set_1='%s', backup_set_2='%s', backup_set_3='%s', disk_type='%s', disk_0_image='%s', disk_0_size='%s', disk_1_image='%s', disk_1_size='%s', disk_2_image='%s', disk_2_size='%s', disk_3_image='%s', disk_3_size='%s', disk_4_image='%s', disk_4_size='%s', disk_5_image='%s', disk_5_size='%s', disk_6_image='%s', disk_6_size='%s', disk_7_image='%s', disk_7_size='%s', disk_8_image='%s', disk_8_size='%s', disk_9_image='%s', disk_9_size='%s', disk_10_image='%s', disk_10_size='%s', disk_11_image='%s', disk_11_size='%s', vm_drp='%s', vm_drp_remote='%s', vm_cdrom='%s', drp_cluster_uuid='%s', nic_0_vlan='%s', nic_0_ip='%s', nic_0_mac='%s', nic_1_vlan='%s', nic_1_ip='%s', nic_1_mac='%s', nic_2_vlan='%s', nic_2_ip='%s', nic_2_mac='%s', request_text='%s')>" % \
+                ( self.Request_Id, self.project_uuid, self.category_name, self.cluster_uuid, self.vm_name, self.power_state, self.vcpus_per_socket, self.num_sockets, self.memory_size_mib, self.memory_size_gib, self.Comments, self.vm_uuid, self.vm_ip, self.subnet_uuid, self.vm_username, self.vm_password, self.backup_set_1, self.backup_set_2, self.backup_set_3, self.disk_type, self.disk_0_image, self.disk_0_size, self.disk_1_image, self.disk_1_size, self.disk_2_image, self.disk_2_size, self.disk_3_image, self.disk_3_size, self.disk_4_image, self.disk_4_size, self.disk_5_image, self.disk_5_size, self.disk_6_image, self.disk_6_size, self.disk_7_image, self.disk_7_size, self.disk_8_image, self.disk_8_size, self.disk_9_image, self.disk_9_size, self.disk_10_image, self.disk_10_size, self.disk_11_image, self.disk_11_size, self.vm_drp, self.vm_drp_remote, self.vm_cdrom, self.drp_cluster_uuid, self.nic_0_vlan, self.nic_0_ip, self.nic_0_mac, self.nic_1_vlan, self.nic_1_ip, self.nic_1_mac, self.nic_2_vlan, self.nic_2_ip, self.nic_2_mac, self.request_text)
 
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_vm_images.py
@@ -538,7 +540,7 @@ class nutanix_vm_images(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_projects.py
@@ -573,7 +575,7 @@ class projects(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
@@ -628,7 +630,7 @@ class rates(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
@@ -686,7 +688,7 @@ def get_rates(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_requests.py
@@ -741,7 +743,7 @@ class requests(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_request_type.py
@@ -776,7 +778,7 @@ class request_type(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_roles.py
@@ -803,6 +805,7 @@ class Role(db.Model,Serializer):
     @staticmethod
     def insert_roles():
         roles = {
+            '''
             'Customer': (   Permission.CUSTOMER, False),
             'Reporter': (   Permission.VIEW |
                             Permission.REPORT |
@@ -812,6 +815,17 @@ class Role(db.Model,Serializer):
                             Permission.MODIFY |
                             Permission.REPORT, False),
             'Administrator':    (0xfe, False),                      # Administrator does not have 'Customer' permisions
+            'Auditor':          (0x1fe, False),                      # Auditor does not have 'Customer' permissions
+            '''
+            'Solicitante': (   Permission.CUSTOMER, False),
+            'Aprobador': (   Permission.VIEW |
+                            Permission.REPORT |
+                            Permission.EXPORT, True),
+            'Visualizador': (    Permission.VIEW |
+                            Permission.DELETE |
+                            Permission.MODIFY |
+                            Permission.REPORT, False),
+            'Administrador':    (0xfe, False),                      # Administrator does not have 'Customer' permisions
             'Auditor':          (0x1fe, False),                      # Auditor does not have 'Customer' permissions
             'God':              (0xfff, False)
         }
@@ -830,7 +844,7 @@ class Role(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_subnets.py
@@ -879,7 +893,7 @@ class subnets(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_users.py
@@ -904,16 +918,18 @@ class User(UserMixin, db.Model,Serializer):
 
     # looking for include file: /home/gvalera/GIT/EG-Suite-Tools/Butler/code/src/include/models/flask_users_properties.py
     # file: /home/gvalera/GIT/EG-Suite-Tools/Butler/code/src/include/models/flask_users_properties.py not found
-    # source: code/src/include/models/flask_users_methods.py
+    # source: EG-Suite-Tools/Butler/code/src/include/models/flask_users_methods.py
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
-        if self.role is None:
-            if self.username == current_app.config['BUTLER_ADMIN']:
-                self.role = Role.query.filter_by(permissions=0xfe).first()
+        if self.role_id is None:
             if self.role is None:
-                self.role = Role.query.filter_by(default=True).first()
-
-
+                if self.username == current_app.config['BUTLER_ADMIN']:
+                    self.role = Role.query.filter_by(permissions=0xfe).first()
+                if self.role is None:
+                    self.role = Role.query.filter_by(default=True).first()
+        else:
+            self.role = Role.query.filter_by(id=self.role_id).first()
+    
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

@@ -2,7 +2,7 @@
 from flask                              import render_template, redirect, request, url_for, flash
 from flask_login                        import login_user
 from .                                  import auth
-#rom emtec.collector.db.flask_models    import User
+from emtec.debug                        import *
 from emtec.butler.db.flask_models       import User
 from .forms                             import LoginForm
 from .forms                             import ChangePasswordForm
@@ -17,34 +17,34 @@ from flask_login                        import logout_user, login_required
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    print("1 auth/login IN")
+    logger=check_logger()
     try:
-        logger.debug("login in course ...")
+        logger.debug("auth.login login in course ...")
     except:
-        print("1.1 logger is not available")
-    try:    print(f'current user={current_user}')
+        logger.warning("auth.login 1.1 logger is not available")
+    try:    logger.debug(f'current user={current_user}')
     except Exception as e: print(f'current user no definido aun: {str(e)}') 
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        try:    print(f'user={current_user}')
-        except Exception as e: print(f'user ??? : {str(e)}')
-        print("2 user=",user)
+        try:    logger.debug(f'auth.login user={current_user}')
+        except Exception as e: print(f'auth.login user ??? : {str(e)}')
+        logger.debug("2 user=",user)
         if user is not None and user.verify_password(form.password.data):
             #login_user(user, form.remember_me.data)
             login_user(user, False)
             try:
-                print(f'2.1 after login current user={current_user}')
+                logger.debug(f'auth.login 2.1 after login current user={current_user}')
             except Exception as e: 
-                print(f'2.2 after login exception: {str(e)}') 
-            print("3.1 request.args.get('next')=",request.args.get('next'))
-            print("3.2 url_for('main.index')   =",url_for('main.index'))
+                logger.error(f'auth.login 2.2 after login exception: {str(e)}') 
+            logger.debug("3.1 request.args.get('next')=",request.args.get('next'))
+            logger.debug("3.2 url_for('main.index')   =",url_for('main.index'))
             return redirect(request.args.get('next') or url_for('main.index'))
         flash('Invalid username or password.')
     else:
         pass
-        print("4 FORM NOT VALIDATED YET")        
-    print("5 will render template auth/login.html ...")
+        logger.warning("auth.login 4 FORM NOT VALIDATED YET")        
+    logger.debug("auth.login 5 will render template auth/login.html ...")
     return render_template('auth/login.html', form=form)
     
 
@@ -61,24 +61,32 @@ def logout():
 @login_required
 @admin_required
 def register():
+    logger=check_logger()
     form = RegistrationForm()
     if form.validate_on_submit():
         #user = User(email=form.email.data,
         #username=form.username.data,
         
         #print("******** role_id = %s *** type=%s ********"%(form.role_id.data,type(form.role_id.data)))
-        
+        logger.debug(f"form.username.data = {form.username.data}")
+        logger.debug(f"form.role_id.data  = {form.role_id.data}")
+        logger.debug(f"form.email.data    = {form.email.data}")
+        logger.debug(f"form.password.data = {form.password.data}")
         
         user = User(username=form.username.data,
             role_id=form.role_id.data,
             email=form.email.data,
             password=form.password.data)
         try:
-            #flash("Trying to register user: '%s'"%user)
+            logger.debug("Trying to register user: '%s'"%user)
+            # 20210614 GV Patch to force role assignment at once
+            user.role_id=form.role_id.data
+            logger.debug("Trying to register user: '%s'"%user)
             db.session.close()
             db.session.add(user)
             db.session.commit()
             db.session.close()
+            logger.debug('New user "%s" can login now.'%form.username.data)
             flash('New user "%s" can login now.'%form.username.data)
             return redirect(url_for('main.index'))
         except Exception as e:

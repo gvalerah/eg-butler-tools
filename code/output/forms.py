@@ -26,7 +26,7 @@ from wtforms.validators     import Regexp, Required
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_categories.py
@@ -50,7 +50,7 @@ class frm_categories_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_clusters.py
@@ -77,7 +77,7 @@ class frm_clusters_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_cost_centers.py
@@ -105,7 +105,7 @@ class frm_cost_centers_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_disk_images.py
@@ -136,7 +136,7 @@ class frm_disk_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_domains.py
@@ -161,7 +161,7 @@ class frm_domains_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_interface.py
@@ -190,7 +190,7 @@ class frm_interface_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_prism_vm.py
@@ -242,6 +242,7 @@ class frm_nutanix_prism_vm(Form):
     disk_11_image            = StringField("disk_11_image?")
     disk_11_size             = IntegerField("disk_11_size?")
     vm_drp                   = BooleanField("vm_drp?")
+    vm_drp_remote            = BooleanField("vm_drp_remote?")
     vm_cdrom                 = BooleanField("vm_cdrom?")
     drp_cluster_uuid         = StringField("drp_cluster_uuid?")
     nic_0_vlan               = StringField("nic_0_vlan?")
@@ -269,7 +270,7 @@ class frm_nutanix_prism_vm_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_vm_images.py
@@ -295,7 +296,7 @@ class frm_nutanix_vm_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_projects.py
@@ -320,7 +321,7 @@ class frm_projects_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_rates.py
@@ -352,7 +353,7 @@ class frm_rates_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_requests.py
@@ -386,7 +387,7 @@ class frm_requests_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_request_type.py
@@ -411,7 +412,7 @@ class frm_request_type_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_roles.py
@@ -437,7 +438,7 @@ class frm_Role_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_subnets.py
@@ -469,7 +470,7 @@ class frm_subnets_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-04-16 13:26:00
+# GLVH @ 2021-06-17 19:12:05
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_users.py
@@ -806,6 +807,7 @@ if __name__ == "__main__":
 # GLVH @ 2020-12-19
 # ======================================================================
 # GLVH @ 2021-03-21 Add other NICS, and validartors complemented
+# GLVH @ 2021-05-12 Copias de seguridad locales y remotas
 # gvalera@emtecgroup.net
 # ======================================================================
 
@@ -816,22 +818,23 @@ from wtforms.validators import ValidationError
 # very powerfull function to validate data prior submit
 def disk_size(form,field):
     form.logger.debug(f"disk_size: IN field={field.name}")
-    ImageFieldName=field.name.replace('Size','Image')
-    ImageField=getattr(form,ImageFieldName)
-    for choice in ImageField.iter_choices():
-        if choice[2]:
-            try:
-                if '(' in choice[1]:
-                    ImageFieldSize = choice[1].split('(')[1] 
-                    if len(ImageFieldSize) and ' ' in ImageFieldSize:
-                        ImageFieldSize = float(ImageFieldSize.split(' ')[0])
-                        if ImageFieldSize > int(ImageFieldSize):
-                            ImageFieldSize =  int(ImageFieldSize) + 1
-                        if field.data < ImageFieldSize:
-                            raise ValidationError(f'Tamaño Mínimo es {ImageFieldSize} GB') 
-            except Exception as e:
-                raise ValidationError(f'{str(e)}') 
-    form.logger.debug("disk_size: field={field.name} OUT")
+    if field.name == 'vmDisk0Size':
+        ImageFieldName=field.name.replace('Size','Image')
+        ImageField=getattr(form,ImageFieldName)
+        for choice in ImageField.iter_choices():
+            if choice[2]:
+                try:
+                    if '(' in choice[1]:
+                        ImageFieldSize = choice[1].split('(')[1] 
+                        if len(ImageFieldSize) and ' ' in ImageFieldSize:
+                            ImageFieldSize = float(ImageFieldSize.split(' ')[0])
+                            if ImageFieldSize > int(ImageFieldSize):
+                                ImageFieldSize =  int(ImageFieldSize) + 1
+                            if field.data < ImageFieldSize:
+                                raise ValidationError(f'Tamaño Mínimo es {ImageFieldSize} GB') 
+                except Exception as e:
+                    raise ValidationError(f'{str(e)}') 
+        form.logger.debug("disk_size: field={field.name} OUT")
 
 def ip_address(form,field):
     form.logger.warning("ip_address: field={field.name} IN WARNING WARNING WARNING OJO NO ESTA ACTIVA LA VALIDACION AUN")
@@ -945,31 +948,35 @@ class frm_request(Form):
                         validators=[NumberRange(min=0),disk_size],default=0)
     vmDisk0Image      = SelectField()
     vmDisk1Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk1Image      = SelectField()
+    #vmDisk1Image      = SelectField()
     vmDisk2Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk2Image      = SelectField()
+    #vmDisk2Image      = SelectField()
     vmDisk3Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk3Image      = SelectField()
+    #vmDisk3Image      = SelectField()
     vmDisk4Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk4Image      = SelectField()
+    #vmDisk4Image      = SelectField()
     vmDisk5Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk5Image      = SelectField()
+    #vmDisk5Image      = SelectField()
     vmDisk6Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk6Image      = SelectField()
+    #vmDisk6Image      = SelectField()
     vmDisk7Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk7Image      = SelectField()
+    #vmDisk7Image      = SelectField()
     vmDisk8Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk8Image      = SelectField()
+    #vmDisk8Image      = SelectField()
     vmDisk9Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk9Image      = SelectField()
+    #vmDisk9Image      = SelectField()
     vmDisk10Size      = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk10Image     = SelectField()
+    #vmDisk10Image     = SelectField()
     vmDisk11Size      = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    vmDisk11Image     = SelectField()
+    #vmDisk11Image     = SelectField()
     # Ownership
     vmCluster         = SelectField()
-    vmProject         = SelectField()
-    vmCategory        = SelectField()
+    #mProject         = SelectField()
+    #mCategory        = SelectField()
+    vmProject         = StringField()
+    vmCategory        = StringField()
+    vmProjectName     = StringField()
+    vmCategoryName    = StringField()
     # Networking      --------------------------------------------------
     vmSubnet          = SelectField(
                         validators=[subnet])
@@ -994,6 +1001,7 @@ class frm_request(Form):
     vmBackUpSet3      = IntegerField()
     # Flags
     vmDRP             = BooleanField()         
+    vmDRPRemote       = BooleanField()         
     vmCDROM           = BooleanField()      
     # Request text field (falta guardarlo en BD)
     vmRequestText     = StringField()
@@ -1014,6 +1022,7 @@ class frm_request(Form):
     vmMessage1        = None
     vmMessage2        = None
     vmMessage3        = None
+    vmMessage4        = None
     # list used for subnet duplicity validation
     vmSubnetKeys      = []
     # ------------------------------------------------------------------

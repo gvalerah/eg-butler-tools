@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# 20210523 GLVH QA and refactoring
 # ----------------------------------------------------------------------
 # Top level required definitions
 # ----------------------------------------------------------------------
@@ -15,8 +14,37 @@ import  configparser
 from    configparser        import ConfigParser, ExtendedInterpolation
 from    sqlalchemy          import create_engine
 # ----------------------------------------------------------------------
+
+"""
+# ----------------------------------------------------------------------
+# G Unicorn required definitions
+# ----------------------------------------------------------------------
+import  multiprocessing
+import  gunicorn
+from    gunicorn.app.base   import Application, Config
+from    gunicorn            import glogging
+from    gunicorn.workers    import sync
+
+def number_of_workers():
+    return (multiprocessing.cpu_count() * 2) + 1
+
+class GUnicornFlaskApplication(Application):
+    def __init__(self, app):
+        self.usage, self.callable, self.prog, self.app = None, None, None, app
+
+    def run(self, **options):
+        self.cfg = Config()
+        [self.cfg.set(key, value) for key, value in options.items()]
+        return Application.run(self)
+
+    load = lambda self:self.app
+"""
+# ----------------------------------------------------------------------
+
+# ----------------------------------------------------------------------
 # Emtec group required definitions
 # ----------------------------------------------------------------------
+
 from    emtec.common.functions      import *
 from    emtec.butler.common.context import Context
 # ----------------------------------------------------------------------
@@ -52,7 +80,7 @@ else:
 
 # **********************************************************************
 # SPECIFIC APPLICATION FOLDER DIFFERS FROM APPLICATIONS
-from core import create_app,db,logger,mail
+from core import create_app,db,logger
 # **********************************************************************
 C = Context("Butler CORE",config_file,logger)
 C.Set()
@@ -107,8 +135,8 @@ if __name__ == '__main__':
         for variable in os.environ:
             logger.debug("%s=%s"%(variable,os.environ.get(variable)))
         logger.debug("logger                = %s"%logger)
-        logger.info ("mail                  = %s"%mail)
-        logger.info ("db                    = %s"%db)
+        #ogger.debug("mail                  = %s"%mail)
+        logger.debug("db                    = %s"%db)
         logger.debug("db.logger             = %s"%db.logger)
         logger.debug("app                   = %s"%app)
         logger.debug("app.root_path         = %s"%app.root_path)
@@ -154,8 +182,9 @@ if __name__ == '__main__':
 
     try:
         while True:
-            #xecute_transactions(app=app,db=db,mail=mail)
+            #execute_probes()
             execute_transactions(app)
+            #wait_seconds = egconfig.getint('Deamon','pool_seconds',fallback=60)
             wait_seconds = app.config.get('CORE_POOL_SECONDS',59)
             logger.info('---------------------------------------------')
             logger.info(f'EG Butler CORE probe will wait for {wait_seconds} seconds ...')
@@ -164,10 +193,99 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         logger.warning(f'EG Butler CORE probe Interrupted.')
         logger.warning(f'EG Butler CORE probe cleaning UP ...')
-        # A Tidy up process here
+        # Ay Tidy up process here
         logger.warning(f'EG Butler CORE probe Good Bye.')
         logger.warning('----------------------------------------------')
         sys.exit(1)
     except Exception as e:
         logger.critical(f'EG Butler CORE probe EXCEPTION: {str(e)}')
         raise e
+
+
+"""
+if __name__ == '__main__':
+    app_ctx = app.app_context()
+    app_ctx.push()
+    
+    logger.setLevel(C.log_level)
+    db.logger = logger
+    
+    if logger is not None:
+        db.logger = logger
+        logger.info("****** Butler API Server ****************")
+        logger.info(" * %s: as '%s' Using configuration: '%s'"%
+            (sys.argv[0],getpass.getuser(),config_file))
+        logger.info(" * %s: db connection is '%s'"%(sys.argv[0],db))
+        logger.info("*****************************************")
+        for variable in os.environ:
+            logger.debug("%s=%s"%(variable,os.environ.get(variable)))
+        logger.debug("logger                = %s"%logger)
+        #ogger.debug("mail                  = %s"%mail)
+        logger.debug("db                    = %s"%db)
+        logger.debug("db.logger             = %s"%db.logger)
+        logger.debug("app                   = %s"%app)
+        logger.debug("app.root_path         = %s"%app.root_path)
+        logger.debug("app.static_folder     = %s"%app.static_folder)
+        logger.debug("app.template_folder 1 = %s"%app.template_folder)
+        app.template_folder="%s/templates"%(app.root_path)
+        logger.debug("app.template_folder 2 = %s"%app.template_folder)
+        for key in app.config.keys():
+            if key == key.upper():
+                logger.debug("%-40s = %s"%(key,app.config[key]))
+        logger.debug("%-40s = %s"%("app.root_path",app.root_path))
+
+        logger.info("*****************************************")
+        print("****** Butler API Server *************")
+        print(" * %s: as '%s' Using configuration: '%s'"%
+            (sys.argv[0],getpass.getuser(),config_file))
+        print(" * %s: db connection is '%s'"%(sys.argv[0],db))
+        print(" * logger is %s"%(logger))
+        if logger.getEffectiveLevel() < logging.INFO:
+            print("*** logger.handlers are :"%logger.handlers)        
+            for h in logger.handlers:
+                print("    handler",h,id(h))
+                print("      format",h.format,id(h.format))
+                print("      formatter",h.formatter,id(h.formatter))
+                print("      filter",h.filter,id(h.filter))
+                print("      filters",h.filters,id(h.filters))
+                print('      name',h.name,'level',h.level,'mode',h.mode)
+        logger.trace    ("trace Init butler API Server Execution")
+        logger.debug    ("debug Init butler API Server Execution")
+        logger.info     ("info Init butler API Server Execution")
+        logger.warning  ("warning Init butler API Server Execution")
+        logger.error    ("error Init butler API Server Execution")
+        logger.critical ("critical Init butler API Server Execution")
+        logger.audit    ("audit Init butler API Server Execution")
+        logger.trace("os.environ=%s"%os.environ)
+        logger.trace("app.config=%s"%app.config)
+        logger.info("*****************************************")
+        print("*****************************************")
+    else:
+        print("****************************************")
+        print("**** WARNING **** No logger defined ****")
+        print("****************************************")
+
+    print(" * Will execute app here")   
+    # 20200217 LOCATION OPORTINITY CHANGE DUE TO CONFIG ISSUES
+    from    emtec.butler.db.flask_models    import User
+    from    emtec.butler.db.flask_models    import Role
+
+    # Will be replaced by embedded Green Unicorn HTTP Server
+    if run_mode == 'FLASK':
+        print(" * Running in Flask app mode")
+        app.run(host=flask_host,port=flask_port)
+    else:
+        options = {
+            'bind': '%s:%s' % (gunicorn_host, gunicorn_port),
+            'workers': number_of_workers(),
+            'worker_class':"gunicorn.workers.sync.SyncWorker",
+        }
+        print(" * Running in Green Unicorn powered mode")
+        logger.debug("Application CPUs   = %s" % multiprocessing.cpu_count())
+        logger.debug("Application options= %s" % options)
+        logger.debug("Application Flask  = %s" % app)
+        gunicorn_app = GUnicornFlaskApplication(app)
+        gunicorn_app.run(
+            **options
+        )
+"""

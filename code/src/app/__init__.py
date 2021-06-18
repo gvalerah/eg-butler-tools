@@ -90,7 +90,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'BUTLER_REQUEST_NOTIFICATIONS': config_ini.getboolean('General','BUTLER_REQUEST_NOTIFICATIONS',fallback=False)})
     # default app config settings
     app.config.update({'NAME':                          config_ini.get       ('General','NAME',fallback='Butler')})
-    app.config.update({'SECRET_KEY':                    config_ini.get       ('General','SECRET_KEY',fallback='hard to guess string')})
+    app.config.update({'SECRET_KEY':                    config_ini.get       ('General','SECRET_KEY',fallback='Hard to guess string')})
     app.config.update({'SQLALCHEMY_DATABASE_URI':       DATABASE_URL})
     app.config.update({'SQLALCHEMY_COMMIT_ON_TEARDOWN': config_ini.getboolean('General','SQLALCHEMY_COMMIT_ON_TEARDOWN',fallback=True)})
     app.config.update({'SQLALCHEMY_TRACK_MODIFICATIONS':config_ini.getboolean('General','SQLALCHEMY_TRACK_MODIFICATIONS',fallback=False)})
