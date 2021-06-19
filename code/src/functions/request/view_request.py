@@ -212,6 +212,7 @@ def forms_Request():
     cc_list                = get_cc_list        (session['data']['top_cost_center_code'],all_cc_list)
     type_list              = get_type_list      (session['data']['top_cost_center_code'],all_cc_list)
     image_list             = get_image_list()
+    disk_image_list        = get_disk_image_list()
     cluster_list           = get_cluster_list()
     project_list           = get_project_list()
     category_list          = get_category_list()
@@ -290,10 +291,19 @@ def forms_Request():
     for cc in cc_list:
         vmCC_choices.append(cc)
     vmType_choices = session['data']['types']
+    # 20210618 CAMBIO A TABLA DE IMAGENES DE MV
+    '''
     for image in image_list:
         vmDiskImage_choices.append(
             (image.uuid,
             f'{image.name} ({int(image.vm_disk_size_gib)} GB)')
+            )
+    '''
+    for image in image_list:
+        logger.warning(f"image={image}")
+        vmDiskImage_choices.append(
+            (image.imageservice_uuid_diskclone,
+            f'{image.description} ({int(image.size_mib)/1024:.0f} GB)')
             )
     # Load Select Fields Choices and codes -----------------------------
     form.vmCorporate.choices   = vmCorporate_choices
@@ -641,11 +651,21 @@ def report_Request(ID=None):
     image_list          = get_image_list()
     vmDiskImage_choices = [('','')]
     
+    # Cambio de Tabla de imagenes de disco a imagenes de VM
+    # 20210618
+    '''
     for image in image_list:
         vmDiskImage_choices.append(
             (image.uuid,
             f'{image.name} ({int(image.vm_disk_size_gib)} GB)')
             )
+    '''
+    for image in image_list:
+        vmDiskImage_choices.append(
+            (image.imageservice_uuid_diskclone,
+            f'{image.description} ({int(image.size_mib/1024)} GB)')
+            )
+    
     cc_top_id           = get_cost_center(current_app.config['BUTLER_TOP_COST_CENTER']).CC_Id
     
     all_cc_list = get_cost_centers_fast(cc_top_id)
@@ -681,7 +701,7 @@ def report_Request(ID=None):
     data['types']       = get_type_list(cc_top_id,all_cc_list)
     data['month']       = 0
     data['status_description'] = ''
-    data['disk_images']        = []
+    data['disk_images'] = get_disk_image_list()
     data['month']              = 0
     data['storage']            = 0
     data['storage_type']       = 0

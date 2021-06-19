@@ -182,6 +182,14 @@ def get_image_list():
     # List of images need to be refreshed from Nutanix Cluster ---------
     # These need to come from Nutanix Images
     # and updated in local Table
+    image_list =  db.session.query(Nutanix_VM_Images).all()
+    logger.trace(f"{this()}: {pformat(image_list)}")
+    return image_list
+
+def get_disk_image_list():
+    # List of images need to be refreshed from Nutanix Cluster ---------
+    # These need to come from Nutanix Images
+    # and updated in local Table
     image_list =  db.session.query(Disk_Images).all()
     logger.trace(f"{this()}: {pformat(image_list)}")
     return image_list
