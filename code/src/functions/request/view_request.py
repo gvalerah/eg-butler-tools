@@ -9,7 +9,7 @@ from pprint                 import pformat
 from sqlalchemy             import desc
 from emtec.debug            import *
 from emtec.data             import *
-from emtec.butler.forms     import frm_request
+from emtec.butler.forms     import frm_request,form_log
 from emtec.butler.functions import *
 
 # Templates will reside on view_request_template.py
@@ -238,6 +238,8 @@ def forms_Request():
     session['data'].update({'users'         : user_list})
     session['data'].update({'subnet_options': get_project_subnet_options()})
     session['data'].update({'rates'         : rates_list})
+    #session['data'].update({'images'        : image_list})
+    #session['data'].update({'disk-images'   : disk_image_list})
     # since session data is allmost full populated we can construct
     # environments now 
     environments = get_environments(current_app.config['BUTLER_ENVIRONMENTS'],session['data'])
@@ -253,6 +255,7 @@ def forms_Request():
     # Javascript/JQuery scripts array initialization -------------------
     scripts = []
     for template in Script_Templates:
+        logger.debug(f"rendering template={template} ...")
         script = jinja2.Template(template
                         ).render(
                             subnet_options     = subnet_options,
@@ -291,16 +294,8 @@ def forms_Request():
     for cc in cc_list:
         vmCC_choices.append(cc)
     vmType_choices = session['data']['types']
-    # 20210618 CAMBIO A TABLA DE IMAGENES DE MV
-    '''
+    # 20210618 CAMBIO A TABLA DE IMAGENES DE MV, solo aplica a disco 1
     for image in image_list:
-        vmDiskImage_choices.append(
-            (image.uuid,
-            f'{image.name} ({int(image.vm_disk_size_gib)} GB)')
-            )
-    '''
-    for image in image_list:
-        logger.warning(f"image={image}")
         vmDiskImage_choices.append(
             (image.imageservice_uuid_diskclone,
             f'{image.description} ({int(image.size_mib)/1024:.0f} GB)')
@@ -313,15 +308,11 @@ def forms_Request():
     form.vmCluster.choices = cluster_list
     form.vmProject.choices = project_list
     form.vmCategory.choices = category_list
-    form.vmSubnet.choices = subnet_list
+    # 20210621 GV form.vmSubnet.choices = subnet_list
     subnet_list_other=[('','')]+subnet_list
     logger.trace(f"{this()}: subnet_list   ={pformat(subnet_list)}")
     logger.trace(f"{this()}: subnet_options={pformat(subnet_options)}")
     logger.trace(f"{this()}: subnet_list_other={pformat(subnet_list_other)}")
-    for i in range(3):
-        setattr(getattr(form,f'vmNic{i}Vlan'),'choices',subnet_list_other)
-        logger.trace(f"{this()}: vmNic{i}Vlan.choices = {getattr(form,f'vmNic{i}Vlan').choices}")
-        
     for i in range(1):
         getattr(form,f'vmDisk{i}Image').choices = vmDiskImage_choices
     # ------------------------------------------------------------------
@@ -330,21 +321,34 @@ def forms_Request():
     logger.debug(f"{this()}: form.errors         = {form.errors}")
     # Will check if all validated
     if form.is_submitted() and len(form.errors)==0:
-        # logger.warning(f"{this()}: form.vmProject = {form.vmProject} {form.vmProjectName}")
-        # logger.warning(f"{this()}: form.vmProject.data = {form.vmProject.data} {form.vmProjectName.data}")
         logger.warning(f"{this()}: will call form.validate()")
         try:
             form.validate()
         except Exception as e:
             emtec_handle_general_exception(e,logger=logger)
-        # logger.warning(f"{this()}: form.vmProject = {form.vmProject} {form.vmProjectName}")
-        # logger.warning(f"{this()}: form.vmProject.data = {form.vmProject.data} {form.vmProjectName.data}")
         logger.warning(f"{this()}: return from form.validate() errors={len(form.errors)}")
         if len(form.errors) != 0:
             logger.warning(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
             print(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
         else:
             logger.warning(f"no errors will evaluate button pushed")
+            form_log(form,logger.warning)
+            
+            for project,subnets in subnet_options:
+                if project == form.vmProject.data:
+                    project_subnets = subnets
+                    break
+            pprint(subnets)
+            logger.warning(f"0 Selected {form.vmVlan0Selected.data}|{subnets[0][0]}")
+            logger.warning(f"1 Selected {form.vmVlan1Selected.data}|{subnets[1][0]}")
+            logger.warning(f"2 Selected {form.vmVlan2Selected.data}|{subnets[2][0]}")
+            logger.warning(f"3 Selected {form.vmVlan3Selected.data}|{subnets[3][0]}")
+            # PATCH 
+            form.vmVlan0Uuid.data = subnets[0][0] if form.vmVlan0Selected.data else None
+            form.vmVlan1Uuid.data = subnets[1][0] if form.vmVlan1Selected.data else None
+            form.vmVlan2Uuid.data = subnets[2][0] if form.vmVlan2Selected.data else None
+            form.vmVlan3Uuid.data = subnets[3][0] if form.vmVlan3Selected.data else None
+            
             # --------------------------------------------------------------
             # Basic Requestor's submits
             # --------------------------------------------------------------
@@ -610,10 +614,6 @@ def forms_Request():
     logger.trace(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
     # Fill vmData detail change to debug on new population 
     logger.trace(f'{this()}: form.vmData = {pformat(form.vmData)}')
-    logger.trace(f"{this()}: form.vmSubnet={form.vmSubnet}")
-    logger.trace(f"{this()}: form.vmNic0Vlan={form.vmNic0Vlan}")
-    logger.trace(f"{this()}: form.vmNic1Vlan={form.vmNic1Vlan}")
-    logger.trace(f"{this()}: form.vmNic2Vlan={form.vmNic2Vlan}")
     
     logger.debug(f'{this()}: will render form ...')
     # Will display all errors as Flask Flash messages ...
@@ -653,17 +653,10 @@ def report_Request(ID=None):
     
     # Cambio de Tabla de imagenes de disco a imagenes de VM
     # 20210618
-    '''
-    for image in image_list:
-        vmDiskImage_choices.append(
-            (image.uuid,
-            f'{image.name} ({int(image.vm_disk_size_gib)} GB)')
-            )
-    '''
     for image in image_list:
         vmDiskImage_choices.append(
             (image.imageservice_uuid_diskclone,
-            f'{image.description} ({int(image.size_mib/1024)} GB)')
+            f'{image.description} ({int(image.size_mib)/1024} GB)')
             )
     
     cc_top_id           = get_cost_center(current_app.config['BUTLER_TOP_COST_CENTER']).CC_Id

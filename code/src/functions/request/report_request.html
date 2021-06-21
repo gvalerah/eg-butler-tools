@@ -91,7 +91,6 @@
                         <tr><td>Cluster          </td><td>{{get_description('clusters',row.1.cluster_uuid,data)}}</td></tr>
                         <tr><td>Projecto         </td><td>{{get_description('projects',row.1.project_uuid,data)}}</td></tr>
                         <tr><td>Categoria        </td><td>{{get_description('categories',row.1.category_name,data)}}</td></tr>
-                        <tr><td>Subnet           </td><td>{{get_description('subnets',row.1.subnet_uuid,data)}}</td></tr>
                         <tr><td>Encendido        </td><td>{{row.1.power_state}}</td></tr>
                         <tr><td>Memoria RAM en MB</td><td>{{row.1.memory_size_mib}}</td></tr>
                         <tr><td>Comentarios      </td><td>{{row.1.Comments}}</td></tr>
@@ -115,18 +114,18 @@
                         <tr><td>Copias Locales   </td><td>{{row.1.vm_drp}}</td></tr>
                         <tr><td>Copias Remotas   </td><td>{{row.1.vm_drp_remote}}</td></tr>
                         <tr><td><b>Discos    </b></td></tr>
-                        {%- if row.1.disk_0_size > 0 %}<tr><td>Disco 1 </td><td>{{row.1.disk_0_size}} GB <b>{{data.disk_images[0]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_1_size > 0 %}<tr><td>Disco 2 </td><td>{{row.1.disk_1_size}} GB <b>{{data.disk_images[1]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_2_size > 0 %}<tr><td>Disco 3 </td><td>{{row.1.disk_2_size}} GB <b>{{data.disk_images[2]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_3_size > 0 %}<tr><td>Disco 4 </td><td>{{row.1.disk_3_size}} GB <b>{{data.disk_images[3]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_4_size > 0 %}<tr><td>Disco 5 </td><td>{{row.1.disk_4_size}} GB <b>{{data.disk_images[4]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_5_size > 0 %}<tr><td>Disco 6 </td><td>{{row.1.disk_5_size}} GB <b>{{data.disk_images[5]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_6_size > 0 %}<tr><td>Disco 7 </td><td>{{row.1.disk_6_size}} GB <b>{{data.disk_images[6]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_7_size > 0 %}<tr><td>Disco 8 </td><td>{{row.1.disk_7_size}} GB <b>{{data.disk_images[7]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_8_size > 0 %}<tr><td>Disco 9 </td><td>{{row.1.disk_8_size}} GB <b>{{data.disk_images[8]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_9_size > 0 %}<tr><td>Disco 10</td><td>{{row.1.disk_9_size}} GB <b>{{data.disk_images[9]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_10_size > 0 %}<tr><td>Disco 11</td><td>{{row.1.disk_10_size}} GB <b>{{data.disk_images[10]}}</b></td></tr>{%- endif %}
-                        {%- if row.1.disk_11_size > 0 %}<tr><td>Disco 12</td><td>{{row.1.disk_11_size}} GB <b>{{data.disk_images[11]}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_0_size > 0 %}<tr><td>Disco 1 </td><td>{{row.1.disk_0_size}} GB <b>{{get_description('images',row.1.disk_0_image,data)}}</b></td></tr>{%- endif %}
+                        {%- if row.1.disk_1_size > 0 %}<tr><td>Disco 2 </td><td>{{row.1.disk_1_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_2_size > 0 %}<tr><td>Disco 3 </td><td>{{row.1.disk_2_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_3_size > 0 %}<tr><td>Disco 4 </td><td>{{row.1.disk_3_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_4_size > 0 %}<tr><td>Disco 5 </td><td>{{row.1.disk_4_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_5_size > 0 %}<tr><td>Disco 6 </td><td>{{row.1.disk_5_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_6_size > 0 %}<tr><td>Disco 7 </td><td>{{row.1.disk_6_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_7_size > 0 %}<tr><td>Disco 8 </td><td>{{row.1.disk_7_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_8_size > 0 %}<tr><td>Disco 9 </td><td>{{row.1.disk_8_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_9_size > 0 %}<tr><td>Disco 10</td><td>{{row.1.disk_9_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_10_size > 0 %}<tr><td>Disco 11</td><td>{{row.1.disk_10_size}} GB </td></tr>{%- endif %}
+                        {%- if row.1.disk_11_size > 0 %}<tr><td>Disco 12</td><td>{{row.1.disk_11_size}} GB </td></tr>{%- endif %}
                         {%- if data.role > data.roles.REQUESTOR %}
                         <!--tr><td><b>Backup Sets</b></td></tr-->
                         {%- if row.1.backup_set_1 is not none %}<tr><td>Grupo backup 1</td><td>{{row.1.backup_set_1}}</td></tr>{%- endif %}
@@ -136,14 +135,10 @@
                     </table>
                     <table>
                         <tr><td><b>Subredes    </b></td></tr>
-                        {#%- if row.1.subnet_uuid is not none %}<tr><td>{{get_description('subnets',row.1.subnet_uuid,data)}}</td><td>{{row.vm_ip}}</td></tr>{%- endif %}
-                        {%- if row.1.nic_0_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_0_vlan,data )}}</td><td>{{row.nic_0_ip}}</td></tr>{%- endif %}
-                        {%- if row.1.nic_1_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_1_vlan,data )}}</td><td>{{row.nic_1_ip}}</td></tr>{%- endif %}
-                        {%- if row.1.nic_2_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_2_vlan,data )}}</td><td>{{row.nic_2_ip}}</td></tr>{%- endif %#}
-                        {%- if row.1.subnet_uuid is not none %}<tr><td>{{get_description('subnets',row.1.subnet_uuid,data)}}</td></tr>{%- endif %}
                         {%- if row.1.nic_0_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_0_vlan,data )}}</td></tr>{%- endif %}
                         {%- if row.1.nic_1_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_1_vlan,data )}}</td></tr>{%- endif %}
                         {%- if row.1.nic_2_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_2_vlan,data )}}</td></tr>{%- endif %}
+                        {%- if row.1.nic_3_vlan  is not none %}<tr><td>{{get_description('subnets',row.1.nic_3_vlan,data )}}</td></tr>{%- endif %}
                     </table>
                 </td>
             </tr>

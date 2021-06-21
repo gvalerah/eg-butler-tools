@@ -1,7 +1,7 @@
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask.py:67 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/ORM_model_schema.py
@@ -143,6 +143,9 @@ def Create_Tables(engine):
                 Column( 'nic_2_vlan',String(45) ),
                 Column( 'nic_2_ip',String(45) ),
                 Column( 'nic_2_mac',String(45) ),
+                Column( 'nic_3_vlan',String(45) ),
+                Column( 'nic_3_ip',String(45) ),
+                Column( 'nic_3_mac',String(45) ),
                 Column( 'request_text',Text ),
         )
     except Exception as e:

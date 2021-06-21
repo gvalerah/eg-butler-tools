@@ -14,16 +14,18 @@
 scr_functions_template="""
 // Updates Subnets options upon Selected project -----------------------
 function subnets() {
-    //window.alert( "subnets(): IN" );            
+    //window.alert("subnets(): IN" );            
     // GET UUID FOR CURRENT PROJECT, IMPORTANT ON ON CHANGE ... --------
     var project = $("#vmProject");
     var project_uuid = project.val();
     // POPULATE SUBNETS LIST FOR PROPER PROJECT, ON LINE ---------------
     var subnets = [];                
     {%- for project in subnet_options %}
-    if (project_uuid == "{{project.0}}"){
-        subnets = {{project.1}};
-    }
+    {%- if loop.index == 1 %}
+    if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+    {%- else %}
+    else if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+    {%- endif %}
     {%- endfor %}
     // -----------------------------------------------------------------
     // PRIMARY SUB NET OPTIONS INITIALIZATION --------------------------    
@@ -52,7 +54,94 @@ function subnets() {
         }
     });
     {%- endfor %}
+    subnet_names();
 };
+
+// Updates Subnets options upon Selected project -----------------------
+function subnet_names() {
+    //window.alert( "subnet_names(): IN" );            
+    // GET UUID FOR CURRENT PROJECT, IMPORTANT ON ON CHANGE ... --------
+    var project = $("#vmProject");
+    var project_uuid = project.val();
+    //window.alert( "subnet_names(): populate subnets" );            
+    // POPULATE SUBNETS LIST FOR PROPER PROJECT, ON LINE ---------------
+    var subnets = [];                
+    var selected = [];
+    // Sets projects's subnets arrays          
+    {%- for project in subnet_options %}
+        {%- if loop.index == 1 %}
+    if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+        {%- else %}
+    else if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+        {%- endif %}
+    {%- endfor %}
+    
+    //window.alert( "subnet_names(): capture selected ..." );            
+    // Capture selected uuids ------------------------------------------
+    {%- for i in range(4) %}
+        var $uid{{i}}  = $("#vmVlan{{i}}Uuid");    
+        if ( document.getElementById("vmVlan{{i}}Selected").checked )  {
+            selected.push( $uid{{i}}.val() );
+        }
+    {%- endfor %}
+
+    //window.alert("selected = " + selected.length + " [" + selected+"]");
+    //window.alert( "subnet_names(): reset subnets list ..." );            
+    // RESET Subnets list ----------------------------------------------
+    {%- for i in range(4) %}
+        var $uid{{i}}  = $("#vmVlan{{i}}Uuid");    
+        var $flag{{i}} = $("#vmVlan{{i}}Selected");    
+        var $name{{i}} = $("#vmVlan{{i}}Name");  
+        $uid{{i}}.val("<uuid>{{i}}");
+        $name{{i}}.val("<name>{{i}}");
+        //window.alert( "RESET Subnet {{i}}");
+        // Load subnets data up to max or empty
+        if ( {{i}} < subnets.length ) {
+            $uid{{i}}.val(subnets[{{i}}][0]);
+            $name{{i}}.val(subnets[{{i}}][1]);
+            document.getElementById("vmVlan{{i}}Uuid").value = subnets[{{i}}][0];
+            document.getElementById("vmVlan{{i}}Name").value = subnets[{{i}}][1];
+            if (selected.includes($uid{{i}}.val())) {
+            //if (selected.includes(document.getElementById("vmVlan{{i}}Uuid").value)) {
+                document.getElementById("vmVlan{{i}}Selected").checked = true;
+                document.getElementById("vmVlan{{i}}Selected").value = subnets[{{i}}][0];
+            }
+        } else {
+            $uid{{i}}.val("");
+            $name{{i}}.val("");
+            document.getElementById("vmVlan{{i}}Selected").checked = false;
+        }
+    {%- endfor %}
+    /*
+    window.alert(
+        $uid0.val()+"|"+$name0.val()+"|"+document.getElementById("vmVlan0Selected").checked+" *** "+
+        $uid1.val()+"|"+$name1.val()+"|"+document.getElementById("vmVlan1Selected").checked+" *** "+
+        $uid2.val()+"|"+$name2.val()+"|"+document.getElementById("vmVlan2Selected").checked+" *** "+
+        $uid3.val()+"|"+$name3.val()+"|"+document.getElementById("vmVlan3Selected").checked
+    );
+    */
+    // window.alert("selected = " + selected.length + " " + selected);
+      
+    /*
+    // -----------------------------------------------------------------
+    // ALL SUBNETS OPTIONS INITIALIZATION ------------------------------
+    {%- for i in range(4) %}
+    var $uid{{i}}  = $("#vmVlan{{i}}Uuid");    
+    var $flag{{i}} = $("#vmVlan{{i}}Selected");    
+    var $name{{i}} = $("#vmVlan{{i}}Name");    
+    var nic_uuid   = $uid{{i}}.val();
+    $uid{{i}}.empty();
+    document.getElementById('vmVlan{{i}}Selected').checked = false
+    $name{{i}}.empty();
+    $.each(selected, function(index,uuid) {
+        if ( uuid == nic_uuid ) {
+            document.getElementById('vmVlan{{i}}Selected').checked = true
+        }
+    });
+    {%- endfor %}
+    */
+};
+
 
 function managements() {
     // GET Value FOR CURRENT Corporate, IMPORTANT ON ON CHANGE ... -----
@@ -176,7 +265,8 @@ function load() {
     //window.alert( "load() IN" );            
     managements();
     set_attributes();
-    subnets();
+    //subnets();
+    subnet_names();
     summary();
 };
 // ---------------------------------------------------------------------
@@ -194,7 +284,8 @@ $("#vmProject").on('change',function() {
          vals =  {{project.1}};
     }
     {%- endfor %}
-    subnets();
+    //subnets();
+    subnet_names();
 });
 #}
 $("#vmProject").on('change',function() {
@@ -206,7 +297,8 @@ $("#vmProject").on('change',function() {
          vals =  {{project.1}};
     }
     {%- endfor %}
-    subnets();
+    //subnets();
+    subnet_names();
 });
 
 $("#vmProjectName").on('change',function() {
@@ -218,7 +310,8 @@ $("#vmProjectName").on('change',function() {
          vals =  {{project.1}};
     }
     {%- endfor %}
-    subnets();
+    //subnets();
+    subnet_names();
 });
 
 // Corporate change event ---------------------------------------------- 
@@ -272,7 +365,9 @@ function set_attributes() {
     
     $("#vmMessage4").val("project: " + $("#vmProject").val() + " " + $("#vmProjectName").val());
 
-    subnets();
+    //subnets();
+    //window.alert( "set attributes callig subnet_namess ..."  );            
+    subnet_names();
     return;           
 };
 

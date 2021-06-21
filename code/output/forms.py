@@ -26,7 +26,7 @@ from wtforms.validators     import Regexp, Required
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_categories.py
@@ -50,7 +50,7 @@ class frm_categories_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_clusters.py
@@ -77,7 +77,7 @@ class frm_clusters_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_cost_centers.py
@@ -105,7 +105,7 @@ class frm_cost_centers_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_disk_images.py
@@ -136,7 +136,7 @@ class frm_disk_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_domains.py
@@ -161,7 +161,7 @@ class frm_domains_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_interface.py
@@ -190,7 +190,7 @@ class frm_interface_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_prism_vm.py
@@ -254,6 +254,9 @@ class frm_nutanix_prism_vm(Form):
     nic_2_vlan               = StringField("nic_2_vlan?")
     nic_2_ip                 = StringField("nic_2_ip?")
     nic_2_mac                = StringField("nic_2_mac?")
+    nic_3_vlan               = StringField("nic_3_vlan?")
+    nic_3_ip                 = StringField("nic_3_ip?")
+    nic_3_mac                = StringField("nic_3_mac?")
     request_text             = TextField("request_text?")
 
     submit_Save              = SubmitField  ('Save')
@@ -270,7 +273,7 @@ class frm_nutanix_prism_vm_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_vm_images.py
@@ -296,7 +299,7 @@ class frm_nutanix_vm_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_projects.py
@@ -321,7 +324,7 @@ class frm_projects_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_rates.py
@@ -353,7 +356,7 @@ class frm_rates_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_requests.py
@@ -387,7 +390,7 @@ class frm_requests_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_request_type.py
@@ -412,7 +415,7 @@ class frm_request_type_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_roles.py
@@ -438,7 +441,7 @@ class frm_Role_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_subnets.py
@@ -470,7 +473,7 @@ class frm_subnets_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-18 21:57:55
+# GLVH @ 2021-06-20 20:20:09
 # =============================================================================
 
 # gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_users.py
@@ -873,6 +876,7 @@ def ip_address(form,field):
 
 def subnet(form,field):
     form.logger.debug(f"subnet: IN field={field.name}")
+    return
     # removes any previous errors
     subnet_keys = []
     form.errors.pop('vmSubnet',None)
@@ -916,10 +920,47 @@ def subnet(form,field):
         else:
             raise ValidationError(f'{this()}: {field.name}: Subred invalida')
     form.logger.debug(f"{this()}: field={field.name} OUT")
- 
+
+def form_log(form,l):
+    l(f"FORM")
+    l(f"Status       = {form.vmStatus.data}")
+    l(f"Name         = {form.vmName.data}")
+    l(f"CPS          = {form.vmCPS.data}")
+    l(f"Sockets      = {form.vmSockets.data}")
+    l(f"CPU          = {form.vmCPU}")
+    l(f"RAM          = {form.vmRAM.data}")
+    l(f"Corporate    = {form.vmCorporate.data}")
+    l(f"Department   = {form.vmDepartment.data}")
+    l(f"CC           = {form.vmCC.data}")
+    l(f"Type         = {form.vmType.data}")
+    l(f"D0           = {form.vmDisk0Size.data} {form.vmDisk0Image.data}")
+    l(f"D1           = {form.vmDisk1Size.data}")
+    l(f"D2           = {form.vmDisk2Size.data}")
+    l(f"D3           = {form.vmDisk3Size.data}")
+    l(f"D4           = {form.vmDisk4Size.data}")
+    l(f"D5           = {form.vmDisk5Size.data}")
+    l(f"D6           = {form.vmDisk6Size.data}")
+    l(f"D7           = {form.vmDisk7Size.data}")
+    l(f"D8           = {form.vmDisk8Size.data}")
+    l(f"D9           = {form.vmDisk9Size.data}")
+    l(f"D10          = {form.vmDisk10Size.data}")
+    l(f"D11          = {form.vmDisk11Size.data}")
+    l(f"Cluster      = {form.vmCluster.data}")
+    l(f"Project      = {form.vmProject.data}")
+    l(f"Category     = {form.vmCategory.data}")
+    l(f"ProjectName  = {form.vmProjectName.data}")
+    l(f"CategoryName = {form.vmCategoryName.data}")
+    l(f"VLAN 0       = {form.vmVlan0Selected.data} | {form.vmVlan0Uuid.data} | {form.vmVlan0Name.data}")
+    l(f"VLAN 1       = {form.vmVlan1Selected.data} | {form.vmVlan1Uuid.data} | {form.vmVlan1Name.data}")
+    l(f"VLAN 2       = {form.vmVlan2Selected.data} | {form.vmVlan2Uuid.data} | {form.vmVlan2Name.data}")
+    l(f"VLAN 3       = {form.vmVlan3Selected.data} | {form.vmVlan3Uuid.data} | {form.vmVlan3Name.data}")
+    l(f"DRP          = {form.vmDRP.data}")
+    l(f"DRPRemote    = {form.vmDRPRemote.data}")
+    l(f"CDROM        = {form.vmCDROM.data}")
+
+
 class frm_request(Form):
     logger            = None
-    #mTopCC           = IntegerField()
     vmTopCC           = 0
     vmTopCCCode       = ''
     # General
@@ -948,50 +989,35 @@ class frm_request(Form):
                         validators=[NumberRange(min=0),disk_size],default=0)
     vmDisk0Image      = SelectField()
     vmDisk1Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk1Image      = SelectField()
     vmDisk2Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk2Image      = SelectField()
     vmDisk3Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk3Image      = SelectField()
     vmDisk4Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk4Image      = SelectField()
     vmDisk5Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk5Image      = SelectField()
     vmDisk6Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk6Image      = SelectField()
     vmDisk7Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk7Image      = SelectField()
     vmDisk8Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk8Image      = SelectField()
     vmDisk9Size       = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk9Image      = SelectField()
     vmDisk10Size      = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk10Image     = SelectField()
     vmDisk11Size      = IntegerField(validators=[NumberRange(min=0),disk_size],default=0)
-    #vmDisk11Image     = SelectField()
     # Ownership
     vmCluster         = SelectField()
-    #mProject         = SelectField()
-    #mCategory        = SelectField()
     vmProject         = StringField()
     vmCategory        = StringField()
     vmProjectName     = StringField()
     vmCategoryName    = StringField()
     # Networking      --------------------------------------------------
-    vmSubnet          = SelectField(
-                        validators=[subnet])
-    vmAddress         = StringField(validators=[Optional(),IPAddress('IP inválida'),ip_address])
-    vmMacAddress      = StringField(validators=[Optional()])
-    # Matriz de datos para vlans
-    vmNic0Vlan        = SelectField(validators=[subnet])
-    vmNic1Vlan        = SelectField(validators=[subnet])
-    vmNic2Vlan        = SelectField(validators=[subnet])
-    vmNic0Ip          = StringField(validators=[Optional(),IPAddress('IP inválida'),ip_address])
-    vmNic1Ip          = StringField(validators=[Optional(),IPAddress('IP inválida'),ip_address])
-    vmNic2Ip          = StringField(validators=[Optional(),IPAddress('IP inválida'),ip_address])
-    vmNic0Mac         = StringField(validators=[Optional()])
-    vmNic1Mac         = StringField(validators=[Optional()])
-    vmNic2Mac         = StringField(validators=[Optional()])
+    vmVlan0Name       = StringField()
+    vmVlan1Name       = StringField()
+    vmVlan2Name       = StringField()
+    vmVlan3Name       = StringField()
+    vmVlan0Uuid       = StringField()
+    vmVlan1Uuid       = StringField()
+    vmVlan2Uuid       = StringField()
+    vmVlan3Uuid       = StringField()
+    vmVlan0Selected   = BooleanField(default=False)
+    vmVlan1Selected   = BooleanField(default=False)
+    vmVlan2Selected   = BooleanField(default=False)
+    vmVlan3Selected   = BooleanField(default=False)
     #                 --------------------------------------------------
     vmUsername        = StringField()
     vmPassword        = StringField()
@@ -1014,8 +1040,6 @@ class frm_request(Form):
     submit_Aprobar    = SubmitField ('Aprobar')
     submit_Retorno    = SubmitField ('Retorno')
     # Validation data, hidden fields -----------------------------------
-    # List of valid subnet ranges should be filled in runtime
-    #GV 20210317 vmSubnetRange     = None
     vmData            = {}
     # Interface only fields, this is volatile data
     vmDebug           = BooleanField()
@@ -1023,6 +1047,10 @@ class frm_request(Form):
     vmMessage2        = None
     vmMessage3        = None
     vmMessage4        = None
+    vmMessage5        = None
+    vmMessage6        = None
+    vmMessage7        = None
+    vmMessage8        = None
     # list used for subnet duplicity validation
     vmSubnetKeys      = []
     # ------------------------------------------------------------------

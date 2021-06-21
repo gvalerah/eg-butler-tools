@@ -1,4 +1,4 @@
-<form method="post" class="form" role="form">
+<form method="post" class="form" role="form" id="request">
     <!-- csrf_token: {{ form.csrf_token }} hidden_tag(): {{ form.hidden_tag() }} name: {{ form.name }} -->
     <table bgcolor=white> <!-- MAIN TABLE -------------------------- -->
         <tr>
@@ -41,9 +41,9 @@
                         <!-- td><input class="form-control" id="vmCPS" name="vmCPS" type="number" value="{{form.vmCPS.data}}" onchange="get_cpu()"></td -->
                         <td><input class="form-control" id="vmCPS" name="vmCPS" type="number" value="{{form.vmCPS.data}}"></td>
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
-                            <td width=32></td>
+                            <td width=32></td> 
                             <td><b>Proyecto</b></td>
-                            <td><input class="form-control-plaintext" id="vmProjectName" name="vmProjectName" type="text" value="Project Name" style="color:blue;font-weight:bold;"></td>
+                            <td><input class="form-control-plaintext" id="vmProjectName" name="vmProjectName" type="text" value="Project Name" style="color:blue;font-weight:bold;" disabled></td>
                         {%- endif %}
                     </tr>
                     <tr>
@@ -53,7 +53,7 @@
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
                             <td width=32></td>
                             <td><b>Categoria</b></td>
-                            <td><input class="form-control-plaintext" id="vmCategoryName" name="vmCategoryName" type="text" value="Category Name" style="color:blue;font-weight:bold;"></td>
+                            <td><input class="form-control-plaintext" id="vmCategoryName" name="vmCategoryName" type="text" value="Category Name" style="color:blue;font-weight:bold;" disabled></td>
                         {%- endif  %}
                     </tr>
                     <tr>
@@ -65,12 +65,6 @@
                         
                             <!-- EXPERIMENTO OK-->
                             <td width=32></td>
-                            <td><b>Subred</b></td>
-                            <td>
-                                <select class="form-control" name="vmSubnet" id="vmSubnet">
-                                    <option selected value="{{form.vmSubnet.data.split(':').0}}">{{"vmSubnetName"}}</option>
-                                </select>
-                            </td>
                             
                             <!-- FIN DE EXPERIMENTO OK -->
                             
@@ -127,16 +121,6 @@
                         <td width=32></td>
                         <td><b>CD ROM</b></td>
                         <td>{{ form.vmCDROM }}</td>
-
-                        {#%- if form.vmData.extra is defined and form.vmData.extra %}
-                        
-                            <!-- EXPERIMENTO OK-->
-                            <td width=32></td>
-                            <td><b>Subred</b></td>
-                            <td><select class="form-control" name="vmSubnet" id="vmSubnet"></select></td>
-                            <!-- FIN DE EXPERIMENTO OK -->
-                            
-                        {%- endif  %#}
                     </tr>
                     <tr>
                         <td><b>Ambiente</b></td>
@@ -153,15 +137,8 @@
                         </td>
                         <td></td>
                         <td><b>Resumen de MV</b></td>
-                        <td><input class="form-control-plaintext" id="vmResume" name="vmResume" type="text" value="Resume" style="color:blue;font-weight:bold;"></td>
+                        <td><input class="form-control-plaintext" id="vmResume" name="vmResume" type="text" value="Resume" style="color:blue;font-weight:bold;" disabled></td>
 
-                        {#%- if form.vmData.extra is defined and form.vmData.extra %}
-                        <td width=32></td>
-                        <td><b>IP Address</b></td>
-                        <td>
-                            <input class="form-control" id="vmAddress" name="vmAddress" type="text" value="{{form.vmAddress.data}}"></td>
-                        </td>
-                        {%- endif %#}
                     </tr>
                     <tr>
                         <td><b>Tipo de disco</b></td>
@@ -178,7 +155,7 @@
                         </td>
                         <td></td>
                         <td><b>Mensual estimado</b></td>
-                        <td><input class="form-control-plaintext" id="vmMonth" name="vmMonth" type="text" value="Month" style="color:blue;font-weight:bold;"></td>
+                        <td><input class="form-control-plaintext" id="vmMonth" name="vmMonth" type="text" value="Month" style="color:blue;font-weight:bold;" disabled></td>
                         {#%- if form.vmData.extra is defined and form.vmData.extra %}
                         <td width=32></td>
                         <td><b>MAC Address</b></td>
@@ -187,9 +164,65 @@
                         </td>
                         {%- endif %#}
                     </tr>
-                                        
+                    <!-- tr>
+                        <td><b>Subredes</b></td>
+                        <td>
+                            <table>
+                            <tr><td>1</td width=320><td><input class="form-control-plaintext" id="vmVlan0Name" name="vmVlan0Name" type="text" value="{{form.vmVlan0Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan0Selected }}</td></tr>
+                            <tr><td>2</td><td><input class="form-control-plaintext" id="vmVlan1Name" name="vmVlan1Name" type="text" value="{{form.vmVlan1Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan1Selected }}</td></tr>
+                            <tr><td>3</td><td><input class="form-control-plaintext" id="vmVlan2Name" name="vmVlan2Name" type="text" value="{{form.vmVlan2Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan2Selected }}</td></tr>
+                            <tr><td>4</td><td><input class="form-control-plaintext" id="vmVlan3Name" name="vmVlan3Name" type="text" value="{{form.vmVlan3Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan3Selected }}</td></tr>
+                            <tr><td>1</td><td><input class="form-control-plaintext" id="vmVlan0Uuid" name="vmVlan0Uuid" type="text" value="{{form.vmVlan0Uuid.data}}" style="color:red;" disabled></td></tr>
+                            <tr><td>2</td><td><input class="form-control-plaintext" id="vmVlan1Uuid" name="vmVlan1Uuid" type="text" value="{{form.vmVlan1Uuid.data}}" style="color:red;" disabled></td></tr>
+                            <tr><td>3</td><td><input class="form-control-plaintext" id="vmVlan2Uuid" name="vmVlan2Uuid" type="text" value="{{form.vmVlan2Uuid.data}}" style="color:red;" disabled></td></tr>
+                            <tr><td>4</td><td><input class="form-control-plaintext" id="vmVlan3Uuid" name="vmVlan3Uuid" type="text" value="{{form.vmVlan3Uuid.data}}" style="color:red;" disabled></td></tr>
+                            </table>
+                            
+                        </td>
+                    </tr -->
+                    
                 </table>
             </td>
+        </tr>
+        <hr>
+        <tr>
+            <table>
+                <td width=192><b>Subredes</b></td>
+                <td>
+                    <table width=960>
+                    <tr>
+                        <td>1</td>
+                        <td width=320><input class="form-control-plaintext" id="vmVlan0Name" name="vmVlan0Name" type="text" value="{{form.vmVlan0Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
+                        <td width=32>{{ form.vmVlan0Selected }}</td>
+                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                        <td><input class="form-control-plaintext" id="vmVlan0Uuid" name="vmVlan0Uuid" type="text" value="{{form.vmVlan0Uuid.data}}" style="color:red;" disabled></td>
+                        {%- endif %}
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><input class="form-control-plaintext" id="vmVlan1Name" name="vmVlan1Name" type="text" value="{{form.vmVlan1Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
+                        <td>{{ form.vmVlan1Selected }}</td>
+                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                        <td><input class="form-control-plaintext" id="vmVlan1Uuid" name="vmVlan1Uuid" type="text" value="{{form.vmVlan1Uuid.data}}" style="color:red;" disabled></td></tr>
+                        {%- endif %}
+                    <tr>
+                        <td>3</td>
+                        <td><input class="form-control-plaintext" id="vmVlan2Name" name="vmVlan2Name" type="text" value="{{form.vmVlan2Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
+                        <td>{{ form.vmVlan2Selected }}</td>
+                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                        <td><input class="form-control-plaintext" id="vmVlan2Uuid" name="vmVlan2Uuid" type="text" value="{{form.vmVlan2Uuid.data}}" style="color:red;" disabled></td></tr>
+                        {%- endif %}
+                    <tr>
+                        <td>4</td>
+                        <td><input class="form-control-plaintext" id="vmVlan3Name" name="vmVlan3Name" type="text" value="{{form.vmVlan3Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
+                        <td>{{ form.vmVlan3Selected }}</td>
+                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                        <td><input class="form-control-plaintext" id="vmVlan3Uuid" name="vmVlan3Uuid" type="text" value="{{form.vmVlan3Uuid.data}}" style="color:red;" disabled></td></tr>
+                        {%- endif %}
+                    </table>
+                    
+                </td>
+            </table>
         </tr>
         <hr>
         <!-- td><input class="form-control-plaintext" id="vmHelp" name="vmHelp" type="text" value="" style="color:red"></td -->
@@ -275,37 +308,7 @@
             </table>
             <!-- SUBNETS -->
             <hr>
-            <table>
-                <thead>
-                    <tr>
-                        <th width=256><b>Otras Subredes</b></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <select class="form-control" name="vmNic0Vlan" id="vmNic0Vlan">
-                                <option selected value="{{form.vmNic0Vlan.data.split(':').0}}">{{"vmNic0VlanName"}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select class="form-control" name="vmNic1Vlan" id="vmNic1Vlan">
-                                <option selected value="{{form.vmNic1Vlan.data.split(':').0}}">{{"vmNic1VlanName"}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select class="form-control" name="vmNic2Vlan" id="vmNic2Vlan">
-                                <option selected value="{{form.vmNic2Vlan.data.split(':').0}}">{{"vmNic2VlanName"}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr>
+            <hr -->
             </td>
         </tr>
         <tr><td>

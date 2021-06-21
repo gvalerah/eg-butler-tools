@@ -195,8 +195,8 @@ def get_disk_image_list():
     return image_list
 
 def get_cluster_list():
-    # List of projects need to be refreshed from Nutanix Cluster -------
-    # These need to come from Nutanix Images
+    # List of clusters need to be refreshed from Nutanix ---------------
+    # These need to come from Nutanix 
     # and updated in local Table
     cluster_list = []
     clusters =  db.session.query(Clusters).all()
@@ -207,8 +207,8 @@ def get_cluster_list():
     return cluster_list
 
 def get_project_list():
-    # List of projects need to be refreshed from Nutanix Cluster -------
-    # These need to come from Nutanix Images
+    # List of projects need to be refreshed from Nutanix ---------------
+    # These need to come from Nutanix 
     # and updated in local Table
     project_list = []
     projects =  db.session.query(Projects).all()
@@ -239,6 +239,15 @@ def get_subnet_list():
         subnet_list.append([subnet.get_dict()])
     logger.trace(f"{this()}: {pformat(subnet_list)}")
     return subnet_list
+
+def get_subnet_name(uuid,subnet_list):
+    logger.warning(f"{this()}: uuid = {uuid}")
+    name = ''
+    for subnet in subnet_list:
+        if subnet[0] == uuid:
+            name = subnet[1]
+    logger.warning(f"{this()}: name = {name}")    
+    return name
 
 def get_cluster_uuid(data,cluster_name):
     for uuid,name in data.get('clusters'):
@@ -448,12 +457,12 @@ def get_rates(margin=1,CC_Id=1):
                 # Setup rate as per disk type
                 if row.Typ_Code == 'DSK': # and row.CC_Id == CC_Id:
                     dsk_type = 'DSK'
-                    if  row.CC_Id == CC_Id and row.CC_Id%100 == 11:
-                        logger.debug(f'{this()}: {row.Typ_Code} {row.CC_Id} {CC_Id} -> DSK=*11 -> HDD')
+                    if  row.CC_Id == CC_Id and row.CC_Id%10 == 1:
+                        logger.debug(f'{this()}: {row.Typ_Code} {row.CC_Id} {CC_Id} -> DSK=*1 -> HDD')
                         rates.update({ 'HDD': rates[row.Typ_Code] })
                         dsk_rate = rates[row.Typ_Code]
-                    elif  row.CC_Id == CC_Id and row.CC_Id%100 == 12:
-                        logger.debug(f'{this()}: {row.Typ_Code} {row.CC_Id} {CC_Id} -> DSK=*12 -> SSD')
+                    elif  row.CC_Id == CC_Id and row.CC_Id%10 == 2:
+                        logger.debug(f'{this()}: {row.Typ_Code} {row.CC_Id} {CC_Id} -> DSK=*2 -> SSD')
                         rates.update({ 'SSD'   : rates[row.Typ_Code] })
                         dsk_rate = rates[row.Typ_Code]
         if dsk_rate == 0:
@@ -589,7 +598,8 @@ def notify_request(Id,subject_detail=None,data=None,recipients=None):
                 subject = f'{subject}. {subject_detail}'
             sender = current_app.config['BUTLER_MAIL_SENDER']
             # Look for Requets's user's ids
-            row = requests.query.filter(requests.Id == Id).one()
+            # row = requests.query.filter(requests.Id == Id).one()
+            row = db.session.query(Requests).filter(Requests.Id == Id).one()
             # Look for all possible email recipients
             if recipients is None:
                 rows = User.query.filter(
@@ -611,9 +621,9 @@ def notify_request(Id,subject_detail=None,data=None,recipients=None):
                 msg = Message(  subject, sender = sender, recipients = recipients )
                 logger.trace(f"{this()}: msg = {msg}")
                 # HTML body
-                logger.warning(f'{this()}: 377 calling output request(Id={Id})')
+                logger.warning(f'{this()}: calling output request(Id={Id})')
                 html = output_Request(Id,data=data).encode("ascii","xmlcharrefreplace")
-                logger.trace(f'{this()}: 351 html = {html}')
+                logger.trace(f'{this()}: html = {html}')
                 msg.html = html
                 logger.warning(f'{this()}: queueing email for request {Id} ...')
                 mail.send(msg)
@@ -699,7 +709,7 @@ def calculate_form(form,row,rox):
     logger.debug(f"{this()}: Exit")
         
 def load_form(form,row,rox):
-    logger.debug(f'{this()}: Enter. loading form from DB data ...')
+    logger.warning(f'{this()}: Enter. loading form from DB data ...')
     try:
         if rox.vm_name is None or str(rox.vm_name)== 'None':
             rox.vm_name = ''
@@ -735,22 +745,12 @@ def load_form(form,row,rox):
         form.vmCluster.data     = rox.cluster_uuid
         form.vmProject.data     = rox.project_uuid
         form.vmCategory.data    = rox.category_name
-        # Networking      
-        form.vmSubnet.data      = f'{rox.subnet_uuid}:{rox.project_uuid}'
-        logger.debug(f"{this()}: form.vmSubnet.data builded to = {form.vmSubnet.data}")
-        for i in range(3):
-            getattr(form,f'vmNic{i}Vlan').data  = f"{getattr(rox,f'nic_{i}_vlan')}:{rox.project_uuid}" 
-            getattr(form,f'vmNic{i}Ip').data    = getattr(rox,f'nic_{i}_ip') 
-            getattr(form,f'vmNic{i}Mac').data   = getattr(rox,f'nic_{i}_mac') 
-            logger.trace(f"{this()}: {i} vlan:{getattr(form,f'vmNic{i}Vlan').data} ip:{getattr(form,f'vmNic{i}Ip').data} mac:{getattr(form,f'vmNic{i}Mac').data}")
-        # --------------------------------------------------------------
-        form.vmAddress.data     = rox.vm_ip
         form.vmUsername.data    = rox.vm_username
         form.vmPassword.data    = rox.vm_password
         # Array of Backup sets
-        form.vmBackUpSet1       = rox.backup_set_1
-        form.vmBackUpSet2       = rox.backup_set_2
-        form.vmBackUpSet3       = rox.backup_set_3
+        form.vmBackUpSet1.data  = rox.backup_set_1
+        form.vmBackUpSet2.data  = rox.backup_set_2
+        form.vmBackUpSet3.data  = rox.backup_set_3
         # Flags
         form.vmCDROM.data       = rox.vm_cdrom
         form.vmDRP.data         = rox.vm_drp
@@ -758,25 +758,35 @@ def load_form(form,row,rox):
         
         # Fix some initial values --------------------------------------
         # networking
-        if form.vmSubnet.data.startswith('None:') and len(form.vmSubnet.choices):
-            form.vmSubnet.data = form.vmSubnet.choices[0][1][0][0]
-            logger.debug(f'{this()}: form.vmSubnet.data adjusted to = {form.vmSubnet.choices[0][1][0][0]}')
-        for i in range(3):
-            data = getattr(form,f'vmNic{i}Vlan').data
-            if data.startswith('None:') and len(form.vmSubnet.choices):
-                setattr(getattr(form,f'vmNic{i}Vlan'),'data',form.vmSubnet.choices[0][1][0][0])
-                logger.debug(f'{this()}: form.vmNic{i}Vlan.data adjusted to = {form.vmSubnet.choices[0][1][0][0]}')
-        for i in range(3):
-            logger.debug(f"{this()}: {i} vlan:{getattr(form,f'vmNic{i}Vlan').data} ip:{getattr(form,f'vmNic{i}Ip').data} mac:{getattr(form,f'vmNic{i}Mac').data}")
-
-        logger.debug(f"{this()}: form.vmSubnet.data={form.vmSubnet.data}")
-        logger.debug(f"{this()}: form.vmNic0Vlan.data={form.vmNic0Vlan.data}")
-        logger.debug(f"{this()}: form.vmNic1Vlan.data={form.vmNic1Vlan.data}")
-        logger.debug(f"{this()}: form.vmNic2Vlan.data={form.vmNic2Vlan.data}")
+        # Populate Subnets data
+        subnet_list = []
+        for project in get_project_subnet_options():
+            if project[0] == rox.project_uuid:
+                subnet_list = project[1]
+        pprint(subnet_list)
+        # populates list of selected vlans
+        selected_list = []
+        if rox.nic_0_vlan  is not None: selected_list.append(rox.nic_0_vlan)
+        if rox.nic_1_vlan  is not None: selected_list.append(rox.nic_1_vlan)
+        if rox.nic_2_vlan  is not None: selected_list.append(rox.nic_2_vlan)
+        if rox.nic_3_vlan  is not None: selected_list.append(rox.nic_3_vlan)
+        pprint(selected_list)
+        for i in range(4):
+            if i < len(subnet_list):
+                uuid,name = subnet_list[i]
+            else:
+                uuid,name = ['','']
+            flag = True if uuid in selected_list else False
+            print(f"getattr(form,f'vmVlan{i}Selected.').data={getattr(form,f'vmVlan{i}Selected').data} {flag}")
+            getattr(form,f'vmVlan{i}Name').data     = name
+            getattr(form,f'vmVlan{i}Selected').data = flag                
+            getattr(form,f'vmVlan{i}Uuid').data     = uuid                
+            print(f"getattr(form,f'vmVlan{i}Selected').data={getattr(form,f'vmVlan{i}Selected').data} {flag}")
+            logger.warning(f"{this()}: name: {name} uuid: {uuid} flag: {flag}")
+            logger.warning(f"{this()}: form.vmVlan{i}Name = {getattr(form,f'vmVlan{i}Name')}")
+            logger.warning(f"{this()}: form.vmVlan{i}Uuid = {getattr(form,f'vmVlan{i}Uuid')}")
+            logger.warning(f"{this()}: form.vmVlan{i}Sele = {getattr(form,f'vmVlan{i}Selected')}")
         
-        if form.vmAddress.data in [None,'None']:
-            form.vmAddress.data = ''
-            logger.debug(f'{this()}: form.vmAddress.data adjusted to = {form.vmAddress.data}')
         if form.vmDRP.data is None:
             form.vmDRP.data = False
             logger.debug(f'{this()}: form.vmDRP.data adjusted to = {form.vmDRP.data}')
@@ -795,7 +805,7 @@ def load_form(form,row,rox):
 
 def save_form(form,row,rox):
     try:
-        logger.debug(f'{this()}: saving form to DB records ...')
+        logger.warning(f'{this()}: saving form to DB records ...')
         # Identification ---------------------------------------------------
         rox.vm_name          = form.vmName.data
         #row.Status           = form.vmStatus.data
@@ -833,10 +843,20 @@ def save_form(form,row,rox):
             setattr( rox, f'disk_{i}_size' , getattr( form, f'vmDisk{i}Size').data  ) 
             if i == 0:
                 setattr( rox, f'disk_{i}_image', getattr( form, f'vmDisk{i}Image').data ) 
-        for i in range(3):
-            setattr( rox, f'nic_{i}_vlan' , getattr( form, f'vmNic{i}Vlan').data  ) 
-            setattr( rox, f'nic_{i}_ip',    getattr( form, f'vmNic{i}Ip').data ) 
-            setattr( rox, f'nic_{i}_mac',   getattr( form, f'vmNic{i}Mac').data ) 
+        logger.warning(f"form.vmVlan0Selected.data={form.vmVlan0Selected.data} >{form.vmVlan0Uuid.data}< >{form.vmVlan0Name.data}<")
+        logger.warning(f"form.vmVlan1Selected.data={form.vmVlan1Selected.data} >{form.vmVlan1Uuid.data}< >{form.vmVlan1Name.data}<")
+        logger.warning(f"form.vmVlan2Selected.data={form.vmVlan2Selected.data} >{form.vmVlan2Uuid.data}< >{form.vmVlan2Name.data}<")
+        logger.warning(f"form.vmVlan3Selected.data={form.vmVlan3Selected.data} >{form.vmVlan3Uuid.data}< >{form.vmVlan3Name.data}<")
+
+        rox.nic_0_vlan = form.vmVlan0Uuid.data if form.vmVlan0Selected.data else None
+        rox.nic_1_vlan = form.vmVlan1Uuid.data if form.vmVlan1Selected.data else None
+        rox.nic_2_vlan = form.vmVlan2Uuid.data if form.vmVlan2Selected.data else None
+        rox.nic_3_vlan = form.vmVlan3Uuid.data if form.vmVlan3Selected.data else None        
+        # Networking      
+        logger.warning(f"nic_0_vlan={rox.nic_0_vlan}")
+        logger.warning(f"nic_1_vlan={rox.nic_1_vlan}")
+        logger.warning(f"nic_2_vlan={rox.nic_2_vlan}")
+        logger.warning(f"nic_3_vlan={rox.nic_3_vlan}")
         # Array of Backup sets
         rox.backup_set_1  = form.vmBackUpSet1.data
         rox.backup_set_2  = form.vmBackUpSet2.data
@@ -845,25 +865,7 @@ def save_form(form,row,rox):
         rox.vm_drp        = form.vmDRP.data         
         rox.vm_drp_remote = form.vmDRPRemote.data         
         rox.vm_cdrom      = form.vmCDROM.data         
-        # Networking      
-        #form.vmSubnet.data      = f'{rox.subnet_uuid}:{rox.project_uuid}'
-        # --------------------------------------------------------------
-        rox.subnet_uuid   = form.vmSubnet.data.split(':')[0] 
-        for i in range(3):
-            if getattr(form,f'vmNic{i}Vlan').data is not None:
-                setattr(rox,f'nic_{i}_vlan',getattr(form,f'vmNic{i}Vlan').data.split(':')[0])
-            else:
-                # if invalid vlan then all data is reseted
-                setattr(rox,f'nic_{i}_vlan',None)
-                setattr(rox,f'nic_{i}_ip'  ,None)
-                setattr(rox,f'nic_{i}_mac' ,None)
-                
-        logger.debug(f"{this()}: form.vmSubnet.data={form.vmSubnet.data} {form.vmAddress.data} {form.vmMacAddress.data}")
-        logger.debug(f"{this()}: form.vmNic0Vlan.data={form.vmNic0Vlan.data} {form.vmNic0Ip.data} {form.vmNic0Mac.data}")
-        logger.debug(f"{this()}: form.vmNic1Vlan.data={form.vmNic1Vlan.data} {form.vmNic1Ip.data} {form.vmNic1Mac.data}")
-        logger.debug(f"{this()}: form.vmNic2Vlan.data={form.vmNic2Vlan.data} {form.vmNic2Ip.data} {form.vmNic2Mac.data}")
-            
-        rox.vm_ip         = form.vmAddress.data 
+        # Security and other      
         rox.vm_username   = form.vmUsername.data 
         rox.vm_password   = form.vmPassword.data 
         rox.request_text  = form.vmRequestText.data 
@@ -897,29 +899,32 @@ def output_Request(Id,data=None):
     data.update({'departments':department_list})
     data.update({'ccs'        :cc_list})
     data.update({'types'      :type_list})
+    data.update({'images'     :[]})
 
     image_list          = get_image_list()
     vmDiskImage_choices = [('','')]
     
     for image in image_list:
         vmDiskImage_choices.append(
-            (image.uuid,
-            f'{image.name} ({int(image.vm_disk_size_gib)} GB)')
+            (image.imageservice_uuid_diskclone,
+            f'{image.description} ({int(image.size_mib)/1024} GB)')
             )
+        data['images'].append((image.imageservice_uuid_diskclone,image.description))
+        
     
     if Id > 0:
         # GV db.session.close()
         row = db.session.query(
-                requests,
-                nutanix_prism_vm,
+                Requests,
+                Nutanix_Prism_VM,
                 Users,
                 Cost_Centers,
-                request_type
-                ).join(nutanix_prism_vm,nutanix_prism_vm.Request_Id==requests.Id
-                ).join(Users,Users.id==requests.User_Id
-                ).join(Cost_Centers,Cost_Centers.CC_Id==requests.CC_Id
-                ).join(request_type,request_type.Id==requests.Type
-                ).filter(requests.Id == Id
+                Request_Type
+                ).join(Nutanix_Prism_VM,Nutanix_Prism_VM.Request_Id==Requests.Id
+                ).join(Users,Users.id==Requests.User_Id
+                ).join(Cost_Centers,Cost_Centers.CC_Id==Requests.CC_Id
+                ).join(Request_Type,Request_Type.Id==Requests.Type
+                ).filter(Requests.Id == Id
                 ).first()
         if row is not None:
             # GV db.session.close()
@@ -927,25 +932,26 @@ def output_Request(Id,data=None):
             data.update({'disk_images':[]})
             data.update({'month':0})
             # Gets Monthly Rates as per Rates Table
-            rates = get_rates(CC_Id=row.requests.CC_Id)
+            rates = get_rates(CC_Id=row.Requests.CC_Id)
             for i in range(1):
-                uuid=getattr(row.nutanix_prism_vm,f'disk_{i}_image')
+                uuid=getattr(row.Nutanix_Prism_VM,f'disk_{i}_image')
                 name=''
                 for image in vmDiskImage_choices:
                     if image[0] == uuid:
                         name = image[1]
                         break
                 data['disk_images'].append(name)
+                data['images'].append(name)
                 
-            cpu = row.nutanix_prism_vm.num_sockets * rates['CPU']
-            ram = row.nutanix_prism_vm.memory_size_gib * rates['RAM']
+            cpu = row.Nutanix_Prism_VM.num_sockets * rates['CPU']
+            ram = row.Nutanix_Prism_VM.memory_size_gib * rates['RAM']
             data['storage'] = 0
             data['storage_type'] = ''
             for i in range(12):
-                data['storage'] += getattr(row.nutanix_prism_vm,f'disk_{i}_size')
+                data['storage'] += getattr(row.Nutanix_Prism_VM,f'disk_{i}_size')
             try:
-                if row.nutanix_prism_vm.disk_type%10 in [1,2,3]:
-                    data['storage_type'] = ['HDD','SSD','HYB'][row.nutanix_prism_vm.disk_type%10-1]
+                if row.Nutanix_Prism_VM.disk_type%10 in [1,2,3]:
+                    data['storage_type'] = ['HDD','SSD','HYB'][row.Nutanix_Prism_VM.disk_type%10-1]
                     dsk = data['storage'] * rates[data['storage_type']]
                 else:
                     dsk = 0
@@ -967,6 +973,7 @@ def output_Request(Id,data=None):
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
     current_app.jinja_env.globals.update(has_status=has_status)
     current_app.jinja_env.globals.update(get_description=get_description)
+    current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
     template       = current_app.jinja_env.get_template('report_request.html')
     logger.warning(f"{this()}: will render data using template: {template} from: 'report_request.html'")
     logger.warning(f"{this()}: dir template = {dir(template)}")
