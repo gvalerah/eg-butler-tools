@@ -3,7 +3,7 @@
     <table bgcolor=white> <!-- MAIN TABLE -------------------------- -->
         <tr>
             <td>
-                <table> <!-- Main VM fields request form ----------- -->
+                <table bgcolor=white border=0>  <!-- Main VM fields request form ----------- -->
                     <tr>
                         <td width=192><b>Solicitud</b></td>
                         {%- if row.Id > 0 %}
@@ -60,17 +60,11 @@
                         <td><b>Memoria RAM en GB</b></td>
                         <!-- <td><input class="form-control" id="vmRAM" name="vmRAM" type="number" value="{{rox.memory_size_gib}}"></td> -->
                         <td><input class="form-control" id="vmRAM" name="vmRAM" type="number" value="{{form.vmRAM.data}}"></td>
-                        
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
-                        
                             <!-- EXPERIMENTO OK-->
                             <td width=32></td>
-                            
                             <!-- FIN DE EXPERIMENTO OK -->
-                            
                         {%- endif  %}
-
-                        
                     </tr>
                     <tr>
                         <td><b>Corporativa</b></td>
@@ -86,8 +80,6 @@
                           </select>
                         </td>
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
-                        
-                            <!-- EXPERIMENTO OK-->
                             <td width=32></td>
                             <td><b>Copias de Seguridad</b></td>
                             <td>
@@ -101,8 +93,6 @@
                                     <td>{{ form.vmDRPRemote }}</td>
                                 </table>
                             </td>
-                            <!-- FIN DE EXPERIMENTO OK -->
-                            
                         {%- endif  %}
                     </tr>
                     <tr>
@@ -156,83 +146,88 @@
                         <td></td>
                         <td><b>Mensual estimado</b></td>
                         <td><input class="form-control-plaintext" id="vmMonth" name="vmMonth" type="text" value="Month" style="color:blue;font-weight:bold;" disabled></td>
-                        {#%- if form.vmData.extra is defined and form.vmData.extra %}
-                        <td width=32></td>
-                        <td><b>MAC Address</b></td>
-                        <td>
-                            <input class="form-control" id="vmMacAddress" name="vmMacAddress" type="text" value="{{form.vmMacAddress.data}}"></td>
-                        </td>
-                        {%- endif %#}
-                    </tr>
-                    <!-- tr>
-                        <td><b>Subredes</b></td>
-                        <td>
-                            <table>
-                            <tr><td>1</td width=320><td><input class="form-control-plaintext" id="vmVlan0Name" name="vmVlan0Name" type="text" value="{{form.vmVlan0Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan0Selected }}</td></tr>
-                            <tr><td>2</td><td><input class="form-control-plaintext" id="vmVlan1Name" name="vmVlan1Name" type="text" value="{{form.vmVlan1Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan1Selected }}</td></tr>
-                            <tr><td>3</td><td><input class="form-control-plaintext" id="vmVlan2Name" name="vmVlan2Name" type="text" value="{{form.vmVlan2Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan2Selected }}</td></tr>
-                            <tr><td>4</td><td><input class="form-control-plaintext" id="vmVlan3Name" name="vmVlan3Name" type="text" value="{{form.vmVlan3Name.data}}" style="color:blue;font-weight:bold;" disabled></td><td>{{ form.vmVlan3Selected }}</td></tr>
-                            <tr><td>1</td><td><input class="form-control-plaintext" id="vmVlan0Uuid" name="vmVlan0Uuid" type="text" value="{{form.vmVlan0Uuid.data}}" style="color:red;" disabled></td></tr>
-                            <tr><td>2</td><td><input class="form-control-plaintext" id="vmVlan1Uuid" name="vmVlan1Uuid" type="text" value="{{form.vmVlan1Uuid.data}}" style="color:red;" disabled></td></tr>
-                            <tr><td>3</td><td><input class="form-control-plaintext" id="vmVlan2Uuid" name="vmVlan2Uuid" type="text" value="{{form.vmVlan2Uuid.data}}" style="color:red;" disabled></td></tr>
-                            <tr><td>4</td><td><input class="form-control-plaintext" id="vmVlan3Uuid" name="vmVlan3Uuid" type="text" value="{{form.vmVlan3Uuid.data}}" style="color:red;" disabled></td></tr>
-                            </table>
-                            
-                        </td>
-                    </tr -->
-                    
+                    </tr>                    
                 </table>
             </td>
         </tr>
         <hr>
         <tr>
-            <table>
-                <td width=192><b>Subredes</b></td>
-                <td>
-                    <table width=960>
+            <td>
+                <table width=100% border=0>
                     <tr>
-                        <td>1</td>
-                        <td width=320><input class="form-control-plaintext" id="vmVlan0Name" name="vmVlan0Name" type="text" value="{{form.vmVlan0Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
-                        <td width=32>{{ form.vmVlan0Selected }}</td>
-                        {%- if form.vmData.debug is defined and form.vmData.debug %}
-                        <td><input class="form-control-plaintext" id="vmVlan0Uuid" name="vmVlan0Uuid" type="text" value="{{form.vmVlan0Uuid.data}}" style="color:red;" disabled></td>
-                        {%- endif %}
+                        <td width=192><b>Subredes</b></td>
+                        <td>
+                            <table width=100% border=0>
+                                <tr>
+                                    <td width=320>
+                                        <select class="form-control" name="vmVlan0Name" id="vmVlan0Name">                                            
+                                            <option selected value="{{rox.nic_0_vlan}}">rox.nic_0_vlan</option>
+                                        </select>
+                                    </td>
+                                    <td width=32></td>
+                                    <td width=192>
+                                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                                        <input class="form-control-plaintext" id="vmVlan0Uuid" name="vmVlan0Uuid" type="text" value="{{rox.nic_0_vlan}}" style="color:red" disabled>
+                                        {%- endif %}
+                                    </td>
+                                    </td><td width=320></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <select class="form-control" name="vmVlan1Name" id="vmVlan1Name">                                            
+                                            <option selected value="{{rox.nic_1_vlan}}">rox.nic_1_vlan</option>
+                                        </select>
+                                    </td>
+                                    <td width=32></td>
+                                    <td>
+                                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                                        <input class="form-control-plaintext" id="vmVlan1Uuid" name="vmVlan1Uuid" type="text" value="{{rox.nic_1_vlan}}" style="color:red" disabled>
+                                        {%- endif %}
+                                    </td>
+                                    </td><td width=320></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" name="vmVlan2Name" id="vmVlan2Name">                                            
+                                            <option selected value="{{rox.nic_2_vlan}}">rox.nic_2_vlan</option>
+                                        </select>
+                                    </td>
+                                    <td width=32></td>
+                                    <td>
+                                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                                        <input class="form-control-plaintext" id="vmVlan2Uuid" name="vmVlan2Uuid" type="text" value="{{rox.nic_2_vlan}}" style="color:red" disabled>
+                                        {%- endif %}
+                                    </td>
+                                    </td><td width=320></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" name="vmVlan3Name" id="vmVlan3Name">                                            
+                                            <option selected value="{{rox.nic_3_vlan}}">rox.nic_3_vlan</option>
+                                        </select>
+                                    </td>
+                                    <td width=32></td>
+                                    <td>
+                                        {%- if form.vmData.debug is defined and form.vmData.debug %}
+                                        <input class="form-control-plaintext" id="vmVlan3Uuid" name="vmVlan3Uuid" type="text" value="{{rox.nic_3_vlan}}" style="color:red" disabled>
+                                        {%- endif %}
+                                    </td>
+                                    </td><td width=320></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><input class="form-control-plaintext" id="vmVlan1Name" name="vmVlan1Name" type="text" value="{{form.vmVlan1Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
-                        <td>{{ form.vmVlan1Selected }}</td>
-                        {%- if form.vmData.debug is defined and form.vmData.debug %}
-                        <td><input class="form-control-plaintext" id="vmVlan1Uuid" name="vmVlan1Uuid" type="text" value="{{form.vmVlan1Uuid.data}}" style="color:red;" disabled></td></tr>
-                        {%- endif %}
-                    <tr>
-                        <td>3</td>
-                        <td><input class="form-control-plaintext" id="vmVlan2Name" name="vmVlan2Name" type="text" value="{{form.vmVlan2Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
-                        <td>{{ form.vmVlan2Selected }}</td>
-                        {%- if form.vmData.debug is defined and form.vmData.debug %}
-                        <td><input class="form-control-plaintext" id="vmVlan2Uuid" name="vmVlan2Uuid" type="text" value="{{form.vmVlan2Uuid.data}}" style="color:red;" disabled></td></tr>
-                        {%- endif %}
-                    <tr>
-                        <td>4</td>
-                        <td><input class="form-control-plaintext" id="vmVlan3Name" name="vmVlan3Name" type="text" value="{{form.vmVlan3Name.data}}" style="color:blue;font-weight:bold;" disabled></td>
-                        <td>{{ form.vmVlan3Selected }}</td>
-                        {%- if form.vmData.debug is defined and form.vmData.debug %}
-                        <td><input class="form-control-plaintext" id="vmVlan3Uuid" name="vmVlan3Uuid" type="text" value="{{form.vmVlan3Uuid.data}}" style="color:red;" disabled></td></tr>
-                        {%- endif %}
-                    </table>
-                    
-                </td>
-            </table>
+                </table>
+            </td>
         </tr>
-        <hr>
         <!-- td><input class="form-control-plaintext" id="vmHelp" name="vmHelp" type="text" value="" style="color:red"></td -->
-        {#- if form.vmData.debug is defined and form.vmData.debug %#}
         {%- if form.vmDebug.data %}
-        <tr><td><input class="form-control-plaintext" id="vmMessage1" name="vmMessage1" type="text" value="Message 1" style="color:red;font-weight:bold;"></td></tr>
-        <tr><td><input class="form-control-plaintext" id="vmMessage2" name="vmMessage2" type="text" value="Message 2" style="color:red;font-weight:bold;"></td></tr>
-        <tr><td><input class="form-control-plaintext" id="vmMessage3" name="vmMessage3" type="text" value="Message 3" style="color:red;font-weight:bold;"></td></tr>
-        <tr><td><input class="form-control-plaintext" id="vmMessage4" name="vmMessage4" type="text" value="Message 4" style="color:red;font-weight:bold;"></td></tr>
-        
+        <hr>
+        <tr><td><input class="form-control-plaintext" id="vmMessage1" name="vmMessage1" type="text" value="Message 1" style="color:red;font-weight:bold;" disabled></td></tr>
+        <tr><td><input class="form-control-plaintext" id="vmMessage2" name="vmMessage2" type="text" value="Message 2" style="color:red;font-weight:bold;" disabled></td></tr>
+        <tr><td><input class="form-control-plaintext" id="vmMessage3" name="vmMessage3" type="text" value="Message 3" style="color:red;font-weight:bold;" disabled></td></tr>
+        <tr><td><input class="form-control-plaintext" id="vmMessage4" name="vmMessage4" type="text" value="Message 4" style="color:red;font-weight:bold;" disabled></td></tr>
         {%- endif %}
         <tr>
             <td>
@@ -248,6 +243,7 @@
                     <tr>
                         <td>
                             <select class="form-control" name="vmDisk0Image" id="vmDisk0Image">
+                              {#%- for value,option,size in form.vmDisk0Image.choices %#}
                               {%- for value,option in form.vmDisk0Image.choices %}
                                 {%- if value == form.vmDisk0Image.data %}
                                 <option selected value="{{value}}">{{option}}</option>

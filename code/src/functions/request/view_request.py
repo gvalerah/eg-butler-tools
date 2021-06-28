@@ -5,6 +5,7 @@
 # GLVH @ 2020-11-06
 # ======================================================================
 import jinja2
+import copy
 from pprint                 import pformat
 from sqlalchemy             import desc
 from emtec.debug            import *
@@ -167,7 +168,7 @@ def forms_Request():
         session['data']['top_cost_center_id'] = cc.CC_Id
         session['data']['top_cost_center_code'] = cc.CC_Code
         
-    if current_user.role_id in [ROLE_REQUESTOR]:
+    if   current_user.role_id in [ROLE_REQUESTOR]:
         session['data']['rolename'] = 'Requestor'
     elif current_user.role_id in [ROLE_APPROVER]:
         session['data']['rolename'] = 'Approver'
@@ -182,10 +183,10 @@ def forms_Request():
     # ******************************************************************
     # Instance form
     logger.debug(f'{this()}: instance new form <= frm_request')
-    form = frm_request()
-    form.logger  = logger
-    form.vmTopCC = session['data']['top_cost_center_id']
-    form.vmTopCCCode = session['data']['top_cost_center_code']
+    form              = frm_request()
+    form.logger       = logger
+    form.vmTopCC      = session['data']['top_cost_center_id']
+    form.vmTopCCCode  = session['data']['top_cost_center_code']
     form.vmDebug.data = session['data']['debug']
     
     # ******************************************************************
@@ -196,23 +197,28 @@ def forms_Request():
 
     # OJO Control con falla de configuracion/archivo mientras default tonto
     
+    # ******************************************************************
+    # ******************************************************************
     
+    '''
     top_cost_center_code = current_app.config['BUTLER_TOP_COST_CENTER']
     top_cost_center_id = db.session.query(Cost_Centers.CC_Id
                             ).filter(
                                 Cost_Centers.CC_Code == top_cost_center_code
                             ).scalar()
-    #all_cc_list = get_cost_centers(top_cost_center_code)
     all_cc_list = get_cost_centers_fast(top_cost_center_id)
         
     logger.debug(f'{this()}: inicializa listas de opciones ...') 
     
+
     corporate_list         = get_corporate_list (session['data']['top_cost_center_code'],all_cc_list)
     department_list,gd_map = get_department_list(session['data']['top_cost_center_code'],all_cc_list)
     cc_list                = get_cc_list        (session['data']['top_cost_center_code'],all_cc_list)
     type_list              = get_type_list      (session['data']['top_cost_center_code'],all_cc_list)
-    image_list             = get_image_list()
-    disk_image_list        = get_disk_image_list()
+    #mage_list             = get_image_list()
+    image_list             = Get_images_list(db)
+    #isk_image_list        = get_disk_image_list()
+    disk_image_list        = Get_disk_images_list(db)
     cluster_list           = get_cluster_list()
     project_list           = get_project_list()
     category_list          = get_category_list()
@@ -238,7 +244,13 @@ def forms_Request():
     session['data'].update({'users'         : user_list})
     session['data'].update({'subnet_options': get_project_subnet_options()})
     session['data'].update({'rates'         : rates_list})
-    #session['data'].update({'images'        : image_list})
+    # 20210620 GV PATCH
+    images_list = Get_images_list(db)
+    #for image in image_list:
+    #    images_list.append((image.imageservice_uuid_diskclone,image.description))
+    
+    
+    session['data'].update({'images'        : images_list})
     #session['data'].update({'disk-images'   : disk_image_list})
     # since session data is allmost full populated we can construct
     # environments now 
@@ -247,8 +259,19 @@ def forms_Request():
     environments_codes = get_environments_codes(session['data'],environments)
     session['data'].update({'environments_codes'  : environments_codes})
     
+    '''
+    # ******************************************************************
+    # Aqui está cargado todo el contexto
+    data = Get_data_context(current_app,db,mail,row.Id,current_user)
+
+
+    # ******************************************************************
+    # ******************************************************************
+
+
     # Populates vm Data with all captured session data -----------------
-    form.vmData.update(session['data'])
+    #form.vmData.update(session['data'])
+    form.vmData.update(data)
     
     logger.trace(f"session['data']=\n{pformat(session['data'])}")
 
@@ -256,12 +279,21 @@ def forms_Request():
     scripts = []
     for template in Script_Templates:
         logger.debug(f"rendering template={template} ...")
+        '''
         script = jinja2.Template(template
                         ).render(
-                            subnet_options     = subnet_options,
-                            rates              = rates_list,
-                            gd_map             = gd_map,
-                            environments_codes = environments_codes
+                            subnet_options     = session.get('data').get('subnet_options'),
+                            rates              = session.get('data').get('rates'),
+                            gd_map             = session.get('data').get('gd_map'),
+                            environments_codes = session.get('data').get('environments_codes')
+                        )
+        '''
+        script = jinja2.Template(template
+                        ).render(
+                            subnet_options     = data.get('subnet_options'),
+                            rates              = data.get('rates'),
+                            gd_map             = data.get('gd_map'),
+                            environments_codes = data.get('environments_codes')
                         )
         scripts.append(Markup(script))
     # Updates JS/JQ functions/events file as per actual DATA -----------
@@ -277,7 +309,7 @@ def forms_Request():
         fp.write(f"// {jsfile}:EOF\n")
     # ------------------------------------------------------------------
 
-    vmCorporate_choices = []
+    vmCorporate_choices  = []
     vmDepartment_choices = []
     vmCC_choices         = []
     vmType_choices       = []
@@ -287,32 +319,33 @@ def forms_Request():
     vmCategory_choices   = []
     vmSubnet_choices     = []
     
-    for corporate in corporate_list:
+    
+    #or corporate in corporate_list:
+    #or corporate in session.get('data').get('corporates'):
+    for corporate in data.get('corporates'):
         vmCorporate_choices.append(corporate)
-    for department in department_list:
+    #or department in department_list:
+    #or department in session.get('data').get('departments'):
+    for department in data.get('departments'):
         vmDepartment_choices.append(department)
-    for cc in cc_list:
+    #or cc in cc_list:
+    #or cc in session.get('data').get('ccs'):
+    for cc in data.get('ccs'):
         vmCC_choices.append(cc)
-    vmType_choices = session['data']['types']
-    # 20210618 CAMBIO A TABLA DE IMAGENES DE MV, solo aplica a disco 1
-    for image in image_list:
-        vmDiskImage_choices.append(
-            (image.imageservice_uuid_diskclone,
-            f'{image.description} ({int(image.size_mib)/1024:.0f} GB)')
-            )
+    # *** vmType_choices = session.get('data').get('types')
+    vmType_choices = data.get('types')
+
+    for uuid,description,size in data.get('images'):
+        vmDiskImage_choices.append((uuid,f'{description} ({size} GB)'))
     # Load Select Fields Choices and codes -----------------------------
-    form.vmCorporate.choices   = vmCorporate_choices
-    form.vmDepartment.choices   = vmDepartment_choices
-    form.vmCC.choices   = vmCC_choices
-    form.vmType.choices = vmType_choices
-    form.vmCluster.choices = cluster_list
-    form.vmProject.choices = project_list
-    form.vmCategory.choices = category_list
-    # 20210621 GV form.vmSubnet.choices = subnet_list
-    subnet_list_other=[('','')]+subnet_list
-    logger.trace(f"{this()}: subnet_list   ={pformat(subnet_list)}")
-    logger.trace(f"{this()}: subnet_options={pformat(subnet_options)}")
-    logger.trace(f"{this()}: subnet_list_other={pformat(subnet_list_other)}")
+    form.vmCorporate.choices  = vmCorporate_choices
+    form.vmDepartment.choices = vmDepartment_choices
+    form.vmCC.choices         = vmCC_choices
+    form.vmType.choices       = vmType_choices
+    form.vmCluster.choices    = data.get('clusters')
+    form.vmProject.choices    = data.get('projects')
+    form.vmCategory.choices   = data.get('categories')
+
     for i in range(1):
         getattr(form,f'vmDisk{i}Image').choices = vmDiskImage_choices
     # ------------------------------------------------------------------
@@ -321,46 +354,36 @@ def forms_Request():
     logger.debug(f"{this()}: form.errors         = {form.errors}")
     # Will check if all validated
     if form.is_submitted() and len(form.errors)==0:
-        logger.warning(f"{this()}: will call form.validate()")
+        logger.debug(f"{this()}: will call form.validate()")
         try:
             form.validate()
         except Exception as e:
+            logger.error(f"form.validate exception: {str(e)}")
+            logger.error(f"form.errors: {form.errors}")
             emtec_handle_general_exception(e,logger=logger)
-        logger.warning(f"{this()}: return from form.validate() errors={len(form.errors)}")
+        logger.debug(f"{this()}: return from form.validate() errors={len(form.errors)}")
         if len(form.errors) != 0:
-            logger.warning(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
-            print(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
+            logger.warning(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
         else:
-            logger.warning(f"no errors will evaluate button pushed")
-            form_log(form,logger.warning)
+            logger.debug(f"no errors will evaluate button pushed")
+            form_log(form,logger.debug)
             
-            for project,subnets in subnet_options:
-                if project == form.vmProject.data:
-                    project_subnets = subnets
-                    break
-            pprint(subnets)
-            logger.warning(f"0 Selected {form.vmVlan0Selected.data}|{subnets[0][0]}")
-            logger.warning(f"1 Selected {form.vmVlan1Selected.data}|{subnets[1][0]}")
-            logger.warning(f"2 Selected {form.vmVlan2Selected.data}|{subnets[2][0]}")
-            logger.warning(f"3 Selected {form.vmVlan3Selected.data}|{subnets[3][0]}")
-            # PATCH 
-            form.vmVlan0Uuid.data = subnets[0][0] if form.vmVlan0Selected.data else None
-            form.vmVlan1Uuid.data = subnets[1][0] if form.vmVlan1Selected.data else None
-            form.vmVlan2Uuid.data = subnets[2][0] if form.vmVlan2Selected.data else None
-            form.vmVlan3Uuid.data = subnets[3][0] if form.vmVlan3Selected.data else None
-            
-            # --------------------------------------------------------------
+            # Gets sure vmData buffer is complete **********************
+            form.vmData.update(Get_data_context(current_app,db,mail,row.Id,current_user))
+            # **********************************************************
+            # ----------------------------------------------------------
             # Basic Requestor's submits
-            # --------------------------------------------------------------
-            # Guardar ------------------------------------------------------
+            # ----------------------------------------------------------
+            # Guardar --------------------------------------------------
             if     form.submit_Guardar.data and row.Status < BUTLER_STATUS['REQUESTED']:
-                # Get data from context ------------------------------------
+                # Get data from context --------------------------------
                 row.Id         = Id     
                 row.Type       = 1     # Nutanix VM 
                 row.User_Id    = current_user.id 
                 rox.Request_Id = row.Id 
                 save_form(form,row,rox)
-                # Aqui ajusta valor en BD ----------------------------------
+                form.vmData.update({'row':row,'rox':rox})
+                # Aqui ajusta valor en BD ------------------------------
                 try:
                     ## GV db.session.close()
                     if row.Id == 0: 
@@ -384,33 +407,66 @@ def forms_Request():
                         session['new_row']    = str(row)+str(rox)
                         db.session.merge(row)
                         db.session.merge(rox)
+                    saved_row=copy.copy(row)
+                    saved_rox=copy.copy(rox)
                     db.session.commit()
                     ## GV db.session.close()
                     if session['is_new_row']==True:
+                        form.vmData['row']=saved_row
+                        form.vmData['rox']=saved_rox
                         logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                        notify_request(Id,f'Creada por {current_user.username}',form.vmData)
-                        message=Markup(f'<b>Nueva solicitud {Id} creada OK</b>')
+                        logger.warning("call butler_notify_request ... 411")
+                        try:
+                            butler_notify_request(
+                                f'Creada por {current_user.username}',
+                                data=form.vmData,
+                                html_function=butler_output_request
+                                )
+                            message=Markup(f'<b>Nueva solicitud {Id} creada OK</b>')
+                        except Exception as e:
+                            message=Markup(f'<b>Nueva solicitud {Id} creacion excepcion: {str(e)}</b>')
+                            emtec_handle_general_exception(e,logger=logger)
                     else:
                         # Check this code, cookie must transport premodification state
                         # so we can save audit data conditionaly
-                        logger.warning(f"session.get('prev_row')={session.get('prev_row')}")
-                        logger.warning(f"form.vmData.get('prev_row')={form.vmData.get('prev_row')}")
+                        logger.debug(f"session.get('prev_row')={session.get('prev_row')}")
+                        logger.debug(f"form.vmData.get('prev_row')={form.vmData.get('prev_row')}")
                         session['prev_row']=form.vmData.get('prev_row')
                         if session.get('prev_row') is not None:
-                            logger.warning(f"session.prev_row is available")
+                            logger.debug(f"session.prev_row is available")
                             if session['new_row'] != session['prev_row']:
-                                logger.warning(f"change detected for session.prev_row is available")
+                                logger.debug(f"change detected, session.prev_row is available")
+                                form.vmData['row']=saved_row
+                                form.vmData['rox']=saved_rox
                                 logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                                 logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                                notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
-                                message=Markup(f"<b>Solicitud {Id} Modificada</b>")
+                                logger.warning("call butler_notify_request 433 ...")
+                                try:
+                                    butler_notify_request(
+                                        f"Solicitud {Id} Modificada por '{current_user.username}'",
+                                        data=form.vmData,
+                                        html_function=butler_output_request
+                                        )
+                                    message=Markup(f"<b>Solicitud {Id} Modificada</b>")
+                                except Exception as e:
+                                    message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
+                                    emtec_handle_general_exeption(e,logger=logger)
                             else:
-                                logger.warning(f"change NOT detected for session.prev_row is available")
+                                logger.warning(f"change NOT detected, session.prev_row is available")
                                 message=Markup(f'<b>Solicitud {Id} no fue modificada</b>')                        
                         else:
                             logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                            notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
-                            message=Markup(f"<b>Solicitud {Id} Modificada</b>")                            
+                            logger.warning("call butler_notify_request ...449")
+                            try:
+                                butler_notify_request(
+                                    f"Solicitud {Id} Modificada por '{current_user.username}'",
+                                    data=form.vmData,
+                                    html_function=butler_output_request
+                                    )
+                                message=Markup(f"<b>Solicitud {Id} Modificada</b>")                            
+                            except Exception as e:
+                                message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
+                                emtec_handle_general_exception(e,logger=logger)                            
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -422,6 +478,9 @@ def forms_Request():
             # Completado ---------------------------------------------------
             elif   form.submit_Completado.data:
                 save_form(form,row,rox)
+                form.vmData.update({'row':row,'rox':rox})
+                saved_row=copy.copy(row)
+                saved_rox=copy.copy(rox)
                 # Aqui ajusta valor en BD
                 try:
                     if row.Id > 0:
@@ -436,8 +495,19 @@ def forms_Request():
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Completada por {current_user.username}. En Proceso de aprobación.',form.vmData)
-                    message=Markup('<b>Solicitud en Aprobacion</b>')
+                    logger.warning("call butler_notify_request 486 ...")
+                    form.vmData['row']=saved_row
+                    form.vmData['rox']=saved_rox
+                    try:
+                        butler_notify_request(
+                            f'Completada por {current_user.username}. En Proceso de aprobación.',
+                            data=form.vmData,
+                            html_function=butler_output_request
+                            )
+                        message=Markup(f'<b>Solicitud {saved_rox.Request_Id} en Aprobacion</b>')
+                    except Exception as e:
+                        message=Markup(f'<b>Solicitud {saved_rox.Request_Id} en Aprobacion excepcion:{str(e)}</b>')
+                        emtec_handle_general_exception(e,logger=logger)
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -453,7 +523,9 @@ def forms_Request():
                     if row.Id > 0:
                         row.Status           = REQUEST_CANCELED
                         row.Last_Status_Time = datetime.now()
-                        row.Comments = f"Solicitud Cancelada/Eliminada por usuario '{current_user.username}'. Estado Final."
+                        if row.Comments is None: row.Comments = ''
+                        if len(row.Comments): row.Comments += '\n'
+                        row.Comments = row.Comments + f"Solicitud Cancelada/Eliminada por usuario '{current_user.username}'. Estado Final."
                         if current_user.role_id == ROLE_APPROVER:
                             row.Approver_Id = current_user.id
                         session['new_row']    = str(row)+str(rox)
@@ -464,8 +536,17 @@ def forms_Request():
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Cancelada por {current_user.username}',form.vmData)
-                    message=Markup(f'<b>Solicitud {Id} Cancelada</b>')
+                    form.vmData.update({'row':row,'rox':rox})
+                    try:
+                        butler_notify_request(
+                            f'Cancelada por {current_user.username}',
+                            data=form.vmData,
+                            html_function=butler_output_request
+                            )
+                        message=Markup(f'<b>Solicitud {Id} Cancelada</b>')
+                    except Exception as e:
+                        message=Markup(f'<b>Solicitud {Id} Cancelacion excepcion: {str(e)}</b>')
+                        emtec_handle_general_exception(e,logger=logger)
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -488,6 +569,7 @@ def forms_Request():
                 # Get Data from form
                 # CC Id is a mix of distribution CC + Storage Type
                 save_form(form,row,rox)
+                form.vmData.update({'row':row,'rox':rox})
                 # Aqui ajusta valor en BD
                 try:
                     session['new_row']   = str(row)+str(rox)
@@ -501,12 +583,21 @@ def forms_Request():
                         row.Comments         = row.Comments + f"Solicitud modificada por '{current_user.username}' @ {datetime.now().strftime('%d/%m/%y %H:%M')}. "
                         db.session.merge(row)
                         db.session.merge(rox)
+                        saved_row=copy.copy(row)
+                        saved_rox=copy.copy(rox)
                         db.session.commit()
                         ## GV db.session.close()
                         if session.get('prev_row') is not None:
                             logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                         logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                        notify_request(Id,f'Solicitud {Id} Modificada por {current_user.username}',form.vmData)
+                        form.vmData.update({'row':row,'rox':rox})
+                        form.vmData['row']=saved_row
+                        form.vmData['rox']=saved_rox
+                        butler,notify_request(
+                            f'Solicitud {Id} Modificada por {current_user.username}',
+                            data=form.vmData,
+                            html_function=butler_output_request
+                            )
                         message=Markup(f"<b>Solicitud {Id} Modificada por '{current_user.username}'</b>")
                     else:
                         message=Markup(f"<b>Solicitud {Id} no Modificada'</b>")
@@ -528,12 +619,19 @@ def forms_Request():
                     session['new_row']   = str(row)+str(rox)
                     db.session.merge(row)
                     db.session.merge(rox)
+                    saved_row=copy.copy(row)
+                    saved_rox=copy.copy(rox)
                     db.session.commit()
                     ## GV db.session.close()
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Rechazada por {current_user.username}',form.vmData)
+                    form.vmData.update({'row':saved_row,'rox':saved_rox})
+                    butler_notify_request(
+                        f'Rechazada por {current_user.username}',
+                        data=form.vmData,
+                        html_function=butler_output_request
+                        )
                     message=Markup('<b>Solicitud Rechazada</b>')
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
@@ -554,13 +652,20 @@ def forms_Request():
                     session['new_row']   = str(row)+str(rox)
                     db.session.merge(row)
                     db.session.merge(rox)
+                    saved_row=copy.copy(row)
+                    saved_rox=copy.copy(rox)
                     db.session.commit()
                     ## GV db.session.close()
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Aprobada por {current_user.username}',form.vmData)
-                    message=Markup('<b>Solicitud {Id} Aprobada</b>')
+                    form.vmData.update({'row':saved_row,'rox':saved_rox})
+                    butler_notify_request(
+                        f'Aprobada por {current_user.username}',
+                        data=form.vmData,
+                        html_function=butler_output_request
+                        )
+                    message=Markup(f'<b>Solicitud {Id} Aprobada</b>')
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -579,7 +684,7 @@ def forms_Request():
             else:
                 flash('<b>Form validado pero no sometido ???. Llamar al administrador del sistema</b>')
             return redirect(url_for('.select_Request'))
-    
+
     logger.debug(f"{this()}: form is_submitted() = {form.is_submitted()}")
     logger.debug(f"{this()}: form errors         = {form.errors}")
     
@@ -588,12 +693,13 @@ def forms_Request():
         calculate_form(form,row,rox)
     else:
         # load actual data into form fields prior rendering
-        #print(dir(form))
         logger.debug(f'{this()}: form is not submitted !!!! will load form !!!...')
         load_form(form,row,rox)
-        logger.debug(f"{this()}: after load_formvmTopCC={form.vmTopCC} vmCorporate={form.vmCorporate.data} vmDepartment={form.vmDepartment.data} vmCC={form.vmCC.data} vmType={form.vmType.data}")
-        logger.debug(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
-        logger.debug(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
+        form.vmData.update({'row':row,'rox':rox})
+        logger.debug(f"{this()}: after load_formvmTopCC = {form.vmTopCC} vmCorporate = {form.vmCorporate.data} vmDepartment = {form.vmDepartment.data} vmCC={form.vmCC.data} vmType = {form.vmType.data}")
+        logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
+        logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
+
     logger.debug(f'{this()}: loading jinja globals functions ...')
     current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
@@ -605,22 +711,28 @@ def forms_Request():
     session['data']['prev_row'] = session['prev_row']
     session['data']['is_new_row'] = session['is_new_row']
     
-    logger.debug(f"{this()}: session.prev_row   = {session.get('prev_row',None)}")
-    logger.debug(f"{this()}: session.is_new_row = {session.get('is_new_row',None)}")
-    logger.trace(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
-    logger.trace(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
-    form.vmData.update(session['data'])
-    logger.trace(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
-    logger.trace(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
+    logger.debug(f"{this()}: session.prev_row       = {session.get('prev_row',None)}")
+    logger.debug(f"{this()}: session.is_new_row     = {session.get('is_new_row',None)}")
+    logger.trace(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
+    logger.trace(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
+
+    form.vmData.update(session.get('data'))
+    # *** pprint(form.vmData)
+
+    logger.trace(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
+    logger.trace(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
     # Fill vmData detail change to debug on new population 
-    logger.trace(f'{this()}: form.vmData = {pformat(form.vmData)}')
+    logger.trace(f'{this()}: form.vmData            = {pformat(form.vmData)}')
     
-    logger.debug(f'{this()}: will render form ...')
+    logger.debug(f"{this()}: will render form with template 'request.html'...")
     # Will display all errors as Flask Flash messages ...
     for key in form.errors:
         for error in form.errors[key]:
             logger.error(f"{this()}: {key}: {error}")
             flash(f"{key}: {error}")
+
+    form.vmData.update({'row':row,'rox':rox})
+    
     return render_template(
             'request.html',
             form = form,
@@ -647,57 +759,9 @@ def report_Request(ID=None):
 
     row=rox=None
     data={}
-    
-    image_list          = get_image_list()
-    vmDiskImage_choices = [('','')]
-    
-    # Cambio de Tabla de imagenes de disco a imagenes de VM
-    # 20210618
-    for image in image_list:
-        vmDiskImage_choices.append(
-            (image.imageservice_uuid_diskclone,
-            f'{image.description} ({int(image.size_mib)/1024} GB)')
-            )
-    
-    cc_top_id           = get_cost_center(current_app.config['BUTLER_TOP_COST_CENTER']).CC_Id
-    
-    all_cc_list = get_cost_centers_fast(cc_top_id)
-    
-    logger.debug("**********************************************")
-    logger.debug(f"all_cc_list={len(all_cc_list)} cost centers") 
     logger.debug(f'{this()}: inicializa listas de opciones ...') 
     
-    '''
-    corporate_list         = get_corporate_list (cc_top_id,all_cc_list)
-    department_list,gd_map = get_department_list(cc_top_id,all_cc_list)
-    cc_list                = get_cc_list        (cc_top_id,all_cc_list)
-    type_list              = get_type_list      (cc_top_id,all_cc_list)
-    logger.debug(f"corporate_list  = {len(corporate_list)} corporates") 
-    logger.debug(f"department_list = {len(department_list)} departments") 
-    logger.debug(f"cc_list         = {len(cc_list)} ccs environments?") 
-    logger.debug(f"type_list       = {len(type_list)} types (of disk)") 
-    '''
-    
-    data['role']        = current_user.role_id
-    data['roles']       = ROLES
-    data['status']      = BUTLER_STATUS
-    data['debug']       = current_app.config['DEBUG']
-    data['clusters']    = get_cluster_list()
-    data['projects']    = get_project_list()
-    data['categories']  = get_category_list()
-    data['subnets']     = get_subnet_list()
-    data['users']       = get_user_list()
-    data['images']      = get_image_list()
-    data['corporates']  = get_corporate_list(cc_top_id,all_cc_list)
-    data['departments'] = get_department_list(cc_top_id,all_cc_list)
-    data['ccs']         = get_cc_list(cc_top_id,all_cc_list)
-    data['types']       = get_type_list(cc_top_id,all_cc_list)
-    data['month']       = 0
-    data['status_description'] = ''
-    data['disk_images'] = get_disk_image_list()
-    data['month']              = 0
-    data['storage']            = 0
-    data['storage_type']       = 0
+    data = Get_data_context(current_app,db,mail,Id,current_user)
     
     if Id > 0:
         # GV db.session.close()
@@ -716,8 +780,6 @@ def report_Request(ID=None):
         # GV db.session.close()
         data['status_description'] = get_request_status_description(row.Requests.Status)
         data['storage_type']       = row.Nutanix_Prism_VM.disk_type
-        # Gets Monthly Rates as per Rates Table
-        #rates = get_rates()
         for i in range(12):
             if i == 0:
                 uuid = getattr(row.Nutanix_Prism_VM,f'disk_{i}_image')
@@ -730,7 +792,6 @@ def report_Request(ID=None):
     current_app.jinja_env.globals.update(has_status=has_status)
     current_app.jinja_env.globals.update(get_description=get_description)
     current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
-    
     if ID is None:
         return render_template(
                 'report_request.html',
@@ -744,6 +805,4 @@ def report_Request(ID=None):
                 row       = row,
                 body_only = True
         )
-        
-
 # EOF ******************************************************************

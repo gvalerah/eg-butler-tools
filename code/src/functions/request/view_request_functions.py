@@ -34,8 +34,9 @@ def get_cost_center(code):
     
 # get cost centers uses codes NOT ids
 def get_cost_centers(CC_TOP=None):
+    # Recursively get a list of CCs descendants of CC_TOP
     cc_list = []
-    print(f"{this()}: CC_TOP={CC_TOP} {type(CC_TOP)}")
+    #print(f"{this()}: CC_TOP={CC_TOP} {type(CC_TOP)}")
     try:
         if type(CC_TOP) == str:            
         #f CC_TOP is not None:            
@@ -43,7 +44,7 @@ def get_cost_centers(CC_TOP=None):
                         Cost_Centers
                         ).filter(Cost_Centers.CC_Parent_Code==CC_TOP)
             logger.debug(f"{this()}: query = {query}")
-            print(f"{this()}: query = {query}")
+            #print(f"{this()}: query = {query}")
             result = query.all()
             for row in result:
                 # Load Top Cost Center if found (should be only 1)
@@ -65,6 +66,7 @@ def get_cost_centers(CC_TOP=None):
     return cc_list    
 
 def get_cost_centers_fast(CC_TOP,maximum=9999999999):
+    # returns a list of CCs children of CC_TOP and below maximum
     cc_list = []
     try:
         result = db.session.query(
@@ -164,6 +166,12 @@ def get_type_list(top_cost_center_code,ccs=None):
 
     # Codigo omitido temporalmente elimnar hardcode luego
     ctype_list = []
+    '''
+    ctype_list = [
+        ['HDD','Hard Disk Drive'],
+        ['SSD','Solid State Disk'],
+    ]
+    '''
     logger.debug(f"{this()}: top_cost_center_code={top_cost_center_code}")
     if ccs is None:
         ccs = get_cost_centers(top_cost_center_code)
@@ -178,6 +186,7 @@ def get_type_list(top_cost_center_code,ccs=None):
     return ctype_list
 #    ==> 370 discos      CC_Code%30000000 != 0 and CC_Code%10000 != 0 and CC_Code%100 != 0 and CC_Code%10 != 0
         
+'''
 def get_image_list():
     # List of images need to be refreshed from Nutanix Cluster ---------
     # These need to come from Nutanix Images
@@ -193,7 +202,7 @@ def get_disk_image_list():
     image_list =  db.session.query(Disk_Images).all()
     logger.trace(f"{this()}: {pformat(image_list)}")
     return image_list
-
+'''
 def get_cluster_list():
     # List of clusters need to be refreshed from Nutanix ---------------
     # These need to come from Nutanix 
@@ -540,54 +549,7 @@ def get_monthly_rate(row,rox):
         logger.warning(f"{this()}: exception {str(e)}")
         return 0
 
-""" def get_description(tabla,codigo,data):
-    ''' Gets description for a table based system '''
-    logger.debug(f'{this()}: tabla={tabla} codigo={codigo}')
-    descripcion=''
-    try:
-        # lists of tuples: [(codigo,descripcion),...]
-        if tabla in ['clusters','projects','categories','users','departments','ccs','types']:
-            for item in data[tabla]:
-                if item[0] == codigo: 
-                    descripcion=item[1]
-                    break
-        # list of subnets (dictionaries)
-        elif tabla=='subnets':
-            for subnets_list in data['subnets']:
-                for subnet in subnets_list:
-                    if subnet['uuid'] == codigo: 
-                        descripcion=subnet['name']
-                        break                    
-        elif tabla=='images':
-            for image in data['images']:
-                if image.uuid == codigo:
-                    descripcion = image.name
-                    break                    
-    except Exception as e:
-        logger.error(f"{this()}: exception: {str(e)}")
-    logger.debug(f"{this()}: return descripcion = '{descripcion}'")
-    return descripcion
-"""    
-
-""" def get_vm_resume(vm):    
-    cpu=ram=dsk=tip=None
-    if vm is not None:
-        cpu = vm.num_sockets * vm.vcpus_per_socket
-        ram = vm.memory_size_gib
-        dsk = 0
-        for i in range(12):
-            dsk += getattr(vm,f'disk_{i}_size')
-        # Tipos durante desarrollo
-        if vm.disk_type%100 in [0,1,2]:
-            tip = ['HDD','SSD','HYB'][vm.disk_type%100]
-        # Tipos con codigo forzados ver funcion get_stype_list()
-        elif vm.disk_type%100 in [11,12,13]:
-            tip = ['HDD','SSD','HYB'][vm.disk_type%100-11]
-        else:
-            tip = None
-    return f"{cpu} CPU x {ram} GB x {dsk} GB {tip}"
-"""
-
+#def butler_notify_request(subject_detail=None,data=None,recipients=None,html_function=None):
 def notify_request(Id,subject_detail=None,data=None,recipients=None):
     logger.debug(f'{this()}:Enter')
     from    flask_mail          import Message
@@ -682,34 +644,39 @@ def get_range_list(range_list):
     return list_of_ranges
 
 def calculate_form(form,row,rox):
-    logger.debug(f"{this()}: Enter")
+    logger.warning(f"{this()}: Enter. called by {caller()}")
+    logger.warning(f"form.vmTopCC           = {form.vmTopCC}")
+    logger.warning(f"form.vmCorporate.data  = {form.vmCorporate.data}")
+    logger.warning(f"form.vmDepartment.data = {form.vmDepartment.data}")
+    logger.warning(f"form.vmCC.data         = {form.vmCC.data}")
+    logger.warning(f"form.vmType.data       = {form.vmType.data}")
     try:
         # Copy actual DB values into temp buffers
         tmp_row = copy.copy(row)
         tmp_rox = copy.copy(rox)
         # CC_Id need to be rebuild upon actual form data
-        logger.debug(f"{this()}: top:{form.vmTopCC} co: {form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
+        logger.warning(f"{this()}: top:{form.vmTopCC} co: {form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
         tmp_row.CC_Id = form.vmTopCC + form.vmCorporate.data%form.vmTopCC + form.vmDepartment.data%form.vmTopCC + form.vmCC.data%form.vmTopCC +form.vmType.data%form.vmTopCC
-        logger.debug(f"{this()}: db CC = old {row.CC_Id} now {form.vmCorporate.data}+{form.vmDepartment.data}+{form.vmCC.data}+{form.vmType.data}-> {tmp_row.CC_Id}")
+        logger.warning(f"{this()}: db CC = old {row.CC_Id} now {form.vmCorporate.data}+{form.vmDepartment.data}+{form.vmCC.data}+{form.vmType.data}-> {tmp_row.CC_Id}")
         # Save actual form values into temporary buffers
         save_form(form,tmp_row,tmp_rox)
-        logger.debug(f"{this()}: now form CC = {tmp_row.CC_Id}")
+        logger.warning(f"{this()}: now form CC = {tmp_row.CC_Id}")
         # Calculate form values upon temporary buffers
         form.vmData.update({'storage': 0})
         form.vmData.update({'month'  : 0})
-        logger.debug(f"{this()}: form.vmData['month'] = {form.vmData['month']}")
+        logger.warning(f"{this()}: form.vmData['month'] = {form.vmData['month']}")
         for i in range(12):
             form.vmData['storage'] += getattr(form,f'vmDisk{i}Size').data
         form.vmData.update({'month':get_monthly_rate(tmp_row,tmp_rox)})
-        logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',0)}")
-        logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',0)}")
+        logger.warning(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',0)}")
+        logger.warning(f"{this()}: form.vmData['month']   = {form.vmData.get('month',0)}")
     except Exception as e:
-        logger.error(f"{this()}: {str(e)}")
-        #emtec_handle_general_exception(e,logger=logger)
-    logger.debug(f"{this()}: Exit")
+        logger.error(f"{this()}: called by {caller()} {str(e)}")
+        emtec_handle_general_exception(e,logger=logger)
+    logger.warning(f"{this()}: Exit")
         
 def load_form(form,row,rox):
-    logger.warning(f'{this()}: Enter. loading form from DB data ...')
+    logger.debug(f'{this()}: Enter. loading form from DB data ...')
     try:
         if rox.vm_name is None or str(rox.vm_name)== 'None':
             rox.vm_name = ''
@@ -736,8 +703,11 @@ def load_form(form,row,rox):
         for i in range(12):
             getattr(form,f'vmDisk{i}Size').data  = getattr(rox,f'disk_{i}_size')
             if i == 0: 
-                getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image') 
-        calculate_form(form,row,rox)
+                getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image')
+        if form.vmCorporate.data is not None:
+            calculate_form(form,row,rox)
+        else:
+            logger.warning(f"{this()}: form calculation not called. not enough data.")
         logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
         logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
         # Extra Fields
@@ -763,30 +733,33 @@ def load_form(form,row,rox):
         for project in get_project_subnet_options():
             if project[0] == rox.project_uuid:
                 subnet_list = project[1]
-        pprint(subnet_list)
         # populates list of selected vlans
+        
+        ''' 20210622 GV ************************************************
         selected_list = []
         if rox.nic_0_vlan  is not None: selected_list.append(rox.nic_0_vlan)
         if rox.nic_1_vlan  is not None: selected_list.append(rox.nic_1_vlan)
         if rox.nic_2_vlan  is not None: selected_list.append(rox.nic_2_vlan)
         if rox.nic_3_vlan  is not None: selected_list.append(rox.nic_3_vlan)
-        pprint(selected_list)
         for i in range(4):
             if i < len(subnet_list):
                 uuid,name = subnet_list[i]
             else:
                 uuid,name = ['','']
             flag = True if uuid in selected_list else False
-            print(f"getattr(form,f'vmVlan{i}Selected.').data={getattr(form,f'vmVlan{i}Selected').data} {flag}")
             getattr(form,f'vmVlan{i}Name').data     = name
             getattr(form,f'vmVlan{i}Selected').data = flag                
             getattr(form,f'vmVlan{i}Uuid').data     = uuid                
-            print(f"getattr(form,f'vmVlan{i}Selected').data={getattr(form,f'vmVlan{i}Selected').data} {flag}")
-            logger.warning(f"{this()}: name: {name} uuid: {uuid} flag: {flag}")
-            logger.warning(f"{this()}: form.vmVlan{i}Name = {getattr(form,f'vmVlan{i}Name')}")
-            logger.warning(f"{this()}: form.vmVlan{i}Uuid = {getattr(form,f'vmVlan{i}Uuid')}")
-            logger.warning(f"{this()}: form.vmVlan{i}Sele = {getattr(form,f'vmVlan{i}Selected')}")
-        
+            logger.debug(f"{this()}: name: {name} uuid: {uuid} flag: {flag}")
+            logger.debug(f"{this()}: form.vmVlan{i}Name = {getattr(form,f'vmVlan{i}Name')}")
+            logger.debug(f"{this()}: form.vmVlan{i}Uuid = {getattr(form,f'vmVlan{i}Uuid')}")
+            logger.debug(f"{this()}: form.vmVlan{i}Sele = {getattr(form,f'vmVlan{i}Selected')}")
+        '''
+        form.vmVlan0Name = rox.nic_0_vlan
+        form.vmVlan1Name = rox.nic_1_vlan
+        form.vmVlan2Name = rox.nic_2_vlan
+        form.vmVlan3Name = rox.nic_3_vlan
+
         if form.vmDRP.data is None:
             form.vmDRP.data = False
             logger.debug(f'{this()}: form.vmDRP.data adjusted to = {form.vmDRP.data}')
@@ -805,7 +778,7 @@ def load_form(form,row,rox):
 
 def save_form(form,row,rox):
     try:
-        logger.warning(f'{this()}: saving form to DB records ...')
+        logger.debug(f'{this()}: saving form to DB records ...')
         # Identification ---------------------------------------------------
         rox.vm_name          = form.vmName.data
         #row.Status           = form.vmStatus.data
@@ -837,26 +810,21 @@ def save_form(form,row,rox):
         rox.memory_size_gib  = form.vmRAM.data
         rox.memory_size_mib  = form.vmRAM.data * 1024
         # Storage ----------------------------------------------------------
-        #ox.disk_type        = form.vmType.data % 10
         rox.disk_type        = form.vmType.data
         for i in range(12):
             setattr( rox, f'disk_{i}_size' , getattr( form, f'vmDisk{i}Size').data  ) 
             if i == 0:
                 setattr( rox, f'disk_{i}_image', getattr( form, f'vmDisk{i}Image').data ) 
-        logger.warning(f"form.vmVlan0Selected.data={form.vmVlan0Selected.data} >{form.vmVlan0Uuid.data}< >{form.vmVlan0Name.data}<")
-        logger.warning(f"form.vmVlan1Selected.data={form.vmVlan1Selected.data} >{form.vmVlan1Uuid.data}< >{form.vmVlan1Name.data}<")
-        logger.warning(f"form.vmVlan2Selected.data={form.vmVlan2Selected.data} >{form.vmVlan2Uuid.data}< >{form.vmVlan2Name.data}<")
-        logger.warning(f"form.vmVlan3Selected.data={form.vmVlan3Selected.data} >{form.vmVlan3Uuid.data}< >{form.vmVlan3Name.data}<")
 
-        rox.nic_0_vlan = form.vmVlan0Uuid.data if form.vmVlan0Selected.data else None
-        rox.nic_1_vlan = form.vmVlan1Uuid.data if form.vmVlan1Selected.data else None
-        rox.nic_2_vlan = form.vmVlan2Uuid.data if form.vmVlan2Selected.data else None
-        rox.nic_3_vlan = form.vmVlan3Uuid.data if form.vmVlan3Selected.data else None        
+        rox.nic_0_vlan = form.vmVlan0Name.data
+        rox.nic_1_vlan = form.vmVlan1Name.data
+        rox.nic_2_vlan = form.vmVlan2Name.data
+        rox.nic_3_vlan = form.vmVlan3Name.data
         # Networking      
-        logger.warning(f"nic_0_vlan={rox.nic_0_vlan}")
-        logger.warning(f"nic_1_vlan={rox.nic_1_vlan}")
-        logger.warning(f"nic_2_vlan={rox.nic_2_vlan}")
-        logger.warning(f"nic_3_vlan={rox.nic_3_vlan}")
+        logger.debug(f"nic_0_vlan={rox.nic_0_vlan}")
+        logger.debug(f"nic_1_vlan={rox.nic_1_vlan}")
+        logger.debug(f"nic_2_vlan={rox.nic_2_vlan}")
+        logger.debug(f"nic_3_vlan={rox.nic_3_vlan}")
         # Array of Backup sets
         rox.backup_set_1  = form.vmBackUpSet1.data
         rox.backup_set_2  = form.vmBackUpSet2.data
@@ -899,18 +867,19 @@ def output_Request(Id,data=None):
     data.update({'departments':department_list})
     data.update({'ccs'        :cc_list})
     data.update({'types'      :type_list})
-    data.update({'images'     :[]})
 
-    image_list          = get_image_list()
+    #mage_list          = get_image_list()
+    image_list          = Get_images_list(db)
     vmDiskImage_choices = [('','')]
-    
+    '''
     for image in image_list:
         vmDiskImage_choices.append(
             (image.imageservice_uuid_diskclone,
             f'{image.description} ({int(image.size_mib)/1024} GB)')
             )
         data['images'].append((image.imageservice_uuid_diskclone,image.description))
-        
+    '''   
+    data.update({'images'     :image_list})
     
     if Id > 0:
         # GV db.session.close()
@@ -929,7 +898,7 @@ def output_Request(Id,data=None):
         if row is not None:
             # GV db.session.close()
             data.update({'status_description':get_request_status_description(row[0].Status)})
-            data.update({'disk_images':[]})
+            #ata.update({'disk_images':[]})
             data.update({'month':0})
             # Gets Monthly Rates as per Rates Table
             rates = get_rates(CC_Id=row.Requests.CC_Id)
@@ -940,8 +909,8 @@ def output_Request(Id,data=None):
                     if image[0] == uuid:
                         name = image[1]
                         break
-                data['disk_images'].append(name)
-                data['images'].append(name)
+                #ata['disk_images'].append(name)
+                #ata['images'].append(name)
                 
             cpu = row.Nutanix_Prism_VM.num_sockets * rates['CPU']
             ram = row.Nutanix_Prism_VM.memory_size_gib * rates['RAM']
@@ -963,7 +932,7 @@ def output_Request(Id,data=None):
             data.update({'status_description':f'ERROR: Solicitud {Id} no encontrada.'})
             data.update({'disk_images':[]})
             data.update({'month':0})
-            data['disk_images'].append(None)
+            #ata['disk_images'].append(None)
             data['storage'] = 0
             data['storage_type'] = ''
             data['month'] = 0

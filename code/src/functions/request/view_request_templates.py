@@ -11,52 +11,47 @@
 # Templates
 # JavaScript/JQuery script templates
 
-scr_functions_template="""
+# Functions ------------------------------------------------------------
+scr_function_subnets="""
 // Updates Subnets options upon Selected project -----------------------
 function subnets() {
     //window.alert("subnets(): IN" );            
     // GET UUID FOR CURRENT PROJECT, IMPORTANT ON ON CHANGE ... --------
     var project = $("#vmProject");
     var project_uuid = project.val();
+    //window.alert( "project uuid: " + project_uuid );
     // POPULATE SUBNETS LIST FOR PROPER PROJECT, ON LINE ---------------
     var subnets = [];                
     {%- for project in subnet_options %}
-    {%- if loop.index == 1 %}
-    if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
-    {%- else %}
-    else if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
-    {%- endif %}
+        {%- if loop.index == 1 %}
+            if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+        {%- else %}
+            else if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+        {%- endif %}
     {%- endfor %}
+    //window.alert( "subnets: " + subnets );
     // -----------------------------------------------------------------
-    // PRIMARY SUB NET OPTIONS INITIALIZATION --------------------------    
-    var $subnet = $("#vmSubnet");
-    var subnet_uuid = $subnet.val();
-    $subnet.empty();    
-    $.each(subnets, function(index, [uuid,name]) {
-        if ( uuid == subnet_uuid ) {
-            $subnet.append("<option selected value='" + uuid + "'>" + name + "</option>");
-        } else {
-            $subnet.append("<option value='" + uuid + "'>" + name + "</option>");
-        }
-    });
-    // OTHER SUBNETS OPTIONS INITIALIZATION ----------------------------
+    // SUBNETS OPTIONS INITIALIZATION ----------------------------
     // other nic cards may be empty ...
-    subnets.unshift(["",":"]);
-    {%- for i in range(3) %}
-    var $nic{{i}} = $("#vmNic{{i}}Vlan");    
-    var nic_uuid = $nic{{i}}.val();
-    $nic{{i}}.empty();
-    $.each(subnets, function(index,[uuid,name]) {
-        if ( uuid == nic_uuid ) {
-            $nic{{i}}.append("<option selected value='" + uuid + "'>" + name + "</option>");
-        } else {
-            $nic{{i}}.append("<option value='" + uuid + "'>" + name + "</option>");
-        }
-    });
+    //subnets.unshift(["",":"]);
+    subnets.unshift(["",""]);
+    {%- for i in range(4) %}
+        var $nic{{i}} = $("#vmVlan{{i}}Name");    
+        var nic_uuid = $nic{{i}}.val();
+        $nic{{i}}.empty();
+        $.each(subnets, function(index,[uuid,name]) {
+            //window.alert("uuid="+uuid+" nic_uuid="+nic_uuid);
+            if ( uuid == nic_uuid ) {
+                $nic{{i}}.append("<option selected value='" + uuid + "'>" + name + "</option>");
+            } else {
+                $nic{{i}}.append("<option value='" + uuid + "'>" + name + "</option>");
+            }
+        });
     {%- endfor %}
-    subnet_names();
+    //subnet_names();
 };
-
+"""
+scr_function_subnet_names="""
 // Updates Subnets options upon Selected project -----------------------
 function subnet_names() {
     //window.alert( "subnet_names(): IN" );            
@@ -101,8 +96,8 @@ function subnet_names() {
             $name{{i}}.val(subnets[{{i}}][1]);
             document.getElementById("vmVlan{{i}}Uuid").value = subnets[{{i}}][0];
             document.getElementById("vmVlan{{i}}Name").value = subnets[{{i}}][1];
+            document.getElementById("vmVlan{{i}}Selected").disabled = false;
             if (selected.includes($uid{{i}}.val())) {
-            //if (selected.includes(document.getElementById("vmVlan{{i}}Uuid").value)) {
                 document.getElementById("vmVlan{{i}}Selected").checked = true;
                 document.getElementById("vmVlan{{i}}Selected").value = subnets[{{i}}][0];
             }
@@ -110,6 +105,7 @@ function subnet_names() {
             $uid{{i}}.val("");
             $name{{i}}.val("");
             document.getElementById("vmVlan{{i}}Selected").checked = false;
+            document.getElementById("vmVlan{{i}}Selected").disabled = true;
         }
     {%- endfor %}
     /*
@@ -141,8 +137,8 @@ function subnet_names() {
     {%- endfor %}
     */
 };
-
-
+"""
+scr_function_managements="""
 function managements() {
     // GET Value FOR CURRENT Corporate, IMPORTANT ON ON CHANGE ... -----
     var $dropdown    = $("#vmCorporate");
@@ -164,7 +160,8 @@ function managements() {
         }
     });
 };
-
+"""
+scr_function_get_storage="""
 // Calculates total storage requested for provisioninig ----------------
 function get_storage() {
     //window.alert( "get_storage(): IN" );            
@@ -175,6 +172,8 @@ function get_storage() {
     {%- endfor %}
     return storage ;
 };
+"""
+scr_function_summary="""
 // Summarize VM requirements -------------------------------------------
 // Also recalculates expected monthly rate as per VM configuration
 function summary() {
@@ -199,6 +198,8 @@ function summary() {
         window.alert(e.name + ': ' + e.message);
     }
 };
+"""
+scr_function_get_rate="""
 // Look for proper rate upon cost center specification or default ------
 function get_rate(type,cc) {
     //window.alert( "get_rate() IN type= "+type+" cc= "+cc  );            
@@ -235,7 +236,8 @@ function get_rate(type,cc) {
     $("#vmMessage3").val("get_rate() returns for " + type + ":" + cc + " rateid = " + rateid + " rate = "+rate);
     return rate;
 };
-
+"""
+scr_function_get_month="""
 // Calculates expected monthy rate upon VM configuration ---------------
 function get_month() {
     //window.alert( "get_month() IN" );            
@@ -260,34 +262,35 @@ function get_month() {
     $("#vmMessage2").val(cores+"*"+rate_cores+ "+" + ram+"*"+rate_ram+ "+" +storage+"*"+rate_storage+ " = "+month);
     return month ;
 };        
+"""
+scr_function_load="""
 // document ON LOAD event setup function -------------------------------
 function load() {
     //window.alert( "load() IN" );            
     managements();
     set_attributes();
-    //subnets();
-    subnet_names();
+    subnets();
+    //subnet_names();
     summary();
 };
 // ---------------------------------------------------------------------
 """
-scr_request_template="""
+
+# Script functions templates array (script order is significative)
+scr_functions_template="\n".join([
+    scr_function_subnets,
+    scr_function_subnet_names,
+    scr_function_managements,
+    scr_function_get_storage,
+    scr_function_summary,
+    scr_function_get_rate,
+    scr_function_get_month,
+    scr_function_load
+    ])
+
+# Request events functions ---------------------------------------------
+scr_project_change="""
 // Project change event ------------------------------------------------ 
-{# obsolete dropdown version (SelectField)
-$("#vmProject").on('change',function() {
-    //window.alert( "#vmProject".on.change(): IN" );            
-    var $dropdown = $(this);
-    var key = $dropdown.val();
-    var vals = [];                
-    {%- for project in subnet_options %}
-    if (key == "{{project.0}}"){
-         vals =  {{project.1}};
-    }
-    {%- endfor %}
-    //subnets();
-    subnet_names();
-});
-#}
 $("#vmProject").on('change',function() {
     //window.alert( "vmProject.on.change(): IN" );            
     var key = $("#vmProject").val();
@@ -313,7 +316,8 @@ $("#vmProjectName").on('change',function() {
     //subnets();
     subnet_names();
 });
-
+"""
+scr_corporate_change="""
 // Corporate change event ---------------------------------------------- 
 $("#vmCorporate").on('change',function() {
     //window.alert( "#vmProject".on.change(): IN" );            
@@ -328,8 +332,8 @@ $("#vmCorporate").on('change',function() {
     managements();
     summary();
 });
-
-
+"""
+scr_set_attributes="""
 // sets Project and Category depending on Environment and Cluster ------
 function set_attributes() {
     var environment = $("#vmCC").val();
@@ -365,27 +369,35 @@ function set_attributes() {
     
     $("#vmMessage4").val("project: " + $("#vmProject").val() + " " + $("#vmProjectName").val());
 
-    //subnets();
+    subnets();
     //window.alert( "set attributes callig subnet_namess ..."  );            
-    subnet_names();
+    //subnet_names();
     return;           
 };
-
-
+"""
+scr_cc_change="""
 // Environment change event -------------------------------------------- 
 $("#vmCC").on('change',function() {
     set_attributes();
     summary();
 });
-
+"""
+scr_cluster_change="""
 // Cluster change event ------------------------------------------------ 
 $("#vmCluster").on('change',function() {
     set_attributes();
     summary();
 });
-
-
 """
+# Script templates array (script order is significative)
+scr_request_template="\n".join([
+    scr_project_change,
+    scr_corporate_change,
+    scr_set_attributes,
+    scr_cc_change,
+    scr_cluster_change
+])
+# Other templates ------------------------------------------------------
 scr_cpu_template="""
 // Cores per socket change event handler -------------------------------
 $("#vmCPS").on('change',function() {
@@ -420,6 +432,7 @@ function check_image_size(i) {
     //window.alert( "check_image_size("+i+") IN"   );            
     var Size     = $("#vmDisk"+i+"Size");            
     var Selected = $("#vmDisk"+i+"Image option:selected"    );
+    //window.alert("Size="+Size.val()+ " Selected="+Selected.val());
     var imagesize = 0;
     var tokens = $(Selected).text().split("("); 
     var token1 = tokens[1].split(" "); 
@@ -443,9 +456,9 @@ function check_disk_size(i){
     summary();
 };
 """
+
 scr_events_template="""
 // Configuration fields change event handlers --------------------------
-//$("#vmCPU").on( 'change' , summary() );
 $("#vmDebug").on('change',function() {window.alert( "#vmDebug.on.change(): IN" );window.repaint();});
 $("#vmRAM").on( 'change' , function(){summary();} );
 $("#vmDepartment").on( 'change' , function(){summary();} );

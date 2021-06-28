@@ -138,7 +138,7 @@ def butler_about():
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_models_code.py:445 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/includes/models_py_imports.py
 from emtec.butler.db.flask_models import categories
@@ -175,15 +175,15 @@ from emtec.butler.forms import frm_User,frm_User_delete
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_categories.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.566807
+#  GLVH @ 2021-06-27 22:38:00.341422
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:10.566826
+# gen_views_form.html:AG 2021-06-27 22:38:00.341442
 @main.route('/forms/Categories', methods=['GET', 'POST'])
 @login_required
 
@@ -295,9 +295,9 @@ def forms_Categories():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.575039
+#  GLVH @ 2021-06-27 22:38:00.350323
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:10.575052
+# gen_views_delete.html:AG 2021-06-27 22:38:00.350338
 @main.route('/forms/Categories_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -362,10 +362,10 @@ def forms_Categories_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.592366
+#  GLVH @ 2021-06-27 22:38:00.367694
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:10.592381        
+# gen_views_select_query.html:AG 2021-06-27 22:38:00.367709        
 @main.route('/select/Categories_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -542,9 +542,9 @@ def select_Categories_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.623959
+#  GLVH @ 2021-06-27 22:38:00.410468
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:10.623976
+# gen_views_api.html:AG 2021-06-27 22:38:00.410483
 # table_name: Categories
 # class_name: categories
 # is shardened: False
@@ -784,15 +784,15 @@ def api_delete_Categories(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_clusters.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.722858
+#  GLVH @ 2021-06-27 22:38:00.504115
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:10.722886
+# gen_views_form.html:AG 2021-06-27 22:38:00.504131
 @main.route('/forms/Clusters', methods=['GET', 'POST'])
 @login_required
 
@@ -910,9 +910,9 @@ def forms_Clusters():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.731616
+#  GLVH @ 2021-06-27 22:38:00.513006
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:10.731630
+# gen_views_delete.html:AG 2021-06-27 22:38:00.513021
 @main.route('/forms/Clusters_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -977,10 +977,10 @@ def forms_Clusters_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.753084
+#  GLVH @ 2021-06-27 22:38:00.530720
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:10.753149        
+# gen_views_select_query.html:AG 2021-06-27 22:38:00.530778        
 @main.route('/select/Clusters_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1202,9 +1202,9 @@ def select_Clusters_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.786331
+#  GLVH @ 2021-06-27 22:38:00.562195
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:10.786380
+# gen_views_api.html:AG 2021-06-27 22:38:00.562210
 # table_name: Clusters
 # class_name: clusters
 # is shardened: False
@@ -1465,15 +1465,15 @@ def api_delete_Clusters(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_cost_centers.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.894800
+#  GLVH @ 2021-06-27 22:38:00.668735
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:10.894815
+# gen_views_form.html:AG 2021-06-27 22:38:00.668754
 @main.route('/forms/Cost_Centers', methods=['GET', 'POST'])
 @login_required
 
@@ -1590,9 +1590,9 @@ def forms_Cost_Centers():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.903202
+#  GLVH @ 2021-06-27 22:38:00.677628
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:10.903229
+# gen_views_delete.html:AG 2021-06-27 22:38:00.677643
 @main.route('/forms/Cost_Centers_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -1657,10 +1657,10 @@ def forms_Cost_Centers_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.922465
+#  GLVH @ 2021-06-27 22:38:00.696667
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:10.922485        
+# gen_views_select_query.html:AG 2021-06-27 22:38:00.696683        
 @main.route('/select/Cost_Centers_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1925,9 +1925,9 @@ def select_Cost_Centers_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:10.955072
+#  GLVH @ 2021-06-27 22:38:00.728586
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:10.955092
+# gen_views_api.html:AG 2021-06-27 22:38:00.728603
 # table_name: Cost_Centers
 # class_name: cost_centers
 # is shardened: True
@@ -2200,15 +2200,15 @@ def api_delete_Cost_Centers(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_disk_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.063892
+#  GLVH @ 2021-06-27 22:38:00.835166
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:11.063908
+# gen_views_form.html:AG 2021-06-27 22:38:00.835182
 @main.route('/forms/Disk_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -2325,9 +2325,9 @@ def forms_Disk_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.074032
+#  GLVH @ 2021-06-27 22:38:00.844146
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:11.074048
+# gen_views_delete.html:AG 2021-06-27 22:38:00.844162
 @main.route('/forms/Disk_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -2392,10 +2392,10 @@ def forms_Disk_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.092040
+#  GLVH @ 2021-06-27 22:38:00.864062
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:11.092057        
+# gen_views_select_query.html:AG 2021-06-27 22:38:00.864093        
 @main.route('/select/Disk_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -2677,9 +2677,9 @@ def select_Disk_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.122506
+#  GLVH @ 2021-06-27 22:38:00.909227
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:11.122523
+# gen_views_api.html:AG 2021-06-27 22:38:00.909244
 # table_name: Disk_Images
 # class_name: disk_images
 # is shardened: False
@@ -2968,15 +2968,15 @@ def api_delete_Disk_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_domains.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.235062
+#  GLVH @ 2021-06-27 22:38:01.013358
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:11.235089
+# gen_views_form.html:AG 2021-06-27 22:38:01.013393
 @main.route('/forms/Domains', methods=['GET', 'POST'])
 @login_required
 
@@ -3081,9 +3081,9 @@ def forms_Domains():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.248005
+#  GLVH @ 2021-06-27 22:38:01.023321
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:11.248020
+# gen_views_delete.html:AG 2021-06-27 22:38:01.023348
 @main.route('/forms/Domains_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3148,10 +3148,10 @@ def forms_Domains_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.267381
+#  GLVH @ 2021-06-27 22:38:01.040878
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:11.267398        
+# gen_views_select_query.html:AG 2021-06-27 22:38:01.040892        
 @main.route('/select/Domains_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -3343,9 +3343,9 @@ def select_Domains_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.299194
+#  GLVH @ 2021-06-27 22:38:01.072703
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:11.299210
+# gen_views_api.html:AG 2021-06-27 22:38:01.072754
 # table_name: Domains
 # class_name: domains
 # is shardened: False
@@ -3592,15 +3592,15 @@ def api_delete_Domains(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_interface.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.412031
+#  GLVH @ 2021-06-27 22:38:01.194285
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:11.412048
+# gen_views_form.html:AG 2021-06-27 22:38:01.194365
 @main.route('/forms/Interface', methods=['GET', 'POST'])
 @login_required
 
@@ -3714,9 +3714,9 @@ def forms_Interface():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.421911
+#  GLVH @ 2021-06-27 22:38:01.204068
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:11.421933
+# gen_views_delete.html:AG 2021-06-27 22:38:01.204086
 @main.route('/forms/Interface_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3781,10 +3781,10 @@ def forms_Interface_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.441508
+#  GLVH @ 2021-06-27 22:38:01.223819
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:11.441522        
+# gen_views_select_query.html:AG 2021-06-27 22:38:01.223837        
 @main.route('/select/Interface_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -4051,9 +4051,9 @@ def select_Interface_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.485710
+#  GLVH @ 2021-06-27 22:38:01.254750
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:11.485727
+# gen_views_api.html:AG 2021-06-27 22:38:01.254766
 # table_name: Interface
 # class_name: interface
 # is shardened: False
@@ -4333,15 +4333,15 @@ def api_delete_Interface(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_prism_vm.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.719061
+#  GLVH @ 2021-06-27 22:38:01.479982
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:11.719076
+# gen_views_form.html:AG 2021-06-27 22:38:01.479997
 @main.route('/forms/Nutanix_Prism_VM', methods=['GET', 'POST'])
 @login_required
 
@@ -4570,9 +4570,9 @@ def forms_Nutanix_Prism_VM():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.727989
+#  GLVH @ 2021-06-27 22:38:01.489451
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:11.728004
+# gen_views_delete.html:AG 2021-06-27 22:38:01.489467
 @main.route('/forms/Nutanix_Prism_VM_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -4639,10 +4639,10 @@ def forms_Nutanix_Prism_VM_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.746546
+#  GLVH @ 2021-06-27 22:38:01.506127
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:11.746567        
+# gen_views_select_query.html:AG 2021-06-27 22:38:01.506142        
 @main.route('/select/Nutanix_Prism_VM_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -5730,9 +5730,9 @@ def select_Nutanix_Prism_VM_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.779618
+#  GLVH @ 2021-06-27 22:38:01.539325
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:11.779634
+# gen_views_api.html:AG 2021-06-27 22:38:01.539341
 # table_name: Nutanix_Prism_VM
 # class_name: nutanix_prism_vm
 # is shardened: False
@@ -6385,15 +6385,15 @@ def api_delete_Nutanix_Prism_VM(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_vm_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.891422
+#  GLVH @ 2021-06-27 22:38:01.636531
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:11.891437
+# gen_views_form.html:AG 2021-06-27 22:38:01.636546
 @main.route('/forms/Nutanix_VM_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -6500,9 +6500,9 @@ def forms_Nutanix_VM_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.901052
+#  GLVH @ 2021-06-27 22:38:01.645661
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:11.901078
+# gen_views_delete.html:AG 2021-06-27 22:38:01.645687
 @main.route('/forms/Nutanix_VM_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -6567,10 +6567,10 @@ def forms_Nutanix_VM_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.919575
+#  GLVH @ 2021-06-27 22:38:01.663759
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:11.919592        
+# gen_views_select_query.html:AG 2021-06-27 22:38:01.663775        
 @main.route('/select/Nutanix_VM_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -6777,9 +6777,9 @@ def select_Nutanix_VM_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:11.955559
+#  GLVH @ 2021-06-27 22:38:01.694655
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:11.955597
+# gen_views_api.html:AG 2021-06-27 22:38:01.694671
 # table_name: Nutanix_VM_Images
 # class_name: nutanix_vm_images
 # is shardened: False
@@ -7033,15 +7033,15 @@ def api_delete_Nutanix_VM_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_projects.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.061436
+#  GLVH @ 2021-06-27 22:38:01.786930
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:12.061452
+# gen_views_form.html:AG 2021-06-27 22:38:01.786946
 @main.route('/forms/Projects', methods=['GET', 'POST'])
 @login_required
 
@@ -7155,9 +7155,9 @@ def forms_Projects():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.070087
+#  GLVH @ 2021-06-27 22:38:01.795412
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:12.070102
+# gen_views_delete.html:AG 2021-06-27 22:38:01.795425
 @main.route('/forms/Projects_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -7222,10 +7222,10 @@ def forms_Projects_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.090611
+#  GLVH @ 2021-06-27 22:38:01.812590
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:12.090627        
+# gen_views_select_query.html:AG 2021-06-27 22:38:01.812605        
 @main.route('/select/Projects_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -7417,9 +7417,9 @@ def select_Projects_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.145329
+#  GLVH @ 2021-06-27 22:38:01.843627
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:12.145346
+# gen_views_api.html:AG 2021-06-27 22:38:01.843643
 # table_name: Projects
 # class_name: projects
 # is shardened: False
@@ -7666,15 +7666,15 @@ def api_delete_Projects(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_rates.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.283592
+#  GLVH @ 2021-06-27 22:38:01.972240
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:12.283608
+# gen_views_form.html:AG 2021-06-27 22:38:01.972255
 @main.route('/forms/Rates', methods=['GET', 'POST'])
 @login_required
 
@@ -7799,9 +7799,9 @@ def forms_Rates():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.293213
+#  GLVH @ 2021-06-27 22:38:01.980934
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:12.293229
+# gen_views_delete.html:AG 2021-06-27 22:38:01.980950
 @main.route('/forms/Rates_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -7866,10 +7866,10 @@ def forms_Rates_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.312614
+#  GLVH @ 2021-06-27 22:38:02.000081
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:12.312630        
+# gen_views_select_query.html:AG 2021-06-27 22:38:02.000096        
 @main.route('/select/Rates_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -8194,9 +8194,9 @@ def select_Rates_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.344037
+#  GLVH @ 2021-06-27 22:38:02.032010
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:12.344053
+# gen_views_api.html:AG 2021-06-27 22:38:02.032034
 # table_name: Rates
 # class_name: rates
 # is shardened: True
@@ -8497,15 +8497,15 @@ def api_delete_Rates(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_requests.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.640034
+#  GLVH @ 2021-06-27 22:38:02.352827
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:12.640062
+# gen_views_form.html:AG 2021-06-27 22:38:02.352857
 @main.route('/forms/Requests', methods=['GET', 'POST'])
 @login_required
 
@@ -8642,9 +8642,9 @@ def forms_Requests():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.648716
+#  GLVH @ 2021-06-27 22:38:02.361486
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:12.648729
+# gen_views_delete.html:AG 2021-06-27 22:38:02.361513
 @main.route('/forms/Requests_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -8711,10 +8711,10 @@ def forms_Requests_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.668645
+#  GLVH @ 2021-06-27 22:38:02.388895
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:12.668660        
+# gen_views_select_query.html:AG 2021-06-27 22:38:02.388910        
 @main.route('/select/Requests_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9066,9 +9066,9 @@ def select_Requests_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.698751
+#  GLVH @ 2021-06-27 22:38:02.419642
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:12.698765
+# gen_views_api.html:AG 2021-06-27 22:38:02.419660
 # table_name: Requests
 # class_name: requests
 # is shardened: False
@@ -9383,15 +9383,15 @@ def api_delete_Requests(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_request_type.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.453183
+#  GLVH @ 2021-06-27 22:38:02.138692
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:12.453202
+# gen_views_form.html:AG 2021-06-27 22:38:02.138707
 @main.route('/forms/Request_Type', methods=['GET', 'POST'])
 @login_required
 
@@ -9505,9 +9505,9 @@ def forms_Request_Type():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.465263
+#  GLVH @ 2021-06-27 22:38:02.148113
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:12.465278
+# gen_views_delete.html:AG 2021-06-27 22:38:02.148132
 @main.route('/forms/Request_Type_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -9572,10 +9572,10 @@ def forms_Request_Type_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.485346
+#  GLVH @ 2021-06-27 22:38:02.165676
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:12.485360        
+# gen_views_select_query.html:AG 2021-06-27 22:38:02.165691        
 @main.route('/select/Request_Type_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9767,9 +9767,9 @@ def select_Request_Type_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.520091
+#  GLVH @ 2021-06-27 22:38:02.218376
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:12.520118
+# gen_views_api.html:AG 2021-06-27 22:38:02.218392
 # table_name: Request_Type
 # class_name: request_type
 # is shardened: False
@@ -10016,15 +10016,15 @@ def api_delete_Request_Type(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_roles.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.799703
+#  GLVH @ 2021-06-27 22:38:02.523872
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:12.799719
+# gen_views_form.html:AG 2021-06-27 22:38:02.523887
 @main.route('/forms/Roles', methods=['GET', 'POST'])
 @login_required
 
@@ -10140,9 +10140,9 @@ def forms_Roles():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.810439
+#  GLVH @ 2021-06-27 22:38:02.538261
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:12.810454
+# gen_views_delete.html:AG 2021-06-27 22:38:02.538291
 @main.route('/forms/Roles_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10207,10 +10207,10 @@ def forms_Roles_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.828233
+#  GLVH @ 2021-06-27 22:38:02.559705
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:12.828248        
+# gen_views_select_query.html:AG 2021-06-27 22:38:02.559721        
 @main.route('/select/Roles_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -10417,9 +10417,9 @@ def select_Roles_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.858546
+#  GLVH @ 2021-06-27 22:38:02.590623
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:12.858570
+# gen_views_api.html:AG 2021-06-27 22:38:02.590639
 # table_name: Roles
 # class_name: Role
 # is shardened: False
@@ -10673,15 +10673,15 @@ def api_delete_Roles(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_subnets.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.968954
+#  GLVH @ 2021-06-27 22:38:02.693926
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:12.968981
+# gen_views_form.html:AG 2021-06-27 22:38:02.693943
 @main.route('/forms/Subnets', methods=['GET', 'POST'])
 @login_required
 
@@ -10809,9 +10809,9 @@ def forms_Subnets():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.978956
+#  GLVH @ 2021-06-27 22:38:02.703463
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:12.978971
+# gen_views_delete.html:AG 2021-06-27 22:38:02.703481
 @main.route('/forms/Subnets_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10876,10 +10876,10 @@ def forms_Subnets_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:12.997194
+#  GLVH @ 2021-06-27 22:38:02.721592
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:12.997208        
+# gen_views_select_query.html:AG 2021-06-27 22:38:02.721607        
 @main.route('/select/Subnets_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -11176,9 +11176,9 @@ def select_Subnets_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:13.028099
+#  GLVH @ 2021-06-27 22:38:02.754950
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:13.028114
+# gen_views_api.html:AG 2021-06-27 22:38:02.754966
 # table_name: Subnets
 # class_name: subnets
 # is shardened: False
@@ -11474,15 +11474,15 @@ def api_delete_Subnets(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-20 20:20:09
+# GLVH @ 2021-06-27 22:37:59
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_users.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:13.145547
+#  GLVH @ 2021-06-27 22:38:02.866388
 # ======================================================================        
-# gen_views_form.html:AG 2021-06-20 20:20:13.145563
+# gen_views_form.html:AG 2021-06-27 22:38:02.866404
 @main.route('/forms/Users', methods=['GET', 'POST'])
 @login_required
 
@@ -11598,9 +11598,9 @@ def forms_Users():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:13.154041
+#  GLVH @ 2021-06-27 22:38:02.875874
 # ======================================================================        
-# gen_views_delete.html:AG 2021-06-20 20:20:13.154056
+# gen_views_delete.html:AG 2021-06-27 22:38:02.875890
 @main.route('/forms/Users_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -11667,10 +11667,10 @@ def forms_Users_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:13.175470
+#  GLVH @ 2021-06-27 22:38:02.896886
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-06-20 20:20:13.175485        
+# gen_views_select_query.html:AG 2021-06-27 22:38:02.896903        
 @main.route('/select/Users_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -11932,9 +11932,9 @@ def select_Users_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-06-20 20:20:13.208148
+#  GLVH @ 2021-06-27 22:38:02.936853
 # ======================================================================
-# gen_views_api.html:AG 2021-06-20 20:20:13.208165
+# gen_views_api.html:AG 2021-06-27 22:38:02.936870
 # table_name: Users
 # class_name: User
 # is shardened: False
@@ -12240,8 +12240,9 @@ def get_cost_center(code):
     
 # get cost centers uses codes NOT ids
 def get_cost_centers(CC_TOP=None):
+    # Recursively get a list of CCs descendants of CC_TOP
     cc_list = []
-    print(f"{this()}: CC_TOP={CC_TOP} {type(CC_TOP)}")
+    #print(f"{this()}: CC_TOP={CC_TOP} {type(CC_TOP)}")
     try:
         if type(CC_TOP) == str:            
         #f CC_TOP is not None:            
@@ -12249,7 +12250,7 @@ def get_cost_centers(CC_TOP=None):
                         Cost_Centers
                         ).filter(Cost_Centers.CC_Parent_Code==CC_TOP)
             logger.debug(f"{this()}: query = {query}")
-            print(f"{this()}: query = {query}")
+            #print(f"{this()}: query = {query}")
             result = query.all()
             for row in result:
                 # Load Top Cost Center if found (should be only 1)
@@ -12271,6 +12272,7 @@ def get_cost_centers(CC_TOP=None):
     return cc_list    
 
 def get_cost_centers_fast(CC_TOP,maximum=9999999999):
+    # returns a list of CCs children of CC_TOP and below maximum
     cc_list = []
     try:
         result = db.session.query(
@@ -12370,6 +12372,12 @@ def get_type_list(top_cost_center_code,ccs=None):
 
     # Codigo omitido temporalmente elimnar hardcode luego
     ctype_list = []
+    '''
+    ctype_list = [
+        ['HDD','Hard Disk Drive'],
+        ['SSD','Solid State Disk'],
+    ]
+    '''
     logger.debug(f"{this()}: top_cost_center_code={top_cost_center_code}")
     if ccs is None:
         ccs = get_cost_centers(top_cost_center_code)
@@ -12384,6 +12392,7 @@ def get_type_list(top_cost_center_code,ccs=None):
     return ctype_list
 #    ==> 370 discos      CC_Code%30000000 != 0 and CC_Code%10000 != 0 and CC_Code%100 != 0 and CC_Code%10 != 0
         
+'''
 def get_image_list():
     # List of images need to be refreshed from Nutanix Cluster ---------
     # These need to come from Nutanix Images
@@ -12399,7 +12408,7 @@ def get_disk_image_list():
     image_list =  db.session.query(Disk_Images).all()
     logger.trace(f"{this()}: {pformat(image_list)}")
     return image_list
-
+'''
 def get_cluster_list():
     # List of clusters need to be refreshed from Nutanix ---------------
     # These need to come from Nutanix 
@@ -12746,54 +12755,7 @@ def get_monthly_rate(row,rox):
         logger.warning(f"{this()}: exception {str(e)}")
         return 0
 
-""" def get_description(tabla,codigo,data):
-    ''' Gets description for a table based system '''
-    logger.debug(f'{this()}: tabla={tabla} codigo={codigo}')
-    descripcion=''
-    try:
-        # lists of tuples: [(codigo,descripcion),...]
-        if tabla in ['clusters','projects','categories','users','departments','ccs','types']:
-            for item in data[tabla]:
-                if item[0] == codigo: 
-                    descripcion=item[1]
-                    break
-        # list of subnets (dictionaries)
-        elif tabla=='subnets':
-            for subnets_list in data['subnets']:
-                for subnet in subnets_list:
-                    if subnet['uuid'] == codigo: 
-                        descripcion=subnet['name']
-                        break                    
-        elif tabla=='images':
-            for image in data['images']:
-                if image.uuid == codigo:
-                    descripcion = image.name
-                    break                    
-    except Exception as e:
-        logger.error(f"{this()}: exception: {str(e)}")
-    logger.debug(f"{this()}: return descripcion = '{descripcion}'")
-    return descripcion
-"""    
-
-""" def get_vm_resume(vm):    
-    cpu=ram=dsk=tip=None
-    if vm is not None:
-        cpu = vm.num_sockets * vm.vcpus_per_socket
-        ram = vm.memory_size_gib
-        dsk = 0
-        for i in range(12):
-            dsk += getattr(vm,f'disk_{i}_size')
-        # Tipos durante desarrollo
-        if vm.disk_type%100 in [0,1,2]:
-            tip = ['HDD','SSD','HYB'][vm.disk_type%100]
-        # Tipos con codigo forzados ver funcion get_stype_list()
-        elif vm.disk_type%100 in [11,12,13]:
-            tip = ['HDD','SSD','HYB'][vm.disk_type%100-11]
-        else:
-            tip = None
-    return f"{cpu} CPU x {ram} GB x {dsk} GB {tip}"
-"""
-
+#def butler_notify_request(subject_detail=None,data=None,recipients=None,html_function=None):
 def notify_request(Id,subject_detail=None,data=None,recipients=None):
     logger.debug(f'{this()}:Enter')
     from    flask_mail          import Message
@@ -12888,34 +12850,39 @@ def get_range_list(range_list):
     return list_of_ranges
 
 def calculate_form(form,row,rox):
-    logger.debug(f"{this()}: Enter")
+    logger.warning(f"{this()}: Enter. called by {caller()}")
+    logger.warning(f"form.vmTopCC           = {form.vmTopCC}")
+    logger.warning(f"form.vmCorporate.data  = {form.vmCorporate.data}")
+    logger.warning(f"form.vmDepartment.data = {form.vmDepartment.data}")
+    logger.warning(f"form.vmCC.data         = {form.vmCC.data}")
+    logger.warning(f"form.vmType.data       = {form.vmType.data}")
     try:
         # Copy actual DB values into temp buffers
         tmp_row = copy.copy(row)
         tmp_rox = copy.copy(rox)
         # CC_Id need to be rebuild upon actual form data
-        logger.debug(f"{this()}: top:{form.vmTopCC} co: {form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
+        logger.warning(f"{this()}: top:{form.vmTopCC} co: {form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
         tmp_row.CC_Id = form.vmTopCC + form.vmCorporate.data%form.vmTopCC + form.vmDepartment.data%form.vmTopCC + form.vmCC.data%form.vmTopCC +form.vmType.data%form.vmTopCC
-        logger.debug(f"{this()}: db CC = old {row.CC_Id} now {form.vmCorporate.data}+{form.vmDepartment.data}+{form.vmCC.data}+{form.vmType.data}-> {tmp_row.CC_Id}")
+        logger.warning(f"{this()}: db CC = old {row.CC_Id} now {form.vmCorporate.data}+{form.vmDepartment.data}+{form.vmCC.data}+{form.vmType.data}-> {tmp_row.CC_Id}")
         # Save actual form values into temporary buffers
         save_form(form,tmp_row,tmp_rox)
-        logger.debug(f"{this()}: now form CC = {tmp_row.CC_Id}")
+        logger.warning(f"{this()}: now form CC = {tmp_row.CC_Id}")
         # Calculate form values upon temporary buffers
         form.vmData.update({'storage': 0})
         form.vmData.update({'month'  : 0})
-        logger.debug(f"{this()}: form.vmData['month'] = {form.vmData['month']}")
+        logger.warning(f"{this()}: form.vmData['month'] = {form.vmData['month']}")
         for i in range(12):
             form.vmData['storage'] += getattr(form,f'vmDisk{i}Size').data
         form.vmData.update({'month':get_monthly_rate(tmp_row,tmp_rox)})
-        logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',0)}")
-        logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',0)}")
+        logger.warning(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',0)}")
+        logger.warning(f"{this()}: form.vmData['month']   = {form.vmData.get('month',0)}")
     except Exception as e:
-        logger.error(f"{this()}: {str(e)}")
-        #emtec_handle_general_exception(e,logger=logger)
-    logger.debug(f"{this()}: Exit")
+        logger.error(f"{this()}: called by {caller()} {str(e)}")
+        emtec_handle_general_exception(e,logger=logger)
+    logger.warning(f"{this()}: Exit")
         
 def load_form(form,row,rox):
-    logger.warning(f'{this()}: Enter. loading form from DB data ...')
+    logger.debug(f'{this()}: Enter. loading form from DB data ...')
     try:
         if rox.vm_name is None or str(rox.vm_name)== 'None':
             rox.vm_name = ''
@@ -12942,8 +12909,11 @@ def load_form(form,row,rox):
         for i in range(12):
             getattr(form,f'vmDisk{i}Size').data  = getattr(rox,f'disk_{i}_size')
             if i == 0: 
-                getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image') 
-        calculate_form(form,row,rox)
+                getattr(form,f'vmDisk{i}Image').data = getattr(rox,f'disk_{i}_image')
+        if form.vmCorporate.data is not None:
+            calculate_form(form,row,rox)
+        else:
+            logger.warning(f"{this()}: form calculation not called. not enough data.")
         logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
         logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
         # Extra Fields
@@ -12969,30 +12939,33 @@ def load_form(form,row,rox):
         for project in get_project_subnet_options():
             if project[0] == rox.project_uuid:
                 subnet_list = project[1]
-        pprint(subnet_list)
         # populates list of selected vlans
+        
+        ''' 20210622 GV ************************************************
         selected_list = []
         if rox.nic_0_vlan  is not None: selected_list.append(rox.nic_0_vlan)
         if rox.nic_1_vlan  is not None: selected_list.append(rox.nic_1_vlan)
         if rox.nic_2_vlan  is not None: selected_list.append(rox.nic_2_vlan)
         if rox.nic_3_vlan  is not None: selected_list.append(rox.nic_3_vlan)
-        pprint(selected_list)
         for i in range(4):
             if i < len(subnet_list):
                 uuid,name = subnet_list[i]
             else:
                 uuid,name = ['','']
             flag = True if uuid in selected_list else False
-            print(f"getattr(form,f'vmVlan{i}Selected.').data={getattr(form,f'vmVlan{i}Selected').data} {flag}")
             getattr(form,f'vmVlan{i}Name').data     = name
             getattr(form,f'vmVlan{i}Selected').data = flag                
             getattr(form,f'vmVlan{i}Uuid').data     = uuid                
-            print(f"getattr(form,f'vmVlan{i}Selected').data={getattr(form,f'vmVlan{i}Selected').data} {flag}")
-            logger.warning(f"{this()}: name: {name} uuid: {uuid} flag: {flag}")
-            logger.warning(f"{this()}: form.vmVlan{i}Name = {getattr(form,f'vmVlan{i}Name')}")
-            logger.warning(f"{this()}: form.vmVlan{i}Uuid = {getattr(form,f'vmVlan{i}Uuid')}")
-            logger.warning(f"{this()}: form.vmVlan{i}Sele = {getattr(form,f'vmVlan{i}Selected')}")
-        
+            logger.debug(f"{this()}: name: {name} uuid: {uuid} flag: {flag}")
+            logger.debug(f"{this()}: form.vmVlan{i}Name = {getattr(form,f'vmVlan{i}Name')}")
+            logger.debug(f"{this()}: form.vmVlan{i}Uuid = {getattr(form,f'vmVlan{i}Uuid')}")
+            logger.debug(f"{this()}: form.vmVlan{i}Sele = {getattr(form,f'vmVlan{i}Selected')}")
+        '''
+        form.vmVlan0Name = rox.nic_0_vlan
+        form.vmVlan1Name = rox.nic_1_vlan
+        form.vmVlan2Name = rox.nic_2_vlan
+        form.vmVlan3Name = rox.nic_3_vlan
+
         if form.vmDRP.data is None:
             form.vmDRP.data = False
             logger.debug(f'{this()}: form.vmDRP.data adjusted to = {form.vmDRP.data}')
@@ -13011,7 +12984,7 @@ def load_form(form,row,rox):
 
 def save_form(form,row,rox):
     try:
-        logger.warning(f'{this()}: saving form to DB records ...')
+        logger.debug(f'{this()}: saving form to DB records ...')
         # Identification ---------------------------------------------------
         rox.vm_name          = form.vmName.data
         #row.Status           = form.vmStatus.data
@@ -13043,26 +13016,21 @@ def save_form(form,row,rox):
         rox.memory_size_gib  = form.vmRAM.data
         rox.memory_size_mib  = form.vmRAM.data * 1024
         # Storage ----------------------------------------------------------
-        #ox.disk_type        = form.vmType.data % 10
         rox.disk_type        = form.vmType.data
         for i in range(12):
             setattr( rox, f'disk_{i}_size' , getattr( form, f'vmDisk{i}Size').data  ) 
             if i == 0:
                 setattr( rox, f'disk_{i}_image', getattr( form, f'vmDisk{i}Image').data ) 
-        logger.warning(f"form.vmVlan0Selected.data={form.vmVlan0Selected.data} >{form.vmVlan0Uuid.data}< >{form.vmVlan0Name.data}<")
-        logger.warning(f"form.vmVlan1Selected.data={form.vmVlan1Selected.data} >{form.vmVlan1Uuid.data}< >{form.vmVlan1Name.data}<")
-        logger.warning(f"form.vmVlan2Selected.data={form.vmVlan2Selected.data} >{form.vmVlan2Uuid.data}< >{form.vmVlan2Name.data}<")
-        logger.warning(f"form.vmVlan3Selected.data={form.vmVlan3Selected.data} >{form.vmVlan3Uuid.data}< >{form.vmVlan3Name.data}<")
 
-        rox.nic_0_vlan = form.vmVlan0Uuid.data if form.vmVlan0Selected.data else None
-        rox.nic_1_vlan = form.vmVlan1Uuid.data if form.vmVlan1Selected.data else None
-        rox.nic_2_vlan = form.vmVlan2Uuid.data if form.vmVlan2Selected.data else None
-        rox.nic_3_vlan = form.vmVlan3Uuid.data if form.vmVlan3Selected.data else None        
+        rox.nic_0_vlan = form.vmVlan0Name.data
+        rox.nic_1_vlan = form.vmVlan1Name.data
+        rox.nic_2_vlan = form.vmVlan2Name.data
+        rox.nic_3_vlan = form.vmVlan3Name.data
         # Networking      
-        logger.warning(f"nic_0_vlan={rox.nic_0_vlan}")
-        logger.warning(f"nic_1_vlan={rox.nic_1_vlan}")
-        logger.warning(f"nic_2_vlan={rox.nic_2_vlan}")
-        logger.warning(f"nic_3_vlan={rox.nic_3_vlan}")
+        logger.debug(f"nic_0_vlan={rox.nic_0_vlan}")
+        logger.debug(f"nic_1_vlan={rox.nic_1_vlan}")
+        logger.debug(f"nic_2_vlan={rox.nic_2_vlan}")
+        logger.debug(f"nic_3_vlan={rox.nic_3_vlan}")
         # Array of Backup sets
         rox.backup_set_1  = form.vmBackUpSet1.data
         rox.backup_set_2  = form.vmBackUpSet2.data
@@ -13105,18 +13073,19 @@ def output_Request(Id,data=None):
     data.update({'departments':department_list})
     data.update({'ccs'        :cc_list})
     data.update({'types'      :type_list})
-    data.update({'images'     :[]})
 
-    image_list          = get_image_list()
+    #mage_list          = get_image_list()
+    image_list          = Get_images_list(db)
     vmDiskImage_choices = [('','')]
-    
+    '''
     for image in image_list:
         vmDiskImage_choices.append(
             (image.imageservice_uuid_diskclone,
             f'{image.description} ({int(image.size_mib)/1024} GB)')
             )
         data['images'].append((image.imageservice_uuid_diskclone,image.description))
-        
+    '''   
+    data.update({'images'     :image_list})
     
     if Id > 0:
         # GV db.session.close()
@@ -13135,7 +13104,7 @@ def output_Request(Id,data=None):
         if row is not None:
             # GV db.session.close()
             data.update({'status_description':get_request_status_description(row[0].Status)})
-            data.update({'disk_images':[]})
+            #ata.update({'disk_images':[]})
             data.update({'month':0})
             # Gets Monthly Rates as per Rates Table
             rates = get_rates(CC_Id=row.Requests.CC_Id)
@@ -13146,8 +13115,8 @@ def output_Request(Id,data=None):
                     if image[0] == uuid:
                         name = image[1]
                         break
-                data['disk_images'].append(name)
-                data['images'].append(name)
+                #ata['disk_images'].append(name)
+                #ata['images'].append(name)
                 
             cpu = row.Nutanix_Prism_VM.num_sockets * rates['CPU']
             ram = row.Nutanix_Prism_VM.memory_size_gib * rates['RAM']
@@ -13169,7 +13138,7 @@ def output_Request(Id,data=None):
             data.update({'status_description':f'ERROR: Solicitud {Id} no encontrada.'})
             data.update({'disk_images':[]})
             data.update({'month':0})
-            data['disk_images'].append(None)
+            #ata['disk_images'].append(None)
             data['storage'] = 0
             data['storage_type'] = ''
             data['month'] = 0
@@ -13200,6 +13169,7 @@ def output_Request(Id,data=None):
 # GLVH @ 2020-11-06
 # ======================================================================
 import jinja2
+import copy
 from pprint                 import pformat
 from sqlalchemy             import desc
 from emtec.debug            import *
@@ -13362,7 +13332,7 @@ def forms_Request():
         session['data']['top_cost_center_id'] = cc.CC_Id
         session['data']['top_cost_center_code'] = cc.CC_Code
         
-    if current_user.role_id in [ROLE_REQUESTOR]:
+    if   current_user.role_id in [ROLE_REQUESTOR]:
         session['data']['rolename'] = 'Requestor'
     elif current_user.role_id in [ROLE_APPROVER]:
         session['data']['rolename'] = 'Approver'
@@ -13377,10 +13347,10 @@ def forms_Request():
     # ******************************************************************
     # Instance form
     logger.debug(f'{this()}: instance new form <= frm_request')
-    form = frm_request()
-    form.logger  = logger
-    form.vmTopCC = session['data']['top_cost_center_id']
-    form.vmTopCCCode = session['data']['top_cost_center_code']
+    form              = frm_request()
+    form.logger       = logger
+    form.vmTopCC      = session['data']['top_cost_center_id']
+    form.vmTopCCCode  = session['data']['top_cost_center_code']
     form.vmDebug.data = session['data']['debug']
     
     # ******************************************************************
@@ -13391,23 +13361,28 @@ def forms_Request():
 
     # OJO Control con falla de configuracion/archivo mientras default tonto
     
+    # ******************************************************************
+    # ******************************************************************
     
+    '''
     top_cost_center_code = current_app.config['BUTLER_TOP_COST_CENTER']
     top_cost_center_id = db.session.query(Cost_Centers.CC_Id
                             ).filter(
                                 Cost_Centers.CC_Code == top_cost_center_code
                             ).scalar()
-    #all_cc_list = get_cost_centers(top_cost_center_code)
     all_cc_list = get_cost_centers_fast(top_cost_center_id)
         
     logger.debug(f'{this()}: inicializa listas de opciones ...') 
     
+
     corporate_list         = get_corporate_list (session['data']['top_cost_center_code'],all_cc_list)
     department_list,gd_map = get_department_list(session['data']['top_cost_center_code'],all_cc_list)
     cc_list                = get_cc_list        (session['data']['top_cost_center_code'],all_cc_list)
     type_list              = get_type_list      (session['data']['top_cost_center_code'],all_cc_list)
-    image_list             = get_image_list()
-    disk_image_list        = get_disk_image_list()
+    #mage_list             = get_image_list()
+    image_list             = Get_images_list(db)
+    #isk_image_list        = get_disk_image_list()
+    disk_image_list        = Get_disk_images_list(db)
     cluster_list           = get_cluster_list()
     project_list           = get_project_list()
     category_list          = get_category_list()
@@ -13433,7 +13408,13 @@ def forms_Request():
     session['data'].update({'users'         : user_list})
     session['data'].update({'subnet_options': get_project_subnet_options()})
     session['data'].update({'rates'         : rates_list})
-    #session['data'].update({'images'        : image_list})
+    # 20210620 GV PATCH
+    images_list = Get_images_list(db)
+    #for image in image_list:
+    #    images_list.append((image.imageservice_uuid_diskclone,image.description))
+    
+    
+    session['data'].update({'images'        : images_list})
     #session['data'].update({'disk-images'   : disk_image_list})
     # since session data is allmost full populated we can construct
     # environments now 
@@ -13442,8 +13423,19 @@ def forms_Request():
     environments_codes = get_environments_codes(session['data'],environments)
     session['data'].update({'environments_codes'  : environments_codes})
     
+    '''
+    # ******************************************************************
+    # Aqui está cargado todo el contexto
+    data = Get_data_context(current_app,db,mail,row.Id,current_user)
+
+
+    # ******************************************************************
+    # ******************************************************************
+
+
     # Populates vm Data with all captured session data -----------------
-    form.vmData.update(session['data'])
+    #form.vmData.update(session['data'])
+    form.vmData.update(data)
     
     logger.trace(f"session['data']=\n{pformat(session['data'])}")
 
@@ -13451,12 +13443,21 @@ def forms_Request():
     scripts = []
     for template in Script_Templates:
         logger.debug(f"rendering template={template} ...")
+        '''
         script = jinja2.Template(template
                         ).render(
-                            subnet_options     = subnet_options,
-                            rates              = rates_list,
-                            gd_map             = gd_map,
-                            environments_codes = environments_codes
+                            subnet_options     = session.get('data').get('subnet_options'),
+                            rates              = session.get('data').get('rates'),
+                            gd_map             = session.get('data').get('gd_map'),
+                            environments_codes = session.get('data').get('environments_codes')
+                        )
+        '''
+        script = jinja2.Template(template
+                        ).render(
+                            subnet_options     = data.get('subnet_options'),
+                            rates              = data.get('rates'),
+                            gd_map             = data.get('gd_map'),
+                            environments_codes = data.get('environments_codes')
                         )
         scripts.append(Markup(script))
     # Updates JS/JQ functions/events file as per actual DATA -----------
@@ -13472,7 +13473,7 @@ def forms_Request():
         fp.write(f"// {jsfile}:EOF\n")
     # ------------------------------------------------------------------
 
-    vmCorporate_choices = []
+    vmCorporate_choices  = []
     vmDepartment_choices = []
     vmCC_choices         = []
     vmType_choices       = []
@@ -13482,32 +13483,33 @@ def forms_Request():
     vmCategory_choices   = []
     vmSubnet_choices     = []
     
-    for corporate in corporate_list:
+    
+    #or corporate in corporate_list:
+    #or corporate in session.get('data').get('corporates'):
+    for corporate in data.get('corporates'):
         vmCorporate_choices.append(corporate)
-    for department in department_list:
+    #or department in department_list:
+    #or department in session.get('data').get('departments'):
+    for department in data.get('departments'):
         vmDepartment_choices.append(department)
-    for cc in cc_list:
+    #or cc in cc_list:
+    #or cc in session.get('data').get('ccs'):
+    for cc in data.get('ccs'):
         vmCC_choices.append(cc)
-    vmType_choices = session['data']['types']
-    # 20210618 CAMBIO A TABLA DE IMAGENES DE MV, solo aplica a disco 1
-    for image in image_list:
-        vmDiskImage_choices.append(
-            (image.imageservice_uuid_diskclone,
-            f'{image.description} ({int(image.size_mib)/1024:.0f} GB)')
-            )
+    # *** vmType_choices = session.get('data').get('types')
+    vmType_choices = data.get('types')
+
+    for uuid,description,size in data.get('images'):
+        vmDiskImage_choices.append((uuid,f'{description} ({size} GB)'))
     # Load Select Fields Choices and codes -----------------------------
-    form.vmCorporate.choices   = vmCorporate_choices
-    form.vmDepartment.choices   = vmDepartment_choices
-    form.vmCC.choices   = vmCC_choices
-    form.vmType.choices = vmType_choices
-    form.vmCluster.choices = cluster_list
-    form.vmProject.choices = project_list
-    form.vmCategory.choices = category_list
-    # 20210621 GV form.vmSubnet.choices = subnet_list
-    subnet_list_other=[('','')]+subnet_list
-    logger.trace(f"{this()}: subnet_list   ={pformat(subnet_list)}")
-    logger.trace(f"{this()}: subnet_options={pformat(subnet_options)}")
-    logger.trace(f"{this()}: subnet_list_other={pformat(subnet_list_other)}")
+    form.vmCorporate.choices  = vmCorporate_choices
+    form.vmDepartment.choices = vmDepartment_choices
+    form.vmCC.choices         = vmCC_choices
+    form.vmType.choices       = vmType_choices
+    form.vmCluster.choices    = data.get('clusters')
+    form.vmProject.choices    = data.get('projects')
+    form.vmCategory.choices   = data.get('categories')
+
     for i in range(1):
         getattr(form,f'vmDisk{i}Image').choices = vmDiskImage_choices
     # ------------------------------------------------------------------
@@ -13516,46 +13518,36 @@ def forms_Request():
     logger.debug(f"{this()}: form.errors         = {form.errors}")
     # Will check if all validated
     if form.is_submitted() and len(form.errors)==0:
-        logger.warning(f"{this()}: will call form.validate()")
+        logger.debug(f"{this()}: will call form.validate()")
         try:
             form.validate()
         except Exception as e:
+            logger.error(f"form.validate exception: {str(e)}")
+            logger.error(f"form.errors: {form.errors}")
             emtec_handle_general_exception(e,logger=logger)
-        logger.warning(f"{this()}: return from form.validate() errors={len(form.errors)}")
+        logger.debug(f"{this()}: return from form.validate() errors={len(form.errors)}")
         if len(form.errors) != 0:
-            logger.warning(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
-            print(f"{this()}: form.is_submitted()={form.is_submitted()} form.errors={form.errors}")
+            logger.warning(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
         else:
-            logger.warning(f"no errors will evaluate button pushed")
-            form_log(form,logger.warning)
+            logger.debug(f"no errors will evaluate button pushed")
+            form_log(form,logger.debug)
             
-            for project,subnets in subnet_options:
-                if project == form.vmProject.data:
-                    project_subnets = subnets
-                    break
-            pprint(subnets)
-            logger.warning(f"0 Selected {form.vmVlan0Selected.data}|{subnets[0][0]}")
-            logger.warning(f"1 Selected {form.vmVlan1Selected.data}|{subnets[1][0]}")
-            logger.warning(f"2 Selected {form.vmVlan2Selected.data}|{subnets[2][0]}")
-            logger.warning(f"3 Selected {form.vmVlan3Selected.data}|{subnets[3][0]}")
-            # PATCH 
-            form.vmVlan0Uuid.data = subnets[0][0] if form.vmVlan0Selected.data else None
-            form.vmVlan1Uuid.data = subnets[1][0] if form.vmVlan1Selected.data else None
-            form.vmVlan2Uuid.data = subnets[2][0] if form.vmVlan2Selected.data else None
-            form.vmVlan3Uuid.data = subnets[3][0] if form.vmVlan3Selected.data else None
-            
-            # --------------------------------------------------------------
+            # Gets sure vmData buffer is complete **********************
+            form.vmData.update(Get_data_context(current_app,db,mail,row.Id,current_user))
+            # **********************************************************
+            # ----------------------------------------------------------
             # Basic Requestor's submits
-            # --------------------------------------------------------------
-            # Guardar ------------------------------------------------------
+            # ----------------------------------------------------------
+            # Guardar --------------------------------------------------
             if     form.submit_Guardar.data and row.Status < BUTLER_STATUS['REQUESTED']:
-                # Get data from context ------------------------------------
+                # Get data from context --------------------------------
                 row.Id         = Id     
                 row.Type       = 1     # Nutanix VM 
                 row.User_Id    = current_user.id 
                 rox.Request_Id = row.Id 
                 save_form(form,row,rox)
-                # Aqui ajusta valor en BD ----------------------------------
+                form.vmData.update({'row':row,'rox':rox})
+                # Aqui ajusta valor en BD ------------------------------
                 try:
                     ## GV db.session.close()
                     if row.Id == 0: 
@@ -13579,33 +13571,66 @@ def forms_Request():
                         session['new_row']    = str(row)+str(rox)
                         db.session.merge(row)
                         db.session.merge(rox)
+                    saved_row=copy.copy(row)
+                    saved_rox=copy.copy(rox)
                     db.session.commit()
                     ## GV db.session.close()
                     if session['is_new_row']==True:
+                        form.vmData['row']=saved_row
+                        form.vmData['rox']=saved_rox
                         logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                        notify_request(Id,f'Creada por {current_user.username}',form.vmData)
-                        message=Markup(f'<b>Nueva solicitud {Id} creada OK</b>')
+                        logger.warning("call butler_notify_request ... 411")
+                        try:
+                            butler_notify_request(
+                                f'Creada por {current_user.username}',
+                                data=form.vmData,
+                                html_function=butler_output_request
+                                )
+                            message=Markup(f'<b>Nueva solicitud {Id} creada OK</b>')
+                        except Exception as e:
+                            message=Markup(f'<b>Nueva solicitud {Id} creacion excepcion: {str(e)}</b>')
+                            emtec_handle_general_exception(e,logger=logger)
                     else:
                         # Check this code, cookie must transport premodification state
                         # so we can save audit data conditionaly
-                        logger.warning(f"session.get('prev_row')={session.get('prev_row')}")
-                        logger.warning(f"form.vmData.get('prev_row')={form.vmData.get('prev_row')}")
+                        logger.debug(f"session.get('prev_row')={session.get('prev_row')}")
+                        logger.debug(f"form.vmData.get('prev_row')={form.vmData.get('prev_row')}")
                         session['prev_row']=form.vmData.get('prev_row')
                         if session.get('prev_row') is not None:
-                            logger.warning(f"session.prev_row is available")
+                            logger.debug(f"session.prev_row is available")
                             if session['new_row'] != session['prev_row']:
-                                logger.warning(f"change detected for session.prev_row is available")
+                                logger.debug(f"change detected, session.prev_row is available")
+                                form.vmData['row']=saved_row
+                                form.vmData['rox']=saved_rox
                                 logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                                 logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                                notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
-                                message=Markup(f"<b>Solicitud {Id} Modificada</b>")
+                                logger.warning("call butler_notify_request 433 ...")
+                                try:
+                                    butler_notify_request(
+                                        f"Solicitud {Id} Modificada por '{current_user.username}'",
+                                        data=form.vmData,
+                                        html_function=butler_output_request
+                                        )
+                                    message=Markup(f"<b>Solicitud {Id} Modificada</b>")
+                                except Exception as e:
+                                    message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
+                                    emtec_handle_general_exeption(e,logger=logger)
                             else:
-                                logger.warning(f"change NOT detected for session.prev_row is available")
+                                logger.warning(f"change NOT detected, session.prev_row is available")
                                 message=Markup(f'<b>Solicitud {Id} no fue modificada</b>')                        
                         else:
                             logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                            notify_request(Id,f"Solicitud {Id} Modificada por '{current_user.username}'",form.vmData)
-                            message=Markup(f"<b>Solicitud {Id} Modificada</b>")                            
+                            logger.warning("call butler_notify_request ...449")
+                            try:
+                                butler_notify_request(
+                                    f"Solicitud {Id} Modificada por '{current_user.username}'",
+                                    data=form.vmData,
+                                    html_function=butler_output_request
+                                    )
+                                message=Markup(f"<b>Solicitud {Id} Modificada</b>")                            
+                            except Exception as e:
+                                message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
+                                emtec_handle_general_exception(e,logger=logger)                            
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -13617,6 +13642,9 @@ def forms_Request():
             # Completado ---------------------------------------------------
             elif   form.submit_Completado.data:
                 save_form(form,row,rox)
+                form.vmData.update({'row':row,'rox':rox})
+                saved_row=copy.copy(row)
+                saved_rox=copy.copy(rox)
                 # Aqui ajusta valor en BD
                 try:
                     if row.Id > 0:
@@ -13631,8 +13659,19 @@ def forms_Request():
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Completada por {current_user.username}. En Proceso de aprobación.',form.vmData)
-                    message=Markup('<b>Solicitud en Aprobacion</b>')
+                    logger.warning("call butler_notify_request 486 ...")
+                    form.vmData['row']=saved_row
+                    form.vmData['rox']=saved_rox
+                    try:
+                        butler_notify_request(
+                            f'Completada por {current_user.username}. En Proceso de aprobación.',
+                            data=form.vmData,
+                            html_function=butler_output_request
+                            )
+                        message=Markup(f'<b>Solicitud {saved_rox.Request_Id} en Aprobacion</b>')
+                    except Exception as e:
+                        message=Markup(f'<b>Solicitud {saved_rox.Request_Id} en Aprobacion excepcion:{str(e)}</b>')
+                        emtec_handle_general_exception(e,logger=logger)
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -13648,7 +13687,9 @@ def forms_Request():
                     if row.Id > 0:
                         row.Status           = REQUEST_CANCELED
                         row.Last_Status_Time = datetime.now()
-                        row.Comments = f"Solicitud Cancelada/Eliminada por usuario '{current_user.username}'. Estado Final."
+                        if row.Comments is None: row.Comments = ''
+                        if len(row.Comments): row.Comments += '\n'
+                        row.Comments = row.Comments + f"Solicitud Cancelada/Eliminada por usuario '{current_user.username}'. Estado Final."
                         if current_user.role_id == ROLE_APPROVER:
                             row.Approver_Id = current_user.id
                         session['new_row']    = str(row)+str(rox)
@@ -13659,8 +13700,17 @@ def forms_Request():
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Cancelada por {current_user.username}',form.vmData)
-                    message=Markup(f'<b>Solicitud {Id} Cancelada</b>')
+                    form.vmData.update({'row':row,'rox':rox})
+                    try:
+                        butler_notify_request(
+                            f'Cancelada por {current_user.username}',
+                            data=form.vmData,
+                            html_function=butler_output_request
+                            )
+                        message=Markup(f'<b>Solicitud {Id} Cancelada</b>')
+                    except Exception as e:
+                        message=Markup(f'<b>Solicitud {Id} Cancelacion excepcion: {str(e)}</b>')
+                        emtec_handle_general_exception(e,logger=logger)
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -13683,6 +13733,7 @@ def forms_Request():
                 # Get Data from form
                 # CC Id is a mix of distribution CC + Storage Type
                 save_form(form,row,rox)
+                form.vmData.update({'row':row,'rox':rox})
                 # Aqui ajusta valor en BD
                 try:
                     session['new_row']   = str(row)+str(rox)
@@ -13696,12 +13747,21 @@ def forms_Request():
                         row.Comments         = row.Comments + f"Solicitud modificada por '{current_user.username}' @ {datetime.now().strftime('%d/%m/%y %H:%M')}. "
                         db.session.merge(row)
                         db.session.merge(rox)
+                        saved_row=copy.copy(row)
+                        saved_rox=copy.copy(rox)
                         db.session.commit()
                         ## GV db.session.close()
                         if session.get('prev_row') is not None:
                             logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                         logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                        notify_request(Id,f'Solicitud {Id} Modificada por {current_user.username}',form.vmData)
+                        form.vmData.update({'row':row,'rox':rox})
+                        form.vmData['row']=saved_row
+                        form.vmData['rox']=saved_rox
+                        butler,notify_request(
+                            f'Solicitud {Id} Modificada por {current_user.username}',
+                            data=form.vmData,
+                            html_function=butler_output_request
+                            )
                         message=Markup(f"<b>Solicitud {Id} Modificada por '{current_user.username}'</b>")
                     else:
                         message=Markup(f"<b>Solicitud {Id} no Modificada'</b>")
@@ -13723,12 +13783,19 @@ def forms_Request():
                     session['new_row']   = str(row)+str(rox)
                     db.session.merge(row)
                     db.session.merge(rox)
+                    saved_row=copy.copy(row)
+                    saved_rox=copy.copy(rox)
                     db.session.commit()
                     ## GV db.session.close()
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Rechazada por {current_user.username}',form.vmData)
+                    form.vmData.update({'row':saved_row,'rox':saved_rox})
+                    butler_notify_request(
+                        f'Rechazada por {current_user.username}',
+                        data=form.vmData,
+                        html_function=butler_output_request
+                        )
                     message=Markup('<b>Solicitud Rechazada</b>')
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
@@ -13749,13 +13816,20 @@ def forms_Request():
                     session['new_row']   = str(row)+str(rox)
                     db.session.merge(row)
                     db.session.merge(rox)
+                    saved_row=copy.copy(row)
+                    saved_rox=copy.copy(rox)
                     db.session.commit()
                     ## GV db.session.close()
                     if session.get('prev_row') is not None:
                         logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                     logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    notify_request(Id,f'Aprobada por {current_user.username}',form.vmData)
-                    message=Markup('<b>Solicitud {Id} Aprobada</b>')
+                    form.vmData.update({'row':saved_row,'rox':saved_rox})
+                    butler_notify_request(
+                        f'Aprobada por {current_user.username}',
+                        data=form.vmData,
+                        html_function=butler_output_request
+                        )
+                    message=Markup(f'<b>Solicitud {Id} Aprobada</b>')
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -13774,7 +13848,7 @@ def forms_Request():
             else:
                 flash('<b>Form validado pero no sometido ???. Llamar al administrador del sistema</b>')
             return redirect(url_for('.select_Request'))
-    
+
     logger.debug(f"{this()}: form is_submitted() = {form.is_submitted()}")
     logger.debug(f"{this()}: form errors         = {form.errors}")
     
@@ -13783,12 +13857,13 @@ def forms_Request():
         calculate_form(form,row,rox)
     else:
         # load actual data into form fields prior rendering
-        #print(dir(form))
         logger.debug(f'{this()}: form is not submitted !!!! will load form !!!...')
         load_form(form,row,rox)
-        logger.debug(f"{this()}: after load_formvmTopCC={form.vmTopCC} vmCorporate={form.vmCorporate.data} vmDepartment={form.vmDepartment.data} vmCC={form.vmCC.data} vmType={form.vmType.data}")
-        logger.debug(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
-        logger.debug(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
+        form.vmData.update({'row':row,'rox':rox})
+        logger.debug(f"{this()}: after load_formvmTopCC = {form.vmTopCC} vmCorporate = {form.vmCorporate.data} vmDepartment = {form.vmDepartment.data} vmCC={form.vmCC.data} vmType = {form.vmType.data}")
+        logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
+        logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
+
     logger.debug(f'{this()}: loading jinja globals functions ...')
     current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
     current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
@@ -13800,22 +13875,28 @@ def forms_Request():
     session['data']['prev_row'] = session['prev_row']
     session['data']['is_new_row'] = session['is_new_row']
     
-    logger.debug(f"{this()}: session.prev_row   = {session.get('prev_row',None)}")
-    logger.debug(f"{this()}: session.is_new_row = {session.get('is_new_row',None)}")
-    logger.trace(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
-    logger.trace(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
-    form.vmData.update(session['data'])
-    logger.trace(f"{this()}: form.vmData['storage']={form.vmData.get('storage',None)}")
-    logger.trace(f"{this()}: form.vmData['month']  ={form.vmData.get('month',None)}")
+    logger.debug(f"{this()}: session.prev_row       = {session.get('prev_row',None)}")
+    logger.debug(f"{this()}: session.is_new_row     = {session.get('is_new_row',None)}")
+    logger.trace(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
+    logger.trace(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
+
+    form.vmData.update(session.get('data'))
+    # *** pprint(form.vmData)
+
+    logger.trace(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
+    logger.trace(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
     # Fill vmData detail change to debug on new population 
-    logger.trace(f'{this()}: form.vmData = {pformat(form.vmData)}')
+    logger.trace(f'{this()}: form.vmData            = {pformat(form.vmData)}')
     
-    logger.debug(f'{this()}: will render form ...')
+    logger.debug(f"{this()}: will render form with template 'request.html'...")
     # Will display all errors as Flask Flash messages ...
     for key in form.errors:
         for error in form.errors[key]:
             logger.error(f"{this()}: {key}: {error}")
             flash(f"{key}: {error}")
+
+    form.vmData.update({'row':row,'rox':rox})
+    
     return render_template(
             'request.html',
             form = form,
@@ -13842,57 +13923,9 @@ def report_Request(ID=None):
 
     row=rox=None
     data={}
-    
-    image_list          = get_image_list()
-    vmDiskImage_choices = [('','')]
-    
-    # Cambio de Tabla de imagenes de disco a imagenes de VM
-    # 20210618
-    for image in image_list:
-        vmDiskImage_choices.append(
-            (image.imageservice_uuid_diskclone,
-            f'{image.description} ({int(image.size_mib)/1024} GB)')
-            )
-    
-    cc_top_id           = get_cost_center(current_app.config['BUTLER_TOP_COST_CENTER']).CC_Id
-    
-    all_cc_list = get_cost_centers_fast(cc_top_id)
-    
-    logger.debug("**********************************************")
-    logger.debug(f"all_cc_list={len(all_cc_list)} cost centers") 
     logger.debug(f'{this()}: inicializa listas de opciones ...') 
     
-    '''
-    corporate_list         = get_corporate_list (cc_top_id,all_cc_list)
-    department_list,gd_map = get_department_list(cc_top_id,all_cc_list)
-    cc_list                = get_cc_list        (cc_top_id,all_cc_list)
-    type_list              = get_type_list      (cc_top_id,all_cc_list)
-    logger.debug(f"corporate_list  = {len(corporate_list)} corporates") 
-    logger.debug(f"department_list = {len(department_list)} departments") 
-    logger.debug(f"cc_list         = {len(cc_list)} ccs environments?") 
-    logger.debug(f"type_list       = {len(type_list)} types (of disk)") 
-    '''
-    
-    data['role']        = current_user.role_id
-    data['roles']       = ROLES
-    data['status']      = BUTLER_STATUS
-    data['debug']       = current_app.config['DEBUG']
-    data['clusters']    = get_cluster_list()
-    data['projects']    = get_project_list()
-    data['categories']  = get_category_list()
-    data['subnets']     = get_subnet_list()
-    data['users']       = get_user_list()
-    data['images']      = get_image_list()
-    data['corporates']  = get_corporate_list(cc_top_id,all_cc_list)
-    data['departments'] = get_department_list(cc_top_id,all_cc_list)
-    data['ccs']         = get_cc_list(cc_top_id,all_cc_list)
-    data['types']       = get_type_list(cc_top_id,all_cc_list)
-    data['month']       = 0
-    data['status_description'] = ''
-    data['disk_images'] = get_disk_image_list()
-    data['month']              = 0
-    data['storage']            = 0
-    data['storage_type']       = 0
+    data = Get_data_context(current_app,db,mail,Id,current_user)
     
     if Id > 0:
         # GV db.session.close()
@@ -13911,8 +13944,6 @@ def report_Request(ID=None):
         # GV db.session.close()
         data['status_description'] = get_request_status_description(row.Requests.Status)
         data['storage_type']       = row.Nutanix_Prism_VM.disk_type
-        # Gets Monthly Rates as per Rates Table
-        #rates = get_rates()
         for i in range(12):
             if i == 0:
                 uuid = getattr(row.Nutanix_Prism_VM,f'disk_{i}_image')
@@ -13925,7 +13956,6 @@ def report_Request(ID=None):
     current_app.jinja_env.globals.update(has_status=has_status)
     current_app.jinja_env.globals.update(get_description=get_description)
     current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
-    
     if ID is None:
         return render_template(
                 'report_request.html',
@@ -13939,8 +13969,6 @@ def report_Request(ID=None):
                 row       = row,
                 body_only = True
         )
-        
-
 # EOF ******************************************************************
 # ======================================================================
 # BUTLER REQUEST TEMPLATES
@@ -13955,52 +13983,47 @@ def report_Request(ID=None):
 # Templates
 # JavaScript/JQuery script templates
 
-scr_functions_template="""
+# Functions ------------------------------------------------------------
+scr_function_subnets="""
 // Updates Subnets options upon Selected project -----------------------
 function subnets() {
     //window.alert("subnets(): IN" );            
     // GET UUID FOR CURRENT PROJECT, IMPORTANT ON ON CHANGE ... --------
     var project = $("#vmProject");
     var project_uuid = project.val();
+    //window.alert( "project uuid: " + project_uuid );
     // POPULATE SUBNETS LIST FOR PROPER PROJECT, ON LINE ---------------
     var subnets = [];                
     {%- for project in subnet_options %}
-    {%- if loop.index == 1 %}
-    if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
-    {%- else %}
-    else if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
-    {%- endif %}
+        {%- if loop.index == 1 %}
+            if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+        {%- else %}
+            else if (project_uuid == "{{project.0}}"){ subnets = {{project.1}}; }
+        {%- endif %}
     {%- endfor %}
+    //window.alert( "subnets: " + subnets );
     // -----------------------------------------------------------------
-    // PRIMARY SUB NET OPTIONS INITIALIZATION --------------------------    
-    var $subnet = $("#vmSubnet");
-    var subnet_uuid = $subnet.val();
-    $subnet.empty();    
-    $.each(subnets, function(index, [uuid,name]) {
-        if ( uuid == subnet_uuid ) {
-            $subnet.append("<option selected value='" + uuid + "'>" + name + "</option>");
-        } else {
-            $subnet.append("<option value='" + uuid + "'>" + name + "</option>");
-        }
-    });
-    // OTHER SUBNETS OPTIONS INITIALIZATION ----------------------------
+    // SUBNETS OPTIONS INITIALIZATION ----------------------------
     // other nic cards may be empty ...
-    subnets.unshift(["",":"]);
-    {%- for i in range(3) %}
-    var $nic{{i}} = $("#vmNic{{i}}Vlan");    
-    var nic_uuid = $nic{{i}}.val();
-    $nic{{i}}.empty();
-    $.each(subnets, function(index,[uuid,name]) {
-        if ( uuid == nic_uuid ) {
-            $nic{{i}}.append("<option selected value='" + uuid + "'>" + name + "</option>");
-        } else {
-            $nic{{i}}.append("<option value='" + uuid + "'>" + name + "</option>");
-        }
-    });
+    //subnets.unshift(["",":"]);
+    subnets.unshift(["",""]);
+    {%- for i in range(4) %}
+        var $nic{{i}} = $("#vmVlan{{i}}Name");    
+        var nic_uuid = $nic{{i}}.val();
+        $nic{{i}}.empty();
+        $.each(subnets, function(index,[uuid,name]) {
+            //window.alert("uuid="+uuid+" nic_uuid="+nic_uuid);
+            if ( uuid == nic_uuid ) {
+                $nic{{i}}.append("<option selected value='" + uuid + "'>" + name + "</option>");
+            } else {
+                $nic{{i}}.append("<option value='" + uuid + "'>" + name + "</option>");
+            }
+        });
     {%- endfor %}
-    subnet_names();
+    //subnet_names();
 };
-
+"""
+scr_function_subnet_names="""
 // Updates Subnets options upon Selected project -----------------------
 function subnet_names() {
     //window.alert( "subnet_names(): IN" );            
@@ -14045,8 +14068,8 @@ function subnet_names() {
             $name{{i}}.val(subnets[{{i}}][1]);
             document.getElementById("vmVlan{{i}}Uuid").value = subnets[{{i}}][0];
             document.getElementById("vmVlan{{i}}Name").value = subnets[{{i}}][1];
+            document.getElementById("vmVlan{{i}}Selected").disabled = false;
             if (selected.includes($uid{{i}}.val())) {
-            //if (selected.includes(document.getElementById("vmVlan{{i}}Uuid").value)) {
                 document.getElementById("vmVlan{{i}}Selected").checked = true;
                 document.getElementById("vmVlan{{i}}Selected").value = subnets[{{i}}][0];
             }
@@ -14054,6 +14077,7 @@ function subnet_names() {
             $uid{{i}}.val("");
             $name{{i}}.val("");
             document.getElementById("vmVlan{{i}}Selected").checked = false;
+            document.getElementById("vmVlan{{i}}Selected").disabled = true;
         }
     {%- endfor %}
     /*
@@ -14085,8 +14109,8 @@ function subnet_names() {
     {%- endfor %}
     */
 };
-
-
+"""
+scr_function_managements="""
 function managements() {
     // GET Value FOR CURRENT Corporate, IMPORTANT ON ON CHANGE ... -----
     var $dropdown    = $("#vmCorporate");
@@ -14108,7 +14132,8 @@ function managements() {
         }
     });
 };
-
+"""
+scr_function_get_storage="""
 // Calculates total storage requested for provisioninig ----------------
 function get_storage() {
     //window.alert( "get_storage(): IN" );            
@@ -14119,6 +14144,8 @@ function get_storage() {
     {%- endfor %}
     return storage ;
 };
+"""
+scr_function_summary="""
 // Summarize VM requirements -------------------------------------------
 // Also recalculates expected monthly rate as per VM configuration
 function summary() {
@@ -14143,6 +14170,8 @@ function summary() {
         window.alert(e.name + ': ' + e.message);
     }
 };
+"""
+scr_function_get_rate="""
 // Look for proper rate upon cost center specification or default ------
 function get_rate(type,cc) {
     //window.alert( "get_rate() IN type= "+type+" cc= "+cc  );            
@@ -14179,7 +14208,8 @@ function get_rate(type,cc) {
     $("#vmMessage3").val("get_rate() returns for " + type + ":" + cc + " rateid = " + rateid + " rate = "+rate);
     return rate;
 };
-
+"""
+scr_function_get_month="""
 // Calculates expected monthy rate upon VM configuration ---------------
 function get_month() {
     //window.alert( "get_month() IN" );            
@@ -14204,34 +14234,35 @@ function get_month() {
     $("#vmMessage2").val(cores+"*"+rate_cores+ "+" + ram+"*"+rate_ram+ "+" +storage+"*"+rate_storage+ " = "+month);
     return month ;
 };        
+"""
+scr_function_load="""
 // document ON LOAD event setup function -------------------------------
 function load() {
     //window.alert( "load() IN" );            
     managements();
     set_attributes();
-    //subnets();
-    subnet_names();
+    subnets();
+    //subnet_names();
     summary();
 };
 // ---------------------------------------------------------------------
 """
-scr_request_template="""
+
+# Script functions templates array (script order is significative)
+scr_functions_template="\n".join([
+    scr_function_subnets,
+    scr_function_subnet_names,
+    scr_function_managements,
+    scr_function_get_storage,
+    scr_function_summary,
+    scr_function_get_rate,
+    scr_function_get_month,
+    scr_function_load
+    ])
+
+# Request events functions ---------------------------------------------
+scr_project_change="""
 // Project change event ------------------------------------------------ 
-{# obsolete dropdown version (SelectField)
-$("#vmProject").on('change',function() {
-    //window.alert( "#vmProject".on.change(): IN" );            
-    var $dropdown = $(this);
-    var key = $dropdown.val();
-    var vals = [];                
-    {%- for project in subnet_options %}
-    if (key == "{{project.0}}"){
-         vals =  {{project.1}};
-    }
-    {%- endfor %}
-    //subnets();
-    subnet_names();
-});
-#}
 $("#vmProject").on('change',function() {
     //window.alert( "vmProject.on.change(): IN" );            
     var key = $("#vmProject").val();
@@ -14257,7 +14288,8 @@ $("#vmProjectName").on('change',function() {
     //subnets();
     subnet_names();
 });
-
+"""
+scr_corporate_change="""
 // Corporate change event ---------------------------------------------- 
 $("#vmCorporate").on('change',function() {
     //window.alert( "#vmProject".on.change(): IN" );            
@@ -14272,8 +14304,8 @@ $("#vmCorporate").on('change',function() {
     managements();
     summary();
 });
-
-
+"""
+scr_set_attributes="""
 // sets Project and Category depending on Environment and Cluster ------
 function set_attributes() {
     var environment = $("#vmCC").val();
@@ -14309,27 +14341,35 @@ function set_attributes() {
     
     $("#vmMessage4").val("project: " + $("#vmProject").val() + " " + $("#vmProjectName").val());
 
-    //subnets();
+    subnets();
     //window.alert( "set attributes callig subnet_namess ..."  );            
-    subnet_names();
+    //subnet_names();
     return;           
 };
-
-
+"""
+scr_cc_change="""
 // Environment change event -------------------------------------------- 
 $("#vmCC").on('change',function() {
     set_attributes();
     summary();
 });
-
+"""
+scr_cluster_change="""
 // Cluster change event ------------------------------------------------ 
 $("#vmCluster").on('change',function() {
     set_attributes();
     summary();
 });
-
-
 """
+# Script templates array (script order is significative)
+scr_request_template="\n".join([
+    scr_project_change,
+    scr_corporate_change,
+    scr_set_attributes,
+    scr_cc_change,
+    scr_cluster_change
+])
+# Other templates ------------------------------------------------------
 scr_cpu_template="""
 // Cores per socket change event handler -------------------------------
 $("#vmCPS").on('change',function() {
@@ -14364,6 +14404,7 @@ function check_image_size(i) {
     //window.alert( "check_image_size("+i+") IN"   );            
     var Size     = $("#vmDisk"+i+"Size");            
     var Selected = $("#vmDisk"+i+"Image option:selected"    );
+    //window.alert("Size="+Size.val()+ " Selected="+Selected.val());
     var imagesize = 0;
     var tokens = $(Selected).text().split("("); 
     var token1 = tokens[1].split(" "); 
@@ -14387,9 +14428,9 @@ function check_disk_size(i){
     summary();
 };
 """
+
 scr_events_template="""
 // Configuration fields change event handlers --------------------------
-//$("#vmCPU").on( 'change' , summary() );
 $("#vmDebug").on('change',function() {window.alert( "#vmDebug.on.change(): IN" );window.repaint();});
 $("#vmRAM").on( 'change' , function(){summary();} );
 $("#vmDepartment").on( 'change' , function(){summary();} );
