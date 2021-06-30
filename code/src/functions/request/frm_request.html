@@ -15,27 +15,26 @@
                         <td>{{ form.vmDebug }}</td>
                         {%- endif %}
                     </tr>
+                    
                     <tr>
                         <td width=192><b>Nombre de MV   </b></td>
                         <!-- <td><input class="form-control" id="vmName" name="vmName" type="text" value="{ {rox.vm_name} }"></td> -->
                         <td width=320><input class="form-control" id="vmName" name="vmName" type="text" value="{{form.vmName.data}}"></td>
-                        {# %- if 'vmName' in form.errors %}<td><font color=red>{% for error in form.errors.vmName %}{{error}}{% endfor %}</td>{% endif % #}
-                        {%- if form.vmData.extra is defined and form.vmData.extra %}
-                            <td width=32></td>
-                            <td width=192><b>Cluster</b></td>
-                            <td width=320>
-                              <select class="form-control" name="vmCluster" id="vmCluster">
-                                {%- for value,option in form.vmCluster.choices %}
-                                  {%- if value == form.vmCluster.data %}
-                                  <option selected value="{{value}}">{{option}}</option>
-                                  {%- else %}
-                                  <option             value="{{value}}">{{option}}</option>
-                                  {%- endif %}
-                                {%- endfor %}
-                              </select>
-                            </td>
-                        {%- endif %}
+                        <td width=32></td>
+                        <td width=192><b>Cluster</b></td>
+                        <td width=320>
+                          <select class="form-control" name="vmCluster" id="vmCluster">
+                            {%- for value,option in form.vmCluster.choices %}
+                              {%- if value == form.vmCluster.data %}
+                              <option selected value="{{value}}">{{option}}</option>
+                              {%- else %}
+                              <option             value="{{value}}">{{option}}</option>
+                              {%- endif %}
+                            {%- endfor %}
+                          </select>
+                        </td>
                     </tr>
+                    
                     <tr>
                         <td><b>CPU cores por Socket</b></td>
                         <!-- td><input class="form-control" id="vmCPS" name="vmCPS" type="number" value="{{form.vmCPS.data}}" onchange="get_cpu()"></td -->
@@ -46,6 +45,7 @@
                             <td><input class="form-control-plaintext" id="vmProjectName" name="vmProjectName" type="text" value="Project Name" style="color:blue;font-weight:bold;" disabled></td>
                         {%- endif %}
                     </tr>
+                    
                     <tr>
                         <td><b>Sockets</b></td>
                         <!-- td><input class="form-control" id="vmSockets" name="vmSockets" type="number" value="{{form.vmSockets.data}}" onchange="get_cpu()"></td -->
@@ -56,16 +56,14 @@
                             <td><input class="form-control-plaintext" id="vmCategoryName" name="vmCategoryName" type="text" value="Category Name" style="color:blue;font-weight:bold;" disabled></td>
                         {%- endif  %}
                     </tr>
+                    
                     <tr>
                         <td><b>Memoria RAM en GB</b></td>
                         <!-- <td><input class="form-control" id="vmRAM" name="vmRAM" type="number" value="{{rox.memory_size_gib}}"></td> -->
                         <td><input class="form-control" id="vmRAM" name="vmRAM" type="number" value="{{form.vmRAM.data}}"></td>
-                        {%- if form.vmData.extra is defined and form.vmData.extra %}
-                            <!-- EXPERIMENTO OK-->
-                            <td width=32></td>
-                            <!-- FIN DE EXPERIMENTO OK -->
-                        {%- endif  %}
+
                     </tr>
+                    
                     <tr>
                         <td><b>Corporativa</b></td>
                         <td>
@@ -79,27 +77,27 @@
                             {%- endfor %}
                           </select>
                         </td>
-                        {%- if form.vmData.extra is defined and form.vmData.extra %}
-                            <td width=32></td>
-                            <td><b>Copias de Seguridad</b></td>
-                            <td>
-                                <table border=0>
-                                    <td><b>Locales</b></td>
-                                    <td width=16></td>
-                                    <td>{{ form.vmDRP }}</td>
-                                    <td width=32></td>
-                                    <td><b>Remotas</b></td>
-                                    <td width=16></td>
-                                    <td>{{ form.vmDRPRemote }}</td>
-                                </table>
-                            </td>
-                        {%- endif  %}
+                        <td width=32></td>
+                        <td><b>Copias de Seguridad</b></td>
+                        <td>
+                            <table border=0>
+                                <td><b>Locales</b></td>
+                                <td width=16></td>
+                                <td>{{ form.vmDRP }}</td>
+                                <td width=32></td>
+                                <td><b>Remotas</b></td>
+                                <td width=16></td>
+                                <td>{{ form.vmDRPRemote }}</td>
+                            </table>
+                        </td>
                     </tr>
+
                     <tr>
                         <td><b>Gerencia</b></td>
                         <td>
                           <select class="form-control" name="vmDepartment" id="vmDepartment">
                             {%- for value,option in form.vmDepartment.choices %}
+                              <!-- value={{value}}/vmDep.data={{form.vmDepartment.data}} option={{option}} -->
                               {%- if value == form.vmDepartment.data %}
                               <option selected value="{{value}}">{{option}}</option>
                               {%- else %}
@@ -112,6 +110,7 @@
                         <td><b>CD ROM</b></td>
                         <td>{{ form.vmCDROM }}</td>
                     </tr>
+                    
                     <tr>
                         <td><b>Ambiente</b></td>
                         <td>
@@ -128,8 +127,8 @@
                         <td></td>
                         <td><b>Resumen de MV</b></td>
                         <td><input class="form-control-plaintext" id="vmResume" name="vmResume" type="text" value="Resume" style="color:blue;font-weight:bold;" disabled></td>
-
                     </tr>
+                    
                     <tr>
                         <td><b>Tipo de disco</b></td>
                         <td>
@@ -146,16 +145,81 @@
                         <td></td>
                         <td><b>Mensual estimado</b></td>
                         <td><input class="form-control-plaintext" id="vmMonth" name="vmMonth" type="text" value="Month" style="color:blue;font-weight:bold;" disabled></td>
-                    </tr>                    
+                    </tr>   
+
+                    <tr>
+                        <td><b>Subredes</b></td>
+                        <td width=320>
+                            <select class="form-control" name="vmVlan0Name" id="vmVlan0Name">                                            
+                                <option selected value="{{rox.nic_0_vlan}}">rox.nic_0_vlan</option>
+                            </select>
+                        </td>
+                        <td width=32></td>
+                        <td width=192>
+                            {%- if form.vmData.debug is defined and form.vmData.debug %}
+                            <input class="form-control-plaintext" id="vmVlan0Uuid" name="vmVlan0Uuid" type="text" value="{{rox.nic_0_vlan}}" style="color:red" disabled>
+                            {%- endif %}
+                        </td>
+                        <td width=320></td>
+                    </tr>
+
+                    <tr>
+                        <td><b></b></td>
+                        <td>
+                            <select class="form-control" name="vmVlan1Name" id="vmVlan1Name">                                            
+                                <option selected value="{{rox.nic_1_vlan}}">rox.nic_1_vlan</option>
+                            </select>
+                        </td>
+                        <td width=32></td>
+                        <td>
+                            {%- if form.vmData.debug is defined and form.vmData.debug %}
+                            <input class="form-control-plaintext" id="vmVlan1Uuid" name="vmVlan1Uuid" type="text" value="{{rox.nic_1_vlan}}" style="color:red" disabled>
+                            {%- endif %}
+                        </td>
+                        <td width=320></td>
+                    </tr>
+                    <tr>
+                        <td><b></b></td>
+                        <td>
+                            <select class="form-control" name="vmVlan2Name" id="vmVlan2Name">                                            
+                                <option selected value="{{rox.nic_2_vlan}}">rox.nic_2_vlan</option>
+                            </select>
+                        </td>
+                        <td width=32></td>
+                        <td>
+                            {%- if form.vmData.debug is defined and form.vmData.debug %}
+                            <input class="form-control-plaintext" id="vmVlan2Uuid" name="vmVlan2Uuid" type="text" value="{{rox.nic_2_vlan}}" style="color:red" disabled>
+                            {%- endif %}
+                        </td>
+                        <td width=320></td>
+                    </tr>
+                    <tr>
+                        <td><b></b></td>
+                        <td>
+                            <select class="form-control" name="vmVlan3Name" id="vmVlan3Name">                                            
+                                <option selected value="{{rox.nic_3_vlan}}">rox.nic_3_vlan</option>
+                            </select>
+                        </td>
+                        <td width=32></td>
+                        <td>
+                            {%- if form.vmData.debug is defined and form.vmData.debug %}
+                            <input class="form-control-plaintext" id="vmVlan3Uuid" name="vmVlan3Uuid" type="text" value="{{rox.nic_3_vlan}}" style="color:red" disabled>
+                            {%- endif %}
+                        </td>
+                        <td width=320></td>
+                    </tr>
+                    
+                                     
                 </table>
             </td>
         </tr>
+        <!--
         <hr>
         <tr>
             <td>
                 <table width=100% border=0>
                     <tr>
-                        <td width=192><b>Subredes</b></td>
+                        <td width=216><b>Subredes</b></td>
                         <td>
                             <table width=100% border=0>
                                 <tr>
@@ -170,7 +234,7 @@
                                         <input class="form-control-plaintext" id="vmVlan0Uuid" name="vmVlan0Uuid" type="text" value="{{rox.nic_0_vlan}}" style="color:red" disabled>
                                         {%- endif %}
                                     </td>
-                                    </td><td width=320></td>
+                                    <td width=320></td>
                                 </tr>
                                 
                                 <tr>
@@ -185,7 +249,7 @@
                                         <input class="form-control-plaintext" id="vmVlan1Uuid" name="vmVlan1Uuid" type="text" value="{{rox.nic_1_vlan}}" style="color:red" disabled>
                                         {%- endif %}
                                     </td>
-                                    </td><td width=320></td>
+                                    <td width=320></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -199,7 +263,7 @@
                                         <input class="form-control-plaintext" id="vmVlan2Uuid" name="vmVlan2Uuid" type="text" value="{{rox.nic_2_vlan}}" style="color:red" disabled>
                                         {%- endif %}
                                     </td>
-                                    </td><td width=320></td>
+                                    <td width=320></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -213,7 +277,7 @@
                                         <input class="form-control-plaintext" id="vmVlan3Uuid" name="vmVlan3Uuid" type="text" value="{{rox.nic_3_vlan}}" style="color:red" disabled>
                                         {%- endif %}
                                     </td>
-                                    </td><td width=320></td>
+                                    <td width=320></td>
                                 </tr>
                             </table>
                         </td>
@@ -221,6 +285,7 @@
                 </table>
             </td>
         </tr>
+        -->
         <!-- td><input class="form-control-plaintext" id="vmHelp" name="vmHelp" type="text" value="" style="color:red"></td -->
         {%- if form.vmDebug.data %}
         <hr>

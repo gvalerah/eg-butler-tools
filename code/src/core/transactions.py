@@ -348,16 +348,19 @@ def create_schedule(
                         timeout  = timeout,
                         logger   = logger
                         )
-        with open(f'trace/create_schedule_{pdname}','a') as fp:
-            fp.write(f"{this()}: -----------------------\n")
-            fp.write(f"{this()}: now     =  {datetime.datetime.now()}\n")
-            fp.write(f"{this()}: url     =  {url}\n")
-            fp.write(f"{this()}: headers =  {headers}\n")
-            fp.write(f"{this()}: data    =\n")
-            fp.write(f"{this()}: -----------------------\n")
-            fp.write(f"{json.dumps(data)}\n")
-            fp.write(f"{this()}: -----------------------\n")
-            fp.write(f"{this()}: response = {response}\n")
+        try:
+            with open(f'trace/create_schedule_{pdname}','a') as fp:
+                fp.write(f"{this()}: -----------------------\n")
+                fp.write(f"{this()}: now     =  {datetime.datetime.now()}\n")
+                fp.write(f"{this()}: url     =  {url}\n")
+                fp.write(f"{this()}: headers =  {headers}\n")
+                fp.write(f"{this()}: data    =\n")
+                fp.write(f"{this()}: -----------------------\n")
+                fp.write(f"{json.dumps(data)}\n")
+                fp.write(f"{this()}: -----------------------\n")
+                fp.write(f"{this()}: response = {response}\n")
+        except:
+            pass
         if response is not None:
             if response.ok:
                 data = response.json()
@@ -619,6 +622,7 @@ def trx_ucc_update_butler_cost_centers(app):
                         #eep.append(row.CC_Code)
                         keep.append(row.CC_Id)
                     db.session.commit()
+                    db.session.flush()
                     logger.debug(f"{this()}: Got:  {len(rows)} Cost Centers. Merged with Butler")
                     logger.debug(f"{this()}: Keep: {len(rows)} Cost Centers. In Butler")
                     logger.trace(f"{this()}: Keep: {keep}")
@@ -635,6 +639,7 @@ def trx_ucc_update_butler_cost_centers(app):
                         for row in rows_to_delete:
                             db.session.delete(row)
                         db.session.commit()
+                        db.session.flush()
                 except Exception as e:
                     logger.error(f'{this()}: exception = {str(e)}')
                     
@@ -726,6 +731,7 @@ def trx_ura_update_butler_rates(app):
                         db.session.merge(row)
                         keep.append(row.Rat_Id)
                     db.session.commit()
+                    db.session.flush()
                     logger.debug(f"{this()}: Got: {len(rows)} Rates.")
                     if len(rows):
                         current['rates']=rows
@@ -737,6 +743,7 @@ def trx_ura_update_butler_rates(app):
                         for row in rows_to_delete:
                             db.session.delete(row)
                         db.session.commit()
+                        db.session.flush()
                 except Exception as e:
                     db.session.rollback()
                     tracebox_log(f'{this()}: exception = {str(e)}',
@@ -849,7 +856,6 @@ def trx_uim_update_butler_images(app):
                                 row.imageservice_uuid_diskclone=entity['uuid']
                                 row.description=entity['name']
                                 row.size_mib=entity['vm_disk_size']/(1024*1024)
-                                #row.comments=entity['uuid']
                                 rows.append(row)
                                 new_disk_images += 1
                                 logger.trace(f'{this()}: Image: {row.description}')
@@ -863,6 +869,7 @@ def trx_uim_update_butler_images(app):
                     db.session.merge(row)
                     keep.append(row.imageservice_uuid_diskclone)
                 db.session.commit()
+                db.session.flush()
                 logger.debug(f"{this()}: Got: {len(rows)} Images.")
                 if len(rows):
                     current['images']=rows
@@ -876,6 +883,7 @@ def trx_uim_update_butler_images(app):
                         logger.warning(f'{this()}: Deleting VM Image {row.description} ...')
                         db.session.delete(row)
                     db.session.commit()
+                    db.session.flush()
             except Exception as e:
                 db.session.rollback()
                 tracebox_log(f'{this()}: exception = {str(e)}',
@@ -994,6 +1002,7 @@ def trx_upr_update_butler_projects(app):
                 keep.append(row.project_uuid)
                 logger.trace(f'{this()}: project={row}')
             db.session.commit()
+            db.session.flush()
             logger.debug(f"{this()}: Got: {len(rows)} Projects.")
             if len(rows):
                 current['projects']=rows
@@ -1005,6 +1014,7 @@ def trx_upr_update_butler_projects(app):
                 for row in rows_to_delete:
                     db.session.delete(row)
                 db.session.commit()
+                db.session.flush()
         except Exception as e:
             db.session.rollback()
             tracebox_log(f'{this()}: exception = {str(e)}',
@@ -1100,6 +1110,7 @@ def trx_uca_update_butler_categories(app):
                     db.session.merge(row)
                     keep.append(row.category_name)
                 db.session.commit()
+                db.session.flush()
                 logger.debug(f"{this()}: Got: {len(rows)} Categories.")
                 if len(rows):
                     current['categories']=rows
@@ -1111,6 +1122,7 @@ def trx_uca_update_butler_categories(app):
                     for row in rows_to_delete:
                         db.session.delete(row)
                     db.session.commit()
+                    db.session.flush()
             except Exception as e:
                 db.session.rollback()
                 tracebox_log(f'{this()}: exception = {str(e)}',
@@ -1198,12 +1210,12 @@ def trx_usn_update_butler_subnets(app):
                         row.prefix_length      = entity['spec']['resources']['ip_config']['prefix_length']
                         row.subnet_ip          = entity['spec']['resources']['ip_config']['subnet_ip']
                     else:
-                        logger.warning(f"{this()}: Incomplete Subnet '{row.name}' no IP configuration.")
+                        logger.info(f"{this()}: WARNING Incomplete Subnet '{row.name}' no IP configuration.")
                     row.cluster      = entity['spec']['cluster_reference']['uuid']
                     rows.append(row)
                     logger.debug(f'{this()}: Subnet: {row.name}')
                 except Exception as e:
-                    logger.warning(f'{this()}: Incomplete Subnet {row.name} exception: {str(e)}')
+                    logger.error(f'{this()}: Incomplete Subnet {row.name} exception: {str(e)}')
 
             # rows contains all Subnets from Nutanix
             # only these projects should remain in butler
@@ -1213,6 +1225,7 @@ def trx_usn_update_butler_subnets(app):
                     db.session.merge(row)
                     keep.append(row.uuid)
                 db.session.commit()
+                db.session.flush()
                 logger.debug(f"{this()}: Got: {len(rows)} Complete Subnets.")
                 if len(rows):
                     current['subnets']=rows
@@ -1224,6 +1237,7 @@ def trx_usn_update_butler_subnets(app):
                     for row in rows_to_delete:
                         db.session.delete(row)
                     db.session.commit()
+                    db.session.flush()
             except Exception as e:
                 db.session.rollback()
                 tracebox_log(f'{this()}: exception = {str(e)}',
@@ -1338,19 +1352,18 @@ def trx_001_not_nutanix_pending(app):
                         if len(current['projects']):
                             project['name'] = current['projects'][0].project_name
                             project['uuid'] = current['projects'][0].project_uuid
-                            logger.warning(f"{this()}: Default Project {project['name']} set up as per 1st current project")
+                            logger.debug(f"{this()}: Default Project {project['name']} set up as per 1st current project")
                         else:
                             project['name'] = app.config.get('NUTANIX_PROJECT',None)
                             project['uuid'] = app.config.get('NUTANIX_PROJECT_UUID',None)
-                            logger.warning(f"{this()}: Default Project {project['name']} set up as per configurarion")
+                            logger.debug(f"{this()}: Default Project {project['name']} set up as per configurarion")
                     else:
-                        #print(f"project[uuid] is not None = {project['uuid']}")
                         found = False
                         for p in current['projects']:
                             if p.project_name == project['name']:
                                 project['uuid'] = p.project_uuid
                                 found = True
-                                logger.warning(f"{this()}: Project Name {project['name']} found in current projects ({project['uuid']})")
+                                logger.debug(f"{this()}: Project Name {project['name']} found in current projects ({project['uuid']})")
                                 break
                         if not found:
                             project['uuid'] = None
@@ -1360,7 +1373,7 @@ def trx_001_not_nutanix_pending(app):
                         if p.project_uuid == project['uuid']:
                             project['name'] = p.project_name
                             found = True
-                            logger.warning(f"{this()}: Project UUID {project['uuid']} found in current projects ({project['name']})")
+                            logger.debug(f"{this()}: Project UUID {project['uuid']} found in current projects ({project['name']})")
                             break
                     if not found:
                         project['uuid'] = None
@@ -1475,7 +1488,7 @@ def trx_001_not_nutanix_pending(app):
                         'boot_type':str(app.config.get('BUTLER_BOOT_TYPE')).upper()
                     }
                     data['spec']['resources'].update({'boot_config':boot_config})
-                    logger.warning(f"boot_config={boot_config}")
+                    logger.debug(f"{this()}: boot_config={boot_config}")
                 # 20210518 add category upon request
                 if row.Nutanix_Prism_VM.category_name is not None:
                     data['metadata'].update({
@@ -1491,15 +1504,15 @@ def trx_001_not_nutanix_pending(app):
                 # get Nutanix Response
                 # First check that VM is not existent
                 #print         (f'{this()}: search for existing VM ...')
-                logger.warning(f'{this()}: search for existing VM ...')
+                logger.debug(f'{this()}: search for existing VM ...')
                 vm = get_nutanix_vm(app,row.Nutanix_Prism_VM.vm_name)
                 if vm is None:
                     #print         (f'{this()}: VM does not exists, creating ...')
-                    logger.warning(f'{this()}: VM does not exists, creating ...')
-                    logger.warning(f'{this()}: url     =  {url}')
-                    logger.warning(f'{this()}: headers =  {headers}')
-                    logger.warning(f'{this()}: data    = {data}') # <------- TRACE HERE
-                    logger.warning(f'{this()}: json    = {json.dumps(data)}') # <------- TRACE HERE
+                    logger.debug(f'{this()}: VM does not exists, creating ...')
+                    logger.debug(f'{this()}: url     =  {url}')
+                    logger.debug(f'{this()}: headers =  {headers}')
+                    logger.trace(f'{this()}: data    = {data}') # <------- TRACE HERE
+                    logger.trace(f'{this()}: json    = {json.dumps(data)}') # <------- TRACE HERE
                     response = api_request(    
                                     'POST',
                                     url,
@@ -1513,7 +1526,7 @@ def trx_001_not_nutanix_pending(app):
                     trace_trx(this(),app,row,response)
                     if response is not None:
                         if response.ok:
-                            logger.warning(f'{this()}: response = {response} is OK')
+                            logger.debug(f'{this()}: response = {response} is OK')
                             data = response.json()
                             logger.debug(f"{this()}: status state = {data['status']['state']} is OK")
                             if data['status']['state'] == 'PENDING':
@@ -1522,23 +1535,22 @@ def trx_001_not_nutanix_pending(app):
                                 row.Requests.uuid        = data['metadata']['uuid']
                                 row.Requests.Status = turn_on(row.Requests.Status,NUTANIX_PENDING)
                                 row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                                row.Requests.Comments += f"Provisionando @ {strftime('%d/%m/%y %H:%S')}."
+                                row.Requests.Comments += f"Provisionando @ {strftime('%d/%m/%y %H:%M')}..."
                                 row.Nutanix_Prism_VM.vm_uuid = data['metadata']['uuid']
                                 db.session.merge(row.Requests)
                                 db.session.merge(row.Nutanix_Prism_VM)
                                 db.session.commit()
-                                logger.info(f'{this()}: request {row.Requests.Id} updated. provissioning pending.')
-                                #print(f'{this()}: request {row.Requests.Id} updated. provissioning pending. status={row.Status}')
+                                db.session.flush()
+                                logger.info(f'{this()}: request {row.Requests.Id} updated. provissioning PENDING.')
                             elif data['status'] == 'SUCCEEDED':
                                 row.Requests.Task_status = 1
                                 row.Requests.Status = turn_on(row.Requests.Status,NUTANIX_COMPLETED)
                                 row.Requests.Comments = '' if row.Comments is None else row.Comments
-                                row.Requests.Comments += f"Provisionada @ {strftime('%d/%m/%y %H:%S')}."
+                                row.Requests.Comments += f"Provisionada @ {strftime('%d/%m/%y %H:%M')}."
                                 db.session.merge(row.Requests)
                                 db.session.commit()
-                                logger.info(f'{this()}: request {row.Requests.Id} updated. Provissioned.')                    
-                                #print(f'{this()}: request {row.Requests.Id} updated. Provissioned. status={row.Status}')                    
-
+                                db.session.flush()
+                                logger.info(f'{this()}: request {row.Requests.Id} updated. Provissioned. SUCCEEDED.')                    
                         else:   
                             logger.error(f'{this()}: response.status_code = {response.status_code}')
                             logger.error(f'{this()}: response.reason      = {response.reason}')
@@ -1546,15 +1558,14 @@ def trx_001_not_nutanix_pending(app):
                     else:
                         logger.critical(f'{this()}: response = {response} No response from API request {url}')
                 else:
-                    #print         (f"{this()}: VM '{row.Nutanix_Prism_VM.vm_name}' ya existe en NUTANIX {host}")
-                    logger.warning(f"{this()}: VM '{row.Nutanix_Prism_VM.vm_name}' ya existe en NUTANIX {host}")
-                    #row.Requests.Status = REQUEST_ERROR
+                    logger.error(f"{this()}: VM '{row.Nutanix_Prism_VM.vm_name}' ya existe en NUTANIX {host}")
                     row.Requests.Status = turn_on(row.Requests.Status,REQUEST_ERROR)
                     row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                    row.Requests.Comments += f"Error MV ya existe @ {strftime('%d/%m/%y %H:%S')}"
+                    row.Requests.Comments += f"Error MV ya existe @ {strftime('%d/%m/%y %H:%M')}."
                     db.session.merge(row.Requests)
                     db.session.merge(row.Nutanix_Prism_VM)
                     db.session.commit()
+                    db.session.flush()
                     logger.debug(f'{this()}: {row.Requests} updated')
                 # ------------------------------------------------------
             result   =  get_api_response(   code=BUTLER_CORE_TRX_OK,
@@ -1586,13 +1597,12 @@ def trx_002_not_collector_pending(app):
     # query for matching rows for transaction
     trx = TRX_EGB_NO_EGC_PENDING
     try:
-        logger.warning(f"******** ENTER TRX 002 EG COLLECTOR POPULATION *******")
+        logger.debug(f"******** ENTER TRX 002 EG COLLECTOR POPULATION *******")
         rows = butler_trx_get(transaction=trx,session=db.session,logger=logger)
-        logger.warning(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found.')
+        logger.debug(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found.')
         # process result here
         if rows is not None and len(rows):
             logger.debug(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found : ')
-            #print       (f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found : ')
             for row in rows:
                 # Process row here
                 # For transaction 002
@@ -1625,7 +1635,6 @@ def trx_002_not_collector_pending(app):
                         data      = {'CC_Id':row.Requests.CC_Id}
                         # get Nutanix Response
                         logger.debug(f'{this()}: url = {url}')
-                        #print       (f'{this()}: url = {url}')
                         
                         response = api_request(    
                                         'PATCH',
@@ -1636,43 +1645,30 @@ def trx_002_not_collector_pending(app):
                                         password=password,
                                         logger   = logger
                                     )
-                        #print       (f'{this()}: response = {response}')
                         trace_trx(this(),app,row,response)
                         if response is not None:
                             if response.ok:
-                                data=response.json()
-                                #print(f"data={data}")
-                                #print(f"row={type(row)} {row} ")
-                                #print(f"row.Requests={type(row.Requests)} {row.Requests} ")
-                                #print(f"row.Requests.Status={type(row.Requests.Status)} {row.Requests.Status} ")
-                                #print(f"row.Requests.Comments={type(row.Requests.Comments)} {row.Requests.Comments} ")
+                                data=response.json()                                
                                 if data['status']['state'] == 'OK':
-                                    #row.Status += COLLECTOR_COMPLETED
                                     row.Requests.Status    = turn_on(row.Requests.Status,COLLECTOR_COMPLETED)
                                     row.Requests.Comments  = '' if row.Requests.Comments is None else row.Requests.Comments
-                                    row.Requests.Comments += f"Tarificada @ {strftime('%d/%m/%y %H:%S')}."
+                                    row.Requests.Comments += f"Tarificada @ {strftime('%d/%m/%y %H:%M')}."
                                     db.session.merge(row.Requests)
                                     db.session.commit()
+                                    db.session.flush()
                                     logger.info(f'{this()}: request {row.Requests.Id} updated. EG Collector CC populated.')
-                                    #print      (f'{this()}: request {row.Requests.Id} updated. EG Collector CC populated.')
                                 else:
                                     logger.error(f"{this()}: response status: {data['status']['state']}")
                             else:
                                 logger.error(f'{this()}: response.status_code = {response.status_code}')
                                 logger.error(f'{this()}: response.reason      = {response.reason}')
                                 logger.error(f'{this()}: response.text        = {response.text}')
-                                #print       (f'{this()}: response.status_code = {response.status_code}')
-                                #print       (f'{this()}: response.reason      = {response.reason}')
-                                #print       (f'{this()}: response.text        = {response.text}')
                         else:
                             logger.error(f'{this()}: response = {response}')
-                            #print       (f'{this()}: response = {response}')
                     else:
                         logger.warning(f"{this()}: CI '{data['CI_Name']}' not found in Collector.")
-                        #print         (f"{this()}: CI '{data['CI_Name']}' not found in Collector.")
                 else:
                     logger.error(f"{this()}: no response from Collector ({url} {data}).")                    
-                    #print       (f"{this()}: no response from Collector ({url} {data}).")                    
             result   =  get_api_response(   code=BUTLER_CORE_TRX_OK,
                             message=f'{this()}: trx: {trx} : {len(rows)} CIs updated.'
                             )
@@ -1680,7 +1676,7 @@ def trx_002_not_collector_pending(app):
             result   =  get_api_response(   code=BUTLER_CORE_TRX_OK,
                             message=f'{this()}: No rows for trx {trx}'
                             )
-        logger.warning(f"******** EXIT TRX 002 EG COLLECTOR POPULATION ********")
+        logger.debug(f"******** EXIT TRX 002 EG COLLECTOR POPULATION ********")
     except Exception as e:
         tracebox_log(f'{this()}: exception = {str(e)}',
             logger = logger,
@@ -1744,9 +1740,10 @@ def trx_003_nutanix_pending(app):
                                 row.Status = turn_off(row.Status,NUTANIX_PENDING)
                                 row.Status = turn_on (row.Status,NUTANIX_COMPLETED)
                                 row.Comments = '' if row.Comments is None else row.Comments
-                                row.Comments += f"Provisionada @ {strftime('%d/%m/%y %H:%S')}."
+                                row.Comments += f"Provisionada @ {strftime('%d/%m/%y %H:%M')}."
                                 db.session.merge(row)
                                 db.session.commit()
+                                db.session.flush()
                                 logger.info(f'{this()}: request {row.Id} updated. Provissioned.')
                                 # NOTIFY PROVISSION TO SUPPORT FOR ADM COMPLETION
                                 if app.config.get('BUTLER_REQUEST_NOTIFICATIONS'):
@@ -1794,11 +1791,12 @@ def trx_003_nutanix_pending(app):
                                 row.Status = turn_on(row.Status,REQUEST_ERROR)
                                 row.Comments = '' if row.Comments is None else row.Comments
                                 try:
-                                    row.Comments += f"Error @ {strftime('%d/%m/%y %H:%S')}. {data['error_detail']}"
+                                    row.Comments += f"Error @ {strftime('%d/%m/%y %H:%M')}. {data['error_detail']}."
                                 except:
-                                    row.Comments += f"Error @ {strftime('%d/%m/%y %H:%S')}."
+                                    row.Comments += f"Error @ {strftime('%d/%m/%y %H:%M')}."
                                 db.session.merge(row)
                                 db.session.commit()
+                                db.session.flush()
                                 logger.error(f'{this()}: request {row.Id} updated. FAILED.')
                                 try:
                                     tracebox_log(f"{this()}: Request = {row.Id} {data['error_detail']}",
@@ -1933,7 +1931,6 @@ def trx_004_nutanix_completed(app,timeout=None):
                             try:
                                 if row.Nutanix_Prism_VM.vm_drp and Protection_Uncomplete:
                                     logger.info(f"{this()}: Local security copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}'")
-                                    #print      (f"{this()}: Local security copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}'")
                                     success,pdname = create_drp(
                                             app,
                                             vmname                   = row.Nutanix_Prism_VM.vm_name,
@@ -1949,15 +1946,12 @@ def trx_004_nutanix_completed(app,timeout=None):
                                             )
                                     if success:
                                         logger.info(f"{this()}: Local security copies for VM: '{row.Nutanix_Prism_VM.vm_name}' SUCCESS.")
-                                        #print      (f"{this()}: Local security copies for VM: '{row.Nutanix_Prism_VM.vm_name}' SUCCESS.")
                                     else:
                                         logger.warning(f"{this()}: Local security copies for VM: '{row.Nutanix_Prism_VM.vm_name}' FAILURE")
-                                        #print         (f"{this()}: Local security copies for VM: '{row.Nutanix_Prism_VM.vm_name}' FAILURE")
                                         VM_Protected = False
                             except Exception as e:
                                 VM_Protected = False
                                 logger.error(f"{this()}: Local security copies for VM: '{row.Nutanix_Prism_VM.vm_name}' exception: {str(e)}")
-                                #print       (f"{this()}: Local security copies for VM: '{row.Nutanix_Prism_VM.vm_name}' exception: {str(e)}")
                                 emtec_handle_general_exception(e,logger=logger)
                             # if remote replicas are required
                             # a protection domain is created if does not 
@@ -1971,7 +1965,6 @@ def trx_004_nutanix_completed(app,timeout=None):
                             try:
                                 if row.Nutanix_Prism_VM.vm_drp_remote and Protection_Uncomplete:
                                     logger.info(f"{this()}: DRP copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}'")
-                                    #print      (f"{this()}: DRP copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}'")
                                     success,pdname = create_drp(
                                             app,
                                             vmname                   = row.Nutanix_Prism_VM.vm_name,
@@ -1987,135 +1980,24 @@ def trx_004_nutanix_completed(app,timeout=None):
                                             )
                                     if success:
                                         logger.info(f"{this()}: DRP for VM: '{row.Nutanix_Prism_VM.vm_name}' SUCCESS.")
-                                        #print      (f"{this()}: DRP for VM: '{row.Nutanix_Prism_VM.vm_name}' SUCCESS.")
                                     else:
                                         logger.warning(f"{this()}: DRP for VM: '{row.Nutanix_Prism_VM.vm_name}' FAILURE.")
-                                        #print         (f"{this()}: DRP for VM: '{row.Nutanix_Prism_VM.vm_name}' FAILURE.")
                                         VM_Protected = False
                             except Exception as e:
                                 logger.error(f"{this()}: DRP for VM: '{row.Nutanix_Prism_VM.vm_name}' EXCEPTION: {str(e)}")
-                                #print       (f"{this()}: DRP for VM: '{row.Nutanix_Prism_VM.vm_name}' EXCEPTION: {str(e)}")
                                 emtec_handle_general_exception(e,logger=logger)
                                 VM_Protected = False
                             if VM_Protected:
                                 # actualizar aqui el Flag **************
-                                # row.Requests.Status += NUTANIX_PROTECTED
                                 row.Requests.Status = turn_on(row.Requests.Status,NUTANIX_PROTECTED)
-                                #row.Requests.Status += MONITOR_PENDING
                                 row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                                row.Requests.Comments += f"Protegida @ {strftime('%d/%m/%y %H:%S')}"
+                                row.Requests.Comments += f"Protegida @ {strftime('%d/%m/%y %H:%M')}."
                                 db.session.merge(row.Requests)
                                 db.session.commit()
-
-                                Setup_Monitoring = True
+                                db.session.flush()
                             else:
-                                Setup_Monitoring = False
+                                logger.warning(f"{this()}: VM '{row.Nutanix_Prism_VM.vm_name}' is not protected yet.")
                         # DATA PROTECTION BLOCK ENDS HERE --------------
-                        #print(f"EXIT DATA PROTECTION BLOCK Setup Monitoring = {Setup_Monitoring}")
-                        '''
-                        #print(f"ENTER VM MONITORING BLOCK Setup Monitoring = {Setup_Monitoring}")
-                        # EG MONITOR BLOCK STARTS HERE -----------------
-                        # Monitoring Setup depends on DP block process, 
-                        # if any
-                        if Setup_Monitoring:
-                            print(f"ENTER VM MONITORING BLOCK")
-                            # Aqui puede faltar revisar IPs de otras NICS
-                            if row.Nutanix_Prism_VM.vm_ip is not None and row.Nutanix_Prism_VM.vm_ip != '':
-                                IP = row.Nutanix_Prism_VM.vm_ip
-                            elif row.Nutanix_Prism_VM.nic_0_ip is not None and row.Nutanix_Prism_VM.nic_0_ip != '':
-                                IP = row.Nutanix_Prism_VM.nic_0_ip
-                            elif row.Nutanix_Prism_VM.nic_1_ip is not None and row.Nutanix_Prism_VM.nic_1_ip != '':
-                                IP = row.Nutanix_Prism_VM.nic_1_ip
-                            elif row.Nutanix_Prism_VM.nic_2_ip is not None and row.Nutanix_Prism_VM.nic_2_ip != '':
-                                IP = row.Nutanix_Prism_VM.nic_2_ip
-                            else:
-                                IP = None
-                            #print(f"IP from row = '{IP}'")
-                            try:
-                                # Check for first valid IP address
-                                for nic in data['spec']['resources']['nic_list']:
-                                    for endpoint in nic['ip_endpoint_list']:
-                                        IP = endpoint.get('ip',None)
-                                        #print(f"IP from Nutanix = '{IP}'")
-                                        if IP not in [None,'']:
-                                            break;
-                                    if IP not in [None,'']:
-                                        break;
-                            except:
-                                IP = None
-                            #print(f"IP from row = '{IP}'")
-                            # If IP address detected then try to monitor
-                            if IP not in [None,'']:
-                                # ------------------------------------------
-                                # Update VM IP, will setup a temporary
-                                # Monitor Pending Status
-                                # ------------------------------------------
-                                logger.info(f"{this()}: IP '{IP}' for VM '{row.Nutanix_Prism_VM.vm_name}' found ...")
-                                row.Requests.Task_status = 1
-                                row.Requests.Status += MONITOR_PENDING
-                                db.session.merge(row.Requests)
-                                db.session.commit()
-                                logger.warning(f'{this()}: request {row.Requests.Id} updated')                    
-                                # Setup EG Monitor Host , left "Monitor Completed"
-                                host      = app.config['MONITOR_HOST']
-                                port      = app.config['MONITOR_PORT']
-                                username  = app.config['MONITOR_USERNAME']
-                                password  = app.config['MONITOR_PASSWORD']
-                                protocol  = app.config['MONITOR_PROTOCOL']
-                                # ------------------------------------------
-                                # Nutanix VM UUID will be used as unique 
-                                # Identifier for EG Monitor
-                                # ------------------------------------------
-                                endpoint  = f'v1/objects/hosts/{row.Requests.uuid}'
-                                url       = f'{protocol}://{host}:{port}/{endpoint}'
-                                headers   = {
-                                    'Content-Type': 'application/json',
-                                    'Connection'  : 'close',
-                                    'Accept'      : 'application/json'
-                                    }
-
-                                data     = {
-                                    'attrs':{
-                                        'address'       : IP,
-                                        'check_command' : 'hostalive',
-                                        'display_name'  : row.Nutanix_Prism_VM.vm_name
-                                        }
-                                    }
-
-                                # get Icinga Response ----------------------
-                                logger.warning(f'{this()}: url = {url}')
-                                logger.warning(f'{this()}: data = {data}')
-                                # Will instruct Icinga to create new Host
-                                response = api_request(    
-                                                'PUT',
-                                                url,
-                                                data=json.dumps(data),
-                                                headers=headers,
-                                                username=username,
-                                                password=password,
-                                                logger   = logger
-                                            )
-                                # If all goes OK, Then complete status -----
-                                if response is not None and response.ok:
-                                    if response.status_code == 200:
-                                        row.Requests.Status -= MONITOR_PENDING
-                                        row.Requests.Status += MONITOR_COMPLETED
-                                        row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                                        row.Requests.Comments += f"Monitoreada @ {strftime('%d/%m/%y %H:%S')}"
-                                        db.session.merge(row.Requests)
-                                        db.session.commit()
-                                else:
-                                    logger.error(f'{this()}: response = {response}')
-                            else:
-                                logger.warning(f"{this()}: NO IP for VM '{row.Nutanix_Prism_VM.vm_name}' yet ...")
-                                #print(f"{this()}: NO IP for VM '{row.Nutanix_Prism_VM.vm_name}' yet ...")
-                        else:
-                            logger.warning(f"{this()}: Setup Monitoring not authorized. '{row.Nutanix_Prism_VM.vm_name}' yet ...")                            
-                            #print(f"{this()}: Setup Monitoring not authorized. '{row.Nutanix_Prism_VM.vm_name}' yet ...")                            
-
-                        #print(f"EXIT VM MONITORING BLOCK")
-                        # EG MONITOR BLOCK ENDS HERE -----------------
-                        '''
                     else:
                         logger.error(f'{this()}: response.ok          = {response.ok}')
                         logger.error(f'{this()}: response.status_code = {response.status_code}')
@@ -2234,6 +2116,7 @@ def trx_005_monitor_pending(app):
                             row.Requests.Status = turn_on(row.Requests.Status,MONITOR_PENDING)
                             db.session.merge(row.Requests)
                             db.session.commit()
+                            db.session.flush()
                             logger.warning(f'{this()}: request {row.Requests.Id} updated to MONITOR PENDING ...')                    
                             # Setup EG Monitor Host , left "Monitor Completed"
                             host      = app.config['MONITOR_HOST']
@@ -2285,9 +2168,10 @@ def trx_005_monitor_pending(app):
                                     row.Requests.Status = turn_off(MONITOR_PENDING)
                                     row.Requests.Status = turn_on (MONITOR_COMPLETED)
                                     row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                                    row.Requests.Comments += f"Monitoreada @ {strftime('%d/%m/%y %H:%S')}"
+                                    row.Requests.Comments += f"Monitoreada @ {strftime('%d/%m/%y %H:%M')}."
                                     db.session.merge(row.Requests)
                                     db.session.commit()
+                                    db.session.flush()
                             else:
                                 if response is not None:
                                     if response.status_code == 500:
@@ -2297,9 +2181,10 @@ def trx_005_monitor_pending(app):
                                                 row.Requests.Status = turn_off(MONITOR_PENDING)
                                                 row.Requests.Status = turn_on (MONITOR_COMPLETED)
                                                 row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                                                row.Requests.Comments += f"Monitoreada @ {strftime('%d/%m/%y %H:%S')}"
+                                                row.Requests.Comments += f"Monitoreada @ {strftime('%d/%m/%y %H:%M')}."
                                                 db.session.merge(row.Requests)
-                                                db.session.commit()                                                
+                                                db.session.commit()    
+                                                db.session.flush()                                            
                                             else:
                                                 logger.error(f'{this()}: response = {response}')
                                         except Exception as e:
@@ -2341,94 +2226,6 @@ def trx_005_monitor_pending(app):
     tracebox_log(f'{this()}: {str(result)}',
             logger=logger,level=logging.DEBUG,length=tracebox_log_length)
     return result
-
-"""
-# In case TRX 004 was only partially success, it will complete EG Monitor
-# status here
-def trx_005_monitor_pending(app):
-    logger.info(f'{this()}: IN Create EG Monitor VM named upon VM UUID')
-    # query for matching rows for transaction
-    trx = TRX_EGB_EGM_PENDING
-    try:
-        rows = butler_trx_get(transaction=trx,session=db.session,logger=logger)
-        # process result here
-        if rows is not None and len(rows):
-            logger.debug(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found : ')
-            for row in rows:
-                # Process row here
-                # For transaction 005
-                # Try to create EG Monitor Host
- 
-                # Setup EG Monitor Host , left "Monitor Completed"
-                host      = app.config['MONITOR_HOST']
-                port      = app.config['MONITOR_PORT']
-                username  = app.config['MONITOR_USERNAME']
-                password  = app.config['MONITOR_PASSWORD']
-                protocol  = app.config['MONITOR_PROTOCOL']
-                # ------------------------------------------
-                # Nutanix VM UUID will be used as unique 
-                # Identifier for EG Monitor
-                # ------------------------------------------
-                endpoint  = f'v1/objects/hosts/{row.uuid}'
-                url       = f'{protocol}://{host}:{port}/{endpoint}'
-                headers   = ''
-                data     = {
-                    'attrs':{
-                        'address':row.Nutanix_Prism_VM.vm_ip,
-                        'display_name':row.Nutanix_Prism_VM.vm_name,
-                        'check_command':'hostalive'
-                    }
-                }
-                # get Icinga Response ----------------------
-                logger.debug(f'{this()}: url = {url}')
-                # Will instruct Icinga to create new Host
-                response = api_request(    
-                                'PUT',
-                                url,
-                                data=data,
-                                headers=headers,
-                                username=username,
-                                password=password,
-                                logger   = logger
-                            )
-                trace_trx(this(),app,row,response)
-                # If all goes OK, Then complete status -----------------
-                if response is not None and response.ok:
-                    if response.status_code == 200:
-                        row.Requests.Status -= MONITOR_PENDING
-                        row.Requests.Status += MONITOR_COMPLETED
-                        row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                        row.Requests.Comments += f"Monitoreada @ {strftime('%d/%m/%y %H:%S')}"
-                        db.session.merge(row.Requests)
-                        db.session.commit()
-                        logger.info(f"{this()}: request {row.Requests.Id} updated. EG Monitor host '{data.get('display_name')}' Created.")
-                else:
-                    logger.error(f'{this()}: response.status_code = {response.status_code}')
-                    logger.error(f'{this()}: response.reason      = {response.reason}')
-                    logger.error(f'{this()}: response.text        = {response.text}')
-            result   =  get_api_response(   code=BUTLER_CORE_TRX_OK,
-                            message=f'{this()}: trx: {trx} : {len(rows)} Requests processed.'
-                            )
-        else:
-            result   =  get_api_response(   code=BUTLER_CORE_TRX_OK,
-                            message=f'{this()}: No rows for trx {trx}'
-                            )
-    except Exception as e:
-        tracebox_log(f'{this()}: exception = {str(e)}',
-            logger = logger,
-            level  = logging.CRITICAL,
-            length = tracebox_log_length
-            )
-        #logger.critical(f'{this()}: response = {response}')
-        result   =  get_api_response(   code=BUTLER_CORE_TRX_ERROR,
-                        message=f'{this()}: Exception: {str(e)}'
-                        )
-
-    logger.debug(f'{this()}: OUT')
-    tracebox_log(f'{this()}: {str(result)}',
-            logger=logger,level=logging.DEBUG,length=tracebox_log_length)
-    return result
-"""
 
 # In case EG Collector keeps on pending status -------------------------
 # OJO OJO OJO NO VEO ACCIONES SOBRE BD DE COLLECTOR
@@ -2498,9 +2295,10 @@ def trx_006_collector_pending(app):
                                         row.Status = turn_off(row.Status,COLLECTOR_PENDING)
                                         row.Status = turn_on (row.Status,COLLECTOR_COMPLETED)
                                         row.Comments = '' if row.Comments is None else row.Comments
-                                        row.Comments += f"Tarificada @ {strftime('%d/%m/%y %H:%S')}."
+                                        row.Comments += f"Tarificada @ {strftime('%d/%m/%y %H:%M')}."
                                         db.session.merge(row)
                                         db.session.commit()
+                                        db.session.flush()
                                         logger.info(f'{this()}: request {row.Id} updated. EG Collector CC populated.')                    
                                     else:
                                         logger.error(f"{this()}: status={data['status']}")                                                
@@ -2566,9 +2364,10 @@ def trx_007_all_completed(app):
                 logger.warning(f"row={row}")
                 row.Status    = turn_on(row.Status,REQUEST_COMPLETED)
                 row.Comments  = '' if row.Comments is None else row.Comments
-                row.Comments += f"Completa @ {strftime('%d/%m/%y %H:%S')}. Estado Final."
+                row.Comments += f"Completa @ {strftime('%d/%m/%y %H:%M')}. Estado Final."
                 db.session.merge(row)
                 db.session.commit()
+                db.session.flush()
                 logger.info(f'{this()}: request {row.Id} updated. Completed.')
                 try:
                     trace_trx(this(),app,row)
@@ -2685,8 +2484,8 @@ def execute_transactions(app,user=None):
         trx_002_not_collector_pending,
         trx_003_nutanix_pending,
         trx_004_nutanix_completed,
-        trx_005_monitor_pending,
-        trx_006_collector_pending,
+        #trx_005_monitor_pending,
+        #trx_006_collector_pending,
         trx_007_all_completed
     ]
     logger.info(f"{this()}: BUTLER_CONFIG_FILE = '{app.config.get('BUTLER_CONFIG_FILE')}'.")
@@ -2702,7 +2501,7 @@ def execute_transactions(app,user=None):
         if active:
             logger.info(f"{this()}: Transaction '{transaction.__name__}' is active.")
             try:
-                db.session.close()
+                db.session.flush()
             except Exception as e:
                 logger.error(f'{this()}: exception: {str(e)}')
                 db.session.rollback()

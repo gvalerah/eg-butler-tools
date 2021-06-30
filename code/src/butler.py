@@ -59,7 +59,7 @@ from    emtec.butler.common.context     import Context
 
 # Macro level default values
 config_file = "butler.ini"
-run_mode    = 'GUNICORN'
+run_mode    = 'FLASK'
 
 
 if len(sys.argv) < 2:
@@ -89,9 +89,9 @@ if (os.path.isfile(config_file)):
         config_ini = configparser.ConfigParser(interpolation=ExtendedInterpolation())
         print(f"{this()}: 6 config_ini  = '{config_ini}'")
         config_ini.read( config_file )        
-        run_mode      = config_ini.getint('General','run_mode'     ,fallback=run_mode)
+        run_mode      = config_ini.get   ('General','run_mode'     ,fallback='FLASK')
         flask_host    = config_ini.getint('General','flask_host'   ,fallback='0.0.0.0')
-        flask_port    = config_ini.getint('General','flask_port'   ,fallback=5100)
+        flask_port    = config_ini.getint('General','flask_port'   ,fallback=8100)
         gunicorn_host = config_ini.getint('General','gunicorn_host',fallback='0.0.0.0')
         gunicorn_port = config_ini.getint('General','gunicorn_port',fallback=8100)
         max_workers   = config_ini.getint('General','max_workers'  ,fallback=0)

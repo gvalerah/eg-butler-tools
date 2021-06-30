@@ -204,12 +204,18 @@ class frm_request(Form):
     vmCategory        = StringField()
     vmProjectName     = StringField()
     vmCategoryName    = StringField()
+    
     # Networking      --------------------------------------------------
-    #vmVlan0Name       = StringField()
+    '''
     vmVlan0Name        = SelectField (validators=[],coerce=str)
     vmVlan1Name        = SelectField (validators=[],coerce=str)
     vmVlan2Name        = SelectField (validators=[],coerce=str)
     vmVlan3Name        = SelectField (validators=[],coerce=str)
+    '''
+    vmVlan0Name        = SelectField (coerce=str)
+    vmVlan1Name        = SelectField (coerce=str)
+    vmVlan2Name        = SelectField (coerce=str)
+    vmVlan3Name        = SelectField (coerce=str)
 
     #                 --------------------------------------------------
     vmUsername        = StringField()

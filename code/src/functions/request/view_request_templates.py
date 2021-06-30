@@ -151,14 +151,18 @@ function managements() {
     // -----------------------------------------------------------------
     // PRIMARY Gerencias OPTIONS INITIALIZATION ------------------------    
     var $management = $("#vmDepartment");
+    var olddepa=$management.val()
     $management.empty();    
     $.each(managements, function(index, [code,name]) {
-        if ( code == $management.val() ) {
+        //window.alert("code="+code+" vs gerencia="+olddepa);
+        //if ( code == $management.val() ) {
+        if ( code == olddepa ) {
             $management.append("<option selected value='" + code + "'>" + name + "</option>");
         } else {
             $management.append("<option value='" + code + "'>" + name + "</option>");
         }
     });
+    //window.alert("corp:"+corporate+" gerencias:"+managements+" old:"+olddepa);
 };
 """
 scr_function_get_storage="""

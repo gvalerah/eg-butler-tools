@@ -8,6 +8,7 @@
 
 # Support functions
 import copy
+from pprint import pprint,pformat
 
 from emtec.butler.functions import *
 
@@ -644,39 +645,39 @@ def get_range_list(range_list):
     return list_of_ranges
 
 def calculate_form(form,row,rox):
-    logger.warning(f"{this()}: Enter. called by {caller()}")
-    logger.warning(f"form.vmTopCC           = {form.vmTopCC}")
-    logger.warning(f"form.vmCorporate.data  = {form.vmCorporate.data}")
-    logger.warning(f"form.vmDepartment.data = {form.vmDepartment.data}")
-    logger.warning(f"form.vmCC.data         = {form.vmCC.data}")
-    logger.warning(f"form.vmType.data       = {form.vmType.data}")
+    logger.debug(f"{this()}: Enter. called by {caller()}")
+    logger.debug(f"form.vmTopCC           = {form.vmTopCC}")
+    logger.debug(f"form.vmCorporate.data  = {form.vmCorporate.data}")
+    logger.debug(f"form.vmDepartment.data = {form.vmDepartment.data}")
+    logger.debug(f"form.vmCC.data         = {form.vmCC.data}")
+    logger.debug(f"form.vmType.data       = {form.vmType.data}")
     try:
         # Copy actual DB values into temp buffers
         tmp_row = copy.copy(row)
         tmp_rox = copy.copy(rox)
         # CC_Id need to be rebuild upon actual form data
-        logger.warning(f"{this()}: top:{form.vmTopCC} co: {form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
+        logger.debug(f"{this()}: top:{form.vmTopCC} co: {form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
         tmp_row.CC_Id = form.vmTopCC + form.vmCorporate.data%form.vmTopCC + form.vmDepartment.data%form.vmTopCC + form.vmCC.data%form.vmTopCC +form.vmType.data%form.vmTopCC
-        logger.warning(f"{this()}: db CC = old {row.CC_Id} now {form.vmCorporate.data}+{form.vmDepartment.data}+{form.vmCC.data}+{form.vmType.data}-> {tmp_row.CC_Id}")
+        logger.debug(f"{this()}: db CC = old {row.CC_Id} now {form.vmCorporate.data}+{form.vmDepartment.data}+{form.vmCC.data}+{form.vmType.data}-> {tmp_row.CC_Id}")
         # Save actual form values into temporary buffers
         save_form(form,tmp_row,tmp_rox)
-        logger.warning(f"{this()}: now form CC = {tmp_row.CC_Id}")
+        logger.debug(f"{this()}: now form CC = {tmp_row.CC_Id}")
         # Calculate form values upon temporary buffers
         form.vmData.update({'storage': 0})
         form.vmData.update({'month'  : 0})
-        logger.warning(f"{this()}: form.vmData['month'] = {form.vmData['month']}")
+        logger.debug(f"{this()}: form.vmData['month'] = {form.vmData['month']}")
         for i in range(12):
             form.vmData['storage'] += getattr(form,f'vmDisk{i}Size').data
         form.vmData.update({'month':get_monthly_rate(tmp_row,tmp_rox)})
-        logger.warning(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',0)}")
-        logger.warning(f"{this()}: form.vmData['month']   = {form.vmData.get('month',0)}")
+        logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',0)}")
+        logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',0)}")
     except Exception as e:
         logger.error(f"{this()}: called by {caller()} {str(e)}")
         emtec_handle_general_exception(e,logger=logger)
-    logger.warning(f"{this()}: Exit")
+    logger.debug(f"{this()}: Exit")
         
 def load_form(form,row,rox):
-    logger.debug(f'{this()}: Enter. loading form from DB data ...')
+    logger.debug(f'{this()}: Enter. loading form from DB data ... called by {caller()}')
     try:
         if rox.vm_name is None or str(rox.vm_name)== 'None':
             rox.vm_name = ''
@@ -685,8 +686,8 @@ def load_form(form,row,rox):
             form.vmName.data = ''
         form.vmCPS.data     = rox.vcpus_per_socket
         form.vmSockets.data = rox.num_sockets
-        form.vmCPU          = rox.num_sockets * rox.vcpus_per_socket
-        form.vmRAM.data     = rox.memory_size_gib
+        form.vmCPU          = form.vmCPS.data * form.vmSockets.data
+        form.vmRAM.data     = max(1,rox.memory_size_gib)
         # row.CC_Id is a compound code need to be deconstructed here
         # rule is vmType is >=1 <100
         if row.CC_Id is not None:
@@ -696,7 +697,7 @@ def load_form(form,row,rox):
             corporate   = row.CC_Id % 1000000 - management - environment - disk_type
             form.vmType.data       = form.vmTopCC + disk_type
             form.vmCC.data         = form.vmTopCC + environment
-            form.vmDepartment.data = form.vmTopCC + management
+            form.vmDepartment.data = form.vmTopCC + management + corporate
             form.vmCorporate.data  = form.vmTopCC + corporate
             logger.debug(f"{this()}: top:{form.vmTopCC} co:{form.vmCorporate.data} dd:{form.vmDepartment.data} cc:{form.vmCC.data} tt:{form.vmType.data}")
         form.vmStatus.data   = row.Status
@@ -707,7 +708,7 @@ def load_form(form,row,rox):
         if form.vmCorporate.data is not None:
             calculate_form(form,row,rox)
         else:
-            logger.warning(f"{this()}: form calculation not called. not enough data.")
+            logger.debug(f"{this()}: form calculation not called. not enough data.")
         logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
         logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
         # Extra Fields
@@ -735,30 +736,10 @@ def load_form(form,row,rox):
                 subnet_list = project[1]
         # populates list of selected vlans
         
-        ''' 20210622 GV ************************************************
-        selected_list = []
-        if rox.nic_0_vlan  is not None: selected_list.append(rox.nic_0_vlan)
-        if rox.nic_1_vlan  is not None: selected_list.append(rox.nic_1_vlan)
-        if rox.nic_2_vlan  is not None: selected_list.append(rox.nic_2_vlan)
-        if rox.nic_3_vlan  is not None: selected_list.append(rox.nic_3_vlan)
-        for i in range(4):
-            if i < len(subnet_list):
-                uuid,name = subnet_list[i]
-            else:
-                uuid,name = ['','']
-            flag = True if uuid in selected_list else False
-            getattr(form,f'vmVlan{i}Name').data     = name
-            getattr(form,f'vmVlan{i}Selected').data = flag                
-            getattr(form,f'vmVlan{i}Uuid').data     = uuid                
-            logger.debug(f"{this()}: name: {name} uuid: {uuid} flag: {flag}")
-            logger.debug(f"{this()}: form.vmVlan{i}Name = {getattr(form,f'vmVlan{i}Name')}")
-            logger.debug(f"{this()}: form.vmVlan{i}Uuid = {getattr(form,f'vmVlan{i}Uuid')}")
-            logger.debug(f"{this()}: form.vmVlan{i}Sele = {getattr(form,f'vmVlan{i}Selected')}")
-        '''
-        form.vmVlan0Name = rox.nic_0_vlan
-        form.vmVlan1Name = rox.nic_1_vlan
-        form.vmVlan2Name = rox.nic_2_vlan
-        form.vmVlan3Name = rox.nic_3_vlan
+        form.vmVlan0Name.data = rox.nic_0_vlan
+        form.vmVlan1Name.data = rox.nic_1_vlan
+        form.vmVlan2Name.data = rox.nic_2_vlan
+        form.vmVlan3Name.data = rox.nic_3_vlan
 
         if form.vmDRP.data is None:
             form.vmDRP.data = False
@@ -798,6 +779,7 @@ def save_form(form,row,rox):
         logger.debug(f"{this()}: top:{form.vmTopCC} management:{management} environment:{environment} disk_type:{disk_type}")    
         corporate   = form.vmCorporate.data % 1000000
         logger.debug(f"{this()}: top:{form.vmTopCC} corporate:{corporate} management:{management} environment:{environment} disk_type:{disk_type}")    
+        
         row.CC_Id   = form.vmTopCC + corporate + management + environment + disk_type
         logger.debug(f"{this()}: top:{form.vmTopCC} corporate:{corporate} management:{management} environment:{environment} disk_type:{disk_type} -> {row.CC_Id}")    
         # Ownership
@@ -807,7 +789,7 @@ def save_form(form,row,rox):
         # Specifications ---------------------------------------------------    
         rox.vcpus_per_socket = form.vmCPS.data 
         rox.num_sockets      = form.vmSockets.data 
-        rox.memory_size_gib  = form.vmRAM.data
+        rox.memory_size_gib  = max(form.vmRAM.data,1)
         rox.memory_size_mib  = form.vmRAM.data * 1024
         # Storage ----------------------------------------------------------
         rox.disk_type        = form.vmType.data

@@ -12,6 +12,7 @@
    {{ super() }}
 {% endblock %}
 {% block page_content %}
+<meta http-equiv="refresh" content="30">
 <div class="page-header">
     <h2>Solicitudes: </h2>
     <a href="#" onclick="history.go(-1)">
@@ -25,6 +26,10 @@
     <a href="/"> 
         <img src="/static/img/home.png"
         color=yellow width="32" height="32" title="" alt="Home">
+    </a>
+    <a href="/export/Request?{{fltr}}"> 
+        <img src="/static/img/download.png"
+        color=yellow width="32" height="32" title="" alt="Download">
     </a>
 </div>
 
