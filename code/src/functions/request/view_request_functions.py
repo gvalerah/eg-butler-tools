@@ -937,4 +937,43 @@ def output_Request(Id,data=None):
     logger.debug(f'{this()}: return output = {len(output)} {type(output)}')
     return output
 
+'''
+curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" --header "Authorization: Basic Z3ZhbGVyYTpQYXNzMTAxMC4s" -d "{
+  \"kind\": \"vm\",
+  \"filter\": \"vm_name==MV0628020\"
+}" "https://10.26.1.227:9440/api/nutanix/v3/vms/list"
+'''
+
+def get_vm_by_name(app,vmname):
+    host      = app.config['NUTANIX_HOST']
+    port      = app.config['NUTANIX_PORT']
+    username  = app.config['NUTANIX_USERNAME']
+    password  = app.config['NUTANIX_PASSWORD']
+    protocol  = app.config['NUTANIX_PROTOCOL']
+    endpoint  = f'api/nutanix/v3/vms/list{row.Task_uuid}'
+    url       = f'{protocol}://{host}:{port}/{endpoint}'
+    headers   = {'Accept':'application/json'}
+    data     = {'kind':'vm','filter':f'vm_name=={vmname}'}
+    # get Nutanix Response
+    logger.warning(f'{this()}: url = {url} data={data}')
+    
+    response = api_request(    
+                    'POST',
+                    url,
+                    data    =json.dumps(data),
+                    headers =headers,
+                    username=username,
+                    password=password,
+                    logger  = logger
+                )
+    logger.debug(f'{this()}: response = {response}')
+    vms=None
+    if response is not None:
+        if response.ok:
+            data=response.json()
+            vms = data.get('entities')
+    logger.warning(f'{this()}: vms = {vms}')
+    return vms
+
+
 # EOF ******************************************************************

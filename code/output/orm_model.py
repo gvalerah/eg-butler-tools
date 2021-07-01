@@ -16,7 +16,7 @@ from sqlalchemy             import ForeignKey
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 from sqlalchemy                 import Table, Column
@@ -31,7 +31,7 @@ from sqlalchemy                 import VARBINARY
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 import json
 import logging
@@ -45,7 +45,7 @@ Base = declarative_base()
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_categories.py
@@ -170,7 +170,7 @@ class Categories(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Categories).filter(Categories.category_name==category_name).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -188,7 +188,7 @@ class Categories(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_clusters.py
@@ -319,7 +319,7 @@ class Clusters(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Clusters).filter(Clusters.cluster_uuid==cluster_uuid).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -337,7 +337,7 @@ class Clusters(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -472,7 +472,7 @@ class Cost_Centers(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Cost_Centers).filter(Cost_Centers.CC_Id==CC_Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -490,7 +490,7 @@ class Cost_Centers(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -628,7 +628,7 @@ def get_Cost_Centers(table_name_suffix):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Cost_Centers).filter(Cost_Centers.CC_Id==CC_Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -650,7 +650,7 @@ def get_Cost_Centers(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_disk_images.py
@@ -789,7 +789,7 @@ class Disk_Images(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Disk_Images).filter(Disk_Images.uuid==uuid).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -807,7 +807,7 @@ class Disk_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_domains.py
@@ -935,7 +935,7 @@ class Domains(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 Id = session.query(Domains.Id).filter(Domains.Name==Name).scalar()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 Id = None
@@ -954,7 +954,7 @@ class Domains(Base):
                     Session=sessionmaker(bind=self.engine)
                     session=Session()
                     record = session.query(Domains).filter(Domains.Id==Id).one_or_none()
-                    session.close()
+                    session.flush()
                 else:
                     session.rollback()
                     record = None
@@ -971,7 +971,7 @@ class Domains(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Domains).filter(Domains.Domain_Id==Domain_Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -989,7 +989,7 @@ class Domains(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_interface.py
@@ -1126,7 +1126,7 @@ class Interface(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Interface).filter(Interface.Id==Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -1144,7 +1144,7 @@ class Interface(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_prism_vm.py
@@ -1387,7 +1387,7 @@ class Nutanix_Prism_VM(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Nutanix_Prism_VM).filter(Nutanix_Prism_VM.Request_Id==Request_Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -1405,7 +1405,7 @@ class Nutanix_Prism_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_vm_images.py
@@ -1534,7 +1534,7 @@ class Nutanix_VM_Images(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Nutanix_VM_Images).filter(Nutanix_VM_Images.imageservice_uuid_diskclone==imageservice_uuid_diskclone).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -1552,7 +1552,7 @@ class Nutanix_VM_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_projects.py
@@ -1679,7 +1679,7 @@ class Projects(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Projects).filter(Projects.project_uuid==project_uuid).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -1697,7 +1697,7 @@ class Projects(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -1843,7 +1843,7 @@ class Rates(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Rates).filter(Rates.Rat_Id==Rat_Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -1864,7 +1864,7 @@ class Rates(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -2013,7 +2013,7 @@ def get_Rates(table_name_suffix):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Rates).filter(Rates.Rat_Id==Rat_Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -2038,7 +2038,7 @@ def get_Rates(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_request_type.py
@@ -2166,7 +2166,7 @@ class Request_Type(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 Id = session.query(Request_Type.Id).filter(Request_Type.Description==Name).scalar()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 Id = None
@@ -2185,7 +2185,7 @@ class Request_Type(Base):
                     Session=sessionmaker(bind=self.engine)
                     session=Session()
                     record = session.query(Request_Type).filter(Request_Type.Id==Id).one_or_none()
-                    session.close()
+                    session.flush()
                 else:
                     session.rollback()
                     record = None
@@ -2202,7 +2202,7 @@ class Request_Type(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Request_Type).filter(Request_Type.Id==Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -2220,7 +2220,7 @@ class Request_Type(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_requests.py
@@ -2367,7 +2367,7 @@ class Requests(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Requests).filter(Requests.Id==Id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -2385,7 +2385,7 @@ class Requests(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_roles.py
@@ -2514,7 +2514,7 @@ class Roles(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Roles).filter(Roles.id==id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -2532,7 +2532,7 @@ class Roles(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_subnets.py
@@ -2673,7 +2673,7 @@ class Subnets(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Subnets).filter(Subnets.uuid==uuid).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None
@@ -2691,7 +2691,7 @@ class Subnets(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-06-29 21:16:14
+# GLVH @ 2021-06-30 21:26:15
 # =============================================================================
 
 # gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_users.py
@@ -2826,7 +2826,7 @@ class Users(Base):
                 Session=sessionmaker(bind=self.engine)
                 session=Session()
                 record = session.query(Users).filter(Users.id==id).one_or_none()
-                session.close()
+                session.flush()
             else:
                 session.rollback()
                 record = None

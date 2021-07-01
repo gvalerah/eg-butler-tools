@@ -9,19 +9,18 @@
 # ======================================================================
 
 from emtec import *
+from emtec.nutanix import *
+from emtec.butler.constants import *
 from wtforms.validators import ValidationError
 
 # Custom Validator functions for butler form request support
 # very powerfull function to validate data prior submit
 def disk_size(form,field):
     form.logger.debug(f"disk_size: IN field={field.name}")
-    print(f"disk_size: IN field={field.name}")
     if field.name == 'vmDisk0Size':
-        print(f"disk_size: field={field.name}")
         ImageFieldName=field.name.replace('Size','Image')
         ImageField=getattr(form,ImageFieldName)
         for choice in ImageField.iter_choices():
-            print(f"choice={choice}")
             if choice[2]:
                 try:
                     if '(' in choice[1]:
@@ -31,13 +30,23 @@ def disk_size(form,field):
                             if ImageFieldSize > int(ImageFieldSize):
                                 ImageFieldSize =  int(ImageFieldSize) + 1
                             if field.data < ImageFieldSize:
-                                print(f"ValidationError(f'Tamaño Mínimo es {ImageFieldSize} GB')") 
                                 raise ValidationError(f'Tamaño Mínimo es {ImageFieldSize} GB') 
                 except Exception as e:
-                    print(f" ValidationError(f'{this()}: {str(e)}')") 
                     raise ValidationError(f'{this()}: {str(e)}') 
         form.logger.debug("disk_size: field={field.name} OUT")
-    print(f"disk_size: field={field.name} OUT")
+    return
+
+def name(form,field):
+    ''' validates that vmName does not exist in Nutanix '''
+    form.logger.debug(f"{this()}: IN field={field.name}")
+    if form.vmData.get('row') is None or form.vmData.get('row').Status<REQUEST_APPROVED:
+        vm = get_nutanix_vm(form.vmData.get('app'),form.vmName.data,timeout=3,logger=form.logger)
+        if vm is None:
+            return
+        else:
+            raise ValidationError(f"MV '{form.vmName.data}' ya existe.")
+    form.logger.debug(f"{this()}: field={field.name} OUT")
+    return
 
 def ip_address(form,field):
     form.logger.warning("ip_address: field={field.name} IN WARNING WARNING WARNING OJO NO ESTA ACTIVA LA VALIDACION AUN")
@@ -165,7 +174,7 @@ class frm_request(Form):
     # General
     vmStatus          = IntegerField()
     vmName            = StringField ('VM Name',
-                        validators=[InputRequired('Nombre de MV es requerido')],default='')
+                        validators=[InputRequired('Nombre de MV es requerido'),name],default='')
     vmCPS             = IntegerField(
                         validators=[InputRequired('Número de CPUs por Socket es requerido'),
                                     NumberRange(min=1,message='CPS mínimo es 1')],default=1)

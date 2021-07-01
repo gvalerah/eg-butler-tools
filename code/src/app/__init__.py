@@ -87,6 +87,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'BUTLER_ADMIN':                 config_ini.get       ('General','BUTLER_ADMIN',fallback='butler')})
     app.config.update({'BUTLER_CIT_SHARDING':          config_ini.getboolean('General','BUTLER_CIT_SHARDING',fallback=False)})
     app.config.update({'BUTLER_TOP_COST_CENTER':       config_ini.get       ('General','BUTLER_TOP_COST_CENTER',fallback='BUTLER')})
+    app.config.update({'BUTLER_DEFAULT_COST_CENTER':   config_ini.getint    ('General','BUTLER_DEFAULT_COST_CENTER',fallback=0)})
     app.config.update({'BUTLER_REQUEST_NOTIFICATIONS': config_ini.getboolean('General','BUTLER_REQUEST_NOTIFICATIONS',fallback=False)})
     # default app config settings
     app.config.update({'NAME':                          config_ini.get       ('General','NAME',fallback='Butler')})
@@ -132,6 +133,25 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
                 app.config.update({key:False})
         except:
             pass
+    # Nutanix Configuration settings ----------------------------------- 
+    app.config.update({'NUTANIX_HOST'      :   config_ini.get    ('Nutanix'  ,'HOST'    ,fallback='localhost')})
+    app.config.update({'NUTANIX_PORT'      :   config_ini.getint ('Nutanix'  ,'PORT'    ,fallback=9440       )})
+    app.config.update({'NUTANIX_USERNAME'  :   config_ini.get    ('Nutanix'  ,'USERNAME',fallback='collector')})
+    app.config.update({'NUTANIX_PASSWORD'  :   config_ini.get    ('Nutanix'  ,'PASSWORD',fallback=None       )})
+    app.config.update({'NUTANIX_PROTOCOL'  :   config_ini.get    ('Nutanix'  ,'PROTOCOL',fallback='https'    )})
+    app.config.update({'NUTANIX_PROJECT'   :   config_ini.get    ('Nutanix'  ,'PROJECT' ,fallback='Butler'   )})
+    app.config.update({'NUTANIX_PROJECT_UUID': config_ini.get    ('Nutanix'  ,'PROJECT_UUID' ,fallback=None  )})
+    app.config.update({'NUTANIX_TIMEOUT'   :   config_ini.getint ('Nutanix'  ,'TIMEOUT' ,fallback=5  )})
+    app.config.update({'NUTANIX_LOCAL_SCHEDULE_TYPE'        : config_ini.get   ('Nutanix','LOCAL_SCHEDULE_TYPE'        ,fallback=None )})
+    app.config.update({'NUTANIX_LOCAL_EVERY_NTH'            : config_ini.getint('Nutanix','LOCAL_EVERY_NTH'            ,fallback=0    )})
+    app.config.update({'NUTANIX_LOCAL_LOCAL_MAX_SNAPSHOTS'  : config_ini.getint('Nutanix','LOCAL_LOCAL_MAX_SNAPSHOTS'  ,fallback=0    )})
+    app.config.update({'NUTANIX_LOCAL_REMOTE_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','LOCAL_REMOTE_MAX_SNAPSHOTS' ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_SCHEDULE_TYPE'       : config_ini.get   ('Nutanix','REMOTE_SCHEDULE_TYPE'       ,fallback=None )})
+    app.config.update({'NUTANIX_REMOTE_EVERY_NTH'           : config_ini.getint('Nutanix','REMOTE_EVERY_NTH'           ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_LOCAL_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','REMOTE_LOCAL_MAX_SNAPSHOTS' ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_REMOTE_MAX_SNAPSHOTS': config_ini.getint('Nutanix','REMOTE_REMOTE_MAX_SNAPSHOTS',fallback=0    )})
+
+
             
     if app.config['DEBUG']:
         print("create_app: %-40s = %s"%("name",__name__))

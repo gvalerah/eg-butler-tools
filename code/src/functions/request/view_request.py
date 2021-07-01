@@ -270,12 +270,21 @@ def forms_Request():
         row=Requests()
         rox=Nutanix_Prism_VM()
         session['is_new_row']=True
+        # set defaults
+        row.CC_Id         = current_app.config.get('BUTLER_DEFAULT_COST_CENTER')
+        rox.vm_drp        = True
+        rox.vm_drp_remote = True
+        rox.vm_cdrom      = True
     else:
         logger.debug(f'{this()}: load rox from DB for row.Id={row.Id}')
         rox =  db.session.query(Nutanix_Prism_VM).filter(Nutanix_Prism_VM.Request_Id == row.Id).first()
         if rox is None:
             logger.debug(f'{this()}: rox no existe inicializa objeto vacio')
-            rox=nutanix_prism_vm()
+            rox=Nutanix_Prism_VM()
+            # set defaults
+            rox.vm_drp        = True
+            rox.vm_drp_remote = True
+            rox.vm_cdrom      = True
 
     # Setup some session context data
     
@@ -432,7 +441,7 @@ def forms_Request():
             emtec_handle_general_exception(e,logger=logger)
         logger.debug(f"{this()}: return from form.validate() errors={len(form.errors)}")
         if len(form.errors) != 0:
-            logger.warning(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
+            logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
         else:
             logger.debug(f"no errors will evaluate button pushed")
             form_log(form,logger.debug)

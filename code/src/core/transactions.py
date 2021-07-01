@@ -1667,6 +1667,8 @@ def trx_002_not_collector_pending(app):
                             logger.error(f'{this()}: response = {response}')
                     else:
                         logger.warning(f"{this()}: CI '{data['CI_Name']}' not found in Collector.")
+                        logger.warning(f"{this()}: response = {response}.")
+                        logger.warning(f"{this()}: CI = {CI}.")
                 else:
                     logger.error(f"{this()}: no response from Collector ({url} {data}).")                    
             result   =  get_api_response(   code=BUTLER_CORE_TRX_OK,
@@ -1755,7 +1757,10 @@ def trx_003_nutanix_pending(app):
                                         if User_email     is None: User_email=(None,)
                                         if Approver_email is None: Approver_email=(None,)
                                         # Setup required data
-                                        data={
+                                        
+                                        data = Get_data_context(app=app,db=db,mail=mail,Id=Id)
+
+                                        data.update({
                                             'top_cost_center_code':app.config.get('BUTLER_TOP_COST_CENTER'),
                                             'requestor_email': User_email[0],
                                             'approver_email': Approver_email[0],
@@ -1767,7 +1772,7 @@ def trx_003_nutanix_pending(app):
                                             'role'  : ROLE_VIEWER,
                                             'roles' : ROLES,
                                             'status': BUTLER_STATUS,
-                                        }
+                                        })
                                         logger.debug(f"data.keys()={data.keys()}")        
                                         To = app.config.get('BUTLER_SUPPORT_NOTIFICATION')
                                                                                 
@@ -2499,7 +2504,7 @@ def execute_transactions(app,user=None):
         current['transactions'].update({TRX_NAME:active})
         
         if active:
-            logger.info(f"{this()}: Transaction '{transaction.__name__}' is active.")
+            logger.debug(f"{this()}: Transaction '{transaction.__name__}' is active.")
             try:
                 db.session.flush()
             except Exception as e:
@@ -2511,7 +2516,6 @@ def execute_transactions(app,user=None):
                 if result['status']['code'] != BUTLER_CORE_TRX_OK:
                     logger.error(f"{this()}: Transaction '{transaction.__name__}' Error {result['status']['message']}")
             except Exception as e:
-                #ogger.error(f"{this()}: Transaction '{transaction.__name__}' exception = {str(e)}")
                 tracebox_log(f"{this()}: Transaction '{transaction.__name__}' exception = {str(e)}",
                     logger = logger,
                     level  = logging.CRITICAL,
