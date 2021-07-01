@@ -10,23 +10,34 @@ Powered by Emtec Group
 
 Es el proceso que permite provisionar los recursos requeridos para implementar una m&aacute;quina virtual en la plataforma IaaS de ***AGUAS ANDINAS***, para lo cual se crea una solicitud con el m&iacute;nimo indispensable de datos requeridos para esta creaci&oacute;n, esta solicitud est&aacute; sujeta a aprobaci&oacute;n antes del inicio del provisionamiento autom&aacute;tico, una vez aprobada la solicitud **EG Butler** orquesta la creaci&oacute;n de la m&aacute;quina virtual en la plataforma **Iaas**, inicia el monitoreo de disponibilidad via **EG Monitor** (c) y activa la tarificaci&oacute;n de servicios seg&uacute;n los recursos provisionados usando **EG Collector** (c).
 
+El primer paso es conectarse al sistema via la pagina principal:
+
+<img src="/static/img/butler_main.png">
+
+Luego de identificarse el usuario tendra acceso a las funciones segun su rol:
+
 En este proceso se consieran 2 roles principales:
 
 ### Solicitante
 
 Usuario autorizado para solicitar provisionamiento de m&aacute;quinas virtuales, estos usuarios est&aacute;n predefinidos y se identifican en el sistema usando una combinaci&oacute;n de nombre de usuario y contrase&ntilde;a.
 
+<img src="/static/img/butler_menu_user.png">
+
 ### Aprobador
 
 Usuario autorizado para modificar y aprobar las solicitudes de m&aacute;quinas virtuales ingresadas por los Solicitantes
 
+<img src="/static/img/butler_menu_approver.png">
+
+
 **EG Butler** pone a disposici&oacute;n de los usuarios del sistema una interfaz de usuario dise&ntilde;ada para ser simple e intuitiva, todo se inicia con la identificaci&oacute;n del usuario:
 
-<img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/butler_login.png">
+<img src="/static/img/butler_login.png">
 
 Una vez identificado, el usuario tiene acceso a las funciones generales del sistema de acuerdo al perfil asignado a su rol en el proceso, para los roles ***Solicitante*** y ***Aprobador***, sendas opciones de men&uacute; se habilitan y el usuario centraliza sus acciones usando estas opciones principales.
 
-<img src="/static/img/request_list.png">
+<img src="/static/img/butler_select_requests.png">
 
 El listado de solicitudes permite la visualizaci&oacute;n de las solicitudes de forma que puedan gestionarse usando siempre una vista familiar.
 
@@ -65,7 +76,8 @@ Acci&oacute;n      | Descripci&oacute;n
 
 ## Edici&oacute;n de Una Solicitud
 
-<img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/request_form.png">
+<img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/form_request_01.png">
+<img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/form_request_02.png">
 
 **EG Butler** esta dise&ntilde;ado para minimizar los datos requeridos para un provisionamiento efectivo de m&aacute;quinas virtuales en la plataforma IaaS de ***AGUAS ANDINAS***. El Usuario puede modificar los datos requeridos por una solicitud de acuerdo a los siguientes criterios:
 
@@ -105,7 +117,7 @@ Opci&oacute;n | Descripci&oacute;n
 
 ## Visualizaci&oacute;n de la solicitud
 
-<img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/request_show.png">
+<img src="/static/img/report_request.png">
 
 Esta vista permite visualizar el estado general de una solicitud incluyendo historial de estado, tambi&eacute;n muestra una estimaci&oacute;n del costo mensual aproximado a cargar por cada m&aacute;quina virtual provisionada, esta estimaci&oacute;n se hace en funci&oacute;n del tarifario vigente y considerando el provisionamiento de los recursos especificados en la solicitud por un periodo de treinta dias calendarios.
 
@@ -113,7 +125,7 @@ Esta vista permite visualizar el estado general de una solicitud incluyendo hist
 
 Una solicitud tiene un ciclo de vida que representa las diversas etapas que deben cumplirse en el proceso de solicitud de tal forma que todo este listo antes de activar el provisionamiento autom&aacute;tico de recursos:
 
-<img src="/home/gvalera/GIT/EG-Butler-Tools/code/src/app/static/img/request_states.png">
+<img src="/static/img/request_states.png">
 
 Es as&iacute; que una solicitud puede ***"navegar"*** entre los siguientes estados:
 

@@ -7,6 +7,7 @@
 # 2021-05-09 GVLH Refactoring to move functions to library and reuse
 # 2021-05-18 GLVH adjust fur multiple subnets, and NO IP request
 # 2021-05-23 GLVH QA and refactoring
+# 2021-06-30 GÑVH QA final testing. Request lists download and other
 # ======================================================================
 
 import  os
