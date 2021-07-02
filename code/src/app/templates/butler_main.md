@@ -6,11 +6,11 @@ Powered by Emtec Group
 
 # Gesti&oacute;n de solicitudes
 
-**EG Butler** permite la gesti&oacute;n de solicitudes de provisionamiento de m&aacute;quinas virtuales en la soluci&oacute;n IaaS para le cliente ***AGUAS ANDINAS***
+**EG Butler** permite la gesti&oacute;n de solicitudes de aprovisionamiento de m&aacute;quinas virtuales en la soluci&oacute;n IaaS para le cliente ***AGUAS ANDINAS***
 
 ## Proceso de Aprovisionamiento Autom&aacute;tico
 
-Es el proceso que permite provisionar los recursos requeridos para implementar una m&aacute;quina virtual en la plataforma IaaS de ***AGUAS ANDINAS***, para lo cual se crea una solicitud con el m&iacute;nimo indispensable de datos requeridos para esta creaci&oacute;n, esta solicitud est&aacute; sujeta a aprobaci&oacute;n antes del inicio del provisionamiento autom&aacute;tico, una vez aprobada la solicitud **EG Butler** orquesta la creaci&oacute;n de la m&aacute;quina virtual en la plataforma **Iaas**, inicia el monitoreo de disponibilidad via **EG Monitor** (c) y activa la tarificaci&oacute;n de servicios seg&uacute;n los recursos provisionados usando **EG Collector** (c).
+Es el proceso que permite aprovisionar los recursos requeridos para implementar una m&aacute;quina virtual en la plataforma IaaS de ***AGUAS ANDINAS***, para lo cual se crea una solicitud con el m&iacute;nimo indispensable de datos requeridos para esta creaci&oacute;n, esta solicitud est&aacute; sujeta a aprobaci&oacute;n antes del inicio del aprovisionamiento autom&aacute;tico, una vez aprobada la solicitud **EG Butler** orquesta la creaci&oacute;n de la m&aacute;quina virtual en la plataforma **Iaas**, inicia el monitoreo de disponibilidad via **EG Monitor** (c) y activa la tarificaci&oacute;n de servicios seg&uacute;n los recursos aprovisionados usando **EG Collector** (c).
 
 El primer paso es conectarse al sistema via la pagina principal:
 
@@ -22,7 +22,7 @@ En este proceso se consieran 2 roles principales:
 
 ### Solicitante
 
-Usuario autorizado para solicitar provisionamiento de m&aacute;quinas virtuales, estos usuarios est&aacute;n predefinidos y se identifican en el sistema usando una combinaci&oacute;n de nombre de usuario y contrase&ntilde;a.
+Usuario autorizado para solicitar aprovisionamiento de m&aacute;quinas virtuales, estos usuarios est&aacute;n predefinidos y se identifican en el sistema usando una combinaci&oacute;n de nombre de usuario y contrase&ntilde;a.
 
 <img src="/static/img/butler_menu_user.png">
 
@@ -74,27 +74,27 @@ El listado de solicitudes permite acciones directas sobre cada solicitud identif
 <img src="/static/img/butler_form_request_01.png">
 <img src="/static/img/butler_form_request_02.png">
 
-**EG Butler** esta dise&ntilde;ado para minimizar los datos requeridos para un provisionamiento efectivo de m&aacute;quinas virtuales en la plataforma IaaS de ***AGUAS ANDINAS***. El Usuario puede modificar los datos requeridos por una solicitud de acuerdo a los siguientes criterios:
+**EG Butler** esta dise&ntilde;ado para minimizar los datos requeridos para un aprovisionamiento efectivo de m&aacute;quinas virtuales en la plataforma IaaS de ***AGUAS ANDINAS***. El Usuario puede modificar los datos requeridos por una solicitud de acuerdo a los siguientes criterios:
 
 **Campo**                  | **Descripci&oacute;n** | 
 ---------                  | ---------------------- |
 **Nombre**                 | Nombre asociado a la m&aacute;quina virtual, este identificador ser&aacute; utilizado como base para crear el identificador &uacute;nico en toda la plataforma IaaS y la integraci&oacute; con los otros m&oacute;dulos ***EG Suite***|
-**CPU cores por socket**   | N&uacute;mero de CPUs virtuales a provisionar en cada socket asignado a la la m&aacute;quina virtual durante el proceso de provisionamiento inicial autom&aacute;tico. El n&uacute;mero total de nucleos de proceso ser&aacute; el producto de CPU cores por socket * # de sockets|
-**Sockets**                | N&uacute;mero de sockets virtuales a provisionar en la m&aacute;quina virtual durante el proceso de provisionamiento inicial autom&aacute;tico.|
-**RAM**                    | Cantidad de memoria virtual en GB a provisionar en la m&aacute;quina virtual durante el proceso de provisionamiento inicial autom&aacute;tico.|
+**CPU cores por socket**   | N&uacute;mero de CPUs virtuales por aprovisionar en cada socket asignado a la la m&aacute;quina virtual durante el proceso de aprovisionamiento inicial autom&aacute;tico. El n&uacute;mero total de nucleos de proceso ser&aacute; el producto de CPU cores por socket * # de sockets|
+**Sockets**                | N&uacute;mero de sockets virtuales por aprovisionar en la m&aacute;quina virtual durante el proceso de aprovisionamiento inicial autom&aacute;tico.|
+**RAM**                    | Cantidad de memoria virtual en GB por aprovisionar en la m&aacute;quina virtual durante el proceso de aprovisionamiento inicial autom&aacute;tico.|
 **Corporativa**            | Direcci&oacute;n corporativa dentro de la estructura de ***AGUAS ANDINAS*** a la cual se relacionar&aacute; la M&aacute;quina Virtual.|
 **Gerencia**               | Gerencia o direcci&oacute;n dentro de la estructura de ***AGUAS ANDINAS*** a la cual se relacionar&aacute; la Máquina Virtual.|
-**Ambiente**               | Cada M&aacute;quina Virtual debe asociarse a un ambiente de trabajo espec&aacute;fico, esto permite agrupar las m&aacute;quinas y gestionarlas apropiadaente. El ambiente definido asocia autom&aacute;ticamente la MV a un ***Projecto*** y a una **Categor&iacute;a** espec&iacute;ficos, estas asociaciones permiten organizar el flujo de trabajo con la MV y determinar&aacute;n el listado de Redes Virtuales disponibles para la MV en el momento de provisionamiento.|
-**Tipo de Disco**          | Especifica el tipo de almacenamiento a utilizar en el aprovisionamiento, solo se usar&aacute; un solo tipo de almacenamiento por cada maquina virtual, el cual aplicar&aacute; para todos los discos virtuales que se provisionen, los tipos se listar&aacute;n como opciones aqui pudiendo ser HDD,SSD,... seg&uacute;n sean implementados en la infraestructura IaaS.  |
+**Ambiente**               | Cada M&aacute;quina Virtual debe asociarse a un ambiente de trabajo espec&aacute;fico, esto permite agrupar las m&aacute;quinas y gestionarlas apropiadaente. El ambiente definido asocia autom&aacute;ticamente la MV a un ***Projecto*** y a una **Categor&iacute;a** espec&iacute;ficos, estas asociaciones permiten organizar el flujo de trabajo con la MV y determinar&aacute;n el listado de Redes Virtuales disponibles para la MV en el momento de aprovisionamiento.|
+**Tipo de Disco**          | Especifica el tipo de almacenamiento a utilizar en el aprovisionamiento, solo se usar&aacute; un solo tipo de almacenamiento por cada maquina virtual, el cual aplicar&aacute; para todos los discos virtuales que se aprovisionen, los tipos se listar&aacute;n como opciones aqui pudiendo ser HDD,SSD,... seg&uacute;n sean implementados en la infraestructura IaaS.  |
 **Centro de Costo**        | La combinaci&oacute;n de las selecci&oacute;n de Corporativo,Gerencia,Ambiente y Tipo de Disco permiten asociar la M&aacute;quina Virtual a un centro de costo espec&iacute;fico, esto se hace autom&aacute;ticamente y permitir&aacute; la distribuci&oacute;n eficiente de los cargos asociados al uso de la MV durante el proceso de Tarificaci&oacute;n.|
-**Subredes**               | Cada M&aacute;quina Virtual  Matriz con la opci&oacute;n para provisionar hasta 12 discos en la primera solicitud, a cada disco se le puede asignar un tama&ntilde;o en GB de almacenamiento y opcionalmente indicar una imagen de disco a cargar autom&aacute;ticamente en el proceso de creaci&oacute;n.
-**Cluster**               | Cada M&aacute;quina Virtual debe provisionarse en un Cluster, agrupamiento de ervidores espec&iacute;fico, las opciones disponibles se presentar&aacute;n en esta opci&oacute;n de selecci&oacute;n multiple|
+**Subredes**               | Cada M&aacute;quina Virtual  Matriz con la opci&oacute;n para aprovisionar hasta 12 discos en la primera solicitud, a cada disco se le puede asignar un tama&ntilde;o en GB de almacenamiento y opcionalmente indicar una imagen de disco a cargar autom&aacute;ticamente en el proceso de creaci&oacute;n.
+**Cluster**               | Cada M&aacute;quina Virtual debe aprovisionarse en un Cluster, agrupamiento de ervidores espec&iacute;fico, las opciones disponibles se presentar&aacute;n en esta opci&oacute;n de selecci&oacute;n multiple|
 **C&oacute;pias de Seguridad** | Por defecto las MV incluyen pol&iacute;ticas de respaldo para contar con copias locales y remotas en caso de contingencia, estas opciones pueden ser deshabilitadas en el momento de creaci&iacute;n de la MV|
-**CDROM**                 | Por Defecto las MV incluyen la provisión de una unidad de disco &oacute;ptico virtual, esto permite "montar" imagenes espec&iacute;ficas durante la vida &uacute;til de la MV|
-**Subredes** | Cada MV pruede provisionarse con hasta 4 tarjetas de red virtuales (vNIC), cada NIC estar&aacute; asociada a una VLAN de las disponibles para el proyecto especificado, si las VLAN cuentan con DHCP activado se puede esperar que la MV cuente con dirección IP asignada autom&aacute;ticamente durante el proceso de provisionamiento.
-**Imagen de Arranque**    | Cada MV puede ser creada incluyendo una **imagen inicial de arranque**, en caso de definirse esta se asignará al primer disco provisionado, el tama&ntilde;o de este primer disco sera ajustado para tener como m&iacute;nimo lo requerido por la imagen. La implementaci&oacute;n por defecto para ***AGUAS ANDINAS*** requiere que estas imagenes esten en formato UEFI de tal forma que las MV quede encendida en el momento de provisi&oacute;n|
-**Discos**                 | Matriz con la opci&oacute;n para provisionar hasta 12 discos en la primera solicitud, a cada disco se le puede asignar un tama&ntilde;o en GB de almacenamiento. Para el primer disco opcionalmente se asociar&aacute; la **Imagen inicial de arranque** (boot image) en el proceso de creaci&oacute;n.|
-**Requerimiento Especial** | Los requerimientos de creaci&oacute;n de cada MV pueden diferir en algunos caso particulares, de ser necesario el solicitante o el aprobador pueden poblar este campo con instrucciones espec&iacute;ficas a ejecutarse por el equipo de soporte de LUMEN durante el proceso de provisionamiento.
+**CDROM**                 | Por Defecto las MV incluyen la aprovisión de una unidad de disco &oacute;ptico virtual, esto permite "montar" imagenes espec&iacute;ficas durante la vida &uacute;til de la MV|
+**Subredes** | Cada MV pruede aprovisionarse con hasta 4 tarjetas de red virtuales (vNIC), cada NIC estar&aacute; asociada a una VLAN de las disponibles para el proyecto especificado, si las VLAN cuentan con DHCP activado se puede esperar que la MV cuente con dirección IP asignada autom&aacute;ticamente durante el proceso de aprovisionamiento.
+**Imagen de Arranque**    | Cada MV puede ser creada incluyendo una **imagen inicial de arranque**, en caso de definirse esta se asignará al primer disco aprovisionado, el tama&ntilde;o de este primer disco sera ajustado para tener como m&iacute;nimo lo requerido por la imagen. La implementaci&oacute;n por defecto para ***AGUAS ANDINAS*** requiere que estas imagenes esten en formato UEFI de tal forma que las MV quede encendida en el momento de aprovisi&oacute;n|
+**Discos**                 | Matriz con la opci&oacute;n para aprovisionar hasta 12 discos en la primera solicitud, a cada disco se le puede asignar un tama&ntilde;o en GB de almacenamiento. Para el primer disco opcionalmente se asociar&aacute; la **Imagen inicial de arranque** (boot image) en el proceso de creaci&oacute;n.|
+**Requerimiento Especial** | Los requerimientos de creaci&oacute;n de cada MV pueden diferir en algunos caso particulares, de ser necesario el solicitante o el aprobador pueden poblar este campo con instrucciones espec&iacute;ficas a ejecutarse por el equipo de soporte de LUMEN durante el proceso de aprovisionamiento.
 
 
 ####Una vez definidos los valores requeridos el usuario tiene las siguientes opciones:
@@ -107,18 +107,18 @@ El listado de solicitudes permite acciones directas sobre cada solicitud identif
 **Eliminar** | Los solicitantes pueden cancelar su solicitud siempre y cuando no haya sido aun gestionada por un aprobador (***Revisada***, ***Rechazada*** o ***Aprobada***)
 **Cancelar** | Abortar cualquier modificaci&oacute;n realizada a los campos de la solicitud, no cambia el estado de la solicitud y se retorna a la pantalla del listado de solicitudes correspondiente. 
 **Rechazar** | Los aprobadores pueden rechazar una solicitud si esta no cumple con los requisitos administrativos correspondientes o en su defecto recibe una petici&oacute;n por parte de un soliictante que ha decidido eliminar la solicitud pero esta ya ha sido ***Revisada*** por un **Aprobador**. Este es un estado final y la solicitud no puede proseguir.
-**Aprobar** | Los aprobadores despu&eacute;s de revisar la solicitud deciden si la aprueban, ejecutada esta acci&oacute;n se activa el proceso de provisionamiento autom&aacute;tico, el avance del proceso puede ser seguido consultando el estado de una solicitud espec&iacute;fica via el listado de solicitudes correspondientes.
+**Aprobar** | Los aprobadores despu&eacute;s de revisar la solicitud deciden si la aprueban, ejecutada esta acci&oacute;n se activa el proceso de aprovisionamiento autom&aacute;tico, el avance del proceso puede ser seguido consultando el estado de una solicitud espec&iacute;fica via el listado de solicitudes correspondientes.
 **Retorno** | En diversas ocaciones y seg&uacute;n el perfil del usuario, es posible que no existan acciones espec&iacute;ficas que afecten el estado de la solicitud, es as&iacute; que la &uacute;nica opci&oacute;n posible se retornar a la pantalla anterior. 
 
 ## Visualizaci&oacute;n de la solicitud
 
 <img src="/static/img/butler_report_request.png">
 
-Esta vista permite visualizar el estado general de una solicitud incluyendo historial de estado, tambi&eacute;n muestra una estimaci&oacute;n del costo mensual aproximado a cargar por cada m&aacute;quina virtual provisionada, esta estimaci&oacute;n se hace en funci&oacute;n del tarifario vigente y considerando el provisionamiento de los recursos especificados en la solicitud por un periodo de treinta dias calendarios.
+Esta vista permite visualizar el estado general de una solicitud incluyendo historial de estado, tambi&eacute;n muestra una estimaci&oacute;n del costo mensual aproximado a cargar por cada m&aacute;quina virtual aprovisionada, esta estimaci&oacute;n se hace en funci&oacute;n del tarifario vigente y considerando el aprovisionamiento de los recursos especificados en la solicitud por un periodo de treinta dias calendarios.
 
 ## Matriz de Estados
 
-Una solicitud tiene un ciclo de vida que representa las diversas etapas que deben cumplirse en el proceso de solicitud de tal forma que todo este listo antes de activar el provisionamiento autom&aacute;tico de recursos:
+Una solicitud tiene un ciclo de vida que representa las diversas etapas que deben cumplirse en el proceso de solicitud de tal forma que todo este listo antes de activar el aprovisionamiento autom&aacute;tico de recursos:
 
 <img src="/static/img/request_states.png">
 
@@ -131,4 +131,4 @@ Estado         | Descripci&oacute;n |
 **Solicitada** | El solicitante ha completado las modificaciones a su solicitud y la somete a aprobaci&oacute;n. Una vez en este estado, la solicitud puede ser gestionada solo por el Aprobador quien puede modificarla (**Revisada**) , rechazarla o aprobarla.
 **Revisada**   | La solicitud ha sido modificada por el **Aprobador**, en t&eacute;rminos de recursos y distribuci&oacute;n para facturaci&oacute;n, estas revisiones pueden darse tantas veces como sea requerido, el solicitante no puede cancelar una solicitud una vez revisada o promovida a estados superiores (***Aprobada*** o ***Rechazada***)
 **Rechazada**  | La solitud ha sido rechazada por el aprobador, Este es un estado final.
-**Aprobada**   | La solicitud ha sido aprobada y queda en proceso de provisionamiento autom&aacute;tico, futuros estados son gestionados autom&aacute;ticamente por **EG Butler** hasta llegar a un estado final (***Completada*** o ***Error***)
+**Aprobada**   | La solicitud ha sido aprobada y queda en proceso de aprovisionamiento autom&aacute;tico, futuros estados son gestionados autom&aacute;ticamente por **EG Butler** hasta llegar a un estado final (***Completada*** o ***Error***)

@@ -675,7 +675,7 @@ def calculate_form(form,row,rox):
         logger.error(f"{this()}: called by {caller()} {str(e)}")
         emtec_handle_general_exception(e,logger=logger)
     logger.debug(f"{this()}: Exit")
-        
+
 def load_form(form,row,rox):
     logger.debug(f'{this()}: Enter. loading form from DB data ... called by {caller()}')
     try:
@@ -943,7 +943,7 @@ curl -X POST --header "Content-Type: application/json" --header "Accept: applica
   \"filter\": \"vm_name==MV0628020\"
 }" "https://10.26.1.227:9440/api/nutanix/v3/vms/list"
 '''
-
+'''
 def get_vm_by_name(app,vmname):
     host      = app.config['NUTANIX_HOST']
     port      = app.config['NUTANIX_PORT']
@@ -974,6 +974,6 @@ def get_vm_by_name(app,vmname):
             vms = data.get('entities')
     logger.warning(f'{this()}: vms = {vms}')
     return vms
-
+'''
 
 # EOF ******************************************************************

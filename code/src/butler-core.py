@@ -157,7 +157,7 @@ if __name__ == '__main__':
             #xecute_transactions(app=app,db=db,mail=mail)
             execute_transactions(app)
             wait_seconds = app.config.get('CORE_POOL_SECONDS',59)
-            logger.info('---------------------------------------------')
+            logger.info('----------------------------------------------------')
             logger.info(f'EG Butler CORE probe will wait for {wait_seconds} seconds ...')
             print      (f'EG Butler CORE probe will wait for {wait_seconds} seconds ...')
             time.sleep (wait_seconds)

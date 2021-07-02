@@ -200,7 +200,7 @@ def create_protection_domain(app,host=None,pdname=None,annotation=None,vmname=No
 # nota verificar si requiere algun parametro para la llamada por sitio
 # Ojo validar correo de David dice que debe ser hacia un Prism Element 
 def protect_vms(app,vmname,host,pdname,timeout=None):
-    logger.info(f'{this()}: IN Protect vms {vmname}')
+    logger.debug(f'{this()}: IN Protect vms {vmname}')
     
     success = False
     try:
@@ -430,7 +430,7 @@ def create_drp(
     logger.debug(f"{this()}: IN create DRP ...")
     success = False
     # Get cluster's hosts list
-    logger.info(f"{this()}: getting clusters's hosts ...")
+    logger.debug(f"{this()}: getting clusters's hosts ...")
     cluster_host_ip = None
     cluster_host_name = None
     cluster_hosts = get_hosts(app)
@@ -447,14 +447,14 @@ def create_drp(
     if cluster_host_ip is not None:
         # try to get remote cluster if not defined
         if remote_cluster is None:
-            logger.info(f"{this()}: getting remote cluster ...")
+            logger.debug(f"{this()}: getting remote cluster ...")
             sites = get_remote_sites(app,host=cluster_host_ip)
             if len(sites):
                 remote_cluster = sites[0]['name']
         if remote_cluster is not None:
             # Create protection domain -------------------------------------
-            logger.info(f"{this()}: remote_cluster: {remote_cluster}")
-            logger.info(f"{this()}: creating protection domain for vm '{vmname}' ...")
+            logger.debug(f"{this()}: remote_cluster: {remote_cluster}")
+            logger.debug(f"{this()}: creating protection domain for vm '{vmname}' ...")
             # if protection domain is None, then creates one and
             # initializes name, it wil lbe returned later
             if pdname is None:
@@ -470,11 +470,11 @@ def create_drp(
             if pdname is not None:
                 # got valid protection domain, will protect vms ------------
                 # create schedule
-                logger.info(f"{this()}: pdname = '{pdname}' ...")
-                logger.info(f"{this()}: protecting vm '{vmname}' in '{remote_cluster}:{pdname}' ...")
+                logger.debug(f"{this()}: pdname = '{pdname}' ...")
+                logger.debug(f"{this()}: protecting vm '{vmname}' in '{remote_cluster}:{pdname}' ...")
                 if protect_vms(app,vmname,cluster_host_ip,pdname,timeout=timeout):
                     # VM is protected, then schedule it --------------------
-                    logger.info(f"{this()}: creating schedule for '{remote_cluster}:{pdname}' ...")
+                    logger.debug(f"{this()}: creating schedule for '{remote_cluster}:{pdname}' ...")
                     logger.debug(f"{this()}: app = {app}")
                     logger.debug(f"{this()}: host = {host}")
                     logger.debug(f"{this()}: pdname = {pdname}")
@@ -989,7 +989,7 @@ def trx_upr_update_butler_projects(app):
                         except:
                             pass
                 else:
-                    logger.warning(f"{this()}: no project_reference available for uuid: {entity['metadata'].get('uuid')}")
+                    logger.info(f"{this()}: WARNING no project_reference available for uuid: {entity['metadata'].get('uuid')}")
             except Exception as e:
                 logger.error(f'{this()}: exception: {str(e)}')
                 logger.error(f"{this()}: entity['metadata']: {entity['metadata']}")
@@ -1536,7 +1536,7 @@ def trx_001_not_nutanix_pending(app):
                                 row.Requests.uuid        = data['metadata']['uuid']
                                 row.Requests.Status = turn_on(row.Requests.Status,NUTANIX_PENDING)
                                 row.Requests.Comments = '' if row.Requests.Comments is None else row.Requests.Comments
-                                row.Requests.Comments += f"Provisionando @ {strftime('%d/%m/%y %H:%M')}..."
+                                row.Requests.Comments += f"Aprovisionando @ {strftime('%d/%m/%y %H:%M')}..."
                                 row.Nutanix_Prism_VM.vm_uuid = data['metadata']['uuid']
                                 db.session.merge(row.Requests)
                                 db.session.merge(row.Nutanix_Prism_VM)
@@ -1547,7 +1547,7 @@ def trx_001_not_nutanix_pending(app):
                                 row.Requests.Task_status = 1
                                 row.Requests.Status = turn_on(row.Requests.Status,NUTANIX_COMPLETED)
                                 row.Requests.Comments = '' if row.Comments is None else row.Comments
-                                row.Requests.Comments += f"Provisionada @ {strftime('%d/%m/%y %H:%M')}."
+                                row.Requests.Comments += f"Aprovisionada @ {strftime('%d/%m/%y %H:%M')}."
                                 db.session.merge(row.Requests)
                                 db.session.commit()
                                 db.session.flush()
@@ -1594,7 +1594,7 @@ def trx_001_not_nutanix_pending(app):
 
 # Request is approved but CC is not populated in EG Collector ----------
 def trx_002_not_collector_pending(app):
-    logger.info(f'{this()}: IN Get Approved, seach in EG Collector and update CC ...')
+    logger.info(f'{this()}: IN Get Approved, search in EG Collector and update CC ...')
     # query for matching rows for transaction
     trx = TRX_EGB_NO_EGC_PENDING
     try:
@@ -1667,9 +1667,7 @@ def trx_002_not_collector_pending(app):
                         else:
                             logger.error(f'{this()}: response = {response}')
                     else:
-                        logger.warning(f"{this()}: CI '{data['CI_Name']}' not found in Collector.")
-                        logger.warning(f"{this()}: response = {response}.")
-                        logger.warning(f"{this()}: CI = {CI}.")
+                        logger.info(f"{this()}: WARNING CI '{data['CI_Name']}' not found in Collector.")
                 else:
                     logger.error(f"{this()}: no response from Collector ({url} {data}).")                    
             result   =  get_api_response(   code=BUTLER_CORE_TRX_OK,
@@ -1704,7 +1702,7 @@ def trx_003_nutanix_pending(app):
         rows = butler_trx_get(transaction=trx,session=db.session,logger=logger)
         # process result here
         if rows is not None and len(rows):
-            logger.info(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} requests found : ')
+            logger.info(f'{this()}: {BUTLER_TRANSACTIONS[trx]}: {len(rows)} requests found : ')
             for row in rows:
                 logger.debug(f"{this()}: Request = {row.Id}")
                 # Process row here
@@ -1737,13 +1735,13 @@ def trx_003_nutanix_pending(app):
                     if response.ok:
                         try:
                             data=response.json()
-                            logger.warning(f"data status = {data.get('status')}")
+                            logger.info(f"{this()}: Provissioning task status = {data.get('status')}")
                             if data['status'] == 'SUCCEEDED':
                                 row.Task_status = 1
                                 row.Status = turn_off(row.Status,NUTANIX_PENDING)
                                 row.Status = turn_on (row.Status,NUTANIX_COMPLETED)
                                 row.Comments = '' if row.Comments is None else row.Comments
-                                row.Comments += f"Provisionada @ {strftime('%d/%m/%y %H:%M')}."
+                                row.Comments += f"Aprovisionada @ {strftime('%d/%m/%y %H:%M')}."
                                 db.session.merge(row)
                                 db.session.commit()
                                 db.session.flush()
@@ -1759,7 +1757,7 @@ def trx_003_nutanix_pending(app):
                                         if Approver_email is None: Approver_email=(None,)
                                         # Setup required data
                                         
-                                        data = Get_data_context(app=app,db=db,mail=mail,Id=Id)
+                                        data = Get_data_context(app=app,db=db,mail=mail,Id=rox.Request_Id)
 
                                         data.update({
                                             'top_cost_center_code':app.config.get('BUTLER_TOP_COST_CENTER'),
@@ -1778,7 +1776,7 @@ def trx_003_nutanix_pending(app):
                                         To = app.config.get('BUTLER_SUPPORT_NOTIFICATION')
                                                                                 
                                         butler_notify_request(
-                                            subject_detail=f"Maquina Virtual PROVISIONADA",
+                                            subject_detail=f"Maquina Virtual APROVISIONADA",
                                             data=data,
                                             recipients=To.split(','),
                                             html_function=butler_output_request
@@ -1790,7 +1788,7 @@ def trx_003_nutanix_pending(app):
                                 # --------------------------------------
                             elif data['status'] == 'RUNNING':                            
                                 # Catches task working now ...
-                                logger.warning(f'{this()}: request {row.Id} still being Provissioned ...')
+                                logger.info(f'{this()}: request {row.Id} still being Provissioned ...')
                             else:
                                 logger.error(f"{this()}: response.ok status={data['status']}")
                                 row.Status = turn_on(row.Status,NUTANIX_ERROR)
@@ -1858,7 +1856,7 @@ def trx_004_nutanix_completed(app,timeout=None):
         rows = butler_trx_get(transaction=trx,session=db.session,logger=logger)
         # process result here
         if rows is not None and len(rows):
-            logger.warning(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found : ')
+            logger.info(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found : ')
             for row in rows:
                 # Process row here
                 # For transaction 004
@@ -1875,7 +1873,7 @@ def trx_004_nutanix_completed(app,timeout=None):
                 headers   = ''
                 data     = {}
                 # get Nutanix Response
-                logger.warning(f'{this()}: url = {url}')
+                logger.debug(f'{this()}: url = {url}')
                 
                 response = api_request(    
                                 'GET',
@@ -1931,7 +1929,7 @@ def trx_004_nutanix_completed(app,timeout=None):
                             
                             Protection_Complete   = has_status(row.Requests.Status,NUTANIX_PROTECTED)
                             Protection_Uncomplete = not Protection_Complete
-                            logger.warning(f"{this()}: Protection_Uncomplete = {Protection_Uncomplete}")
+                            logger.debug(f"{this()}: Protection_Uncomplete = {Protection_Uncomplete}")
                             #print         (f"{this()}: Protection_Uncomplete = {Protection_Uncomplete}")
                             # Check for Local Security copies
                             try:
@@ -2360,14 +2358,14 @@ def trx_007_all_completed(app):
         rows = butler_trx_get(transaction=trx,session=db.session,logger=logger,current=current)
         # process result here
         if rows is not None and len(rows):
-            logger.warning(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found : ')
+            logger.info(f'Transaction {BUTLER_TRANSACTIONS[trx]}: {len(rows)} rows found : ')
             for row in rows:
                 # Process row here
                 # For transaction 007   
                 # Check for full completion in order to finalize
                 # request life cycle
                 # 
-                logger.warning(f"row={row}")
+                logger.debug(f"row={row}")
                 row.Status    = turn_on(row.Status,REQUEST_COMPLETED)
                 row.Comments  = '' if row.Comments is None else row.Comments
                 row.Comments += f"Completa @ {strftime('%d/%m/%y %H:%M')}. Estado Final."
@@ -2463,7 +2461,7 @@ def execute_transactions(app,user=None):
             # send email
             for html_function in [html_provission,butler_output_request]:
                 butler_notify_request(
-                    subject_detail=f"Maquina Virtual PROVISIONADA TEST DEBUG",
+                    subject_detail=f"Maquina Virtual APROVISIONADA TEST DEBUG",
                     data=data,
                     recipients=To.split(','),
                     html_function=html_function
@@ -2525,5 +2523,5 @@ def execute_transactions(app,user=None):
         else:
             logger.info(f"{this()}: WARNING Transaction '{transaction.__name__}' is inactive.")
     for key in current:
-        logger.info(f"{this()}: {key} = {len(current[key])}")
+        logger.debug(f"{this()}: {key} = {len(current[key])}")
     logger.info(f"{this()}: Completed @ {time.strftime('%Y-%m-%d %H:%M:%S')}.")
