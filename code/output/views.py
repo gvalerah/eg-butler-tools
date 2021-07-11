@@ -138,7 +138,7 @@ def butler_about():
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_models_code.py:445 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/includes/models_py_imports.py
 from emtec.butler.db.flask_models import categories
@@ -175,15 +175,15 @@ from emtec.butler.forms import frm_User,frm_User_delete
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_categories.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:58.955680
+#  GLVH @ 2021-07-11 13:34:49.877891
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:40:58.955717
+# gen_views_form.html:AG 2021-07-11 13:34:49.877912
 @main.route('/forms/Categories', methods=['GET', 'POST'])
 @login_required
 
@@ -296,9 +296,9 @@ def forms_Categories():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:58.966393
+#  GLVH @ 2021-07-11 13:34:49.886762
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:40:58.966410
+# gen_views_delete.html:AG 2021-07-11 13:34:49.886777
 @main.route('/forms/Categories_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -364,10 +364,10 @@ def forms_Categories_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:58.986312
+#  GLVH @ 2021-07-11 13:34:49.904958
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:40:58.986329        
+# gen_views_select_query.html:AG 2021-07-11 13:34:49.904973        
 @main.route('/select/Categories_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -544,9 +544,9 @@ def select_Categories_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.021439
+#  GLVH @ 2021-07-11 13:34:49.935912
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:40:59.021466
+# gen_views_api.html:AG 2021-07-11 13:34:49.935928
 # table_name: Categories
 # class_name: categories
 # is shardened: False
@@ -789,15 +789,15 @@ def api_delete_Categories(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_clusters.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.134515
+#  GLVH @ 2021-07-11 13:34:50.029251
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:40:59.134532
+# gen_views_form.html:AG 2021-07-11 13:34:50.029270
 @main.route('/forms/Clusters', methods=['GET', 'POST'])
 @login_required
 
@@ -916,9 +916,9 @@ def forms_Clusters():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.144904
+#  GLVH @ 2021-07-11 13:34:50.038201
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:40:59.144930
+# gen_views_delete.html:AG 2021-07-11 13:34:50.038217
 @main.route('/forms/Clusters_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -984,10 +984,10 @@ def forms_Clusters_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.172995
+#  GLVH @ 2021-07-11 13:34:50.056021
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:40:59.173014        
+# gen_views_select_query.html:AG 2021-07-11 13:34:50.056037        
 @main.route('/select/Clusters_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1209,9 +1209,9 @@ def select_Clusters_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.223084
+#  GLVH @ 2021-07-11 13:34:50.091156
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:40:59.223103
+# gen_views_api.html:AG 2021-07-11 13:34:50.091189
 # table_name: Clusters
 # class_name: clusters
 # is shardened: False
@@ -1475,15 +1475,15 @@ def api_delete_Clusters(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_cost_centers.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.342658
+#  GLVH @ 2021-07-11 13:34:50.204293
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:40:59.342675
+# gen_views_form.html:AG 2021-07-11 13:34:50.204310
 @main.route('/forms/Cost_Centers', methods=['GET', 'POST'])
 @login_required
 
@@ -1601,9 +1601,9 @@ def forms_Cost_Centers():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.352995
+#  GLVH @ 2021-07-11 13:34:50.217134
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:40:59.353010
+# gen_views_delete.html:AG 2021-07-11 13:34:50.217155
 @main.route('/forms/Cost_Centers_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -1669,10 +1669,10 @@ def forms_Cost_Centers_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.387887
+#  GLVH @ 2021-07-11 13:34:50.238996
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:40:59.387910        
+# gen_views_select_query.html:AG 2021-07-11 13:34:50.239011        
 @main.route('/select/Cost_Centers_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1937,9 +1937,9 @@ def select_Cost_Centers_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.427053
+#  GLVH @ 2021-07-11 13:34:50.269853
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:40:59.427072
+# gen_views_api.html:AG 2021-07-11 13:34:50.269869
 # table_name: Cost_Centers
 # class_name: cost_centers
 # is shardened: True
@@ -2215,15 +2215,15 @@ def api_delete_Cost_Centers(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_disk_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.561852
+#  GLVH @ 2021-07-11 13:34:50.369991
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:40:59.561870
+# gen_views_form.html:AG 2021-07-11 13:34:50.370007
 @main.route('/forms/Disk_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -2341,9 +2341,9 @@ def forms_Disk_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.571613
+#  GLVH @ 2021-07-11 13:34:50.379221
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:40:59.571628
+# gen_views_delete.html:AG 2021-07-11 13:34:50.379280
 @main.route('/forms/Disk_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -2409,10 +2409,10 @@ def forms_Disk_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.593307
+#  GLVH @ 2021-07-11 13:34:50.399474
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:40:59.593325        
+# gen_views_select_query.html:AG 2021-07-11 13:34:50.399491        
 @main.route('/select/Disk_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -2694,9 +2694,9 @@ def select_Disk_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.637281
+#  GLVH @ 2021-07-11 13:34:50.430441
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:40:59.637298
+# gen_views_api.html:AG 2021-07-11 13:34:50.430458
 # table_name: Disk_Images
 # class_name: disk_images
 # is shardened: False
@@ -2988,15 +2988,15 @@ def api_delete_Disk_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_domains.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.756764
+#  GLVH @ 2021-07-11 13:34:50.532821
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:40:59.756785
+# gen_views_form.html:AG 2021-07-11 13:34:50.532836
 @main.route('/forms/Domains', methods=['GET', 'POST'])
 @login_required
 
@@ -3102,9 +3102,9 @@ def forms_Domains():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.767497
+#  GLVH @ 2021-07-11 13:34:50.541767
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:40:59.767514
+# gen_views_delete.html:AG 2021-07-11 13:34:50.541782
 @main.route('/forms/Domains_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3170,10 +3170,10 @@ def forms_Domains_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.787598
+#  GLVH @ 2021-07-11 13:34:50.559505
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:40:59.787615        
+# gen_views_select_query.html:AG 2021-07-11 13:34:50.559520        
 @main.route('/select/Domains_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -3365,9 +3365,9 @@ def select_Domains_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.834129
+#  GLVH @ 2021-07-11 13:34:50.589718
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:40:59.834148
+# gen_views_api.html:AG 2021-07-11 13:34:50.589733
 # table_name: Domains
 # class_name: domains
 # is shardened: False
@@ -3617,15 +3617,15 @@ def api_delete_Domains(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_interface.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.952428
+#  GLVH @ 2021-07-11 13:34:50.698296
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:40:59.952445
+# gen_views_form.html:AG 2021-07-11 13:34:50.698313
 @main.route('/forms/Interface', methods=['GET', 'POST'])
 @login_required
 
@@ -3740,9 +3740,9 @@ def forms_Interface():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.962499
+#  GLVH @ 2021-07-11 13:34:50.712167
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:40:59.962516
+# gen_views_delete.html:AG 2021-07-11 13:34:50.712210
 @main.route('/forms/Interface_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3808,10 +3808,10 @@ def forms_Interface_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:40:59.988286
+#  GLVH @ 2021-07-11 13:34:50.733984
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:40:59.988307        
+# gen_views_select_query.html:AG 2021-07-11 13:34:50.733999        
 @main.route('/select/Interface_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -4078,9 +4078,9 @@ def select_Interface_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.039571
+#  GLVH @ 2021-07-11 13:34:50.769799
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:00.039591
+# gen_views_api.html:AG 2021-07-11 13:34:50.769857
 # table_name: Interface
 # class_name: interface
 # is shardened: False
@@ -4363,15 +4363,15 @@ def api_delete_Interface(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_prism_vm.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.329084
+#  GLVH @ 2021-07-11 13:34:50.994095
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:00.329105
+# gen_views_form.html:AG 2021-07-11 13:34:50.994110
 @main.route('/forms/Nutanix_Prism_VM', methods=['GET', 'POST'])
 @login_required
 
@@ -4601,9 +4601,9 @@ def forms_Nutanix_Prism_VM():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.340804
+#  GLVH @ 2021-07-11 13:34:51.002679
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:00.340823
+# gen_views_delete.html:AG 2021-07-11 13:34:51.002692
 @main.route('/forms/Nutanix_Prism_VM_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -4671,10 +4671,10 @@ def forms_Nutanix_Prism_VM_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.361894
+#  GLVH @ 2021-07-11 13:34:51.020676
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:00.361912        
+# gen_views_select_query.html:AG 2021-07-11 13:34:51.020692        
 @main.route('/select/Nutanix_Prism_VM_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -5762,9 +5762,9 @@ def select_Nutanix_Prism_VM_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.397998
+#  GLVH @ 2021-07-11 13:34:51.053587
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:00.398016
+# gen_views_api.html:AG 2021-07-11 13:34:51.053649
 # table_name: Nutanix_Prism_VM
 # class_name: nutanix_prism_vm
 # is shardened: False
@@ -6420,15 +6420,15 @@ def api_delete_Nutanix_Prism_VM(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_vm_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.522579
+#  GLVH @ 2021-07-11 13:34:51.157259
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:00.522597
+# gen_views_form.html:AG 2021-07-11 13:34:51.157276
 @main.route('/forms/Nutanix_VM_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -6536,9 +6536,9 @@ def forms_Nutanix_VM_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.533481
+#  GLVH @ 2021-07-11 13:34:51.166385
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:00.533498
+# gen_views_delete.html:AG 2021-07-11 13:34:51.166402
 @main.route('/forms/Nutanix_VM_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -6604,10 +6604,10 @@ def forms_Nutanix_VM_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.554727
+#  GLVH @ 2021-07-11 13:34:51.183436
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:00.554744        
+# gen_views_select_query.html:AG 2021-07-11 13:34:51.183468        
 @main.route('/select/Nutanix_VM_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -6814,9 +6814,9 @@ def select_Nutanix_VM_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.590979
+#  GLVH @ 2021-07-11 13:34:51.215589
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:00.590998
+# gen_views_api.html:AG 2021-07-11 13:34:51.215606
 # table_name: Nutanix_VM_Images
 # class_name: nutanix_vm_images
 # is shardened: False
@@ -7073,15 +7073,15 @@ def api_delete_Nutanix_VM_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_projects.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.699246
+#  GLVH @ 2021-07-11 13:34:51.307083
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:00.699263
+# gen_views_form.html:AG 2021-07-11 13:34:51.307098
 @main.route('/forms/Projects', methods=['GET', 'POST'])
 @login_required
 
@@ -7196,9 +7196,9 @@ def forms_Projects():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.710057
+#  GLVH @ 2021-07-11 13:34:51.316933
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:00.710076
+# gen_views_delete.html:AG 2021-07-11 13:34:51.316966
 @main.route('/forms/Projects_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -7264,10 +7264,10 @@ def forms_Projects_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.730521
+#  GLVH @ 2021-07-11 13:34:51.335941
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:00.730555        
+# gen_views_select_query.html:AG 2021-07-11 13:34:51.335957        
 @main.route('/select/Projects_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -7459,9 +7459,9 @@ def select_Projects_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.766459
+#  GLVH @ 2021-07-11 13:34:51.367151
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:00.766478
+# gen_views_api.html:AG 2021-07-11 13:34:51.367167
 # table_name: Projects
 # class_name: projects
 # is shardened: False
@@ -7711,15 +7711,15 @@ def api_delete_Projects(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_rates.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.943576
+#  GLVH @ 2021-07-11 13:34:51.508194
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:00.943593
+# gen_views_form.html:AG 2021-07-11 13:34:51.508210
 @main.route('/forms/Rates', methods=['GET', 'POST'])
 @login_required
 
@@ -7845,9 +7845,9 @@ def forms_Rates():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.953871
+#  GLVH @ 2021-07-11 13:34:51.516867
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:00.953887
+# gen_views_delete.html:AG 2021-07-11 13:34:51.516947
 @main.route('/forms/Rates_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -7913,10 +7913,10 @@ def forms_Rates_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:00.974634
+#  GLVH @ 2021-07-11 13:34:51.534322
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:00.974663        
+# gen_views_select_query.html:AG 2021-07-11 13:34:51.534338        
 @main.route('/select/Rates_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -8241,9 +8241,9 @@ def select_Rates_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.009454
+#  GLVH @ 2021-07-11 13:34:51.574428
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:01.009473
+# gen_views_api.html:AG 2021-07-11 13:34:51.574455
 # table_name: Rates
 # class_name: rates
 # is shardened: True
@@ -8547,15 +8547,15 @@ def api_delete_Rates(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_requests.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.337790
+#  GLVH @ 2021-07-11 13:34:51.848304
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:01.337808
+# gen_views_form.html:AG 2021-07-11 13:34:51.848320
 @main.route('/forms/Requests', methods=['GET', 'POST'])
 @login_required
 
@@ -8693,9 +8693,9 @@ def forms_Requests():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.350728
+#  GLVH @ 2021-07-11 13:34:51.857640
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:01.350797
+# gen_views_delete.html:AG 2021-07-11 13:34:51.857655
 @main.route('/forms/Requests_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -8763,10 +8763,10 @@ def forms_Requests_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.372550
+#  GLVH @ 2021-07-11 13:34:51.875320
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:01.372568        
+# gen_views_select_query.html:AG 2021-07-11 13:34:51.875336        
 @main.route('/select/Requests_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9118,9 +9118,9 @@ def select_Requests_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.409470
+#  GLVH @ 2021-07-11 13:34:51.905863
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:01.409490
+# gen_views_api.html:AG 2021-07-11 13:34:51.905878
 # table_name: Requests
 # class_name: requests
 # is shardened: False
@@ -9438,15 +9438,15 @@ def api_delete_Requests(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_request_type.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.123710
+#  GLVH @ 2021-07-11 13:34:51.673807
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:01.123728
+# gen_views_form.html:AG 2021-07-11 13:34:51.673823
 @main.route('/forms/Request_Type', methods=['GET', 'POST'])
 @login_required
 
@@ -9561,9 +9561,9 @@ def forms_Request_Type():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.133767
+#  GLVH @ 2021-07-11 13:34:51.684119
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:01.133797
+# gen_views_delete.html:AG 2021-07-11 13:34:51.684154
 @main.route('/forms/Request_Type_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -9629,10 +9629,10 @@ def forms_Request_Type_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.153642
+#  GLVH @ 2021-07-11 13:34:51.703758
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:01.153659        
+# gen_views_select_query.html:AG 2021-07-11 13:34:51.703773        
 @main.route('/select/Request_Type_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9824,9 +9824,9 @@ def select_Request_Type_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.199103
+#  GLVH @ 2021-07-11 13:34:51.734550
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:01.199121
+# gen_views_api.html:AG 2021-07-11 13:34:51.734574
 # table_name: Request_Type
 # class_name: request_type
 # is shardened: False
@@ -10076,15 +10076,15 @@ def api_delete_Request_Type(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_roles.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.527580
+#  GLVH @ 2021-07-11 13:34:52.001526
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:01.527599
+# gen_views_form.html:AG 2021-07-11 13:34:52.001542
 @main.route('/forms/Roles', methods=['GET', 'POST'])
 @login_required
 
@@ -10201,9 +10201,9 @@ def forms_Roles():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.538227
+#  GLVH @ 2021-07-11 13:34:52.010312
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:01.538251
+# gen_views_delete.html:AG 2021-07-11 13:34:52.010328
 @main.route('/forms/Roles_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10269,10 +10269,10 @@ def forms_Roles_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.559415
+#  GLVH @ 2021-07-11 13:34:52.027581
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:01.559435        
+# gen_views_select_query.html:AG 2021-07-11 13:34:52.027608        
 @main.route('/select/Roles_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -10479,9 +10479,9 @@ def select_Roles_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.594064
+#  GLVH @ 2021-07-11 13:34:52.059964
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:01.594082
+# gen_views_api.html:AG 2021-07-11 13:34:52.059980
 # table_name: Roles
 # class_name: Role
 # is shardened: False
@@ -10738,15 +10738,15 @@ def api_delete_Roles(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_subnets.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.721469
+#  GLVH @ 2021-07-11 13:34:52.183907
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:01.721486
+# gen_views_form.html:AG 2021-07-11 13:34:52.183922
 @main.route('/forms/Subnets', methods=['GET', 'POST'])
 @login_required
 
@@ -10875,9 +10875,9 @@ def forms_Subnets():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.732096
+#  GLVH @ 2021-07-11 13:34:52.192179
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:01.732113
+# gen_views_delete.html:AG 2021-07-11 13:34:52.192192
 @main.route('/forms/Subnets_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10943,10 +10943,10 @@ def forms_Subnets_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.752139
+#  GLVH @ 2021-07-11 13:34:52.210476
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:01.752156        
+# gen_views_select_query.html:AG 2021-07-11 13:34:52.210492        
 @main.route('/select/Subnets_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -11243,9 +11243,9 @@ def select_Subnets_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.789079
+#  GLVH @ 2021-07-11 13:34:52.240651
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:01.789097
+# gen_views_api.html:AG 2021-07-11 13:34:52.240668
 # table_name: Subnets
 # class_name: subnets
 # is shardened: False
@@ -11544,15 +11544,15 @@ def api_delete_Subnets(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-07-01 16:40:58
+# GLVH @ 2021-07-11 13:34:49
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_users.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.922817
+#  GLVH @ 2021-07-11 13:34:52.372076
 # ======================================================================        
-# gen_views_form.html:AG 2021-07-01 16:41:01.922835
+# gen_views_form.html:AG 2021-07-11 13:34:52.372092
 @main.route('/forms/Users', methods=['GET', 'POST'])
 @login_required
 
@@ -11669,9 +11669,9 @@ def forms_Users():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.933352
+#  GLVH @ 2021-07-11 13:34:52.382210
 # ======================================================================        
-# gen_views_delete.html:AG 2021-07-01 16:41:01.933369
+# gen_views_delete.html:AG 2021-07-11 13:34:52.382226
 @main.route('/forms/Users_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -11739,10 +11739,10 @@ def forms_Users_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.954003
+#  GLVH @ 2021-07-11 13:34:52.400761
 # ======================================================================
 
-# gen_views_select_query.html:AG 2021-07-01 16:41:01.954020        
+# gen_views_select_query.html:AG 2021-07-11 13:34:52.400777        
 @main.route('/select/Users_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -12004,9 +12004,9 @@ def select_Users_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2021-07-01 16:41:01.989523
+#  GLVH @ 2021-07-11 13:34:52.435040
 # ======================================================================
-# gen_views_api.html:AG 2021-07-01 16:41:01.989541
+# gen_views_api.html:AG 2021-07-11 13:34:52.435057
 # table_name: Users
 # class_name: User
 # is shardened: False

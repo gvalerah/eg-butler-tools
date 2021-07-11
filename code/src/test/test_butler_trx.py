@@ -120,7 +120,8 @@ def test_nutanix_queries(host,port,username,password,protocol='https',timeout=5,
     
 if __name__ == '__main__':
     logging.basicConfig(format="%(asctime)s  %(name)s  %(levelname)s: %(message)s")
-    logger=check_logger()
+    #20210710 GV logger not checkd is mandatiry now: logger=check_logger()
+    logger=logging.getLogger()
     logger.setLevel(logging.INFO)
     #rint(f"logger={logger}")
     config = configparser.ConfigParser()

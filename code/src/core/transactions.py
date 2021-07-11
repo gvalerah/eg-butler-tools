@@ -14,6 +14,7 @@ import  os
 import  sys
 import  time
 import  datetime
+import  re
 from    sqlalchemy                  import desc
 from    pprint                      import pprint
 from    pprint                      import pformat
@@ -48,7 +49,7 @@ current={
 # nota verificar si requiere algun parametro para la llamada por sitio
 # Ojo validar correo de David dice que debe ser hacia un Prism Element 
 def get_hosts(app,timeout=None):
-    logger = check_logger()
+    #20210710 GV logger not checkd is mandatiry now: logger = check_logger()
     logger.debug(f'{this()}: IN Get list of Nutanix hosts ...')
     
     hosts = None
@@ -795,12 +796,13 @@ def trx_uim_update_butler_images(app):
     result   = get_api_response(    code=BUTLER_CORE_TRX_ERROR,
                                     message=f'NO TRX RESPONSE')
     
-    host     = app.config.get('NUTANIX_HOST')
-    port     = app.config.get('NUTANIX_PORT')
-    username = app.config.get('NUTANIX_USERNAME')
-    password = app.config.get('NUTANIX_PASSWORD')
-    protocol = app.config.get('NUTANIX_PROTOCOL')
-    timeout  = app.config.get('NUTANIX_TIMEOUT',5)
+    host       = app.config.get('NUTANIX_HOST')
+    port       = app.config.get('NUTANIX_PORT')
+    username   = app.config.get('NUTANIX_USERNAME')
+    password   = app.config.get('NUTANIX_PASSWORD')
+    protocol   = app.config.get('NUTANIX_PROTOCOL')
+    timeout    = app.config.get('NUTANIX_TIMEOUT',5)
+    image_name = app.config.get('NUTANIX_IMAGE_NAME',None)
     endpoint = 'api/nutanix/v3/clusters/list'
     arguments=''
     
@@ -853,14 +855,27 @@ def trx_uim_update_butler_images(app):
                         new_disk_images = 0
                         for entity in response.json()['entities']:
                             if 'image_type' in entity and entity['image_type'] == 'DISK_IMAGE' and entity['image_state']=='ACTIVE':
-                                row=Nutanix_VM_Images()
-                                row.imageservice_uuid_diskclone=entity['uuid']
-                                row.description=entity['name']
-                                row.size_mib=entity['vm_disk_size']/(1024*1024)
-                                rows.append(row)
-                                new_disk_images += 1
-                                logger.trace(f'{this()}: Image: {row.description}')
-                        logger.debug(f'{this()}: {new_disk_images} new disk images found in {cluster_ip}')
+                                # 20210707 optional Pattern matching filter included
+                                load = True
+                                logger.debug(f"{this()}: image_name={image_name} load={load} {entity['name']}")
+                                if image_name is not None:
+                                    logger.debug(f'{this()}: image name pattern requested: {image_name}')
+                                    if re.match(image_name, entity['name']) is None:
+                                        logger.debug(f"{this()}: image name pattern not matched: {image_name} vs {entity['name']}")
+                                        load = False
+                                    else:
+                                        logger.debug(f"{this()}: image name pattern MATCH !!!!!: {image_name} vs {entity['name']}")
+                                        
+                                logger.debug(f"{this()}: image_name={image_name} load={load} {entity['name']}")
+                                if load:                                
+                                    row=Nutanix_VM_Images()
+                                    row.imageservice_uuid_diskclone=entity['uuid']
+                                    row.description=entity['name']
+                                    row.size_mib=entity['vm_disk_size']/(1024*1024)
+                                    rows.append(row)
+                                    new_disk_images += 1
+                                    logger.trace(f'{this()}: Image: {row.description}')
+                        logger.info(f'{this()}: {new_disk_images} matching disk images found in {cluster_ip}')
 
             # rows contains all VM Images from Nutanix
             # only these image uuids should remain in butler

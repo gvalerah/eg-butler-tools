@@ -256,6 +256,7 @@ if __name__ == '__main__':
             'bind': '%s:%s' % (gunicorn_host, gunicorn_port),
             'workers': number_of_workers(max_workers),
             'worker_class':"gunicorn.workers.sync.SyncWorker",
+            'timeout':300
         }
         print(f" * Running {app} in Green Unicorn powered mode ( {options['bind']} {options['workers']} workers) ")
         logger.debug("Application CPUs   = %s" % multiprocessing.cpu_count())

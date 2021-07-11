@@ -6,6 +6,7 @@ from emtec.debug                        import *
 from emtec.butler.db.flask_models       import User
 from .forms                             import LoginForm
 from .forms                             import ChangePasswordForm
+from .forms                             import ResetPasswordForm
 from .forms                             import ChangeEmailForm
 from .forms                             import RegistrationForm
 
@@ -13,11 +14,15 @@ from ..                                 import db
 
 # Authorization sub-system
 from ..decorators                       import admin_required, permission_required
-from flask_login                        import logout_user, login_required
+
+from flask_login                        import login_user
+from flask_login                        import logout_user
+from flask_login                        import login_required
+from flask_login                        import current_user
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    logger=check_logger()
+    #20210710 GV logger not checkd is mandatiry now: logger=check_logger()
     try:
         logger.debug("auth.login login in course ...")
     except:
@@ -47,7 +52,6 @@ def login():
     logger.debug("auth.login 5 will render template auth/login.html ...")
     return render_template('auth/login.html', form=form)
     
-
 @auth.route('/logout')
 @login_required
 def logout():
@@ -61,13 +65,11 @@ def logout():
 @login_required
 @admin_required
 def register():
-    logger=check_logger()
+    #20210710 GV logger not checkd is mandatiry now: logger=check_logger()
     form = RegistrationForm()
+    db.session.flush()
+    db.session.commit()
     if form.validate_on_submit():
-        #user = User(email=form.email.data,
-        #username=form.username.data,
-        
-        #print("******** role_id = %s *** type=%s ********"%(form.role_id.data,type(form.role_id.data)))
         logger.debug(f"form.username.data = {form.username.data}")
         logger.debug(f"form.role_id.data  = {form.role_id.data}")
         logger.debug(f"form.email.data    = {form.email.data}")
@@ -77,15 +79,15 @@ def register():
             role_id=form.role_id.data,
             email=form.email.data,
             password=form.password.data)
+        flash('Register')
         try:
             logger.debug("Trying to register user: '%s'"%user)
-            # 20210614 GV Patch to force role assignment at once
             user.role_id=form.role_id.data
             logger.debug("Trying to register user: '%s'"%user)
             db.session.close()
             db.session.add(user)
+            db.session.flush()
             db.session.commit()
-            db.session.close()
             logger.debug('New user "%s" can login now.'%form.username.data)
             flash('New user "%s" can login now.'%form.username.data)
             return redirect(url_for('main.index'))
@@ -98,20 +100,36 @@ def register():
             
     return render_template('auth/register.html', form=form)
     
-  
 @auth.route('/change-password', methods=['GET', 'POST'])
 @login_required
 def change_password():
-    form = ChangePasswordForm()
+    # 20210609 cambio 
+    db.session.flush()
+    db.session.commit()
+    if current_user.role_id in (4,6):
+        form = ResetPasswordForm()
+    else:
+        form = ChangePasswordForm()
+        username = current_user.username
     if form.validate_on_submit():
+        flash('Change Password')
         if current_user.verify_password(form.old_password.data):
-            current_user.password = form.password.data
-            db.session.add(current_user)
-            flash('Your password has been updated.')
+            if hasattr(form,'username'):
+                user = db.session.query(User).filter(User.username==form.username.data).first()
+            else:
+                user = current_user
+            user.password = form.password.data
+            db.session.merge(user)
+            db.session.flush()
+            db.session.commit()
+            if user.username == current_user.username:
+                flash('Your password has been updated.')
+            else:
+                flash(f"'{user.username}' password has been updated.")
             return redirect(url_for('main.index'))
         else:
             flash('Invalid password.')
-    return render_template("auth/change_password.html", form=form)
+    return render_template("auth/change_password.html", form=form,user=current_user)
 
 @auth.route('/change-email', methods=['GET', 'POST'])
 @login_required
