@@ -83,7 +83,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'BUTLER_CONFIG_FILE':           config_file})
     app.config.update({'BUTLER_MAIL_SUBJECT_PREFIX':   config_ini.get       ('General','BUTLER_MAIL_SUBJECT_PREFIX',fallback='[EG Butler]')})
     #pp.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin <gvalera@emtecgroup.net>')})
-    app.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin <gerardovalera@hotmail.com>')})
+    app.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin')})
     app.config.update({'BUTLER_ADMIN':                 config_ini.get       ('General','BUTLER_ADMIN',fallback='butler')})
     app.config.update({'BUTLER_CIT_SHARDING':          config_ini.getboolean('General','BUTLER_CIT_SHARDING',fallback=False)})
     app.config.update({'BUTLER_TOP_COST_CENTER':       config_ini.get       ('General','BUTLER_TOP_COST_CENTER',fallback='BUTLER')})

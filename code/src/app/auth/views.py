@@ -10,7 +10,7 @@ from .forms                             import ResetPasswordForm
 from .forms                             import ChangeEmailForm
 from .forms                             import RegistrationForm
 
-from ..                                 import db
+from ..                                 import db,logger
 
 # Authorization sub-system
 from ..decorators                       import admin_required, permission_required

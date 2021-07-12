@@ -359,7 +359,7 @@ def forms_Request():
     # Javascript/JQuery scripts array initialization -------------------
     scripts = []
     for template in Script_Templates:
-        logger.debug(f"rendering template={template} ...")
+        logger.trace(f"rendering template={template} ...")
         script = jinja2.Template(template
                         ).render(
                             subnet_options     = data.get('subnet_options'),

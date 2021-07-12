@@ -944,9 +944,127 @@ def trx_uim_update_butler_images(app):
             logger=logger,level=logging.DEBUG,length=tracebox_log_length)
     return result
 
+# Update SubNets from Nutanix Prism Central Projects -------------------
+def trx_usn_update_butler_subnets(app):
+    logger.debug(f'{this()}: IN Get Nutanix Subnets ...')
+    result   = get_api_response(    code=BUTLER_CORE_TRX_ERROR,
+                                    message=f'NO TRX RESPONSE')
+    
+    host     = app.config.get('NUTANIX_HOST')
+    port     = app.config.get('NUTANIX_PORT')
+    username = app.config.get('NUTANIX_USERNAME')
+    password = app.config.get('NUTANIX_PASSWORD')
+    protocol = app.config.get('NUTANIX_PROTOCOL')
+    timeout  = app.config.get('NUTANIX_TIMEOUT',5)
+    endpoint = 'api/nutanix/v3/subnets/list'
+    arguments=''
+    
+    headers  = {'Content-Type': 'application/json'}
+    data     = {'kind': 'subnet','length':1000}
+    url      = f'{protocol}://{host}:{port}/{endpoint}{arguments}'
+
+    logger.debug(f'{this()}: user = {username}')
+    logger.debug(f'{this()}: url  = {url}')
+
+    subnets = api_request('POST',
+                    url,
+                    data=json.dumps(data),
+                    headers=headers,
+                    username=username,
+                    password=password,
+                    timeout=timeout,
+                    logger   = logger
+                    )        
+
+    if subnets is not None:
+        rows=[]
+        if subnets.status_code == 200:
+            # Actual process of result here
+            data = subnets.json()
+            logger.debug(f"{this()}: Subnets = {len(data['entities'])}")
+            for entity in data['entities']:
+                logger.trace(pformat(entity))
+                try:
+                    row=Subnets()
+                    row.uuid         = entity['metadata']['uuid']
+                    row.name         = entity['spec']['name']
+                    try:
+                        row.vlan_id      = entity['spec']['resources']['vlan_id']
+                        row.vswitch_name = entity['spec']['resources']['vswitch_name']
+                        row.type         = entity['spec']['resources']['subnet_type']
+                        if entity.get('spec').get('resources').get('ip_config') is not None:
+                            row.default_gateway_ip = entity['spec']['resources']['ip_config']['default_gateway_ip']
+                            row.range              = entity['spec']['resources']['ip_config']['pool_list'][0]['range']
+                            row.prefix_length      = entity['spec']['resources']['ip_config']['prefix_length']
+                            row.subnet_ip          = entity['spec']['resources']['ip_config']['subnet_ip']
+                        else:
+                            logger.info(f"{this()}: WARNING Incomplete Subnet '{row.name}' no IP configuration.")
+                        row.cluster      = entity['spec']['cluster_reference']['uuid']
+                    except Exception as e:
+                        logger.warning(f"{this}: subnet {name} exception: {str(e)}")
+                    rows.append(row)
+                    logger.debug(f'{this()}: Subnet: {row.name}')
+                except Exception as e:
+                    logger.error(f'{this()}: Incomplete Subnet {row.name} exception: {str(e)}')
+
+            # rows contains all Subnets from Nutanix
+            # only these projects should remain in butler
+            try:
+                keep=[]
+                for row in rows:
+                    db.session.merge(row)
+                    keep.append(row.uuid)
+                db.session.commit()
+                db.session.flush()
+                logger.debug(f"{this()}: Got: {len(rows)} Complete Subnets.")
+                if len(rows):
+                    current['subnets']=rows
+                    # delete obsolete codes
+                    rows_to_delete = db.session.query(Subnets
+                        ).filter(Subnets.uuid.notin_(keep)
+                        ).all()
+                    logger.debug(f'{this()}: Subnets to delete = {len(rows_to_delete)}')
+                    for row in rows_to_delete:
+                        db.session.delete(row)
+                    db.session.commit()
+                    db.session.flush()
+            except Exception as e:
+                db.session.rollback()
+                tracebox_log(f'{this()}: exception = {str(e)}',
+                    logger = logger,
+                    level  = logging.ERROR,
+                    length = tracebox_log_length
+                    )
+
+        # Prepare API Response
+        result = get_api_response(
+            # status arguments
+            state = 'OK',
+            code = 0,
+            message = f"{this()}: Got: {len(rows)} Subnets.",
+            execution_context = None,
+            # metadata
+            total_matches = len(rows),
+            kind = 'subnets',
+            length = len(rows),
+            offset = 0,
+            )
+    else:
+        result = get_api_response(
+            # status arguments
+            state = 'ERROR',
+            code = 1,
+            message = f'{this()}: No Subnets found.',
+            execution_context = None,
+        )
+    logger.debug(f'{this()}: OUT')
+    tracebox_log(f'{this()}: {str(result)}',
+            logger=logger,level=logging.DEBUG,length=tracebox_log_length)
+    return result
+
 # Update PRojects from Nutanix Prism Central ---------------------------
 def trx_upr_update_butler_projects(app):
-    logger.debug(f'{this()}: IN Get Nutanix Projects ...')
+    logger.warning(f'{this()}: IN Get Nutanix Projects ...')
     result   = get_api_response(    code=BUTLER_CORE_TRX_ERROR,
                                     message=f'NO TRX RESPONSE')
     
@@ -974,16 +1092,23 @@ def trx_upr_update_butler_projects(app):
                     password=password,
                     timeout=timeout,
                     logger   = logger
-                    )        
+                    )     
+    i=0
+    for s in current['subnets']:
+        i+=1
+        logger.warning(f"{this()}: {i:2d} {s.uuid} {s.name}")
     
     if projects is not None:
         data = projects.json()
         rows=[]
         # Actual process of result here
-        for entity in projects.json()['entities']:
+        entities=projects.json()['entities']
+        logger.warning(f"{this()}: {len(entities)} projects found to process")
+        for entity in entities:
+            logger.warning(f"{this()}: project: '{entity['spec']['name']}' ({entity['status']['state']})")
             try:
                 if entity['metadata'].get('project_reference') is not None:
-                    if entity['metadata']['project_reference']['name'] != 'DEFAULT':
+                    if entity['metadata']['project_reference']['name'] not in ['DEFAULT','default']:
                         try:
                             row=Projects()
                             row.project_uuid    = entity['metadata']['project_reference']['uuid']
@@ -991,18 +1116,25 @@ def trx_upr_update_butler_projects(app):
                             # This code is intented to capture project's subnets specifications
                             subnets = []
                             try:
+                                logger.warning(f"{this()}: '{row.project_name}' has {len(entity['spec']['resources']['subnet_reference_list'])} subnets of {len(current['subnets'])} current ...")
                                 for subnet in entity['spec']['resources']['subnet_reference_list']:
+                                    found = False
                                     for s in current['subnets']:
                                         if s.uuid == subnet['uuid']:
-                                            subnets.append(f"{s.uuid}:{s.name}")
+                                            found = True
+                                            break
+                                    if found:
+                                        subnets.append(f"{s.uuid}:{s.name}")
+                                        logger.debug(f"{this()}: subnet {s.uuid}:{s.name} FOUND in current subnets.")
+                                    else:
+                                        logger.warning(f"{this()}: subnet {subnet.get('uuid')} @ {row.project_name} not found in current subnets.")
                             except Exception as e:
-                                logger.debug(f"{this()}: Getting Project's Subnets exception: {str(e)}")
+                                logger.error(f"{this()}: Getting Project's Subnets exception: {str(e)}")
                             row.project_subnets = ','.join(subnets)
-                            logger.debug(f'{this()}: Project: {row.project_name}')
-                            logger.debug(f'{this()}: Project Subnets: {len(subnets)} {row.project_subnets}')
+                            logger.warning(f'{this()}: Project: {row.project_name} Subnets: {len(subnets)}\n{pformat(subnets)}')
                             rows.append(row)
-                        except:
-                            pass
+                        except Exception as e:
+                            logger.warning(f"{this()}: {entity['metadata']['project_reference']['name']} project exception: {str(e)}")
                 else:
                     logger.info(f"{this()}: WARNING no project_reference available for uuid: {entity['metadata'].get('uuid')}")
             except Exception as e:
@@ -1013,6 +1145,7 @@ def trx_upr_update_butler_projects(app):
         # only these projects should remain in butler
         try:
             keep=[]
+            logger.warning(f"{this()}: {len(rows)} projects to update/keep")
             for row in rows:
                 db.session.merge(row)
                 keep.append(row.project_uuid)
@@ -1026,7 +1159,7 @@ def trx_upr_update_butler_projects(app):
                 rows_to_delete = db.session.query(Projects
                     ).filter(Projects.project_uuid.notin_(keep)
                     ).all()
-                logger.debug(f'{this()}: Projects to delete = {len(rows_to_delete)}')
+                logger.warning(f'{this()}: Projects to delete = {len(rows_to_delete)}')
                 for row in rows_to_delete:
                     db.session.delete(row)
                 db.session.commit()
@@ -1048,7 +1181,7 @@ def trx_upr_update_butler_projects(app):
             execution_context = None,
             # metadata
             total_matches = len(rows),
-            kind = 'disk image',
+            kind = 'projects',
             length = len(rows),
             offset = 0,
             )
@@ -1062,7 +1195,7 @@ def trx_upr_update_butler_projects(app):
         )
     logger.debug(f'{this()}: OUT')
     tracebox_log(f'{this()}: {str(result)}',
-            logger=logger,level=logging.DEBUG,length=tracebox_log_length)
+            logger=logger,level=logging.WARNING,length=tracebox_log_length)
     return result
 
 # Update CAtegories from Nutanix Prism Central -------------------------
@@ -1166,121 +1299,6 @@ def trx_uca_update_butler_categories(app):
             state = 'ERROR',
             code = 1,
             message = f'{this()}: No Categories found.',
-            execution_context = None,
-        )
-    logger.debug(f'{this()}: OUT')
-    tracebox_log(f'{this()}: {str(result)}',
-            logger=logger,level=logging.DEBUG,length=tracebox_log_length)
-    return result
-
-# Update SubNets from Nutanix Prism Central Projects -------------------
-def trx_usn_update_butler_subnets(app):
-    logger.debug(f'{this()}: IN Get Nutanix Subnets ...')
-    result   = get_api_response(    code=BUTLER_CORE_TRX_ERROR,
-                                    message=f'NO TRX RESPONSE')
-    
-    host     = app.config.get('NUTANIX_HOST')
-    port     = app.config.get('NUTANIX_PORT')
-    username = app.config.get('NUTANIX_USERNAME')
-    password = app.config.get('NUTANIX_PASSWORD')
-    protocol = app.config.get('NUTANIX_PROTOCOL')
-    timeout  = app.config.get('NUTANIX_TIMEOUT',5)
-    endpoint = 'api/nutanix/v3/subnets/list'
-    arguments=''
-    
-    headers  = {'Content-Type': 'application/json'}
-    data     = {'kind': 'subnet'}
-    url      = f'{protocol}://{host}:{port}/{endpoint}{arguments}'
-
-    logger.debug(f'{this()}: user = {username}')
-    logger.debug(f'{this()}: url  = {url}')
-
-    subnets = api_request('POST',
-                    url,
-                    data=json.dumps(data),
-                    headers=headers,
-                    username=username,
-                    password=password,
-                    timeout=timeout,
-                    logger   = logger
-                    )        
-
-    if subnets is not None:
-        rows=[]
-        if subnets.status_code == 200:
-            # Actual process of result here
-            data = subnets.json()
-            logger.debug(f"{this()}: Subnets = {len(data['entities'])}")
-            for entity in data['entities']:
-                logger.trace(pformat(entity))
-                try:
-                    row=Subnets()
-                    row.uuid         = entity['metadata']['uuid']
-                    row.name         = entity['spec']['name']
-                    row.vlan_id      = entity['spec']['resources']['vlan_id']
-                    row.vswitch_name = entity['spec']['resources']['vswitch_name']
-                    row.type         = entity['spec']['resources']['subnet_type']
-                    if entity.get('spec').get('resources').get('ip_config') is not None:
-                        row.default_gateway_ip = entity['spec']['resources']['ip_config']['default_gateway_ip']
-                        row.range              = entity['spec']['resources']['ip_config']['pool_list'][0]['range']
-                        row.prefix_length      = entity['spec']['resources']['ip_config']['prefix_length']
-                        row.subnet_ip          = entity['spec']['resources']['ip_config']['subnet_ip']
-                    else:
-                        logger.info(f"{this()}: WARNING Incomplete Subnet '{row.name}' no IP configuration.")
-                    row.cluster      = entity['spec']['cluster_reference']['uuid']
-                    rows.append(row)
-                    logger.debug(f'{this()}: Subnet: {row.name}')
-                except Exception as e:
-                    logger.error(f'{this()}: Incomplete Subnet {row.name} exception: {str(e)}')
-
-            # rows contains all Subnets from Nutanix
-            # only these projects should remain in butler
-            try:
-                keep=[]
-                for row in rows:
-                    db.session.merge(row)
-                    keep.append(row.uuid)
-                db.session.commit()
-                db.session.flush()
-                logger.debug(f"{this()}: Got: {len(rows)} Complete Subnets.")
-                if len(rows):
-                    current['subnets']=rows
-                    # delete obsolete codes
-                    rows_to_delete = db.session.query(Subnets
-                        ).filter(Subnets.uuid.notin_(keep)
-                        ).all()
-                    logger.debug(f'{this()}: Subnets to delete = {len(rows_to_delete)}')
-                    for row in rows_to_delete:
-                        db.session.delete(row)
-                    db.session.commit()
-                    db.session.flush()
-            except Exception as e:
-                db.session.rollback()
-                tracebox_log(f'{this()}: exception = {str(e)}',
-                    logger = logger,
-                    level  = logging.ERROR,
-                    length = tracebox_log_length
-                    )
-
-        # Prepare API Response
-        result = get_api_response(
-            # status arguments
-            state = 'OK',
-            code = 0,
-            message = f"{this()}: Got: {len(rows)} Subnets.",
-            execution_context = None,
-            # metadata
-            total_matches = len(rows),
-            kind = 'disk image',
-            length = len(rows),
-            offset = 0,
-            )
-    else:
-        result = get_api_response(
-            # status arguments
-            state = 'ERROR',
-            code = 1,
-            message = f'{this()}: No Subnets found.',
             execution_context = None,
         )
     logger.debug(f'{this()}: OUT')
