@@ -406,7 +406,10 @@ def forms_Request():
     form.vmDepartment.choices = vmDepartment_choices
     form.vmCC.choices         = vmCC_choices
     form.vmType.choices       = vmType_choices
-    form.vmCluster.choices    = data.get('clusters')
+    # load uuid and name only
+    form.vmCluster.choices = []
+    for cluster in data.get('clusters'):
+        form.vmCluster.choices.append((cluster[0],cluster[1]))
     form.vmProject.choices    = data.get('projects')
     form.vmCategory.choices   = data.get('categories')
     

@@ -212,7 +212,7 @@ def get_cluster_list():
     clusters =  db.session.query(Clusters).all()
     for cluster in clusters:
         if cluster.cluster_uuid not in ['','0',None]:
-            cluster_list.append((cluster.cluster_uuid,cluster.cluster_name))
+            cluster_list.append((cluster.cluster_uuid,cluster.cluster_name,cluster.cluster_ip))
     logger.trace(f"{this()}: {pformat(cluster_list)}")
     return cluster_list
 

@@ -49,7 +49,7 @@ current={
 # nota verificar si requiere algun parametro para la llamada por sitio
 # Ojo validar correo de David dice que debe ser hacia un Prism Element 
 def get_hosts(app,timeout=None):
-    #20210710 GV logger not checkd is mandatiry now: logger = check_logger()
+    #20210710 GV logger not checked is mandatory now: logger = check_logger()
     logger.debug(f'{this()}: IN Get list of Nutanix hosts ...')
     
     hosts = None
@@ -80,10 +80,42 @@ def get_hosts(app,timeout=None):
     logger.debug(f'{this()}: OUT')
     return hosts
 
+def get_cluster_hosts(app,**kwargs):
+    host     = kwargs.get('host'    ,app.config.get('NUTANIX_HOST'))
+    port     = kwargs.get('port'    ,app.config.get('NUTANIX_PORT'))
+    username = kwargs.get('username',app.config.get('NUTANIX_USERNAME'))
+    password = kwargs.get('password',app.config.get('NUTANIX_PASSWORD'))
+    protocol = kwargs.get('protocol',app.config.get('NUTANIX_PROTOCOL'))
+    timeout  = kwargs.get('timeout' ,None)
+    logger.debug(f'{this()}: IN Get list of Nutanix hosts ...')
+    logger.debug(f'{this()}: {protocol}://{username}:{password}@{host}:{port} ({timeout}) IN Get list of Nutanix Clusters hosts ...')
+    hosts = None
+    try:
+        hosts   = prism_element_get_hosts(
+                        host     = host,
+                        port     = port,
+                        username = username,
+                        password = password,
+                        protocol = protocol,
+                        timeout  = timeout,
+                        logger   = logger
+                        )
+    except Exception as e:
+        tracebox_log(
+            f'{this()}: EXCEPTION: {str(e)}',
+            logger = logger,
+            level  = logging.ERROR
+            )
+        
+    logger.trace(f"{this()}: hosts: {hosts}")
+    logger.debug(f'{this()}: OUT')
+    return hosts
+
+
 # Get list of remote sites
 # nota verificar si requiere algun parametro para la llamada por sitio
 # Ojo validar correo de David dice que debe ser hacia un Prism Element 
-def get_remote_sites(app,host=None,timeout=None):
+def get_remote_sites_old(app,host=None,timeout=None):
     logger.debug(f'{this()}: IN Get list of Nutanix remote sites ...')
     remote_sites = None
     try:
@@ -95,6 +127,36 @@ def get_remote_sites(app,host=None,timeout=None):
         protocol  = app.config.get('NUTANIX_PROTOCOL')
         # 20210509 GV refactoring to move code to library
         remote_sites = prism_central_get_remote_sites(
+                            host,
+                            port,
+                            username,
+                            password,
+                            protocol,
+                            timeout=timeout,
+                            logger=logger
+                            )
+    except Exception as e:
+        tracebox_log(
+            f'{this()}: {str(e)}',
+            logger = logger,
+            level  = logging.ERROR,
+            length = tracebox_log_length
+            )
+        
+    logger.debug(f"{this()}: OUT remote_sites: {remote_sites}")
+    return remote_sites
+    
+def get_remote_sites(app,**kwargs):
+    host     = kwargs.get('host'    ,app.config.get('NUTANIX_HOST'))
+    port     = kwargs.get('port'    ,app.config.get('NUTANIX_PORT'))
+    username = kwargs.get('username',app.config.get('NUTANIX_USERNAME'))
+    password = kwargs.get('password',app.config.get('NUTANIX_PASSWORD'))
+    protocol = kwargs.get('protocol',app.config.get('NUTANIX_PROTOCOL'))
+    timeout  = kwargs.get('timeout' ,None)
+    logger.debug(f"{this()}: IN Get list of Nutanix Cluster {host} remote sites ...")
+    remote_sites = None
+    try:
+        remote_sites = prism_element_get_remote_sites(
                             host,
                             port,
                             username,
@@ -392,7 +454,7 @@ def create_schedule(
     return created
 
 # Atomic transaction for VM DRP creation in one call 
-def create_drp(
+def create_drp_old(
         app,
         vmname,
         pdname                   = None,
@@ -514,6 +576,141 @@ def create_drp(
         logger.error(f"{this()}: No valid Nutanix host found in cluster.")
     logger.debug(f'{this()}: OUT success = {success} pdname = {pdname}')
     return success,pdname
+
+def create_drp(
+        app,
+        vmname,
+        pdname                   = None,
+        annotation               = None,
+        cluster                  = None,
+        remote_cluster           = None,
+        schedule_type            = 'HOURLY',
+        user_start_time_in_usecs = None,
+        every_nth                = 1,
+        local_max_snapshots      = 4,
+        remote_max_snapshots     = 4,
+        timeout                  = None
+        ):
+    ''' Create VM DRP replication in one call
+    
+    Arguments                | Description
+    ---------                | -----------
+    app                      | Requires a Flask Application object 
+                             | containing proper environment 
+                             | configuration (config NUTANIX* keys)
+    vmname                   | VM name
+    pdname                   | Protection domain name, 
+                             | defaults to PD-<vmname>
+    annotation               | Protection domain comment
+    remote_cluster           | Remote Cluster name
+    schedule_type            | Type of snapshot: SECONDLY,MINUTELY,
+                             | HOURLY,DAILY,WEEKLY,MONTHLY, 
+                             | defaults to "HOURLY"
+    user_start_time_in_usecs | Snapshot start timestamp in microseconds
+    every_nth                | snapshot interval, defaults to:
+                             | 300 for SECONDLY, 30 for MINUTELY,
+                             | 6 for HOURLY, 1 for DAILY,WEEKLY,MONTHLY
+    local_max_snapshots      | Max local snapshot retention. default 4
+    remote_max_snapshots     | Max remote snapshot retention. default 4
+    timeout                  | connection/response timeout seconds
+    '''
+    logger.debug(f"{this()}: IN create DRP ...")
+    success = False
+    # Get cluster's hosts list
+    logger.debug(f"{this()}: getting clusters's hosts ...")
+    cluster_host_ip = None
+    cluster_host_name = None
+    #luster_hosts = get_hosts(app)
+    cluster_hosts = get_cluster_hosts(app,host=cluster)
+    ip = None
+    # Busca el 1er host con IP valida
+    if cluster_hosts is not None:
+        for host in cluster_hosts:
+            cluster_host_name = host.get('name',None)
+            if cluster_host_name is not None:
+                #luster_host_ip = host['spec']['resources']['controller_vm']['ip']
+                cluster_host_ip = host.get('controller_vm_backplane_ip')
+                break
+    else:
+        logger.error(f"{this()}: No hosts found !!!")
+        return False,None
+    if cluster_host_ip is not None:
+        # try to get remote cluster if not defined
+        if remote_cluster is None:
+            logger.debug(f"{this()}: getting remote cluster for local cluster {cluster}...")
+            sites = get_remote_sites(app,host=cluster)
+            logger.debug(f"{this()}: sites={sites}")
+            if sites is not None and len(sites):
+                remote_cluster = sites[0]['name']
+        if remote_cluster is not None:
+            # Create protection domain -------------------------------------
+            logger.debug(f"{this()}: remote_cluster: {remote_cluster}")
+            logger.debug(f"{this()}: creating protection domain for vm '{vmname}' in cluster {cluster}...")
+            # if protection domain is None, then creates one and
+            # initializes name, it wil lbe returned later
+            if pdname is None:
+                pdname = create_protection_domain(
+                        app,
+                        #ost       = cluster_host_ip,
+                        host       = cluster,
+                        pdname     = pdname,
+                        annotation = annotation,
+                        vmname     = vmname,
+                        timeout    = timeout
+                        )
+            # Schedules if valid protection domain
+            if pdname is not None:
+                # got valid protection domain, will protect vms ------------
+                # create schedule
+                logger.debug(f"{this()}: pdname = '{pdname}' ...")
+                logger.debug(f"{this()}: protecting vm '{vmname}' in '{remote_cluster}:{pdname}' ...")
+                #f protect_vms(app,vmname,cluster_host_ip,pdname,timeout=timeout):
+                if protect_vms(app,vmname,cluster,pdname,timeout=timeout):
+                    # VM is protected, then schedule it --------------------
+                    logger.debug(f"{this()}: creating schedule for '{remote_cluster}:{pdname}' ...")
+                    logger.debug(f"{this()}: app = {app}")
+                    logger.debug(f"{this()}: host = {host}")
+                    logger.debug(f"{this()}: pdname = {pdname}")
+                    logger.debug(f"{this()}: remote_cluster = {remote_cluster}")
+                    logger.debug(f"{this()}: schedule_type = {schedule_type}")
+                    logger.debug(f"{this()}: user_start_time_in_usecs = {user_start_time_in_usecs}")
+                    logger.debug(f"{this()}: every_nth = {every_nth}")
+                    logger.debug(f"{this()}: local_max_snapshots = {local_max_snapshots}")
+                    logger.debug(f"{this()}: remote_max_snapshots = {remote_max_snapshots}")
+                    logger.debug(f"{this()}: timeout = {timeout}")
+                    logger.debug(f"{this()}: callig create schedule ...")
+                    if create_schedule(
+                        app,
+                        #ost                     = cluster_host_ip,
+                        host                     = cluster,
+                        pdname                   = pdname,
+                        remote_cluster           = remote_cluster,
+                        schedule_type            = schedule_type,
+                        user_start_time_in_usecs = user_start_time_in_usecs,
+                        every_nth                = every_nth,
+                        local_max_snapshots      = local_max_snapshots,
+                        remote_max_snapshots     = remote_max_snapshots,
+                        timeout                  = timeout
+                        ):
+                        logger.info(f"{this()}: protection schedule for VM '{vmname}' SUCCESS.")
+                        success = True
+                    else:
+                        # no calendarizada
+                        logger.warning(f'{this()}: protection schedule for VM {vmname} FAILURE.')
+                else:
+                    # error no protegida
+                    logger.warning(f'{this()}: VM {vmname} protection failure.')
+            else:
+                # Error nada creado
+                logger.warning(f'{this()}: protection domain creation for VM {vmname} FAILURE.')
+        else:
+            #ogger.warning(f"{this()}: remote cluster is None for cluster {cluster_host_ip}")
+            logger.warning(f"{this()}: remote cluster is None for cluster {cluster}")
+    else:
+        logger.error(f"{this()}: No valid Nutanix host found in cluster.")
+    logger.debug(f'{this()}: OUT success = {success} pdname = {pdname}')
+    return success,pdname
+       
        
 def trace_trx(trx_name,app,row,response=None):
     try:
@@ -625,7 +822,7 @@ def trx_ucc_update_butler_cost_centers(app):
                         keep.append(row.CC_Id)
                     db.session.commit()
                     db.session.flush()
-                    logger.debug(f"{this()}: Got:  {len(rows)} Cost Centers. Merged with Butler")
+                    logger.info(f"{this()}: Got:  {len(rows)} Cost Centers. Merged with Butler")
                     logger.debug(f"{this()}: Keep: {len(rows)} Cost Centers. In Butler")
                     logger.trace(f"{this()}: Keep: {keep}")
                     if len(rows):
@@ -734,7 +931,7 @@ def trx_ura_update_butler_rates(app):
                         keep.append(row.Rat_Id)
                     db.session.commit()
                     db.session.flush()
-                    logger.debug(f"{this()}: Got: {len(rows)} Rates.")
+                    logger.info(f"{this()}: Got: {len(rows)} Rates.")
                     if len(rows):
                         current['rates']=rows
                         # delete obsolete codes
@@ -982,6 +1179,7 @@ def trx_usn_update_butler_subnets(app):
             # Actual process of result here
             data = subnets.json()
             logger.debug(f"{this()}: Subnets = {len(data['entities'])}")
+            uncomplete_subnets = 0
             for entity in data['entities']:
                 logger.trace(pformat(entity))
                 try:
@@ -998,15 +1196,17 @@ def trx_usn_update_butler_subnets(app):
                             row.prefix_length      = entity['spec']['resources']['ip_config']['prefix_length']
                             row.subnet_ip          = entity['spec']['resources']['ip_config']['subnet_ip']
                         else:
-                            logger.info(f"{this()}: WARNING Incomplete Subnet '{row.name}' no IP configuration.")
+                            uncomplete_subnets+=1
+                            logger.info(f"{this()}: WARNING Uncomplete Subnet '{row.name}' no IP configuration.")
                         row.cluster      = entity['spec']['cluster_reference']['uuid']
                     except Exception as e:
                         logger.warning(f"{this}: subnet {name} exception: {str(e)}")
                     rows.append(row)
                     logger.debug(f'{this()}: Subnet: {row.name}')
                 except Exception as e:
-                    logger.error(f'{this()}: Incomplete Subnet {row.name} exception: {str(e)}')
-
+                    uncomplete_subnets += 1
+                    logger.error(f'{this()}: Uncomplete Subnet {row.name} exception: {str(e)}')
+                    
             # rows contains all Subnets from Nutanix
             # only these projects should remain in butler
             try:
@@ -1016,7 +1216,7 @@ def trx_usn_update_butler_subnets(app):
                     keep.append(row.uuid)
                 db.session.commit()
                 db.session.flush()
-                logger.debug(f"{this()}: Got: {len(rows)} Complete Subnets.")
+                logger.info(f"{this()}: Got: {len(rows)} Subnets. {uncomplete_subnets} uncomplete")
                 if len(rows):
                     current['subnets']=rows
                     # delete obsolete codes
@@ -1064,7 +1264,7 @@ def trx_usn_update_butler_subnets(app):
 
 # Update PRojects from Nutanix Prism Central ---------------------------
 def trx_upr_update_butler_projects(app):
-    logger.warning(f'{this()}: IN Get Nutanix Projects ...')
+    logger.debug(f'{this()}: IN Get Nutanix Projects ...')
     result   = get_api_response(    code=BUTLER_CORE_TRX_ERROR,
                                     message=f'NO TRX RESPONSE')
     
@@ -1096,16 +1296,16 @@ def trx_upr_update_butler_projects(app):
     i=0
     for s in current['subnets']:
         i+=1
-        logger.warning(f"{this()}: {i:2d} {s.uuid} {s.name}")
+        logger.debug(f"{this()}: {i:2d} {s.uuid} {s.name}")
     
     if projects is not None:
         data = projects.json()
         rows=[]
         # Actual process of result here
         entities=projects.json()['entities']
-        logger.warning(f"{this()}: {len(entities)} projects found to process")
+        logger.debug(f"{this()}: {len(entities)} projects found to process")
         for entity in entities:
-            logger.warning(f"{this()}: project: '{entity['spec']['name']}' ({entity['status']['state']})")
+            logger.debug(f"{this()}: project: '{entity['spec']['name']}' ({entity['status']['state']})")
             try:
                 if entity['metadata'].get('project_reference') is not None:
                     if entity['metadata']['project_reference']['name'] not in ['DEFAULT','default']:
@@ -1116,7 +1316,7 @@ def trx_upr_update_butler_projects(app):
                             # This code is intented to capture project's subnets specifications
                             subnets = []
                             try:
-                                logger.warning(f"{this()}: '{row.project_name}' has {len(entity['spec']['resources']['subnet_reference_list'])} subnets of {len(current['subnets'])} current ...")
+                                logger.debug(f"{this()}: '{row.project_name}' has {len(entity['spec']['resources']['subnet_reference_list'])} subnets of {len(current['subnets'])} current ...")
                                 for subnet in entity['spec']['resources']['subnet_reference_list']:
                                     found = False
                                     for s in current['subnets']:
@@ -1131,7 +1331,7 @@ def trx_upr_update_butler_projects(app):
                             except Exception as e:
                                 logger.error(f"{this()}: Getting Project's Subnets exception: {str(e)}")
                             row.project_subnets = ','.join(subnets)
-                            logger.warning(f'{this()}: Project: {row.project_name} Subnets: {len(subnets)}\n{pformat(subnets)}')
+                            logger.debug(f'{this()}: Project: {row.project_name} Subnets: {len(subnets)}\n{pformat(subnets)}')
                             rows.append(row)
                         except Exception as e:
                             logger.warning(f"{this()}: {entity['metadata']['project_reference']['name']} project exception: {str(e)}")
@@ -1145,21 +1345,21 @@ def trx_upr_update_butler_projects(app):
         # only these projects should remain in butler
         try:
             keep=[]
-            logger.warning(f"{this()}: {len(rows)} projects to update/keep")
+            logger.debug(f"{this()}: {len(rows)} projects to update/keep")
             for row in rows:
                 db.session.merge(row)
                 keep.append(row.project_uuid)
                 logger.trace(f'{this()}: project={row}')
             db.session.commit()
             db.session.flush()
-            logger.debug(f"{this()}: Got: {len(rows)} Projects.")
+            logger.info(f"{this()}: Got: {len(rows)} Projects.")
             if len(rows):
                 current['projects']=rows
                 # delete obsolete codes
                 rows_to_delete = db.session.query(Projects
                     ).filter(Projects.project_uuid.notin_(keep)
                     ).all()
-                logger.warning(f'{this()}: Projects to delete = {len(rows_to_delete)}')
+                logger.debug(f'{this()}: Projects to delete = {len(rows_to_delete)}')
                 for row in rows_to_delete:
                     db.session.delete(row)
                 db.session.commit()
@@ -1195,7 +1395,7 @@ def trx_upr_update_butler_projects(app):
         )
     logger.debug(f'{this()}: OUT')
     tracebox_log(f'{this()}: {str(result)}',
-            logger=logger,level=logging.WARNING,length=tracebox_log_length)
+            logger=logger,level=logging.DEBUG,length=tracebox_log_length)
     return result
 
 # Update CAtegories from Nutanix Prism Central -------------------------
@@ -1309,6 +1509,8 @@ def trx_uca_update_butler_categories(app):
 # Request is approved but not VM Creation requested yet ----------------
 def trx_001_not_nutanix_pending(app):
     logger.info(f'{this()}: IN Get approved Requests and create VM')
+    logger_saved_level = logger.getEffectiveLevel()
+    logger.setLevel(logging.DEBUG)
     # query for matching rows for transaction
     # API Version hard coded here need to variabilize it 
     API_Version = '3.1.0'
@@ -1539,7 +1741,7 @@ def trx_001_not_nutanix_pending(app):
                 # First check that VM is not existent
                 #print         (f'{this()}: search for existing VM ...')
                 logger.debug(f'{this()}: search for existing VM ...')
-                vm = get_nutanix_vm(app,row.Nutanix_Prism_VM.vm_name)
+                vm = get_nutanix_vm(app,row.Nutanix_Prism_VM.vm_name,logger=logger)
                 if vm is None:
                     #print         (f'{this()}: VM does not exists, creating ...')
                     logger.debug(f'{this()}: VM does not exists, creating ...')
@@ -1623,6 +1825,8 @@ def trx_001_not_nutanix_pending(app):
     logger.debug(f'{this()}: OUT')
     tracebox_log(f'{this()}: {str(result)}',
             logger=logger,level=logging.DEBUG,length=tracebox_log_length)
+    
+    logger.setLevel(logger_saved_level)
     return result
 
 # Request is approved but CC is not populated in EG Collector ----------
@@ -1936,11 +2140,23 @@ def trx_004_nutanix_completed(app,timeout=None):
                             # Falta probar y validar 
                             # **********************************************
                             # Common arguments
+                            # Ajuste para variabilizar cluster de creacion en DRP
+                            clusters_list               = Get_clusters_list(db,logger=logger)
+                            logger.debug(f"{this()}: clusters_list = {clusters_list}")
+                            cluster_ip                  = None
+                            for clu in clusters_list:
+                                logger.debug(f"{this()}: clu = {clu}")
+                                # clu: 0:uuid 1:name 2:ip
+                                if clu[0] == row.Nutanix_Prism_VM.cluster_uuid:
+                                    cluster_uuid,cluster_name,cluster_ip = clu
+                                    logger.debug(f"{this()}: cluster = {cluster_name} {cluster_uuid} {cluster_ip}")
+                            logger.debug(f"{this()}: will build replication with cluster = {cluster_name}:{cluster_ip}")
+                            
                             pdname                      = None
                             annotation                  = None
                             user_start_time_in_usecs    = None
                             timeout                     = app.config.get('NUTANIX_TIMEOUT',5)
-                            remote_cluster              = app.config.get('NUTANIX_REMOTE_CLUSTER',None)
+                            #emote_cluster              = app.config.get('NUTANIX_REMOTE_CLUSTER',None)
                             # Local replicas 
                             local_schedule_type         = app.config.get('NUTANIX_LOCAL_SCHEDULE_TYPE','DAILY')
                             local_every_nth             = app.config.get('NUTANIX_LOCAL_EVERY_NTH',1)
@@ -1967,13 +2183,14 @@ def trx_004_nutanix_completed(app,timeout=None):
                             # Check for Local Security copies
                             try:
                                 if row.Nutanix_Prism_VM.vm_drp and Protection_Uncomplete:
-                                    logger.info(f"{this()}: Local security copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}'")
+                                    logger.info(f"{this()}: Local security copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}' in cluster '{cluster_name}:{cluster_ip}'")
                                     success,pdname = create_drp(
                                             app,
                                             vmname                   = row.Nutanix_Prism_VM.vm_name,
                                             pdname                   = pdname,
                                             annotation               = annotation,
-                                            remote_cluster           = remote_cluster,
+                                            cluster                  = cluster_ip,
+                                            #emote_cluster           = remote_cluster, # 20210713 modificado para usar cluster variable (cluster = ip)
                                             schedule_type            = local_schedule_type,
                                             user_start_time_in_usecs = user_start_time_in_usecs,
                                             every_nth                = local_every_nth,
@@ -2001,13 +2218,14 @@ def trx_004_nutanix_completed(app,timeout=None):
                             # Check for Remote Security copies
                             try:
                                 if row.Nutanix_Prism_VM.vm_drp_remote and Protection_Uncomplete:
-                                    logger.info(f"{this()}: DRP copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}'")
+                                    logger.info(f"{this()}: DRP copies requested for VM: '{row.Nutanix_Prism_VM.vm_name}' in cluster '{cluster_name}:{cluster_ip}'")
                                     success,pdname = create_drp(
                                             app,
                                             vmname                   = row.Nutanix_Prism_VM.vm_name,
                                             pdname                   = pdname,
                                             annotation               = annotation,
-                                            remote_cluster           = remote_cluster,
+                                            cluster                  = cluster_ip,
+                                            #remote_cluster           = remote_cluster,
                                             schedule_type            = remote_schedule_type,
                                             user_start_time_in_usecs = user_start_time_in_usecs,
                                             every_nth                = remote_every_nth,
