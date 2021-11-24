@@ -25,8 +25,16 @@ from    gunicorn.app.base   import Application, Config
 from    gunicorn            import glogging
 from    gunicorn.workers    import sync
 
-def number_of_workers():
-    return (multiprocessing.cpu_count() * 2) + 1
+# 20211124 GV Cambado para variabilizar numero de workers
+#def number_of_workers():
+#    return (multiprocessing.cpu_count() * 2) + 1
+    
+def number_of_workers(max_workers=0):
+    if max_workers == 0:
+        return (multiprocessing.cpu_count() * 2) + 1
+    else:
+        return min(max_workers,((multiprocessing.cpu_count() * 2) + 1))
+
 
 class GUnicornFlaskApplication(Application):
     def __init__(self, app):
@@ -76,6 +84,7 @@ if (os.path.isfile(config_file)):
         flask_port    = config_ini.getint('General','flask_port'   ,fallback=5200)
         gunicorn_host = config_ini.getint('General','gunicorn_host',fallback='0.0.0.0')
         gunicorn_port = config_ini.getint('General','gunicorn_port',fallback=8200)
+        max_workers   = config_ini.getint('General','max_api_workers'  ,fallback=0)
 else:
     sys.exit(1)
 
@@ -192,7 +201,7 @@ if __name__ == '__main__':
     else:
         options = {
             'bind': '%s:%s' % (gunicorn_host, gunicorn_port),
-            'workers': number_of_workers(),
+            'workers': number_of_workers(max_workers),
             'worker_class':"gunicorn.workers.sync.SyncWorker",
         }
         print(" * Running in Green Unicorn powered mode")

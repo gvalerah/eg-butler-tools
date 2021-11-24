@@ -1564,7 +1564,8 @@ def trx_001_not_nutanix_pending(app):
                                 },
                             })
                         # If Base Image is provided --------------------
-                        if image is not None:   disk.update({
+                        # 20210818 GV if image is not None:   disk.update({
+                        if image not in [None,""]:   disk.update({
                                 'data_source_reference':{
                                     'kind':'image',
                                     'uuid':image
