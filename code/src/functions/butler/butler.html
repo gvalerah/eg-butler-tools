@@ -10,21 +10,21 @@
 {% block page_content %}
 <div class="page-header">
     
-    <h1>Butler v 1.1.0</h1>
-    <p>(c) EMTEC GROUP 2018/2019/2020 - GLVH</p>
+    <h1>Butler v 2.1.0</h1>
+    <p>(c) EMTEC GROUP 2018/2019/2020/2021/2022 - GLVH</p>
     <!-- <p>Flask Current Application Name is "{{ data["name"] }}"</p> -->
     <hr>
     <!-- <p>Butler local C Context Name is "{{ data["app_name"] }}"</p> -->
     {% if current_user.is_authenticated %}
-        <p>Current logged in user is '{{ current_user.username }}' with role '{{ current_user.role.name}}'</p>
+        <p>{{ gettext('Current logged in user is') }} '{{ current_user.username }}' {{ gettext('with role') }} '{{ current_user.role.name }}'</p>
         <hr>
         <p>({{current_user.password_hash[17:]}}-{{"%04X"|format(current_user.role.permissions)}})</p>         
     {% else %}
-        <p>No user is authenticated in Butler now. You can login <a href="{{ url_for('auth.login') }}"><b>here</b></a></p>     
+        <p>{{ gettext('No user is authenticated in Butler now. You can login') }} <a href="{{ url_for('auth.login') }}"><b>{{ gettext('here') }}</b></a></p>     
     {% endif %}
     <hr>
-    <p>Your browser is "{{ data["user_agent"] }}"</p>
-    <p>Local time is @ {{ data["date_time"] }}</p>
+    <p>{{ gettext('Your browser is') }} "{{ data["user_agent"] }}"</p>
+    <p>{{ gettext('Local time is') }} @ {{ data["date_time"] }}</p>
     <hr> 
     {# % if current_user.is_authenticated %}
     <p> current_user: {{current_user}} </p>    

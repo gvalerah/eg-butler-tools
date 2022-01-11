@@ -195,7 +195,7 @@ function summary() {
         var type        = parseInt($("#vmType").val())       - topcc;
         var cc          = topcc + corporate + department + environment + type;                
         $("#vmResume").val(cores + " CPU x " + ram + " GB RAM x " + storage + " GB");
-        $("#vmMonth").val(get_month().toFixed(6) + " UF cargable a " + cc);
+        $("#vmMonth").val(get_month().toFixed(6) + " UF => " + cc);
         $("#vmMessage1").val(cores + " CPU x " + ram + " GB RAM x " + storage + " GB " + topcc + "+" + corporate + "+" + department + "+" + environment + "+" + type + "=" + cc );
         return $("#vmResume").val();
     } catch (e) {

@@ -12,6 +12,7 @@ from emtec import *
 from emtec.nutanix import *
 from emtec.butler.constants import *
 from wtforms.validators import ValidationError
+from flask_babel import lazy_gettext
 
 # Custom Validator functions for butler form request support
 # very powerfull function to validate data prior submit
@@ -30,7 +31,7 @@ def disk_size(form,field):
                             if ImageFieldSize > int(ImageFieldSize):
                                 ImageFieldSize =  int(ImageFieldSize) + 1
                             if field.data < ImageFieldSize:
-                                raise ValidationError(f'Tamaño Mínimo es {ImageFieldSize} GB') 
+                                raise ValidationError( lazy_gettext('Minimal size is %s GB')%ImageFieldSize ) 
                 except Exception as e:
                     raise ValidationError(f'{this()}: {str(e)}') 
         form.logger.debug("disk_size: field={field.name} OUT")
@@ -44,7 +45,8 @@ def name(form,field):
         if vm is None:
             return
         else:
-            raise ValidationError(f"MV '{form.vmName.data}' ya existe.")
+            error = lazy_gettext("VM '%s' already exists.")
+            raise ValidationError(error%form.vmName.data)
     form.logger.debug(f"{this()}: field={field.name} OUT")
     return
 
@@ -75,8 +77,9 @@ def ip_address(form,field):
                                 in_range=True
                                 #print(f"'{this()}: '{field.data}' en rango. exito")
                 if not in_range:
-                     #print(f"IP '{field.data}' fuera de rango")                 
-                     raise ValidationError(f"{this()}:  IP '{field.data}' fuera de rango")                 
+                     #print(f"IP '{field.data}' fuera de rango")
+                     error = lazy_gettext("IP '%s' out of range")
+                     raise ValidationError(f"{this()}: {error}")                 
         #else:
             #print(f"{this()}: chequeo no requerido o no posible")
     except Exception as e:
@@ -104,7 +107,8 @@ def subnet(form,field):
             #print(f"{this()}: {field.name}: Subnet primaria  OK")         
             pass
         else:
-            raise ValidationError(f'{this()}: {field.name}: Subred primaria invalida')
+            error = lazy_gettext("invalid primary subnetwork")
+            raise ValidationError(f'{this()}: {field.name}: {error}')
     else:
         # Other NICs , none/null is valid value
         valid_subnets.append("")
@@ -122,12 +126,14 @@ def subnet(form,field):
                 setattr(getattr(form,ipname),"data",None)
                 setattr(getattr(form,macname),"data",None)
                 form.logger.warning(f"{this()}: NIC especificacion duplicada data reseted")
-                raise ValidationError(f'{this()}: {field.name}: Subred especificación duplicada')
+                error = lazy_gettext("Duplicated subnetwork specification")
+                raise ValidationError(f'{this()}: {field.name}: {error}')
             else:
                 form.vmSubnetKeys.append(key)
                 form.logger.debug(f"{this()}: field {field.name} OK {key} accepted")
         else:
-            raise ValidationError(f'{this()}: {field.name}: Subred invalida')
+            error = lazy_gettext("Invalid subnetwork")
+            raise ValidationError(f'{this()}: {field.name}: {error}')
     form.logger.debug(f"{this()}: field={field.name} OUT")
 
 def form_log(form,l):
@@ -174,25 +180,79 @@ class frm_request(Form):
     # General
     vmStatus          = IntegerField()
     vmName            = StringField ('VM Name',
-                        validators=[InputRequired('Nombre de MV es requerido'),name],default='')
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('VM name is required')
+                                ),
+                                name]
+                            ,default=''
+                        )
     vmCPS             = IntegerField(
-                        validators=[InputRequired('Número de CPUs por Socket es requerido'),
-                                    NumberRange(min=1,message='CPS mínimo es 1')],default=1)
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('Number of CPUs per Socket is required')
+                                ),
+                                NumberRange(min=1,message=lazy_gettext('Minimal CPS is 1'))
+                                ],
+                            default=1
+                            )
     vmSockets         = IntegerField(
-                        validators=[InputRequired('Número de Sockets es requerido'),
-                                    NumberRange(min=1,message='Sockets mínimo es 1')],default=1)
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('Number of Sockets is required')
+                                ),
+                                NumberRange(
+                                    min=1,
+                                    message=lazy_gettext('Mínimal Sockets are 1')
+                                    )
+                                ],
+                            default=1
+                        )
     vmCPU             = 1
     vmRAM             = IntegerField(
-                        validators=[InputRequired('RAM mínima de 1 GB es requerida'),
-                                    NumberRange(min=1,message='RAM mínima es 1 GB')],default=1)
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('Minimal 1 GB of RAM is required')
+                                ),
+                                NumberRange(
+                                    min=1,
+                                    message=lazy_gettext('Minimal RAM is 1 GB')
+                                )
+                            ],
+                            default=1
+                        )
     vmCorporate       = SelectField (
-                        validators=[InputRequired('Se requiere Dirección')],coerce=int)
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('Corporate is required')
+                                )
+                            ],
+                            coerce=int
+                        )
     vmDepartment      = SelectField (
-                        validators=[InputRequired('Se requiere Departamento')],coerce=int)
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('Management required')
+                                )
+                            ],
+                            coerce=int
+                        )
     vmCC              = SelectField (
-                        validators=[InputRequired('Se requiere CC')],coerce=int)
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('CC required')
+                                )
+                            ],
+                            coerce=int
+                        )
     vmType            = SelectField (
-                        validators=[InputRequired('Debe definirse tipo de almacenamiento')],coerce=int)
+                            validators=[
+                                InputRequired(
+                                    lazy_gettext('Disk type must me defined')
+                                )
+                            ],
+                            coerce=int
+                        )
     vmDisk0Size       = IntegerField(
                         validators=[NumberRange(min=0),disk_size],default=0)
     vmDisk0Image      = SelectField()
@@ -240,13 +300,13 @@ class frm_request(Form):
     # Request text field (falta guardarlo en BD)
     vmRequestText     = StringField()
     # Buttons ----------------------------------------------------------
-    submit_Guardar    = SubmitField ('Guardar')
-    submit_Completado = SubmitField ('Completado')
-    submit_Eliminar   = SubmitField ('Eliminar')
-    submit_Cancelar   = SubmitField ('Cancelar')
-    submit_Rechazar   = SubmitField ('Rechazar')
-    submit_Aprobar    = SubmitField ('Aprobar')
-    submit_Retorno    = SubmitField ('Retorno')
+    submit_Guardar    = SubmitField (lazy_gettext('Save'))
+    submit_Completado = SubmitField (lazy_gettext('Completed'))
+    submit_Eliminar   = SubmitField (lazy_gettext('Delete'))
+    submit_Cancelar   = SubmitField (lazy_gettext('Cancel'))
+    submit_Rechazar   = SubmitField (lazy_gettext('Reject'))
+    submit_Aprobar    = SubmitField (lazy_gettext('Approve'))
+    submit_Retorno    = SubmitField (lazy_gettext('Return'))
     # Validation data, hidden fields -----------------------------------
     vmData            = {}
     # Interface only fields, this is volatile data

@@ -10,7 +10,8 @@
 {%- endblock %}
 {%- block page_content %}
 <div class="page-header">
-    <h2>{{ gettext('virtual machine provisioning request')|capitalize }}</h2>
+    <p></p>
+    <h2>Grupos de Migración</h2>
     <a href="#" onclick="history.go(-1)">
         <img src="/static/img/back.png"
         color=yellow width="32" height="32" title="" alt="Add">
@@ -24,9 +25,9 @@
         color=yellow width="32" height="32" title="" alt="Home">
     </a>
 </div>
-{%- include 'frm_request.html' %}
+{%- include 'frm_migration.html' %}
 <!-- includes EG Butler Requests scripts list here ----------------- -->
-<script src="/static/js/butler.requests.{{form.vmData.userid}}.js"></script>
+<script src="/static/js/butler.requests.{{form.mgData.userid}}.js"></script>
 <hr>
 {%- endblock %}
 {# ================================================================== #}

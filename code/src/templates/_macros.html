@@ -28,3 +28,50 @@
   </li>
 </ul>
 {% endmacro %}
+
+{%- macro Gen_Option(name,option,current_user) %}
+    {%- if option is defined %}
+        {%- if current_user.is_authenticated %}
+            <!-- ------------------------------- -->
+            <!-- gen_menu_functions - Gen_Option EG-Butler-Tools/code/src/templates/_macros.html -->
+            <!-- ------------------------------- -->    
+            {%- if option.options|length == 0 %}
+                <a class="dropdown-item" href="{{option.url}}"><h3>{{name|safe}}</h3></a>
+            {%- else %}
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/" id="navbardrop" data-toggle="dropdown"><h3>{{name|safe}}</h3></a>
+                        <div class="dropdown-menu">
+                    {%- for suboption in option.options %}
+                        {%- if suboption.test is defined and suboption.test %}
+                            {%- if current_app.config.TESTING %}
+                            <!-- _macros.html: - Gen_SubOption !{{suboption|safe}}! TEST MODE -->
+                                {%- if suboption.header is not none %}
+                            <b>{{suboption.header}}</b>
+                                {%- endif %}
+                            <a class="dropdown-item" href="{{suboption.url}}">{{suboption.name}}</a>
+                                {%- if suboption.hr %}
+                            <hr>
+                            <!-- -------------------------------gso -->
+                                {%- endif %}
+                            {%- endif %}
+                        {%- else %}
+                            <!-- _macros.html - Gen_SubOption !{{suboption|safe}}! -->
+                            {%- if suboption.header is not none %}
+                            <b>{{suboption.header}}</b>
+                            {%- endif %}
+                            <a class="dropdown-item" href="{{suboption.url}}">{{suboption.name}}</a>
+                            {%- if suboption.hr %}
+                            <hr>
+                            {%- endif %}
+                            <!-- -------------------------------gso -->
+                        {%- endif %}
+                    {%- endfor %}
+                        </div>  
+                    </li>
+            {%- endif %}
+            <!-- -----------------------------go -->
+        {%- endif %}
+    {%- endif %}
+{%- endmacro %}
+

@@ -14,7 +14,7 @@
 {% block page_content %}
 <meta http-equiv="refresh" content="30">
 <div class="page-header">
-    <h2>Solicitudes: </h2>
+    <h2>{{ gettext('requests')|capitalize }}: </h2>
     <a href="#" onclick="history.go(-1)">
         <img src="/static/img/back.png"
         color=yellow width="32" height="32" title="" alt="Back">
@@ -36,7 +36,13 @@
     <table class="table table-striped table-hover table-sm">
         <thead class="thead-dark">
             <tr>
-                <th>SOLICITUD</th><th>USUARIO</th><th>CENTRO DE COSTO</th><th>ESTADO</th><th>FECHA</th></th><th>MAQUINA VIRTUAL</th><th></th>
+                <th>{{ gettext('request')|upper         }}</th> <!-- SOLICITUD -->
+                <th>{{ gettext('user')|upper            }}</th> <!-- USUARIO -->
+                <th>{{ gettext('cost center')|upper     }}</th><!-- CENTRO DE COSTO -->
+                <th>{{ gettext('state')|upper           }}</th><!-- ESTADO -->
+                <th>{{ gettext('date')|upper            }}</th><!-- FECHA -->
+                <th>{{ gettext('virtual machine')|upper }}</th><!-- MAQUINA VIRTUAL -->
+                <th></th>
             </tr>
         </thead>
         <tbody>

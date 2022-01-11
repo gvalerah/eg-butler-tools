@@ -215,6 +215,15 @@ def get_cluster_list():
             cluster_list.append((cluster.cluster_uuid,cluster.cluster_name,cluster.cluster_ip))
     logger.trace(f"{this()}: {pformat(cluster_list)}")
     return cluster_list
+    
+def get_migration_group_list():
+    migration_group_list = []
+    migration_groups =  db.session.query(Migration_Groups).all()
+    for migration_group in migration_groups:
+        if migration_group.MG_Id not in ['','0',None]:
+            migration_group_list.append((migration_group.MG_Id,migration_group.Name,migration_group.Origin,migration_group.Destiny))
+    logger.trace(f"{this()}: {pformat(migration_group_list)}")
+    return migration_group_list
 
 def get_project_list():
     # List of projects need to be refreshed from Nutanix ---------------

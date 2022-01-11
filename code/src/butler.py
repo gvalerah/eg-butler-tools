@@ -50,6 +50,8 @@ class GUnicornFlaskApplication(Application):
 # Emtec group required definitions
 # ----------------------------------------------------------------------
 
+
+# GV -------------------------------------------------------------------
 from    emtec.common.functions             import *
 from    emtec.butler.common.context     import Context
 #from    emtec.collector.common.functions   import *
@@ -60,7 +62,6 @@ from    emtec.butler.common.context     import Context
 # Macro level default values
 config_file = "butler.ini"
 run_mode    = 'FLASK'
-
 
 if len(sys.argv) < 2:
     print()
@@ -101,7 +102,7 @@ else:
 
 print(f'{this()}: 7 basic initialization completed.')
 
-from    app                 import create_app,db,mail,logger
+from    app                 import create_app,db,mail,logger,babel
 
 C = Context(    "Butler Web Server",
                 config_file,
@@ -148,6 +149,68 @@ if config_ini.getboolean('General','DEBUG',fallback=False):
     console_handler.setFormatter(logFormatter)
     logger.addHandler(console_handler)
 
+
+# GV Internationalization code -----------------------------------------
+from flask_babel import Babel, gettext, ngettext, lazy_gettext, force_locale
+
+#babel = Babel(app)
+print(f"Set App enabled Languages ...")
+setattr(app.config,'LANGUAGES',{
+        'en': 'English',
+        'es': 'Español'
+    })
+    
+print(f"Set Default App Language ...")
+setattr(app.config,'CURRENT_LANGUAGE',None)
+
+"""
+# add to you main app code
+@babel.localeselector
+def get_locale():
+    global request
+    print(f"get_locale: app = {app}")
+    print(f"get_locale: app.config = {app.config}")
+    print(f"get_locale: locals = {locals()}")
+    print(f"get_locale: globals = ")
+    pprint(globals())
+    if app.config.CURRENT_LANGUAGE is not None:
+        language =  app.config.CURRENT_LANGUAGE
+    else:
+        language =  request.accept_languages.best_match(app.config.LANGUAGES.keys())
+    print(f"get_local returns: {language}")
+    return language
+"""
+print (f"app.config.LANGUAGES            = {app.config.LANGUAGES}")
+print (f"app.config.CURRENT_LANGUAGE     = {app.config.CURRENT_LANGUAGE}")
+print (f"babel.app                       = {babel.app}")
+print (f"babel.default_date_formats      = ")
+for f in babel.date_formats:
+    print(f"  {f}={babel.date_formats[f]}")
+print (f"babel.default_locale            = {babel.default_locale}")
+print (f"babel.default_timezone          = {babel.default_timezone}")
+print (f"babel.domain                    = {babel.domain}")
+print (f"babel.locale_selector_func      = {babel.locale_selector_func}")
+print (f"babel.translation_directories   =")
+for d in babel.translation_directories:
+    print(f"  {d}")
+print (f"Set Global multilanguage strings ...")
+
+# GV -------------------------------------------------------------------
+
+# Global Jinja2 setup
+print(f"dir app               = {dir(app)}")
+print(f"app.jinja_loader      = {app.jinja_loader}")
+print(f"app.jinja_options     = {app.jinja_options}")
+print(f"app.jinja_environment = {app.jinja_environment}")
+print(f"app.jinja_env         = {app.jinja_env}")
+print(f"app.jinja_env dir     = {dir(app.jinja_env)}")
+
+"""
+app.jinja_env.install_gettext_callables(
+    gettext = gettext,
+    lazy_gettext = lazy_gettext
+)
+"""
 if __name__ == '__main__':
     app_ctx = app.app_context()
     app_ctx.push()
@@ -200,6 +263,8 @@ if __name__ == '__main__':
         logger.debug("app.root_path         = %s"%app.root_path)
         logger.debug("app.static_folder     = %s"%app.static_folder)
         logger.debug("app.template_folder 1 = %s"%app.template_folder)
+        logger.debug("babel                 = %s"%babel)
+        print       ("babel                 = %s"%babel)
         app.template_folder="%s/templates"%(app.root_path)
         logger.debug("app.template_folder 2 = %s"%app.template_folder)
         for key in app.config.keys():
@@ -243,11 +308,14 @@ if __name__ == '__main__':
         print("****************************************")
 
     print(f" * Will execute app here ({run_mode})")   
-    # 20200217 LOCATION OPORTINITY CHANGE DUE TO CONFIG ISSUES
+    # GV 20200217 LOCATION OPORTINITY CHANGE DUE TO CONFIG ISSUES
     from    emtec.butler.db.flask_models    import User
     from    emtec.butler.db.flask_models    import Role
 
-    # Will be replaced by embedded Green Unicorn HTTP Server
+
+    # GV print(f"app.config.get('NUTANIX_CLUSTERS')={app.config.get('NUTANIX_CLUSTERS')}")
+
+    # GV Will be replaced by embedded Green Unicorn HTTP Server
     if run_mode == 'FLASK':
         print(f" * Running {app} in Flask app mode ({flask_host}:{flask_port})")
         app.run(host=flask_host,port=flask_port)

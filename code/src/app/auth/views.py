@@ -19,6 +19,8 @@ from flask_login                        import login_user
 from flask_login                        import logout_user
 from flask_login                        import login_required
 from flask_login                        import current_user
+from flask_babel                        import gettext
+from flask_babel                        import lazy_gettext
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,7 +36,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         try:    logger.debug(f'auth.login user={current_user}')
         except Exception as e: print(f'auth.login user ??? : {str(e)}')
-        logger.debug("2 user=",user)
+        logger.debug(f"2 user={user}")
         if user is not None and user.verify_password(form.password.data):
             #login_user(user, form.remember_me.data)
             login_user(user, False)
@@ -42,21 +44,21 @@ def login():
                 logger.debug(f'auth.login 2.1 after login current user={current_user}')
             except Exception as e: 
                 logger.error(f'auth.login 2.2 after login exception: {str(e)}') 
-            logger.debug("3.1 request.args.get('next')=",request.args.get('next'))
-            logger.debug("3.2 url_for('main.index')   =",url_for('main.index'))
+            logger.debug(f"3.1 request.args.get('next')={request.args.get('next')}")
+            logger.debug(f"3.2 url_for('main.index')   ={url_for('main.index')}")
             return redirect(request.args.get('next') or url_for('main.index'))
-        flash('Invalid username or password.')
+        flash(gettext('Invalid username or password.'))
     else:
         pass
         logger.warning("auth.login 4 FORM NOT VALIDATED YET")        
-    logger.debug("auth.login 5 will render template auth/login.html ...")
+    logger.debug(f"auth.login 5 will render template auth/login.html ...")
     return render_template('auth/login.html', form=form)
     
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
+    flash(gettext('You have been logged out.'))
     return redirect(url_for('main.index'))
     
     

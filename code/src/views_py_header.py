@@ -21,12 +21,30 @@ from flask          import Markup
 from flask_login    import login_required
 from flask_login    import current_user
 #rom ..email        import send_email
+from flask_babel    import gettext
+from flask_babel    import lazy_gettext
 
 from .              import main
 
 from ..             import db
 from ..             import mail
 from ..             import logger
+from ..             import babel
+
+# add to you main app code
+@babel.localeselector
+def get_locale():
+    try:
+        if current_app.config.CURRENT_LANGUAGE is not None:
+            language =  current_app.config.CURRENT_LANGUAGE
+        else:
+            language =  request.accept_languages.best_match(
+                            current_app.config.LANGUAGES.keys()
+                        )
+    except Exception as e:
+        print(f"get_locale: exception: {str(e)}")
+        language = 'en'
+    return language
 
 from ..decorators   import admin_required, permission_required
 
@@ -75,6 +93,16 @@ def index():
     logger.debug(f"butlerdata={butlerdata}")    
     logger.debug(f"return render_template('butler.html',data=data,butlerdata=butlerdata)")
     return render_template('butler.html',data=data,butlerdata=butlerdata)
+
+@main.route('/es', methods=['GET', 'POST'])
+def es():
+    current_app.config.CURRENT_LANGUAGE = 'es'
+    return redirect('/')
+
+@main.route('/en', methods=['GET', 'POST'])
+def en():
+    current_app.config.CURRENT_LANGUAGE = 'en'
+    return redirect('/')
 
 @main.route('/under_construction', methods=['GET','POST'])
 def under_construction():   
@@ -135,3 +163,5 @@ def butler_about():
     return render_template('butler_about.html')
 
 # ----------------------------------------------------------------------
+
+

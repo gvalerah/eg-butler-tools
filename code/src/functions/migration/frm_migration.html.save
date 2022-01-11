@@ -5,23 +5,23 @@
             <td>
                 <table bgcolor=white border=0>  <!-- Main VM fields request form ----------- -->
                     <tr>
-                        <td width=192><b>{{ gettext('request')|capitalize }}</b></td>
+                        <td width=192><b>Solicitud</b></td>
                         {%- if row.Id > 0 %}
                         <td style="color:blue">{{row.Id}} <b>{{get_request_status_description(row.Status)|join(', ')}}</b></td>
                         {%- else %}
-                        <td style="color:blue"><b>{{ gettext('new request')|capitalize }}</b></td>
+                        <td style="color:blue"><b>Nueva solicitud</b></td>
                         {%- endif %}
                         {%- if form.vmData.debug is defined and form.vmData.debug %}
                         <td>{{ form.vmDebug }}</td>
                         {%- endif %}
                     </tr>
-                    
+                    {# Codigo de VM
                     <tr>
-                        <td width=192><b>{{ gettext('VM name') }}   </b></td>
+                        <td width=192><b>Nombre de MV   </b></td>
                         <!-- <td><input class="form-control" id="vmName" name="vmName" type="text" value="{ {rox.vm_name} }"></td> -->
                         <td width=320><input class="form-control" id="vmName" name="vmName" type="text" value="{{form.vmName.data}}"></td>
                         <td width=32></td>
-                        <td width=192><b>{{ gettext('cluster')|capitalize }}</b></td>
+                        <td width=192><b>Cluster</b></td>
                         <td width=320>
                           <select class="form-control" name="vmCluster" id="vmCluster">
                             {%- for value,option in form.vmCluster.choices %}
@@ -36,36 +36,36 @@
                     </tr>
                     
                     <tr>
-                        <td><b>{{ gettext('CPU cores per Socket')}}</b></td>
+                        <td><b>CPU cores por Socket</b></td>
                         <!-- td><input class="form-control" id="vmCPS" name="vmCPS" type="number" value="{{form.vmCPS.data}}" onchange="get_cpu()"></td -->
                         <td><input class="form-control" id="vmCPS" name="vmCPS" type="number" value="{{form.vmCPS.data}}"></td>
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
                             <td width=32></td> 
-                            <td><b>{{ gettext('project')|capitalize }}</b></td>
+                            <td><b>Proyecto</b></td>
                             <td><input class="form-control-plaintext" id="vmProjectName" name="vmProjectName" type="text" value="Project Name" style="color:blue;font-weight:bold;" disabled></td>
                         {%- endif %}
                     </tr>
                     
                     <tr>
-                        <td><b>{{ gettext('sockets')|capitalize }}</b></td>
+                        <td><b>Sockets</b></td>
                         <!-- td><input class="form-control" id="vmSockets" name="vmSockets" type="number" value="{{form.vmSockets.data}}" onchange="get_cpu()"></td -->
                         <td><input class="form-control" id="vmSockets" name="vmSockets" type="number" value="{{form.vmSockets.data}}"></td>
                         {%- if form.vmData.extra is defined and form.vmData.extra %}
                             <td width=32></td>
-                            <td><b>{{gettext('category')|capitalize}}</b></td>
+                            <td><b>Categoria</b></td>
                             <td><input class="form-control-plaintext" id="vmCategoryName" name="vmCategoryName" type="text" value="Category Name" style="color:blue;font-weight:bold;" disabled></td>
                         {%- endif  %}
                     </tr>
                     
                     <tr>
-                        <td><b>{{gettext('RAM memory in GB')}}</b></td>
+                        <td><b>Memoria RAM en GB</b></td>
                         <!-- <td><input class="form-control" id="vmRAM" name="vmRAM" type="number" value="{{rox.memory_size_gib}}"></td> -->
                         <td><input class="form-control" id="vmRAM" name="vmRAM" type="number" value="{{form.vmRAM.data}}"></td>
 
                     </tr>
                     
                     <tr>
-                        <td><b>{{gettext('corporate')|capitalize}}</b></td>
+                        <td><b>Corporativa</b></td>
                         <td>
                           <select class="form-control" name="vmCorporate" id="vmCorporate">
                             {%- for value,option in form.vmCorporate.choices %}
@@ -78,14 +78,14 @@
                           </select>
                         </td>
                         <td width=32></td>
-                        <td><b>{{gettext('security copies')|capitalize}}</b></td>
+                        <td><b>Copias de Seguridad</b></td>
                         <td>
                             <table border=0>
-                                <td><b>{{gettext('local')|capitalize}}</b></td>
+                                <td><b>Locales</b></td>
                                 <td width=16></td>
                                 <td>{{ form.vmDRP }}</td>
                                 <td width=32></td>
-                                <td><b>{{gettext('remote')|capitalize}}</b></td>
+                                <td><b>Remotas</b></td>
                                 <td width=16></td>
                                 <td>{{ form.vmDRPRemote }}</td>
                             </table>
@@ -93,7 +93,7 @@
                     </tr>
 
                     <tr>
-                        <td><b>{{gettext('Management')|capitalize}}</b></td>
+                        <td><b>Gerencia</b></td>
                         <td>
                           <select class="form-control" name="vmDepartment" id="vmDepartment">
                             {%- for value,option in form.vmDepartment.choices %}
@@ -107,12 +107,12 @@
                           </select>
                         </td>
                         <td width=32></td>
-                        <td><b>{{gettext('CD ROM')}}</b></td>
+                        <td><b>CD ROM</b></td>
                         <td>{{ form.vmCDROM }}</td>
                     </tr>
                     
                     <tr>
-                        <td><b>{{gettext('environment')|capitalize}}</b></td>
+                        <td><b>Ambiente</b></td>
                         <td>
                           <select class="form-control" name="vmCC" id="vmCC">
                             {%- for value,option in form.vmCC.choices %}
@@ -125,12 +125,12 @@
                           </select>
                         </td>
                         <td></td>
-                        <td><b>{{gettext('VM resume')}}</b></td>
+                        <td><b>Resumen de MV</b></td>
                         <td><input class="form-control-plaintext" id="vmResume" name="vmResume" type="text" value="Resume" style="color:blue;font-weight:bold;" disabled></td>
                     </tr>
                     
                     <tr>
-                        <td><b>{{gettext('disk type')|capitalize}}</b></td>
+                        <td><b>Tipo de disco</b></td>
                         <td>
                           <select class="form-control" name="vmType" id="vmType">
                             {%- for value,option in form.vmType.choices %}
@@ -143,12 +143,12 @@
                           </select>
                         </td>
                         <td></td>
-                        <td><b>{{gettext('monthly estimate')|capitalize}}</b></td>
+                        <td><b>Mensual estimado</b></td>
                         <td><input class="form-control-plaintext" id="vmMonth" name="vmMonth" type="text" value="Month" style="color:blue;font-weight:bold;" disabled></td>
                     </tr>   
 
                     <tr>
-                        <td><b>{{gettext('sub networks')|capitalize}}</b></td>
+                        <td><b>Subredes</b></td>
                         <td width=320>
                             <select class="form-control" name="vmVlan0Name" id="vmVlan0Name">                                            
                                 <option selected value="{{rox.nic_0_vlan}}">rox.nic_0_vlan</option>
@@ -209,10 +209,11 @@
                         <td width=320></td>
                     </tr>
                     
-                                     
+                    Fin de Codigo de VM #}
                 </table>
             </td>
         </tr>
+        {# Codigo VM
         <!--
         <hr>
         <tr>
@@ -301,7 +302,7 @@
             <table> <!-- DISCOS BOOT IMAGE ------------------------- -->
                 <thead>
                     <tr>
-                        <th><b>{{gettext('boot image')|capitalize}}</b></th>
+                        <th><b>Imagen de arranque</b></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -324,8 +325,8 @@
             <table> <!-- DISCOS ------------------------------------ -->
                 <thead>
                     <tr>
-                        <th align=center width=32><b>{{gettext('disk')|capitalize}} #</b></th>
-                        <th align=center width=128><b>{{gettext('Size in GB')}}</b></th>
+                        <th align=center width=32><b>Disco #</b></th>
+                        <th align=center width=128><b>Tamaño en GB</b></th>
                         <th align=center width=32><b>#</b></th>
                         <th align=center width=128><b>GB</b></th>
                         <th align=center width=32><b>#</b></th>
@@ -375,13 +376,14 @@
         <tr><td>
         <table> <!-- REQUERIMIENTO ESPECIAL ---------------------------- -->
             <thead>
-                <tr><th width=1024><b>{{gettext('special requirement')|capitalize}}</b></th></tr>
+                <tr><th width=1024><b>Requerimiento especial</b></th></tr>
             </thead>
             <tbody>
                 <tr><td><input class="form-control" id="vmRequestText" name="vmRequestText" type="text" value="{{form.vmRequestText.data}}"></td></tr>  
             </tbody>
         </table>
         </td></tr>
+        Fin de codigo VM #}
     </table>
     <hr>
     <!-- Button options as per user role --------------------------- -->
@@ -390,40 +392,40 @@
         {# %- if row.Status is none or has_status(row.Status,form.vmData.status.NONE) % #}
         {%- if row.Status is none or row.Status == 0 or has_status(row.Status,form.vmData.status.NONE) %}
             <!-- Options for non Created Request ----------------------- -->
-            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="{{gettext('Save')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="Guardar">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- elif has_status(row.Status,form.vmData.status.CREATED) %}
             <!-- Options for Created Request ----------------------- -->
-            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="{{gettext('Save')}}">
-            <input class="btn btn-default" id="submit_Completado" name="submit_Completado" type="submit" value="{{gettext('Completed')}}" >
-            <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="{{gettext('Cancel')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="Guardar">
+            <input class="btn btn-default" id="submit_Completado" name="submit_Completado" type="submit" value="Completado" >
+            <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="Cancelar">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- elif has_status(row.Status,form.vmData.status.REQUESTED) %}
             <!-- Options for Requested Request - ---------------------->
-            <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="{{gettext('Cancel')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">    
+            <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="Cancelar">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">    
         {%- else %}
             <!-- Options for Inactive Request ---------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- endif %}
     {%- elif form.vmData.rolename == 'Approver' %}
         <!-- Options for Approver role ----------------------------- -->
         {%- if has_status(row.Status,[form.vmData.status.REQUESTED,form.vmData.status.REVIEWED]) %}
             <!-- Options for Requested Request --------------------- -->
-            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="{{gettext('Save')}}">
-            <input class="btn btn-default" id="submit_Rechazar"   name="submit_Rechazar"   type="submit" value="{{gettext('Reject')}}">
-            <input class="btn btn-default" id="submit_Aprobar"    name="submit_Aprobar"    type="submit" value="{{gettext('Approve')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}"">
+            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="Guardar">
+            <input class="btn btn-default" id="submit_Rechazar"   name="submit_Rechazar"   type="submit" value="Rechazar">
+            <input class="btn btn-default" id="submit_Aprobar"    name="submit_Aprobar"    type="submit" value="Aprobar">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- elif has_status(row.Status,[form.vmData.status.REJECTED,form.vmData.status.APPROVED]) %}
             <!-- Options for Handled Request ----------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">    
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">    
         {%- else %}
             <!-- Options for Inactive or post approved Request ----- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
         {%- endif %}
     {%- else %}
         <!-- Options for Other/Viewer role ------------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="Retorno">
     {%- endif %}
     <!-- HIDDEN DATA -->
     <input id="vmTopCC"    name="vmTopCC"    type="hidden" value="{{form.vmTopCC}}">

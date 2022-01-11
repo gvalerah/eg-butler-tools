@@ -1,7 +1,7 @@
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
 # gen_model_flask.py:67 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/ORM_model_schema.py
@@ -80,6 +80,33 @@ def Create_Tables(engine):
                 Column( 'Argument_2',String(256) ),
                 Column( 'Argument_3',String(256) ),
                 Column( 'Is_Active',Boolean ),
+        )
+    except Exception as e:
+        print('EXCEPTION:',e)
+    try:
+        Migration_Groups = Table(
+                'Migration_Groups',Meta,
+                Column( 'MG_Id',Integer, primary_key=True, autoincrement=True ),
+                Column( 'Name',String(256) ),
+                Column( 'Origin',String(45) ),
+                Column( 'Destiny',String(45) ),
+                Column( 'Customer',Integer ),
+                Column( 'Platform',Integer ),
+        )
+    except Exception as e:
+        print('EXCEPTION:',e)
+    try:
+        Migration_Groups_VM = Table(
+                'Migration_Groups_VM',Meta,
+                Column( 'MG_Id',Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True ),
+                Column( 'vm_uuid',String(45), primary_key=True ),
+                Column( 'vm_name',String(256) ),
+                Column( 'vm_state',Boolean ),
+                Column( 'vm_has_pd',Boolean ),
+                Column( 'vm_pd_name',String(45) ),
+                Column( 'vm_pd_active',Boolean ),
+                Column( 'vm_pd_replicating',Boolean ),
+                Column( 'vm_migrate',Boolean ),
         )
     except Exception as e:
         print('EXCEPTION:',e)
@@ -165,7 +192,7 @@ def Create_Tables(engine):
                 'Projects',Meta,
                 Column( 'project_uuid',String(45), primary_key=True ),
                 Column( 'project_name',String(45) ),
-                Column( 'project_subnets',String(255) ),
+                Column( 'project_subnets',String(1024) ),
         )
     except Exception as e:
         print('EXCEPTION:',e)

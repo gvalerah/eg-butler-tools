@@ -191,8 +191,8 @@ classes:
 	@echo "***********************************"
 	@echo
 	@echo "***********************************"
-	@echo python ${SUITE_TOOLS_FOLDER}/gen_menu.py ${APP_NAME} ${SUITE_TOOLS_FOLDER} 
-	@python ${SUITE_TOOLS_FOLDER}/gen_menu.py ${APP_NAME} ${SUITE_TOOLS_FOLDER}
+	@echo python ${SUITE_TOOLS_FOLDER}/gen_menu_2.py ${APP_NAME} ${SUITE_TOOLS_FOLDER} 
+	@python ${SUITE_TOOLS_FOLDER}/gen_menu_j2.py ${APP_NAME} ${SUITE_TOOLS_FOLDER}
 	@echo "***********************************"
 	@touch ${BUTLER_CODE_SRC}/*.py 
 	@touch ${BUTLER_CODE_SRC}/models/*.py
@@ -272,8 +272,8 @@ base.html:
 	@echo "***********************************"
 	@echo
 	@echo "***********************************"
-	@echo python ${SUITE_TOOLS_FOLDER}/gen_menu.py ${APP_NAME} ${SUITE_TOOLS_FOLDER} 
-	@python ${SUITE_TOOLS_FOLDER}/gen_menu.py ${APP_NAME} ${SUITE_TOOLS_FOLDER}
+	@echo python ${SUITE_TOOLS_FOLDER}/gen_menu_j2.py ${APP_NAME} ${SUITE_TOOLS_FOLDER} 
+	@python ${SUITE_TOOLS_FOLDER}/gen_menu_j2.py ${APP_NAME} ${SUITE_TOOLS_FOLDER}
 	@echo "***********************************"
 	@echo
 	ls -l ${SUITE_AUTO_TEMPLATES}/base.html

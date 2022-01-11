@@ -10,7 +10,7 @@ from pprint                 import pformat
 from sqlalchemy             import desc
 from emtec.debug            import *
 from emtec.data             import *
-from emtec.butler.forms     import frm_request,form_log
+from emtec.butler.forms     import frm_migration_01,form_log
 from emtec.butler.functions import *
 
 # Templates will reside on view_request_template.py
@@ -18,13 +18,33 @@ from emtec.butler.functions import *
 
 # Support functions
 
+import urllib3
+def nutanix_get_vm_list(host=None,port=9440,username=None,password=None,protocol='https',version=2,verify=False):
+    urllib3.disable_warnings()
+    response = None
+    try:
+        if version == 2:
+            method   = 'GET'
+            endpoint = '/api/nutanix/v2.0/vms/'
+            headers  = {'Accept': 'application/json'}
+            url      = f"{protocol}://{host}:{port}/{endpoint}"
+            response = requests.get(url,auth=(username,password),headers=headers,verify=verify)
+        elif version == 3:
+            method   = 'POST'
+            endpoint = '/api/nutanix/v3/vms/list'
+            headers  = {'Accept':'application/json','Content-Type': 'application/json'}
+            data     = {'kind':'vm'}
+            url      = f"{protocol}://{host}:{port}/{endpoint}"
+            response = requests.get(url,auth=(username,password),headers=headers,data=data,verify=verify)
+    except Exception as e:
+        print(f"nutanix_get_vm_list: Exception = {str(e)}")
+    return response
+
+
 # View functions are in view_request_functions.py  
     # ------------------------------------------------------------------
 
-
-
-
-@main.route('/select/Request', methods=['GET', 'POST'])
+"""@main.route('/select/Request', methods=['GET', 'POST'])
 @login_required
 def select_Request():
     logger.debug(f'{this()}: Enter')    
@@ -128,13 +148,13 @@ def select_Request():
     current_app.jinja_env.globals.update(get_description=get_description)
     logger.debug(f'{this()}: will render select_request.html rows={type(rows)}')    
     return render_template('select_request.html',rows=rows,fltr=fltr)
-
+"""
 import  pandas
 from    pandas.io.json          import json_normalize
 from    flask                   import send_file
 import tempfile
 
-@main.route('/export/Request', methods=['GET', 'POST'])
+"""@main.route('/export/Request', methods=['GET', 'POST'])
 @login_required
 def export_Request():
     logger.debug(f'{this()}: Enter')    
@@ -233,8 +253,9 @@ def export_Request():
     xlsx_file="%s/%s"%(current_app.root_path,url_for('static',filename='tmp/%s'%(output_file)))
     df1.to_excel(xlsx_file,'Sheet 1')
     return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file)
-        
-@main.route('/forms/Request', methods=['GET', 'POST'])
+"""
+
+"""@main.route('/forms/Request', methods=['GET', 'POST'])
 @login_required
 def forms_Request():
     logger.debug(f"{this()}: Enter")
@@ -266,28 +287,14 @@ def forms_Request():
     # Setup initial data -----------------------------------------------
     # look for initial data in DB if any
     logger.debug(f'{this()}: load row from DB for Id={Id}')
-    # 20210603 GV row =  Requests.query.filter(Requests.Id == Id).first()
-    row =  db.session.query(Requests).filter(Requests.Id == Id).first()
+    # GV 20210603 GV row =  Requests.query.filter(Requests.Id == Id).first()
+    row =  db.session.query(Migration_Groups).filter(Migration_Groups.MG_Id == Id).first()
     if row is None:
         logger.debug(f'{this()}: row no existe inicializa objetos vacios')
-        row=Requests()
-        rox=Nutanix_Prism_VM()
+        row=Migration_Groups()
         session['is_new_row']=True
         # set defaults
-        row.CC_Id         = current_app.config.get('BUTLER_DEFAULT_COST_CENTER')
-        rox.vm_drp        = True
-        rox.vm_drp_remote = True
-        rox.vm_cdrom      = True
     else:
-        logger.debug(f'{this()}: load rox from DB for row.Id={row.Id}')
-        rox =  db.session.query(Nutanix_Prism_VM).filter(Nutanix_Prism_VM.Request_Id == row.Id).first()
-        if rox is None:
-            logger.debug(f'{this()}: rox no existe inicializa objeto vacio')
-            rox=Nutanix_Prism_VM()
-            # set defaults
-            rox.vm_drp        = True
-            rox.vm_drp_remote = True
-            rox.vm_cdrom      = True
 
     # Setup some session context data
     
@@ -307,12 +314,6 @@ def forms_Request():
         'top_cost_center_id': 0,
         'top_cost_center_code': '',
     }
-    cc = get_cost_center(json.loads(session['data']['config']['BUTLER_TOP_COST_CENTER']))
-    logger.debug(f"{this()}: session['data']['config']['BUTLER_TOP_COST_CENTER']={session['data']['config']['BUTLER_TOP_COST_CENTER']}")
-    logger.debug(f"{this()}: cc={cc}")
-    if cc is not None:
-        session['data']['top_cost_center_id'] = cc.CC_Id
-        session['data']['top_cost_center_code'] = cc.CC_Code
         
     if   current_user.role_id in [ROLE_REQUESTOR]:
         session['data']['rolename'] = 'Requestor'
@@ -322,6 +323,8 @@ def forms_Request():
         session['data']['rolename'] = 'Viewer'
     elif current_user.role_id in [ROLE_AUDITOR]:
         session['data']['rolename'] = 'Auditor'
+    elif current_user.role_id in [ROLE_OPERATOR]:
+        session['data']['rolename'] = 'Operator'
     else:
         session['data']['rolename'] = 'Other'
         
@@ -329,11 +332,7 @@ def forms_Request():
     # ******************************************************************
     # Instance form
     logger.debug(f'{this()}: instance new form <= frm_request')
-    form              = frm_request()
-    form.logger       = logger
-    form.vmTopCC      = session['data']['top_cost_center_id']
-    form.vmTopCCCode  = session['data']['top_cost_center_code']
-    form.vmDebug.data = session['data']['debug']
+    form              = frm_request_01()
     
     # ******************************************************************
     
@@ -357,32 +356,7 @@ def forms_Request():
 
     form.vmData.update(data)
     
-    logger.trace(f"session['data']=\n{pformat(session['data'])}")
 
-    # Javascript/JQuery scripts array initialization -------------------
-    scripts = []
-    for template in Script_Templates:
-        logger.trace(f"rendering template={template} ...")
-        script = jinja2.Template(template
-                        ).render(
-                            subnet_options     = data.get('subnet_options'),
-                            rates              = data.get('rates'),
-                            gd_map             = data.get('gd_map'),
-                            environments_codes = data.get('environments_codes')
-                        )
-        scripts.append(Markup(script))
-    # Updates JS/JQ functions/events file as per actual DATA -----------
-    # Alert include temporary process id for concurrency of sessions ---
-    jspath = f"{current_app.root_path}/static/js"
-    jsfile = f"{jspath}/butler.requests.{current_user.id}.js"
-    logger.debug(f"{this()}: ACTUALIZANDO : {jsfile} ...")
-    with open(jsfile,'w') as fp:
-        fp.write(f"// {jsfile}{datetime.now()}\n")
-        fp.write(f"// updated: {datetime.now()}\n")
-        for script in scripts:
-            fp.write(f"{script}\n")
-        fp.write(f"// {jsfile}:EOF\n")
-    # ------------------------------------------------------------------
 
     vmCorporate_choices  = []
     vmDepartment_choices = []
@@ -450,7 +424,7 @@ def forms_Request():
             logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
         else:
             logger.debug(f"no errors will evaluate button pushed")
-            form_log(form,logger.debug)
+            #form_log(form,logger.debug)
             
             # Gets sure vmData buffer is complete **********************
             form.vmData.update(Get_data_context(current_app,db,mail,row.Id,current_user))
@@ -459,56 +433,31 @@ def forms_Request():
             # Basic Requestor's submits
             # ----------------------------------------------------------
             # Guardar --------------------------------------------------
-            if     form.submit_Guardar.data and row.Status < BUTLER_STATUS['REQUESTED']:
+            if     form.submit_Guardar.data and row.Status:
                 # Get data from context --------------------------------
-                row.Id         = Id     
-                row.Type       = 1     # Nutanix VM 
-                row.User_Id    = current_user.id 
-                rox.Request_Id = row.Id 
+                row.MG_Id         = Id     
                 save_form(form,row,rox)
                 form.vmData.update({'row':row,'rox':rox})
                 # Aqui ajusta valor en BD ------------------------------
                 try:
                     ## GV db.session.close()
                     if row.Id == 0: 
-                        row.Status            = REQUEST_CREATED
-                        row.Creation_Time     = datetime.now()
-                        row.Last_Status_Time  = row.Creation_Time
                         session['is_new_row'] = True
                         db.session.add(row)
                         db.session.flush()
                         # specific query to get last id, other approach seem
                         # not to work
-                        rox.Request_Id = db.session.query(
-                            func.max(Requests.Id)
-                            ).filter(Requests.User_Id == current_user.id
-                            ).scalar()
-                        Id = rox.Request_Id
-                        db.session.add(rox)
-                        session['new_row']    = str(row)+str(rox)
+                        session['new_row']    = str(row)
                     else:
                         session['is_new_row'] = False
-                        session['new_row']    = str(row)+str(rox)
+                        session['new_row']    = str(row)
                         db.session.merge(row)
-                        db.session.merge(rox)
                     saved_row=copy.copy(row)
-                    saved_rox=copy.copy(rox)
                     db.session.commit()
                     ## GV db.session.close()
                     if session['is_new_row']==True:
                         form.vmData['row']=saved_row
-                        form.vmData['rox']=saved_rox
                         logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                        try:
-                            butler_notify_request(
-                                f'Creada por {current_user.username}',
-                                data=form.vmData,
-                                html_function=butler_output_request
-                                )
-                            message=Markup(f'<b>Nueva solicitud {Id} creada OK</b>')
-                        except Exception as e:
-                            message=Markup(f'<b>Nueva solicitud {Id} creacion excepcion: {str(e)}</b>')
-                            emtec_handle_general_exception(e,logger=logger)
                     else:
                         # Check this code, cookie must transport premodification state
                         # so we can save audit data conditionaly
@@ -520,9 +469,9 @@ def forms_Request():
                             if session['new_row'] != session['prev_row']:
                                 logger.debug(f"change detected, session.prev_row is available")
                                 form.vmData['row']=saved_row
-                                form.vmData['rox']=saved_rox
                                 logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                                 logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
+                                '''
                                 try:
                                     butler_notify_request(
                                         f"Solicitud {Id} Modificada por '{current_user.username}'",
@@ -533,11 +482,13 @@ def forms_Request():
                                 except Exception as e:
                                     message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
                                     emtec_handle_general_exeption(e,logger=logger)
+                                '''
                             else:
                                 logger.debug(f"change NOT detected, session.prev_row is available")
-                                message=Markup(f'<b>Solicitud {Id} no fue modificada</b>')                        
+                                message=Markup(f'<b>Grupo de Migración {Id} no fue modificado</b>')                        
                         else:
                             logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
+                            '''
                             try:
                                 butler_notify_request(
                                     f"Solicitud {Id} Modificada por '{current_user.username}'",
@@ -548,95 +499,21 @@ def forms_Request():
                             except Exception as e:
                                 message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
                                 emtec_handle_general_exception(e,logger=logger)                            
+                            '''
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
-                    ## GV db.session.close()
+                    # GV db.session.close()
                     message=Markup(f'ERROR salvando Solicitud : {str(e)}')
                 flash(message)
-                ## GV db.session.close()
-                return redirect(url_for('.select_Request' ))
-            # Completado ---------------------------------------------------
-            elif   form.submit_Completado.data:
-                save_form(form,row,rox)
-                form.vmData.update({'row':row,'rox':rox})
-                saved_row=copy.copy(row)
-                saved_rox=copy.copy(rox)
-                # Aqui ajusta valor en BD
-                try:
-                    if row.Id > 0:
-                        row.Status           = REQUEST_REQUESTED
-                        row.Last_Status_Time = datetime.now()
-                        session['new_row']   = str(row)+str(rox)
-                        Id = row.Id    
-                        db.session.merge(row)
-                        db.session.merge(rox)
-                    db.session.commit()
-                    ## GV db.session.close()
-                    if session.get('prev_row') is not None:
-                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                    logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    form.vmData['row']=saved_row
-                    form.vmData['rox']=saved_rox
-                    try:
-                        butler_notify_request(
-                            f'Completada por {current_user.username}. En Proceso de aprobación.',
-                            data=form.vmData,
-                            html_function=butler_output_request
-                            )
-                        message=Markup(f'<b>Solicitud {saved_rox.Request_Id} en Aprobacion</b>')
-                    except Exception as e:
-                        message=Markup(f'<b>Solicitud {saved_rox.Request_Id} en Aprobacion excepcion:{str(e)}</b>')
-                        emtec_handle_general_exception(e,logger=logger)
-                except Exception as e:
-                    emtec_handle_general_exception(e,logger=logger)
-                    db.session.rollback()
-                    ## GV db.session.close()
-                    message=Markup(f'ERROR enviando Solicitud : {str(e)}')
-                flash(message)
-                ## GV db.session.close()
+                # GV db.session.close()
                 return redirect(url_for('.select_Request' ))
             # Eliminar -----------------------------------------------------
             elif   form.submit_Cancelar.data:
                 # Aqui ajusta valor en BD
-                try:
-                    if row.Id > 0:
-                        row.Status           = REQUEST_CANCELED
-                        row.Last_Status_Time = datetime.now()
-                        if row.Comments is None: row.Comments = ''
-                        if len(row.Comments): row.Comments += '\n'
-                        row.Comments = row.Comments + f"Solicitud Cancelada/Eliminada por usuario '{current_user.username}'. Estado Final."
-                        if current_user.role_id == ROLE_APPROVER:
-                            row.Approver_Id = current_user.id
-                        session['new_row']    = str(row)+str(rox)
-                        db.session.merge(row)
-                        db.session.merge(rox)
-                    db.session.commit()
-                    ## GV db.session.close()
-                    if session.get('prev_row') is not None:
-                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                    logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    form.vmData.update({'row':row,'rox':rox})
-                    try:
-                        butler_notify_request(
-                            f'Cancelada por {current_user.username}',
-                            data=form.vmData,
-                            html_function=butler_output_request
-                            )
-                        message=Markup(f'<b>Solicitud {Id} Cancelada</b>')
-                    except Exception as e:
-                        message=Markup(f'<b>Solicitud {Id} Cancelacion excepcion: {str(e)}</b>')
-                        emtec_handle_general_exception(e,logger=logger)
-                except Exception as e:
-                    emtec_handle_general_exception(e,logger=logger)
-                    db.session.rollback()
-                    message=Markup(f'<b>ERROR eliminando Solicitud {Id}: {str(e)}</b>')
-                flash(message)
-                ## GV db.session.close()
-                return redirect(url_for('.select_Request' ))
             # Retorno ------------------------------------------------------
             elif   form.submit_Retorno.data and session['data']['rolename'] == 'Requestor':
-                message=Markup(f'<b>Modificaciones a Solicitud {Id} descartadas</b>')
+                message=Markup(f'<b>Modificaciones a Grupo de Migración {Id} descartadas</b>')
                 flash(message)
                 ## GV db.session.close()
                 return redirect(url_for('.select_Request' ))
@@ -644,33 +521,35 @@ def forms_Request():
             # Approver's submits
             # --------------------------------------------------------------
             # Guardar ------------------------------------------------------ 
-            elif   form.submit_Guardar.data and row.Status >= BUTLER_STATUS['REQUESTED']:
+            elif   form.submit_Guardar.data:
                 ## GV db.session.close()
                 # Get Data from form
                 # CC Id is a mix of distribution CC + Storage Type
                 save_form(form,row,rox)
-                form.vmData.update({'row':row,'rox':rox})
+                #orm.vmData.update({'row':row,'rox':rox})
+                form.vmData.update({'row':row})
                 # Aqui ajusta valor en BD
                 try:
-                    session['new_row']   = str(row)+str(rox)
+                    session['new_row']   = str(row)
                     # Check for changes in request
                     if session.get('new_row') is not None:
-                        row.Status           = row.Status | REQUEST_REVIEWED
-                        row.Last_Status_Time = datetime.now()
-                        row.Approver_Id      = current_user.id
-                        if row.Comments is None: row.Comments = ''
-                        if len(row.Comments): row.Comments += '\n'
-                        row.Comments         = row.Comments + f"Solicitud modificada por '{current_user.username}' @ {datetime.now().strftime('%d/%m/%y %H:%M')}. "
+                        #row.Status           = row.Status | REQUEST_REVIEWED
+                        #row.Last_Status_Time = datetime.now()
+                        #row.Approver_Id      = current_user.id
+                        #if row.Comments is None: row.Comments = ''
+                        #if len(row.Comments): row.Comments += '\n'
+                        #row.Comments         = row.Comments + f"Solicitud modificada por '{current_user.username}' @ {datetime.now().strftime('%d/%m/%y %H:%M')}. "
                         db.session.merge(row)
-                        db.session.merge(rox)
+                        #db.session.merge(rox)
                         saved_row=copy.copy(row)
-                        saved_rox=copy.copy(rox)
+                        #saved_rox=copy.copy(rox)
                         db.session.commit()
                         ## GV db.session.close()
                         if session.get('prev_row') is not None:
                             logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
                         logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                        form.vmData.update({'row':row,'rox':rox})
+                        #orm.vmData.update({'row':row,'rox':rox})
+                        form.vmData.update({'row':row})
                         form.vmData['row']=saved_row
                         form.vmData['rox']=saved_rox
                         butler_notify_request(
@@ -678,9 +557,9 @@ def forms_Request():
                             data=form.vmData,
                             html_function=butler_output_request
                             )
-                        message=Markup(f"<b>Solicitud {Id} Modificada por '{current_user.username}'</b>")
+                        message=Markup(f"<b>Grupo de Migración {Id} Modificado por '{current_user.username}'</b>")
                     else:
-                        message=Markup(f"<b>Solicitud {Id} no Modificada'</b>")
+                        message=Markup(f"<b>grupo de Migración {Id} no Modificado'</b>")
                 except Exception as e:
                     emtec_handle_general_exception(e,logger=logger)
                     db.session.rollback()
@@ -844,7 +723,286 @@ def forms_Request():
             row = row,
             rox = rox,
             )
+"""
 
+
+@main.route('/forms/Migration/popup1', methods=['GET', 'POST'])
+@login_required
+def form_Migration_popup1():
+    print(f"Will render template migration_popup1.html")
+    return render_template('migration_popup1.html')
+
+@main.route('/forms/Migration/popup2', methods=['GET', 'POST'])
+@login_required
+def form_Migration_popup2():
+    mgId=request.args.get('mgId',None)
+    print(f"Will render template migration_popup2.html with mgId={mgId}")
+    return render_template('migration_popup2.html',mgId=mgId)
+
+#@main.route('/forms/Migration/create_group', methods=['GET', 'POST'])
+#@login_required
+#ef forms_Migration_create_group():
+def forms_Migration_create_group(form):
+    logger.debug(f"{this()}: IN new name = {form.mgNewName.data}")
+    #roupid   = request.form.get('groupid',0)
+    #roupname = request.form.get('groupname',None)
+    groupid   = form.mgId
+    groupname = form.mgNewName.data
+    logger.debug(f"{this()}: groupid={groupid} groupname={groupname}")
+    # Aqui debe crear el grupo de migracion si no existe y 
+    # llamar a forms/Migration con el nuevo Id
+    mgs = db.session.query(Migration_Groups
+            ).filter(Migration_Groups.Name == groupname
+        ).all()
+    #orm.mgNewName=groupname
+    if mgs is None or len(mgs)==0:
+        # GV its a new group then create one
+        # creo nuevo grupo en BD y cargo ultimo id
+        newmg = Migration_Groups(
+                    Name=groupname
+                    )
+        logger.debug(f"{this()}: newmg={newmg}")
+        db.session.add(newmg)
+        db.session.commit()
+        db.session.flush()
+        db.session.refresh(newmg)
+        logger.debug(f"{this()}: newmg={newmg}")
+        logger.info(f"Creo grupo '{groupname}' ...")
+        flash(f"Creo grupo '{groupname}' ...")
+        form.mgNewId.data=newmg.MG_Id
+    else:
+        #lash(f"Grupo '{groupname}' ya existe","warning")
+        logger.warning(f"Grupo '{groupname}' ya existe")
+        logger.warning(f"Grupo '{mgs}' ya existe")
+        for mg in mgs:
+            if mg.Name == groupname:
+                form.mgNewId.data=mg.MG_Id
+                break
+        logger.warning(f"Grupo '{groupname}' ya existe con id={form.mgNewId.data}")
+        flash(f"Grupo '{groupname}' ya existe con id={form.mgNewId.data}")
+    
+    groupid   = form.mgNewId.data
+    logger.debug(f"{this()}: OUT returns Group Id={groupid}")
+    return groupid
+    #return redirect(url_for('.forms_Migration',Id=groupid))
+
+@main.route('/forms/Migration/add_vm_to_group', methods=['GET', 'POST'])
+@login_required
+def forms_Migration_add_vm_to_group():
+    mgId = request.form.get('mgId',None)
+    vmId = request.form.get('vmId',None)
+    # Aqui debe crear el registro de vm asociado al grupo 
+    # llamar a forms/Migration con el mismo mgId
+    print(f"{this()}: Enter. mgId = {mgId} vmId={vmId}")
+    return f"{this()}: Enter. mgId = {mgId} vmId={vmId}"
+
+@main.route('/forms/Migration', methods=['GET', 'POST'])
+@login_required
+def forms_Migration():
+    logger.debug(f"{this()}: Enter")
+    logger.debug(f"{this()}: request = {request}")
+    
+    # DB Control -------------------------------------------------------
+    try:    
+        db.session.flush()
+        db.session.commit()
+    except Exception as e:
+        logger.error(f"{this()}: DB Control Exception: {str(e)}. rolling back ...")
+        try:
+            db.session.rollback()
+            logger.error(f"{this()}: Rolled back.")
+        except Exception as e:
+            logger.error(f"{this()}: While rolling back Exception{str(e)}.")
+    # DB Control -------------------------------------------------------
+    # Get Id if any
+    Id  =  request.args.get('Id',0,type=int)
+    
+    # Setup initial data -----------------------------------------------
+    # look for initial data in DB if any
+    logger.debug(f'{this()}: load row from DB for Id={Id}')
+    # GV 20210603 GV row =  Requests.query.filter(Requests.Id == Id).first()
+    logger.debug(f"{this()}: Id = {Id}")
+    if Id>0:
+        logger.debug(f"getting specific group for Id={Id}")
+        row =  db.session.query(Migration_Groups).filter(Migration_Groups.MG_Id == Id).first()
+    else:
+        logger.debug(f"{this()}: getting first group")
+        row =  db.session.query(Migration_Groups).first()        
+    logger.debug(f"{this()}: row = {row}")
+    rox =  None
+    if row is None:
+        logger.debug(f'{this()}: row no existe inicializa objetos vacios')
+        row=Migration_Groups()
+        session['is_new_row']=True
+        # GV set defaults
+    else:
+        # GV row ya está cargado
+        pass
+    if row is not None:
+        logger.debug(f"{this()}: getting rows from Id={Id}")
+        rox = db.session.query(Migration_Groups_VM).filter(Migration_Groups_VM.MG_Id == row.MG_Id).all()
+    else:
+        rox = None
+    logger.debug(f"{this()}: row id  = {row.MG_Id}")
+    logger.debug(f"{this()}: len rox = {len(rox)}")
+        
+    
+    # GV Setup some session context data
+    form = frm_migration_01()
+    form.mgVms = []
+    if row is not None:
+        form.mgId=row.MG_Id
+    for r in rox:
+        form.mgVms.append(r)
+    
+    migration_group_list = get_migration_group_list()
+    migration_group_options = [('','')]
+    for mgid,name,origin,destiny in migration_group_list:
+        migration_group_options.append((mgid,name))
+    
+    cluster_list = get_cluster_list()
+    cluster_options = [('','')]
+    for uuid,name,ip in cluster_list:
+        cluster_options.append((uuid,name))
+    
+    
+    form.mgName.choices    = migration_group_options
+    form.mgOrigin.choices  = cluster_options
+    form.mgDestiny.choices = cluster_options
+    
+    form.mgName.data    = row.MG_Id 
+    form.mgOrigin.data  = row.Origin 
+    form.mgDestiny.data = row.Destiny
+        
+    vm_list = {}
+    for cluster_name in current_app.config.get('NUTANIX_CLUSTERS'):
+        cluster  = current_app.config.get('NUTANIX_CLUSTERS').get(cluster_name)
+        uuid     = cluster.get('uuid')
+        vm_list.update({uuid:{'name':cluster_name,'vms':{}}})
+        vm_list[uuid]['vms'] = {}
+        try:
+            response = nutanix_get_vm_list(
+                host     = cluster.get('host'),
+                username = cluster.get('username'),
+                password = cluster.get('password')
+                )
+            if response.ok:
+                for vm in response.json().get('entities'):
+                    vm_list[uuid]['vms'].update({
+                        vm.get('name'):{
+                            'uuid'       :vm.get('uuid'),
+                            'power_state':vm.get('power_state'),
+                            }
+                    })
+            else:
+                logger.error(f"{this()}: Invalid response {response}")
+        except Exception as e:
+            emtec_handle_general_exception(e,logger=logger)
+            
+    form.mgData = {
+        'migration_group_list': migration_group_list,
+        'cluster_list': cluster_list,
+        'vm_list': vm_list,
+    }
+    
+    form.mgOriginVms.choices = []
+    logger.debug(f"{this()}: row.Origin={row.Origin} None? {row.Origin is None} type? {type(row.Origin)}")
+    if row.Origin is not None and row.Origin != 'None':
+        OriginVms = vm_list.get(row.Origin).get('vms')
+        #print(f"OriginVms={OriginVms}")
+        for vm in OriginVms:
+            form.mgOriginVms.choices.append(
+                (
+                    OriginVms.get(vm).get('uuid'),
+                    vm
+                )
+            )
+
+    logger.debug(f"{this()}: len migration groups = {len(migration_group_list)}")
+    logger.debug(f"{this()}: len clusters         = {len(cluster_list)}")
+    logger.debug(f"{this()}: len vm_list          = {len(vm_list)}")
+    logger.debug(f"{this()}: len origin vms       = {len(form.mgOriginVms.choices)}")
+    
+    # GV ***************************************************************
+
+    logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()}")
+    logger.debug(f"{this()}: form.errors         = {form.errors}")
+    # Will check if all validated
+    if form.is_submitted() and len(form.errors)==0:
+        logger.debug(f"submit_Crear.data    = {form.submit_Crear.data}")
+        logger.debug(f"submit_Agregar.data  = {form.submit_Agregar.data}")
+        logger.debug(f"submit_Clonar.data   = {form.submit_Clonar.data}")
+        logger.debug(f"submit_Salvar.data   = {form.submit_Salvar.data}")
+        logger.debug(f"submit_Eliminar.data = {form.submit_Eliminar.data}")
+        logger.debug(f"submit_Cancelar.data = {form.submit_Cancelar.data}")
+        logger.debug(f"submit_Validar.data  = {form.submit_Validar.data}")
+        logger.debug(f"submit_Migrar.data   = {form.submit_Migrar.data}")
+        #ogger.debug(f"form dir             = {dir(form)}")
+        logger.debug(f"form data            = {form.data}")
+        logger.debug(f"form.mgNewName       = {form.mgNewName.data}")
+        logger.debug(f"form.mgNewId         = {form.mgNewId.data}")
+        if form.submit_Crear.data or form.submit_Agregar.data:
+            if form.submit_Crear.data:
+                logger.debug(f"{this()}: Create code here. then redirect")
+                flash(f"Create code here. then redirect")
+                groupid = forms_Migration_create_group(form)
+                logger.debug(f"{this()}: groupid = {groupid}")
+                logger.debug(f"{this()}: form.mgNewId.data = {form.mgNewId.data}")
+                return redirect(url_for('.forms_Migration',Id=form.mgNewId.data))
+            elif form.submit_Agregar.data:
+                #lash(f"Add VM here. then redirect","warning")
+                logger.debug(f"{this()}: Add VM here. then redirect")
+                flash(f"{this()}: Add VM here. then redirect")
+                return redirect(url_for('.forms_Migration',Id=form.mgId))
+        else:
+            logger.debug(f"{this()}: will call form.validate()")
+            try:
+                form.validate()
+            except Exception as e:
+                logger.error(f"form.validate exception: {str(e)}")
+                logger.error(f"form.errors: {form.errors}")
+                emtec_handle_general_exception(e,logger=logger)
+            logger.debug(f"{this()}: return from form.validate() errors={len(form.errors)}")
+            if len(form.errors) != 0:
+                logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
+            else:
+                logger.debug(f"no errors will evaluate button pushed")
+                
+                # Gets sure vmData buffer is complete **********************
+                #form.vmData.update(Get_data_context(current_app,db,mail,row.Id,current_user))
+                # **********************************************************
+                # ------------------------------------------------------
+                # Basic Requestor's submits
+                # ------------------------------------------------------
+                # Clonar -----------------------------------------------
+                if form.submit_Clonar.data:
+                    alert(f"Clonar")
+                # Salvar -----------------------------------------------
+                elif form.submit_Salvar.data:
+                    alert(f"Salvar")
+                # Eliminar ---------------------------------------------
+                elif form.submit_Eliminar.data:
+                    alert(f"Eliminar")
+                # Eliminar ---------------------------------------------
+                elif form.submit_Cancelar.data:
+                    alert(f"Cancelar")
+                # Eliminar ---------------------------------------------
+                elif form.submit_Validar.data:
+                    alert(f"Validar")
+                # Eliminar ---------------------------------------------
+                elif form.submit_Migrar.data:
+                    alert(f"Migrar")
+                # ------------------------------------------------------
+    else:
+        logger.debug(f"form is not submitted")
+
+
+    # GV ***************************************************************
+    logger.debug(f"Will render template: migration.html")
+    return render_template('migration.html',
+            form = form
+            )
+            
 # ======================================================================
 
 # **********************************************************************
@@ -853,7 +1011,7 @@ def forms_Request():
 
 # 'Magic' argument ID is used to assign ID and mark body_only mode
 # for exploit via external functions like 'notity_request'
-@main.route('/report/Request', methods=['GET','POST'])
+"""@main.route('/report/Request', methods=['GET','POST'])
 @login_required
 def report_Request(ID=None):
     logger.debug(f'{this()}: Enter')
@@ -923,4 +1081,5 @@ def report_Request(ID=None):
                 row       = row,
                 body_only = True
         )
+"""
 # EOF ******************************************************************

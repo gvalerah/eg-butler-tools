@@ -16,7 +16,7 @@ from sqlalchemy             import ForeignKey
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
 from sqlalchemy                 import Table, Column
@@ -31,7 +31,7 @@ from sqlalchemy                 import VARBINARY
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 import json
 import logging
@@ -45,20 +45,38 @@ Base = declarative_base()
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_categories.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_categories.py
 class Categories(Base):
     __tablename__ = 'Categories'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Categories_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     category_name        = Column( String(45), primary_key=True )
@@ -188,20 +206,38 @@ class Categories(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_clusters.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_clusters.py
 class Clusters(Base):
     __tablename__ = 'Clusters'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Clusters_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     cluster_uuid     = Column( String(45), primary_key=True )
@@ -337,20 +373,38 @@ class Clusters(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
 class Cost_Centers(Base):
     __tablename__ = 'Cost_Centers'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Cost_Centers_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     CC_Id          = Column( Integer, primary_key=True, autoincrement=True )
@@ -490,7 +544,7 @@ class Cost_Centers(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -501,12 +555,13 @@ def get_Cost_Centers(table_name_suffix):
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Cost_Centers_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table_args__ = {'extend_existing':True}
            __class__.__table__.name = name
+           __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     CC_Id          = Column( Integer, primary_key=True, autoincrement=True )
@@ -650,20 +705,38 @@ def get_Cost_Centers(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_disk_images.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_disk_images.py
 class Disk_Images(Base):
     __tablename__ = 'Disk_Images'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Disk_Images_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     uuid             = Column( String(45), primary_key=True )
@@ -807,20 +880,38 @@ class Disk_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_domains.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_domains.py
 class Domains(Base):
     __tablename__ = 'Domains'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Domains_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     Domain_Id = Column( Integer, primary_key=True )
@@ -989,20 +1080,38 @@ class Domains(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_interface.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_interface.py
 class Interface(Base):
     __tablename__ = 'Interface'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Interface_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     Id          = Column( Integer, primary_key=True, autoincrement=True )
@@ -1144,20 +1253,780 @@ class Interface(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_prism_vm.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
+class Migration_Groups(Base):
+    __tablename__ = 'Migration_Groups'
+    engine        = None
+    logger        = None
+
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
+       if suffix is not None:
+           name='Migration_Groups_{suffix}'.format(suffix=suffix)
+           __class__.__tablename__  = name
+           __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
+       return __class__.__tablename__
+
+    MG_Id    = Column( Integer, primary_key=True, autoincrement=True )
+    Name     = Column( String(256) )
+    Origin   = Column( String(45) )
+    Destiny  = Column( String(45) )
+    Customer = Column( Integer )
+    Platform = Column( Integer )
+    
+    def __init__(self, MG_Id=0, Name='None', Origin='None', Destiny='None', Customer=None, Platform=None,engine=None,logger=None):
+        """ Initiates a Migration_Groups class record """
+        self.engine=engine
+        self.logger=logger
+        self.MG_Id    = MG_Id
+        self.Name     = Name
+        self.Origin   = Origin
+        self.Destiny  = Destiny
+        self.Customer = Customer
+        self.Platform = Platform
+
+        self.log('Created %s'%self)
+    def __repr__(self):
+        """ default class Migration_Groups representation function """
+        return "<Migration_Groups( MG_Id='%s', Name='%s', Origin='%s', Destiny='%s', Customer='%s', Platform='%s')>" % \
+                ( self.MG_Id, self.Name, self.Origin, self.Destiny, self.Customer, self.Platform)
+
+    def get_list(self):
+        """ Gets Migration_Groups record in list format """
+        __list = [ self.MG_Id, self.Name, self.Origin, self.Destiny, self.Customer, self.Platform]
+        return __list
+
+    def get_tuple(self):
+        """ Gets Migration_Groups record in tuple format """
+        __tuple = ( self.MG_Id, self.Name, self.Origin, self.Destiny, self.Customer, self.Platform)
+        return __tuple
+
+    def get_dict(self):
+        """ Gets Migration_Groups record in dict format """
+        __dict={'MG_Id':self.MG_Id,'Name':self.Name,'Origin':self.Origin,'Destiny':self.Destiny,'Customer':self.Customer,'Platform':self.Platform}
+
+        return __dict
+
+    def get_json_dict(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return __dict
+
+    def get_json(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return json.dumps(__dict)
+
+    def post(self):
+       return self
+
+    def patch(self,**kwargs):
+       for field in self.get_column_headers():
+           if field in kwargs.keys():
+               setattr(self,field,kwargs[field])
+       return self
+
+    def delete(self):
+       return True
+
+    def get_json_array(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        """ Gets Migration_Groups record in JSON array format """
+        __list = self.get_list()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for field in range(len(__list)):
+            if   'datetime.datetime' in str(type(__list[field])): __list[field]=__list[field].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__list[field])): __list[field]=__list[field].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__list[field])): __list[field]=__list[field].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__list[field])): __list[field]=float(__list[field])
+        return __list
+
+    def get_columns(self):
+        """ Gets Migration_Groups record column full details list """
+        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': 'auto_increment', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': True, 'header': 'MG_Id', 'is_time': False}, {'field': 'Name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'Name', 'is_time': False}, {'field': 'Origin', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'Origin', 'is_time': False}, {'field': 'Destiny', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'Destiny', 'is_time': False}, {'field': 'Customer', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'Customer', 'is_time': False}, {'field': 'Platform', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'Platform', 'is_time': False}]
+
+        return __list
+
+    def get_column_headers(self):
+        """ Gets Migration_Groups record column headers list """
+        __list=['MG_Id', 'Name', 'Origin', 'Destiny', 'Customer', 'Platform']
+
+        return __list
+
+    def get_column_types(self):
+        """ Gets Migration_Groups record column data types list """
+        __list=['Integer', 'String(256)', 'String(45)', 'String(45)', 'Integer', 'Integer']
+
+        return __list
+
+    def get_column_meta(self):
+        """ Gets Migration_Groups record column data meta list """
+        __list=[('MG_Id', 'Integer'), ('Name', 'String(256)'), ('Origin', 'String(45)'), ('Destiny', 'String(45)'), ('Customer', 'Integer'), ('Platform', 'Integer')]
+
+        return __list
+
+    def get_id(self,Name):
+        """ Search for a 'Migration_Groups' Id looking for field 'Name' """
+        Id = None
+        try:
+            if self.engine is not None:
+                Session=sessionmaker(bind=self.engine)
+                session=Session()
+                Id = session.query(Migration_Groups.Id).filter(Migration_Groups.Name==Name).scalar()
+                session.flush()
+            else:
+                session.rollback()
+                Id = None
+        except Exception as e:
+            detail='Migration_Groups.get_id(%s): Exception: %s'%(Name,e)
+            emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups.get_id()',logger=self.logger)
+            Id = None
+        return Id
+
+    def search(self,Name):
+        """ Search for a 'Migration_Groups' record looking for field 'Name' """
+        Id = self.get_id(Name)
+        if Id is not None:
+            try:
+                if self.engine is not None:
+                    Session=sessionmaker(bind=self.engine)
+                    session=Session()
+                    record = session.query(Migration_Groups).filter(Migration_Groups.Id==Id).one_or_none()
+                    session.flush()
+                else:
+                    session.rollback()
+                    record = None
+            except Exception as e:
+                detail='Migration_Groups.search(%s): Exception: %s'%(Name,e)
+                emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups.search()',logger=self.logger)
+                record = None
+        return record
+
+    def search_key(self,MG_Id):
+        """ Search for an unique Migration_Groups record using all key fields (MG_Id) """
+        try:
+            if self.engine is not None:
+                Session=sessionmaker(bind=self.engine)
+                session=Session()
+                record = session.query(Migration_Groups).filter(Migration_Groups.MG_Id==MG_Id).one_or_none()
+                session.flush()
+            else:
+                session.rollback()
+                record = None
+        except Exception as e:
+            detail='Migration_Groups.search_key(%s): Exception: %s'%(MG_Id,e)
+            emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups.search_key()',logger=self.logger)
+            record = None
+        return record
+
+    def log(self,message,level=logging.DEBUG):
+        """ Class Migration_Groups log function """
+        if self.logger is not None:
+            self.logger.log(level,message)
+
+# =============================================================================
+# Auto-Generated code. do not modify
+# (c) Sertechno 2018
+# GLVH @ 2022-01-10 16:03:50
+# =============================================================================
+
+# gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
+# gen_model_flask.py: Table sharding code follows:
+def get_Migration_Groups(table_name_suffix):
+  class Migration_Groups_Class(Base):
+    __tablename__ = 'Migration_Groups_%s'%(table_name_suffix)
+    engine        = None
+    logger        = None
+
+    def set_shard(suffix=None,engine=None):
+       if suffix is not None:
+           name='Migration_Groups_{suffix}'.format(suffix=suffix)
+           __class__.__tablename__  = name
+           __class__.__table_args__ = {'extend_existing':True}
+           __class__.__table__.name = name
+           __class__.check_shard(suffix,engine)
+       return __class__.__tablename__
+
+    MG_Id    = Column( Integer, primary_key=True, autoincrement=True )
+    Name     = Column( String(256) )
+    Origin   = Column( String(45) )
+    Destiny  = Column( String(45) )
+    Customer = Column( Integer )
+    Platform = Column( Integer )
+    
+    def __init__(self, MG_Id=0, Name='None', Origin='None', Destiny='None', Customer=None, Platform=None,engine=None,logger=None):
+        """ Initiates a Migration_Groups class record """
+        self.engine=engine
+        self.logger=logger
+        self.MG_Id    = MG_Id
+        self.Name     = Name
+        self.Origin   = Origin
+        self.Destiny  = Destiny
+        self.Customer = Customer
+        self.Platform = Platform
+
+        self.log('Created %s'%self)
+    def __repr__(self):
+        """ default class Migration_Groups representation function """
+        return "<Migration_Groups( MG_Id='%s', Name='%s', Origin='%s', Destiny='%s', Customer='%s', Platform='%s')>" % \
+                ( self.MG_Id, self.Name, self.Origin, self.Destiny, self.Customer, self.Platform)
+
+    def get_list(self):
+        """ Gets Migration_Groups record in list format """
+        __list = [ self.MG_Id, self.Name, self.Origin, self.Destiny, self.Customer, self.Platform]
+        return __list
+
+    def get_tuple(self):
+        """ Gets Migration_Groups record in tuple format """
+        __tuple = ( self.MG_Id, self.Name, self.Origin, self.Destiny, self.Customer, self.Platform)
+        return __tuple
+
+    def get_dict(self):
+        """ Gets Migration_Groups record in dict format """
+        __dict={'MG_Id':self.MG_Id,'Name':self.Name,'Origin':self.Origin,'Destiny':self.Destiny,'Customer':self.Customer,'Platform':self.Platform}
+
+        return __dict
+
+    def get_json_dict(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return __dict
+
+    def get_json(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return json.dumps(__dict)
+
+    def post(self):
+       return self
+
+    def patch(self,**kwargs):
+       for field in self.get_column_headers():
+           if field in kwargs.keys():
+               setattr(self,field,kwargs[field])
+       return self
+
+    def delete(self):
+       return True
+
+    def get_json_array(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        """ Gets Migration_Groups record in JSON array format """
+        __list = self.get_list()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for field in range(len(__list)):
+            if   'datetime.datetime' in str(type(__list[field])): __list[field]=__list[field].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__list[field])): __list[field]=__list[field].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__list[field])): __list[field]=__list[field].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__list[field])): __list[field]=float(__list[field])
+        return __list
+
+    def get_columns(self):
+        """ Gets Migration_Groups record column full details list """
+        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': 'auto_increment', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': True, 'header': 'MG_Id', 'is_time': False}, {'field': 'Name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'Name', 'is_time': False}, {'field': 'Origin', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'Origin', 'is_time': False}, {'field': 'Destiny', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'Destiny', 'is_time': False}, {'field': 'Customer', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'Customer', 'is_time': False}, {'field': 'Platform', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'Platform', 'is_time': False}]
+
+        return __list
+
+    def get_column_headers(self):
+        """ Gets Migration_Groups record column headers list """
+        __list=['MG_Id', 'Name', 'Origin', 'Destiny', 'Customer', 'Platform']
+
+        return __list
+
+    def get_column_types(self):
+        """ Gets Migration_Groups record column data types list """
+        __list=['Integer', 'String(256)', 'String(45)', 'String(45)', 'Integer', 'Integer']
+
+        return __list
+
+    def get_column_meta(self):
+        """ Gets Migration_Groups record column data meta list """
+        __list=[('MG_Id', 'Integer'), ('Name', 'String(256)'), ('Origin', 'String(45)'), ('Destiny', 'String(45)'), ('Customer', 'Integer'), ('Platform', 'Integer')]
+
+        return __list
+
+    def get_id(self,Name):
+        """ Search for a 'Migration_Groups' Id looking for field 'Name' """
+        Id = None
+        try:
+            if self.engine is not None:
+                Session=sessionmaker(bind=self.engine)
+                session=Session()
+                Id = session.query(Migration_Groups.Id).filter(Migration_Groups.Name==Name).scalar()
+                session.flush()
+            else:
+                session.rollback()
+                Id = None
+        except Exception as e:
+            detail='Migration_Groups.get_id(%s): Exception: %s'%(Name,e)
+            emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups.get_id()',logger=self.logger)
+            Id = None
+        return Id
+
+    def search(self,Name):
+        """ Search for a 'Migration_Groups' record looking for field 'Name' """
+        Id = self.get_id(Name)
+        if Id is not None:
+            try:
+                if self.engine is not None:
+                    Session=sessionmaker(bind=self.engine)
+                    session=Session()
+                    record = session.query(Migration_Groups).filter(Migration_Groups.Id==Id).one_or_none()
+                    session.flush()
+                else:
+                    session.rollback()
+                    record = None
+            except Exception as e:
+                detail='Migration_Groups.search(%s): Exception: %s'%(Name,e)
+                emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups.search()',logger=self.logger)
+                record = None
+        return record
+
+    def search_key(self,MG_Id):
+        """ Search for an unique Migration_Groups record using all key fields (MG_Id) """
+        try:
+            if self.engine is not None:
+                Session=sessionmaker(bind=self.engine)
+                session=Session()
+                record = session.query(Migration_Groups).filter(Migration_Groups.MG_Id==MG_Id).one_or_none()
+                session.flush()
+            else:
+                session.rollback()
+                record = None
+        except Exception as e:
+            detail='Migration_Groups.search_key(%s): Exception: %s'%(MG_Id,e)
+            emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups.search_key()',logger=self.logger)
+            record = None
+        return record
+
+    def log(self,message,level=logging.DEBUG):
+        """ Class Migration_Groups log function """
+        if self.logger is not None:
+            self.logger.log(level,message)
+
+  Migration_Groups_Class.__name__ = 'Migration_Groups_%s'%(table_name_suffix)
+  x = Migration_Groups_Class
+  return x
+
+# =============================================================================
+# Auto-Generated code. do not modify
+# (c) Sertechno 2018
+# GLVH @ 2022-01-10 16:03:50
+# =============================================================================
+
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
+class Migration_Groups_VM(Base):
+    __tablename__ = 'Migration_Groups_VM'
+    engine        = None
+    logger        = None
+
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
+       if suffix is not None:
+           name='Migration_Groups_VM_{suffix}'.format(suffix=suffix)
+           __class__.__tablename__  = name
+           __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
+       return __class__.__tablename__
+
+    MG_Id             = Column( Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
+    vm_uuid           = Column( String(45), primary_key=True )
+    vm_name           = Column( String(256) )
+    vm_state          = Column( Boolean )
+    vm_has_pd         = Column( Boolean )
+    vm_pd_name        = Column( String(45) )
+    vm_pd_active      = Column( Boolean )
+    vm_pd_replicating = Column( Boolean )
+    vm_migrate        = Column( Boolean )
+    
+    def __init__(self, MG_Id=None, vm_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_migrate=0,engine=None,logger=None):
+        """ Initiates a Migration_Groups_VM class record """
+        self.engine=engine
+        self.logger=logger
+        self.MG_Id             = MG_Id
+        self.vm_uuid           = vm_uuid
+        self.vm_name           = vm_name
+        self.vm_state          = vm_state
+        self.vm_has_pd         = vm_has_pd
+        self.vm_pd_name        = vm_pd_name
+        self.vm_pd_active      = vm_pd_active
+        self.vm_pd_replicating = vm_pd_replicating
+        self.vm_migrate        = vm_migrate
+
+        self.log('Created %s'%self)
+    def __repr__(self):
+        """ default class Migration_Groups_VM representation function """
+        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_migrate='%s')>" % \
+                ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+
+    def get_list(self):
+        """ Gets Migration_Groups_VM record in list format """
+        __list = [ self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate]
+        return __list
+
+    def get_tuple(self):
+        """ Gets Migration_Groups_VM record in tuple format """
+        __tuple = ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        return __tuple
+
+    def get_dict(self):
+        """ Gets Migration_Groups_VM record in dict format """
+        __dict={'MG_Id':self.MG_Id,'vm_uuid':self.vm_uuid,'vm_name':self.vm_name,'vm_state':self.vm_state,'vm_has_pd':self.vm_has_pd,'vm_pd_name':self.vm_pd_name,'vm_pd_active':self.vm_pd_active,'vm_pd_replicating':self.vm_pd_replicating,'vm_migrate':self.vm_migrate}
+
+        return __dict
+
+    def get_json_dict(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return __dict
+
+    def get_json(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return json.dumps(__dict)
+
+    def post(self):
+       return self
+
+    def patch(self,**kwargs):
+       for field in self.get_column_headers():
+           if field in kwargs.keys():
+               setattr(self,field,kwargs[field])
+       return self
+
+    def delete(self):
+       return True
+
+    def get_json_array(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        """ Gets Migration_Groups_VM record in JSON array format """
+        __list = self.get_list()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for field in range(len(__list)):
+            if   'datetime.datetime' in str(type(__list[field])): __list[field]=__list[field].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__list[field])): __list[field]=__list[field].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__list[field])): __list[field]=__list[field].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__list[field])): __list[field]=float(__list[field])
+        return __list
+
+    def get_columns(self):
+        """ Gets Migration_Groups_VM record column full details list """
+        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'referenced_table': 'Migration_Groups', 'referenced_class': 'migration_groups', 'foreign_key': 'MG_Id', 'foreign_field': 'MG_Id', 'foreign_value': 'Name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'MG_Id', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'vm_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_state', 'is_time': False}, {'field': 'vm_has_pd', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_has_pd', 'is_time': False}, {'field': 'vm_pd_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_pd_name', 'is_time': False}, {'field': 'vm_pd_active', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_active', 'is_time': False}, {'field': 'vm_pd_replicating', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_replicating', 'is_time': False}, {'field': 'vm_migrate', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_migrate', 'is_time': False}]
+
+        return __list
+
+    def get_column_headers(self):
+        """ Gets Migration_Groups_VM record column headers list """
+        __list=['MG_Id', 'vm_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_migrate']
+
+        return __list
+
+    def get_column_types(self):
+        """ Gets Migration_Groups_VM record column data types list """
+        __list=['Integer', 'String(45)', 'String(256)', 'Boolean', 'Boolean', 'String(45)', 'Boolean', 'Boolean', 'Boolean']
+
+        return __list
+
+    def get_column_meta(self):
+        """ Gets Migration_Groups_VM record column data meta list """
+        __list=[('MG_Id', 'Integer'), ('vm_uuid', 'String(45)'), ('vm_name', 'String(256)'), ('vm_state', 'Boolean'), ('vm_has_pd', 'Boolean'), ('vm_pd_name', 'String(45)'), ('vm_pd_active', 'Boolean'), ('vm_pd_replicating', 'Boolean'), ('vm_migrate', 'Boolean')]
+
+        return __list
+
+    def search_key(self,MG_Id,vm_uuid):
+        """ Search for an unique Migration_Groups_VM record using all key fields (MG_Id,vm_uuid) """
+        try:
+            if self.engine is not None:
+                Session=sessionmaker(bind=self.engine)
+                session=Session()
+                record = session.query(Migration_Groups_VM).filter(Migration_Groups_VM.MG_Id==MG_Id).filter(Migration_Groups_VM.vm_uuid==vm_uuid).one_or_none()
+                session.flush()
+            else:
+                session.rollback()
+                record = None
+        except Exception as e:
+            detail='Migration_Groups_VM.search_key(%s,%s): Exception: %s'%(MG_Id,vm_uuid,e)
+            emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups_VM.search_key()',logger=self.logger)
+            record = None
+        return record
+
+    def log(self,message,level=logging.DEBUG):
+        """ Class Migration_Groups_VM log function """
+        if self.logger is not None:
+            self.logger.log(level,message)
+
+# =============================================================================
+# Auto-Generated code. do not modify
+# (c) Sertechno 2018
+# GLVH @ 2022-01-10 16:03:50
+# =============================================================================
+
+# gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
+# gen_model_flask.py: Table sharding code follows:
+def get_Migration_Groups_VM(table_name_suffix):
+  class Migration_Groups_VM_Class(Base):
+    __tablename__ = 'Migration_Groups_VM_%s'%(table_name_suffix)
+    engine        = None
+    logger        = None
+
+    def set_shard(suffix=None,engine=None):
+       if suffix is not None:
+           name='Migration_Groups_VM_{suffix}'.format(suffix=suffix)
+           __class__.__tablename__  = name
+           __class__.__table_args__ = {'extend_existing':True}
+           __class__.__table__.name = name
+           __class__.check_shard(suffix,engine)
+       return __class__.__tablename__
+
+    MG_Id             = Column( Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
+    vm_uuid           = Column( String(45), primary_key=True )
+    vm_name           = Column( String(256) )
+    vm_state          = Column( Boolean )
+    vm_has_pd         = Column( Boolean )
+    vm_pd_name        = Column( String(45) )
+    vm_pd_active      = Column( Boolean )
+    vm_pd_replicating = Column( Boolean )
+    vm_migrate        = Column( Boolean )
+    
+    def __init__(self, MG_Id=None, vm_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_migrate=0,engine=None,logger=None):
+        """ Initiates a Migration_Groups_VM class record """
+        self.engine=engine
+        self.logger=logger
+        self.MG_Id             = MG_Id
+        self.vm_uuid           = vm_uuid
+        self.vm_name           = vm_name
+        self.vm_state          = vm_state
+        self.vm_has_pd         = vm_has_pd
+        self.vm_pd_name        = vm_pd_name
+        self.vm_pd_active      = vm_pd_active
+        self.vm_pd_replicating = vm_pd_replicating
+        self.vm_migrate        = vm_migrate
+
+        self.log('Created %s'%self)
+    def __repr__(self):
+        """ default class Migration_Groups_VM representation function """
+        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_migrate='%s')>" % \
+                ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+
+    def get_list(self):
+        """ Gets Migration_Groups_VM record in list format """
+        __list = [ self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate]
+        return __list
+
+    def get_tuple(self):
+        """ Gets Migration_Groups_VM record in tuple format """
+        __tuple = ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        return __tuple
+
+    def get_dict(self):
+        """ Gets Migration_Groups_VM record in dict format """
+        __dict={'MG_Id':self.MG_Id,'vm_uuid':self.vm_uuid,'vm_name':self.vm_name,'vm_state':self.vm_state,'vm_has_pd':self.vm_has_pd,'vm_pd_name':self.vm_pd_name,'vm_pd_active':self.vm_pd_active,'vm_pd_replicating':self.vm_pd_replicating,'vm_migrate':self.vm_migrate}
+
+        return __dict
+
+    def get_json_dict(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return __dict
+
+    def get_json(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        __dict = self.get_dict()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for key in __dict.keys():
+            if   'datetime.datetime' in str(type(__dict[key])): __dict[key]=__dict[key].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__dict[key])): __dict[key]=__dict[key].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__dict[key])): __dict[key]=float(__dict[key])
+        return json.dumps(__dict)
+
+    def post(self):
+       return self
+
+    def patch(self,**kwargs):
+       for field in self.get_column_headers():
+           if field in kwargs.keys():
+               setattr(self,field,kwargs[field])
+       return self
+
+    def delete(self):
+       return True
+
+    def get_json_array(self,dateformat='%Y-%m-%d',timeformat='%H:%M:%S',datetimeformat=None):
+        """ Gets Migration_Groups_VM record in JSON array format """
+        __list = self.get_list()
+        if datetimeformat is None: 
+            datetimeformat='%s %s'%(dateformat,timeformat)
+        for field in range(len(__list)):
+            if   'datetime.datetime' in str(type(__list[field])): __list[field]=__list[field].strftime(datetimeformat)
+            elif 'datetime.date'     in str(type(__list[field])): __list[field]=__list[field].strftime(dateformat)
+            elif 'datetime.time'     in str(type(__list[field])): __list[field]=__list[field].strftime(timeformat)
+            elif 'decimal.Decimal'   in str(type(__list[field])): __list[field]=float(__list[field])
+        return __list
+
+    def get_columns(self):
+        """ Gets Migration_Groups_VM record column full details list """
+        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'referenced_table': 'Migration_Groups', 'referenced_class': 'migration_groups', 'foreign_key': 'MG_Id', 'foreign_field': 'MG_Id', 'foreign_value': 'Name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'MG_Id', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'vm_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_state', 'is_time': False}, {'field': 'vm_has_pd', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_has_pd', 'is_time': False}, {'field': 'vm_pd_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_pd_name', 'is_time': False}, {'field': 'vm_pd_active', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_active', 'is_time': False}, {'field': 'vm_pd_replicating', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_replicating', 'is_time': False}, {'field': 'vm_migrate', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_migrate', 'is_time': False}]
+
+        return __list
+
+    def get_column_headers(self):
+        """ Gets Migration_Groups_VM record column headers list """
+        __list=['MG_Id', 'vm_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_migrate']
+
+        return __list
+
+    def get_column_types(self):
+        """ Gets Migration_Groups_VM record column data types list """
+        __list=['Integer', 'String(45)', 'String(256)', 'Boolean', 'Boolean', 'String(45)', 'Boolean', 'Boolean', 'Boolean']
+
+        return __list
+
+    def get_column_meta(self):
+        """ Gets Migration_Groups_VM record column data meta list """
+        __list=[('MG_Id', 'Integer'), ('vm_uuid', 'String(45)'), ('vm_name', 'String(256)'), ('vm_state', 'Boolean'), ('vm_has_pd', 'Boolean'), ('vm_pd_name', 'String(45)'), ('vm_pd_active', 'Boolean'), ('vm_pd_replicating', 'Boolean'), ('vm_migrate', 'Boolean')]
+
+        return __list
+
+    def search_key(self,MG_Id,vm_uuid):
+        """ Search for an unique Migration_Groups_VM record using all key fields (MG_Id,vm_uuid) """
+        try:
+            if self.engine is not None:
+                Session=sessionmaker(bind=self.engine)
+                session=Session()
+                record = session.query(Migration_Groups_VM).filter(Migration_Groups_VM.MG_Id==MG_Id).filter(Migration_Groups_VM.vm_uuid==vm_uuid).one_or_none()
+                session.flush()
+            else:
+                session.rollback()
+                record = None
+        except Exception as e:
+            detail='Migration_Groups_VM.search_key(%s,%s): Exception: %s'%(MG_Id,vm_uuid,e)
+            emtec_handle_general_exception(e,detail=detail,module=__name__,function='Migration_Groups_VM.search_key()',logger=self.logger)
+            record = None
+        return record
+
+    def log(self,message,level=logging.DEBUG):
+        """ Class Migration_Groups_VM log function """
+        if self.logger is not None:
+            self.logger.log(level,message)
+
+  Migration_Groups_VM_Class.__name__ = 'Migration_Groups_VM_%s'%(table_name_suffix)
+  x = Migration_Groups_VM_Class
+  return x
+
+# =============================================================================
+# Auto-Generated code. do not modify
+# (c) Sertechno 2018
+# GLVH @ 2022-01-10 16:03:50
+# =============================================================================
+
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_prism_vm.py
 class Nutanix_Prism_VM(Base):
     __tablename__ = 'Nutanix_Prism_VM'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Nutanix_Prism_VM_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     Request_Id       = Column( Integer, ForeignKey('Requests.Id'), primary_key=True )
@@ -1358,7 +2227,7 @@ class Nutanix_Prism_VM(Base):
 
     def get_columns(self):
         """ Gets Nutanix_Prism_VM record column full details list """
-        __list=[{'field': 'Request_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'Id', 'referenced_table': 'Requests', 'referenced_class': 'requests', 'foreign_key': 'Request_Id', 'foreign_value': 'Id', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'Request_Id', 'is_time': False}, {'field': 'project_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'project_uuid', 'referenced_table': 'Projects', 'referenced_class': 'projects', 'foreign_key': 'project_uuid', 'foreign_value': 'project_name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'project_uuid', 'is_time': False}, {'field': 'category_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': True, 'referenced_table': 'Categories', 'referenced_class': 'categories', 'foreign_key': 'category_name', 'foreign_field': 'category_name', 'foreign_value': 'category_description', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'category_name', 'is_time': False}, {'field': 'cluster_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'cluster_uuid', 'referenced_table': 'Clusters', 'referenced_class': 'clusters', 'foreign_key': 'cluster_uuid', 'foreign_value': 'cluster_name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'cluster_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'power_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'power_state', 'is_time': False}, {'field': 'vcpus_per_socket', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'vcpus_per_socket', 'is_time': False}, {'field': 'num_sockets', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'num_sockets', 'is_time': False}, {'field': 'memory_size_mib', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'memory_size_mib', 'is_time': False}, {'field': 'memory_size_gib', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 10, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'memory_size_gib', 'is_time': False}, {'field': 'Comments', 'type': 'text', 'type_flask': 'db.Text', 'type_sqlalchemy': 'Text', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 11, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'TextField', 'is_id': False, 'header': 'Comments', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 12, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 13, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_ip', 'is_time': False}, {'field': 'subnet_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 14, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'uuid', 'referenced_table': 'Subnets', 'referenced_class': 'subnets', 'foreign_key': 'subnet_uuid', 'foreign_value': 'name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'subnet_uuid', 'is_time': False}, {'field': 'vm_username', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 15, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_username', 'is_time': False}, {'field': 'vm_password', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 16, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_password', 'is_time': False}, {'field': 'backup_set_1', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 17, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'backup_set_1', 'is_time': False}, {'field': 'backup_set_2', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 18, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'backup_set_2', 'is_time': False}, {'field': 'backup_set_3', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 19, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'backup_set_3', 'is_time': False}, {'field': 'disk_type', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 20, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_type', 'is_time': False}, {'field': 'disk_0_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 21, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_0_image', 'is_time': False}, {'field': 'disk_0_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 22, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_0_size', 'is_time': False}, {'field': 'disk_1_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 23, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_1_image', 'is_time': False}, {'field': 'disk_1_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 24, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_1_size', 'is_time': False}, {'field': 'disk_2_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 25, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_2_image', 'is_time': False}, {'field': 'disk_2_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 26, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_2_size', 'is_time': False}, {'field': 'disk_3_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 27, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_3_image', 'is_time': False}, {'field': 'disk_3_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 28, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_3_size', 'is_time': False}, {'field': 'disk_4_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 29, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_4_image', 'is_time': False}, {'field': 'disk_4_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 30, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_4_size', 'is_time': False}, {'field': 'disk_5_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 31, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_5_image', 'is_time': False}, {'field': 'disk_5_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 32, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_5_size', 'is_time': False}, {'field': 'disk_6_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 33, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_6_image', 'is_time': False}, {'field': 'disk_6_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 34, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_6_size', 'is_time': False}, {'field': 'disk_7_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 35, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_7_image', 'is_time': False}, {'field': 'disk_7_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 36, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_7_size', 'is_time': False}, {'field': 'disk_8_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 37, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_8_image', 'is_time': False}, {'field': 'disk_8_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 38, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_8_size', 'is_time': False}, {'field': 'disk_9_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 39, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_9_image', 'is_time': False}, {'field': 'disk_9_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 40, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_9_size', 'is_time': False}, {'field': 'disk_10_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 41, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_10_image', 'is_time': False}, {'field': 'disk_10_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 42, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_10_size', 'is_time': False}, {'field': 'disk_11_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 43, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_11_image', 'is_time': False}, {'field': 'disk_11_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 44, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_11_size', 'is_time': False}, {'field': 'vm_drp', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 45, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_drp', 'is_time': False}, {'field': 'vm_drp_remote', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 46, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_drp_remote', 'is_time': False}, {'field': 'vm_cdrom', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 47, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_cdrom', 'is_time': False}, {'field': 'drp_cluster_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 48, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'drp_cluster_uuid', 'is_time': False}, {'field': 'nic_0_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 49, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_0_vlan', 'is_time': False}, {'field': 'nic_0_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 50, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_0_ip', 'is_time': False}, {'field': 'nic_0_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 51, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_0_mac', 'is_time': False}, {'field': 'nic_1_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 52, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_1_vlan', 'is_time': False}, {'field': 'nic_1_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 53, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_1_ip', 'is_time': False}, {'field': 'nic_1_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 54, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_1_mac', 'is_time': False}, {'field': 'nic_2_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 55, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_2_vlan', 'is_time': False}, {'field': 'nic_2_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 56, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_2_ip', 'is_time': False}, {'field': 'nic_2_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 57, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_2_mac', 'is_time': False}, {'field': 'nic_3_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 58, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_3_vlan', 'is_time': False}, {'field': 'nic_3_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 59, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_3_ip', 'is_time': False}, {'field': 'nic_3_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 60, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_3_mac', 'is_time': False}, {'field': 'request_text', 'type': 'text', 'type_flask': 'db.Text', 'type_sqlalchemy': 'Text', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 61, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'TextField', 'is_id': False, 'header': 'request_text', 'is_time': False}]
+        __list=[{'field': 'Request_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'Id', 'referenced_table': 'Requests', 'referenced_class': 'requests', 'foreign_key': 'Request_Id', 'foreign_value': 'Id', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'Request_Id', 'is_time': False}, {'field': 'project_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'project_uuid', 'referenced_table': 'Projects', 'referenced_class': 'projects', 'foreign_key': 'project_uuid', 'foreign_value': 'project_name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'project_uuid', 'is_time': False}, {'field': 'category_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'category_name', 'referenced_table': 'Categories', 'referenced_class': 'categories', 'foreign_key': 'category_name', 'foreign_value': 'category_description', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'category_name', 'is_time': False}, {'field': 'cluster_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'cluster_uuid', 'referenced_table': 'Clusters', 'referenced_class': 'clusters', 'foreign_key': 'cluster_uuid', 'foreign_value': 'cluster_name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'cluster_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'power_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'power_state', 'is_time': False}, {'field': 'vcpus_per_socket', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'vcpus_per_socket', 'is_time': False}, {'field': 'num_sockets', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'num_sockets', 'is_time': False}, {'field': 'memory_size_mib', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'memory_size_mib', 'is_time': False}, {'field': 'memory_size_gib', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 10, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'memory_size_gib', 'is_time': False}, {'field': 'Comments', 'type': 'text', 'type_flask': 'db.Text', 'type_sqlalchemy': 'Text', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 11, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'TextField', 'is_id': False, 'header': 'Comments', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 12, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 13, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_ip', 'is_time': False}, {'field': 'subnet_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 14, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'uuid', 'referenced_table': 'Subnets', 'referenced_class': 'subnets', 'foreign_key': 'subnet_uuid', 'foreign_value': 'name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'subnet_uuid', 'is_time': False}, {'field': 'vm_username', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 15, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_username', 'is_time': False}, {'field': 'vm_password', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 16, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_password', 'is_time': False}, {'field': 'backup_set_1', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 17, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'backup_set_1', 'is_time': False}, {'field': 'backup_set_2', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 18, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'backup_set_2', 'is_time': False}, {'field': 'backup_set_3', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 19, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'backup_set_3', 'is_time': False}, {'field': 'disk_type', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 20, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_type', 'is_time': False}, {'field': 'disk_0_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 21, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_0_image', 'is_time': False}, {'field': 'disk_0_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 22, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_0_size', 'is_time': False}, {'field': 'disk_1_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 23, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_1_image', 'is_time': False}, {'field': 'disk_1_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 24, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_1_size', 'is_time': False}, {'field': 'disk_2_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 25, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_2_image', 'is_time': False}, {'field': 'disk_2_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 26, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_2_size', 'is_time': False}, {'field': 'disk_3_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 27, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_3_image', 'is_time': False}, {'field': 'disk_3_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 28, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_3_size', 'is_time': False}, {'field': 'disk_4_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 29, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_4_image', 'is_time': False}, {'field': 'disk_4_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 30, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_4_size', 'is_time': False}, {'field': 'disk_5_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 31, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_5_image', 'is_time': False}, {'field': 'disk_5_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 32, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_5_size', 'is_time': False}, {'field': 'disk_6_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 33, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_6_image', 'is_time': False}, {'field': 'disk_6_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 34, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_6_size', 'is_time': False}, {'field': 'disk_7_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 35, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_7_image', 'is_time': False}, {'field': 'disk_7_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 36, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_7_size', 'is_time': False}, {'field': 'disk_8_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 37, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_8_image', 'is_time': False}, {'field': 'disk_8_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 38, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_8_size', 'is_time': False}, {'field': 'disk_9_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 39, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_9_image', 'is_time': False}, {'field': 'disk_9_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 40, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_9_size', 'is_time': False}, {'field': 'disk_10_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 41, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_10_image', 'is_time': False}, {'field': 'disk_10_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 42, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_10_size', 'is_time': False}, {'field': 'disk_11_image', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 43, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'disk_11_image', 'is_time': False}, {'field': 'disk_11_size', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 44, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'disk_11_size', 'is_time': False}, {'field': 'vm_drp', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 45, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_drp', 'is_time': False}, {'field': 'vm_drp_remote', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 46, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_drp_remote', 'is_time': False}, {'field': 'vm_cdrom', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 47, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_cdrom', 'is_time': False}, {'field': 'drp_cluster_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 48, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'drp_cluster_uuid', 'is_time': False}, {'field': 'nic_0_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 49, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_0_vlan', 'is_time': False}, {'field': 'nic_0_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 50, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_0_ip', 'is_time': False}, {'field': 'nic_0_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 51, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_0_mac', 'is_time': False}, {'field': 'nic_1_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 52, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_1_vlan', 'is_time': False}, {'field': 'nic_1_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 53, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_1_ip', 'is_time': False}, {'field': 'nic_1_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 54, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_1_mac', 'is_time': False}, {'field': 'nic_2_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 55, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_2_vlan', 'is_time': False}, {'field': 'nic_2_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 56, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_2_ip', 'is_time': False}, {'field': 'nic_2_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 57, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_2_mac', 'is_time': False}, {'field': 'nic_3_vlan', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 58, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_3_vlan', 'is_time': False}, {'field': 'nic_3_ip', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 59, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_3_ip', 'is_time': False}, {'field': 'nic_3_mac', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 60, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'nic_3_mac', 'is_time': False}, {'field': 'request_text', 'type': 'text', 'type_flask': 'db.Text', 'type_sqlalchemy': 'Text', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 61, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'TextField', 'is_id': False, 'header': 'request_text', 'is_time': False}]
 
         return __list
 
@@ -1405,20 +2274,38 @@ class Nutanix_Prism_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_vm_images.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_vm_images.py
 class Nutanix_VM_Images(Base):
     __tablename__ = 'Nutanix_VM_Images'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Nutanix_VM_Images_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     imageservice_uuid_diskclone = Column( String(45), primary_key=True )
@@ -1552,25 +2439,43 @@ class Nutanix_VM_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_projects.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_projects.py
 class Projects(Base):
     __tablename__ = 'Projects'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Projects_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     project_uuid    = Column( String(45), primary_key=True )
     project_name    = Column( String(45) )
-    project_subnets = Column( String(255) )
+    project_subnets = Column( String(1024) )
     
     def __init__(self, project_uuid='None', project_name='None', project_subnets='None',engine=None,logger=None):
         """ Initiates a Projects class record """
@@ -1650,7 +2555,7 @@ class Projects(Base):
 
     def get_columns(self):
         """ Gets Projects record column full details list """
-        __list=[{'field': 'project_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'project_uuid', 'is_time': False}, {'field': 'project_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'project_name', 'is_time': False}, {'field': 'project_subnets', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'project_subnets', 'is_time': False}]
+        __list=[{'field': 'project_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'project_uuid', 'is_time': False}, {'field': 'project_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'project_name', 'is_time': False}, {'field': 'project_subnets', 'type': 'varchar(1024)', 'type_flask': 'db.String(1024)', 'type_sqlalchemy': 'String(1024)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'project_subnets', 'is_time': False}]
 
         return __list
 
@@ -1662,13 +2567,13 @@ class Projects(Base):
 
     def get_column_types(self):
         """ Gets Projects record column data types list """
-        __list=['String(45)', 'String(45)', 'String(255)']
+        __list=['String(45)', 'String(45)', 'String(1024)']
 
         return __list
 
     def get_column_meta(self):
         """ Gets Projects record column data meta list """
-        __list=[('project_uuid', 'String(45)'), ('project_name', 'String(45)'), ('project_subnets', 'String(255)')]
+        __list=[('project_uuid', 'String(45)'), ('project_name', 'String(45)'), ('project_subnets', 'String(1024)')]
 
         return __list
 
@@ -1697,20 +2602,38 @@ class Projects(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
 class Rates(Base):
     __tablename__ = 'Rates'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Rates_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     Rat_Id     = Column( Integer, primary_key=True, autoincrement=True )
@@ -1864,7 +2787,7 @@ class Rates(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -1875,12 +2798,13 @@ def get_Rates(table_name_suffix):
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Rates_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table_args__ = {'extend_existing':True}
            __class__.__table__.name = name
+           __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     Rat_Id     = Column( Integer, primary_key=True, autoincrement=True )
@@ -2038,20 +2962,38 @@ def get_Rates(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_request_type.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_request_type.py
 class Request_Type(Base):
     __tablename__ = 'Request_Type'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Request_Type_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     Id          = Column( Integer, primary_key=True )
@@ -2220,20 +3162,38 @@ class Request_Type(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_requests.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_requests.py
 class Requests(Base):
     __tablename__ = 'Requests'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Requests_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     Id               = Column( Integer, primary_key=True, autoincrement=True )
@@ -2385,20 +3345,38 @@ class Requests(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_roles.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_roles.py
 class Roles(Base):
     __tablename__ = 'Roles'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Roles_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     id          = Column( Integer, primary_key=True )
@@ -2532,20 +3510,38 @@ class Roles(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_subnets.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_subnets.py
 class Subnets(Base):
     __tablename__ = 'Subnets'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Subnets_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     uuid               = Column( String(45), primary_key=True )
@@ -2691,20 +3687,38 @@ class Subnets(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2021-11-24 17:14:00
+# GLVH @ 2022-01-10 16:03:50
 # =============================================================================
 
-# gen_model_flask.py:389 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_users.py
+# GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_users.py
 class Users(Base):
     __tablename__ = 'Users'
     engine        = None
     logger        = None
 
-    def set_shard(suffix=None):
+    def check_shard(suffix=None,engine=None):
+       if engine is not None:
+           try:
+               if not engine.dialect.has_table(engine, __class__.__tablename__):
+                   metadata=MetaData()
+                   metadata.bind=engine
+                   __class__.__table__.metadata=metadata
+                   __class__.__table__.create(checkfirst=True)
+                   if not engine.dialect.has_table(engine, __class__.__tablename__):
+                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+               else:
+                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+           except Exception as e:
+              print(f'468 exception: {str(e)}')
+           return
+    def set_shard(suffix=None,engine=None):
        if suffix is not None:
            name='Users_{suffix}'.format(suffix=suffix)
            __class__.__tablename__  = name
            __class__.__table__.name = name
+       __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
     id            = Column( Integer, primary_key=True, autoincrement=True )

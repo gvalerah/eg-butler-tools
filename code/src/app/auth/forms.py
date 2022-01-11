@@ -5,14 +5,15 @@ from wtforms.validators                 import Required, Length, Email, Regexp, 
 from wtforms                            import ValidationError
 #from emtec.collector.db.flask_models    import User
 from emtec.butler.db.flask_models       import User
+from flask_babel                        import lazy_gettext
 
 class LoginForm(FlaskForm):
     # GV 20181123 email = StringField('Email', validators=[Required(), Length(1, 64),    Email()])
     #username    = StringField('User Name', validators=[Required(), Length(1, 64)])
-    username    = StringField('User Name', validators=[Required()])
-    password    = PasswordField('Password', validators=[Required()])
+    username    = StringField(lazy_gettext('User Name'), validators=[Required()])
+    password    = PasswordField(lazy_gettext('Password'), validators=[Required()])
     #remember_me = BooleanField('Keep me logged in')
-    submit      = SubmitField('Log In')
+    submit      = SubmitField(lazy_gettext('Log In'))
     
 
 class RegistrationForm(FlaskForm):
@@ -26,7 +27,8 @@ class RegistrationForm(FlaskForm):
         (2,'Aprobador'),
         (3,'Visualizador'),
         (4,'Administrador'),
-        (5,'Auditor')], 
+        (5,'Auditor'), 
+        (7,'Operador')], 
         coerce=int)
         
     email       = StringField('Email', validators=[ Required(), Length(1, 64), Email()])

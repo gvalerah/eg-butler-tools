@@ -14,7 +14,7 @@ import  logging
 from    configparser                    import ConfigParser
 from    configparser                    import ExtendedInterpolation
 
-from    flask                           import Flask, render_template
+from    flask                           import Flask, render_template, request
 from    flask_bootstrap                 import Bootstrap
 from    flask_mail                      import Mail
 from    flask_mail                      import Message
@@ -47,6 +47,23 @@ login_manager.login_view            = 'auth.login'
 add_Logging_Levels()
 logger                              = logging.getLogger('Butler')
 
+# GV Internationalization code -----------------------------------------
+from flask_babel import Babel, gettext, lazy_gettext, force_locale
+
+babel = Babel()
+"""
+# add to you main app code
+@babel.localeselector
+def get_locale():
+    if current_app.config.CURRENT_LANGUAGE is not None:
+        language =  current_app.config.CURRENT_LANGUAGE
+    else:
+        language =  request.accept_languages.best_match(current_app.config.LANGUAGES.keys())
+    print(f"get_local returns: {language}")
+    return language
+
+# GV -------------------------------------------------------------------
+"""
 def create_app(config_file='butler.ini',config_name='production',C=None):
     config_ini = ConfigParser(interpolation=ExtendedInterpolation())
     config_ini.read( config_file )
@@ -151,6 +168,22 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'NUTANIX_REMOTE_EVERY_NTH'           : config_ini.getint('Nutanix','REMOTE_EVERY_NTH'           ,fallback=0    )})
     app.config.update({'NUTANIX_REMOTE_LOCAL_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','REMOTE_LOCAL_MAX_SNAPSHOTS' ,fallback=0    )})
     app.config.update({'NUTANIX_REMOTE_REMOTE_MAX_SNAPSHOTS': config_ini.getint('Nutanix','REMOTE_REMOTE_MAX_SNAPSHOTS',fallback=0    )})
+    app.config.update({'NUTANIX_CLUSTERS': {}})
+    clusters = config_ini.get('Nutanix','clusters',fallback=None)
+    if clusters is not None:
+        clusters = clusters.split(',')
+    if type(clusters) == list and len(clusters):
+        for cluster in clusters:
+            app.config['NUTANIX_CLUSTERS'].update({
+                cluster:{
+                    'host':     config_ini.get   (cluster,'host',fallback=None),
+                    'port':     config_ini.getint(cluster,'port',fallback=9440),
+                    'username': config_ini.get   (cluster,'username',fallback=None),
+                    'password': config_ini.get   (cluster,'password',fallback=None),
+                    'uuid':     config_ini.get   (cluster,'uuid',fallback=None),
+                }
+            })
+    
 
 
             
@@ -172,6 +205,8 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     moment.init_app         (app)
     db.init_app             (app)
     login_manager.init_app  (app)
+    babel.init_app          (app)
+    
     # Butler's modules
     
     # attach routes and custom error pages here
@@ -185,6 +220,8 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     print(f'main_blueprint={main_blueprint}')
     print(f'auth_blueprint={auth_blueprint}')
 
+    print(f"Call app.create_jinja_environment()")
+    app.create_jinja_environment()
     return app
     
 # ----------------------------------------------------------------------

@@ -1,0 +1,52 @@
+!/bin/bash
+source colors.sh
+TIMESTAMP=$(date +%y%m%d-%H%M)
+HEIGHT=33
+WIDTH=60
+CHOICE_HEIGHT=23
+BACKTITLE="Emtec Group Butler"
+TITLE="Developer's Menu - Butler"
+MENU="Choose one of the folowing options:"
+OPTIONS=(   
+            2 "Generate Source Code" 
+            a "Butler Source Up"
+            b "Butler API Source Up"
+            c "Butler Core Source Up"
+            m "MySQL DB Console"
+            1 "GITLab Pull"
+            9 "GitLab Push"
+            0 "Quit"
+        )
+while true;
+do
+    CHOICE=$(   dialog --clear \
+                --backtitle "$BACKTITLE" \
+                --title "$TITLE" \
+                --menu "$MENU" \
+                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                "${OPTIONS[@]}" \
+                2>&1 > /dev/tty)
+    clear
+    case $CHOICE in
+        1)  git pull origin master ;;
+        2)  cd ../EG-Butler-Tools
+            make
+            cd ../EG-Butler
+            ls -lh *.py
+            ;;
+        a)  cd ../EG-Butler
+	    python butler.py butler.ini FLASK
+            ;;
+        b)  cd ../EG-Butler
+	    python butler-api.py butler.ini FLASK
+            ;;
+        c)  cd ../EG-Butler
+	    python butler-core.py butler.ini FLASK
+            ;;
+        m)  mysql -u root -p36MMySQLr00t1., butler ;;
+        0)  exit 0
+    esac
+    echo 
+    echo -e ${bold}${yellow}"Pulse una tecla para continuar ..."${normal}
+    read
+done

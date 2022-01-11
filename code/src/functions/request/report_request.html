@@ -19,7 +19,7 @@
 {%- endif %}
 {%- block page_content %}
 <div class="page-header">
-    <h2>Detalle de Solicitud {{row.Requests.Id}}:</h2>
+    <h2>{{ gettext('Detail for request') }} {{row.Requests.Id}}:</h2>
     {# Removes Action icons for "body_only" mode #}
     {%- if body_only is not defined %}
         <a href="/select/Request">
@@ -43,9 +43,9 @@
     {%- endif %}
         <thead class="thead-dark">
             <tr>
-                <th style="width:33%;" class="text-center">SOLICITUD</th>
-                <th class="text-center">MAQUINA VIRTUAL</th>
-                <th class="text-center">ALMACENAMIENTO y CONECTIVIDAD</th>
+                <th style="width:33%;" class="text-center">{{gettext('request')|upper}}</th>
+                <th class="text-center">{{gettext('virtual machine')|upper}}</th>
+                <th class="text-center">{{gettext('storage and conectivity')|upper}}</th>
             </tr>
         </thead>
         <tbody>
@@ -53,16 +53,16 @@
             <tr>
                 <td>
                     <table>
-                        <tr><td>Solicitud       </td><td>{{row.Requests.Id}}</td></tr>
-                        <tr><td>Centro de Costo </td><td><b>{{row.Cost_Centers.CC_Description}}</b></td></tr>
-                        <tr><td>Estado          </td><td><b>{{data.status_description|join(", ")}}</b></td></tr>
-                        <tr><td>Creado          </td><td>{{row.Requests.Creation_Time}}</td></tr>
-                        <tr><td>Actualizado     </td><td>{{row.Requests.Last_Status_Time}}</td></tr>
-                        <tr><td>Requerido       </td><td>{{row.Nutanix_Prism_VM.request_text}}</td></tr>
+                        <tr><td>{{gettext('request')|capitalize}}       </td><td>{{row.Requests.Id}}</td></tr>
+                        <tr><td>{{gettext('cost center')|capitalize}} </td><td><b>{{row.Cost_Centers.CC_Description}}</b></td></tr>
+                        <tr><td>{{gettext('state')|capitalize}}          </td><td><b>{{data.status_description|join(", ")}}</b></td></tr>
+                        <tr><td>{{gettext('created')|capitalize}}          </td><td>{{row.Requests.Creation_Time}}</td></tr>
+                        <tr><td>{{gettext('updated')|capitalize}}     </td><td>{{row.Requests.Last_Status_Time}}</td></tr>
+                        <tr><td>{{gettext('requested')|capitalize}}       </td><td>{{row.Nutanix_Prism_VM.request_text}}</td></tr>
                         {%- if data.role > data.roles.REQUESTOR %}
-                        <tr><td>Tipo            </td><td>{{row.Request_Type.Description}}</td></tr>
-                        <tr><td>Usuario         </td><td><b>{{row.Users.username}}</b></td></tr>
-                        <tr><td>Aprobador       </td><td>
+                        <tr><td>{{gettext('type')|capitalize}}            </td><td>{{row.Request_Type.Description}}</td></tr>
+                        <tr><td>{{gettext('user')|capitalize}}         </td><td><b>{{row.Users.username}}</b></td></tr>
+                        <tr><td>{{gettext('approver')|capitalize}}       </td><td>
                         {%- for user in data.users %}
                             {%- if user.0 == row.Requests.Approver_Id %}
                               <b>{{user.1}}</b>
@@ -70,34 +70,34 @@
                         {%- endfor %}
                         </td>
                         </tr>
-                        <tr><td>Comentarios     </td><td>{{row.Requests.Comments}}</td></tr>
-                        <tr><td>Tarea UUID      </td><td>{{row.Requests.Task_uuid}}</td></tr>
-                        <tr><td>Tarea estado    </td><td>{{row.Requests.Task_status}}</td></tr>
-                        <tr><td>Tracking        </td><td>{{row.Requests.Id}} sts:{{row.Requests.Status}} usr:{{row.Requests.User_Id}} app:{{row.Requests.Approver_Id}} cc:{{row.Requests.CC_Id}} uuid:{{row.Requests.uuid}}</td></tr>
+                        <tr><td>{{gettext('comments')|capitalize}}     </td><td>{{row.Requests.Comments}}</td></tr>
+                        <tr><td>{{gettext('Task UUID')}}      </td><td>{{row.Requests.Task_uuid}}</td></tr>
+                        <tr><td>{{gettext('Task state')}}    </td><td>{{row.Requests.Task_status}}</td></tr>
+                        <tr><td>{{gettext('tracking')|capitalize}}        </td><td>{{row.Requests.Id}} sts:{{row.Requests.Status}} usr:{{row.Requests.User_Id}} app:{{row.Requests.Approver_Id}} cc:{{row.Requests.CC_Id}} uuid:{{row.Requests.uuid}}</td></tr>
                         {%- endif %}
                     </table>
                 </td>
                 <td>
                     <table>
-                        <tr><td>Nombre           </td><td><b>{{row.Nutanix_Prism_VM.vm_name}}</b></td></tr>
-                        <tr><td>CPUs por socket  </td><td><b>{{row.Nutanix_Prism_VM.vcpus_per_socket}}</b></td></tr>
-                        <tr><td>Sockets          </td><td><b>{{row.Nutanix_Prism_VM.num_sockets}}</b></td></tr>
-                        <tr><td>Número de CPUs   </td><td><b>{{row.Nutanix_Prism_VM.num_sockets*row.Nutanix_Prism_VM.vcpus_per_socket}}</b></td></tr>
-                        <tr><td>Memoria RAM      </td><td><b>{{row.Nutanix_Prism_VM.memory_size_gib}}</b> GB</td></tr>
+                        <tr><td>{{gettext('name')|capitalize}}             </td><td><b>{{row.Nutanix_Prism_VM.vm_name}}</b></td></tr>
+                        <tr><td>{{gettext('CPUs per socket')}}             </td><td><b>{{row.Nutanix_Prism_VM.vcpus_per_socket}}</b></td></tr>
+                        <tr><td>{{gettext('sockets')|capitalize}}          </td><td><b>{{row.Nutanix_Prism_VM.num_sockets}}</b></td></tr>
+                        <tr><td>{{gettext('CPUs Number')}}                 </td><td><b>{{row.Nutanix_Prism_VM.num_sockets*row.Nutanix_Prism_VM.vcpus_per_socket}}</b></td></tr>
+                        <tr><td>{{gettext('RAM memory')}}                  </td><td><b>{{row.Nutanix_Prism_VM.memory_size_gib}}</b> GB</td></tr>
                         <!-- tr><td>Tipo de Disco    </td><td><b>{{get_description('types',data.storage_type,data)}}</b></td></tr -->
-                        <tr><td>Tipo de Disco    </td><td><b>{{get_description('types',row.Nutanix_Prism_VM.disk_type,data)}}</b></td></tr>
-                        <tr><td>Total disco      </td><td><b>{{data.storage}}</b> GB</td></tr>
-                        <tr><td>Mensual estimado </td><td><b>{{"%.12f"|format(data.month)}}</b> UF</td></tr>
+                        <tr><td>{{gettext('disk type')|capitalize}}        </td><td><b>{{get_description('types',row.Nutanix_Prism_VM.disk_type,data)}}</b></td></tr>
+                        <tr><td>{{gettext('total disk')|capitalize}}       </td><td><b>{{data.storage}}</b> GB</td></tr>
+                        <tr><td>{{gettext('monthly estimate')|capitalize}} </td><td><b>{{"%.12f"|format(data.month)}}</b> UF</td></tr>
                         {%- if data.role > data.roles.REQUESTOR %}
-                        <tr><td>Cluster          </td><td>{{get_description('clusters',row.Nutanix_Prism_VM.cluster_uuid,data)}}</td></tr>
-                        <tr><td>Projecto         </td><td>{{get_description('projects',row.Nutanix_Prism_VM.project_uuid,data)}}</td></tr>
-                        <tr><td>Categoria        </td><td>{{get_description('categories',row.Nutanix_Prism_VM.category_name,data)}}</td></tr>
-                        <tr><td>Encendido        </td><td>{{row.Nutanix_Prism_VM.power_state}}</td></tr>
-                        <tr><td>Memoria RAM en MB</td><td>{{row.Nutanix_Prism_VM.memory_size_mib}}</td></tr>
-                        <tr><td>Comentarios      </td><td>{{row.Nutanix_Prism_VM.Comments}}</td></tr>
-                        <tr><td>Direccion IP     </td><td>{{row.Nutanix_Prism_VM.vm_ip}}</td></tr>
-                        <tr><td>Usuario          </td><td>{{row.Nutanix_Prism_VM.vm_username}}</td></tr>
-                        <tr><td>Contraseña       </td><td>{{row.Nutanix_Prism_VM.vm_password}}</td></tr>
+                        <tr><td>{{gettext('cluster')|capitalize}}          </td><td>{{get_description('clusters',row.Nutanix_Prism_VM.cluster_uuid,data)}}</td></tr>
+                        <tr><td>{{gettext('project')|capitalize}}          </td><td>{{get_description('projects',row.Nutanix_Prism_VM.project_uuid,data)}}</td></tr>
+                        <tr><td>{{gettext('category')|capitalize}}         </td><td>{{get_description('categories',row.Nutanix_Prism_VM.category_name,data)}}</td></tr>
+                        <tr><td>{{gettext('power on')|capitalize}}         </td><td>{{row.Nutanix_Prism_VM.power_state}}</td></tr>
+                        <tr><td>{{gettext('RAM in MB')}}                   </td><td>{{row.Nutanix_Prism_VM.memory_size_mib}}</td></tr>
+                        <tr><td>{{gettext('comments')|capitalize}}      </td><td>{{row.Nutanix_Prism_VM.Comments}}</td></tr>
+                        <tr><td>{{gettext('IP address')}}     </td><td>{{row.Nutanix_Prism_VM.vm_ip}}</td></tr>
+                        <tr><td>{{gettext('user')|capitalize}}</td><td>{{row.Nutanix_Prism_VM.vm_username}}</td></tr>
+                        <tr><td>{{gettext('password')|capitalize}}       </td><td>{{row.Nutanix_Prism_VM.vm_password}}</td></tr>
                             {%- if data.debug is defined and data.debug %}
                                 <tr><td>Solicitud 1   </td><td>{{row.Nutanix_Prism_VM.Request_Id}}</td></tr>
                                 <tr><td>Tipo de Disco </td><td>{{data.storage_type}} {{get_description('types',data.storage_type,data)}}</td></tr-->
@@ -111,31 +111,31 @@
                 </td>
                 <td>
                     <table>
-                        <tr><td>CD ROM requerido</td><td>{{row.Nutanix_Prism_VM.vm_cdrom}}</td></tr>
-                        <tr><td>Copias Locales   </td><td>{{row.Nutanix_Prism_VM.vm_drp}}</td></tr>
-                        <tr><td>Copias Remotas   </td><td>{{row.Nutanix_Prism_VM.vm_drp_remote}}</td></tr>
-                        <tr><td><b>Discos    </b></td></tr>
-                        {%- if row.Nutanix_Prism_VM.disk_0_size > 0 %}<tr><td>Disco 1 </td><td>{{row.Nutanix_Prism_VM.disk_0_size}} GB <b>{{get_description('images',row.Nutanix_Prism_VM.disk_0_image,data)}}</b></td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_1_size > 0 %}<tr><td>Disco 2 </td><td>{{row.Nutanix_Prism_VM.disk_1_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_2_size > 0 %}<tr><td>Disco 3 </td><td>{{row.Nutanix_Prism_VM.disk_2_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_3_size > 0 %}<tr><td>Disco 4 </td><td>{{row.Nutanix_Prism_VM.disk_3_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_4_size > 0 %}<tr><td>Disco 5 </td><td>{{row.Nutanix_Prism_VM.disk_4_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_5_size > 0 %}<tr><td>Disco 6 </td><td>{{row.Nutanix_Prism_VM.disk_5_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_6_size > 0 %}<tr><td>Disco 7 </td><td>{{row.Nutanix_Prism_VM.disk_6_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_7_size > 0 %}<tr><td>Disco 8 </td><td>{{row.Nutanix_Prism_VM.disk_7_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_8_size > 0 %}<tr><td>Disco 9 </td><td>{{row.Nutanix_Prism_VM.disk_8_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_9_size > 0 %}<tr><td>Disco 10</td><td>{{row.Nutanix_Prism_VM.disk_9_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_10_size > 0 %}<tr><td>Disco 11</td><td>{{row.Nutanix_Prism_VM.disk_10_size}} GB </td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.disk_11_size > 0 %}<tr><td>Disco 12</td><td>{{row.Nutanix_Prism_VM.disk_11_size}} GB </td></tr>{%- endif %}
+                        <tr><td>{{gettext('CD ROM required')}}</td><td>{{row.Nutanix_Prism_VM.vm_cdrom}}</td></tr>
+                        <tr><td>{{gettext('local copies')|capitalize}}   </td><td>{{row.Nutanix_Prism_VM.vm_drp}}</td></tr>
+                        <tr><td>{{gettext('remote copies')|capitalize}}   </td><td>{{row.Nutanix_Prism_VM.vm_drp_remote}}</td></tr>
+                        <tr><td><b>{{gettext('disks')|capitalize}}    </b></td></tr>
+                        {%- if row.Nutanix_Prism_VM.disk_0_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 1 </td><td>{{row.Nutanix_Prism_VM.disk_0_size}} GB <b>{{get_description('images',row.Nutanix_Prism_VM.disk_0_image,data)}}</b></td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_1_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 2 </td><td>{{row.Nutanix_Prism_VM.disk_1_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_2_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 3 </td><td>{{row.Nutanix_Prism_VM.disk_2_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_3_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 4 </td><td>{{row.Nutanix_Prism_VM.disk_3_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_4_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 5 </td><td>{{row.Nutanix_Prism_VM.disk_4_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_5_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 6 </td><td>{{row.Nutanix_Prism_VM.disk_5_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_6_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 7 </td><td>{{row.Nutanix_Prism_VM.disk_6_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_7_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 8 </td><td>{{row.Nutanix_Prism_VM.disk_7_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_8_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 9 </td><td>{{row.Nutanix_Prism_VM.disk_8_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_9_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 10</td><td>{{row.Nutanix_Prism_VM.disk_9_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_10_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 11</td><td>{{row.Nutanix_Prism_VM.disk_10_size}} GB </td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.disk_11_size > 0 %}<tr><td>{{gettext('disk')|capitalize}} 12</td><td>{{row.Nutanix_Prism_VM.disk_11_size}} GB </td></tr>{%- endif %}
                         {%- if data.role > data.roles.REQUESTOR %}
                         <!--tr><td><b>Backup Sets</b></td></tr-->
-                        {%- if row.Nutanix_Prism_VM.backup_set_1 is not none %}<tr><td>Grupo backup 1</td><td>{{row.Nutanix_Prism_VM.backup_set_1}}</td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.backup_set_2 is not none %}<tr><td>Grupo backup 2</td><td>{{row.Nutanix_Prism_VM.backup_set_2}}</td></tr>{%- endif %}
-                        {%- if row.Nutanix_Prism_VM.backup_set_3 is not none %}<tr><td>Grupo backup 3</td><td>{{row.Nutanix_Prism_VM.backup_set_3}}</td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.backup_set_1 is not none %}<tr><td>{{gettext('grupo backup')|capitalize}} 1</td><td>{{row.Nutanix_Prism_VM.backup_set_1}}</td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.backup_set_2 is not none %}<tr><td>{{gettext('grupo backup')|capitalize}} 2</td><td>{{row.Nutanix_Prism_VM.backup_set_2}}</td></tr>{%- endif %}
+                        {%- if row.Nutanix_Prism_VM.backup_set_3 is not none %}<tr><td>{{gettext('grupo backup')|capitalize}} 3</td><td>{{row.Nutanix_Prism_VM.backup_set_3}}</td></tr>{%- endif %}
                         {%- endif %}
                     </table>
                     <table>
-                        <tr><td><b>Subredes    </b></td></tr>
+                        <tr><td><b>{{gettext('sub networks')|capitalize}}    </b></td></tr>
                         {%- if row.Nutanix_Prism_VM.nic_0_vlan  is not none %}<tr><td>{{get_description('subnets',row.Nutanix_Prism_VM.nic_0_vlan,data )}}</td></tr>{%- endif %}
                         {%- if row.Nutanix_Prism_VM.nic_1_vlan  is not none %}<tr><td>{{get_description('subnets',row.Nutanix_Prism_VM.nic_1_vlan,data )}}</td></tr>{%- endif %}
                         {%- if row.Nutanix_Prism_VM.nic_2_vlan  is not none %}<tr><td>{{get_description('subnets',row.Nutanix_Prism_VM.nic_2_vlan,data )}}</td></tr>{%- endif %}
