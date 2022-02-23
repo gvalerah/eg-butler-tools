@@ -1,0 +1,25 @@
+<!-- struct.html will extend "base.html" -->
+{%- extends "butler_app.html" %}
+<!-- struct.html will import bootstrap/wtf.html" as wtf -->
+{%- import "bootstrap/wtf.html" as wtf %}
+
+<!-- struct.html will override head block contents here -->
+    <!-- struct.html will replace title block here -->
+    {%- block title %}TITLE HERE{% endblock title %}
+    <!-- struct.html title block replaced -->
+    <!-- struct.html will replace metas block metas here -->
+    {%- block metas %}NEW METAS HERE {{ super() }}{% endblock metas %}
+    <!-- struct.html metas block replaced -->
+    <!-- struct.html will replace styles block here -->
+    {%- block styles %}{{ super()}}{% endblock styles %}
+    <!-- struct.html styles block replaced -->
+<!-- struct.html head block replaced -->
+
+<!-- struct.html will replace page_content block here -->
+{%- block content %}
+<p>BLOCK PAGE CONTENT HERE</p>
+{%- endblock content %}
+<!-- struct.html page_content block replaced -->
+
+
+

@@ -1,14 +1,14 @@
-{% extends "base.html" %}
+{% extends "butler_app.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Register{% endblock %}
+{% block title %}Butler - Register{% endblock %}
 
-{% block page_content %}
+{% block content %}
 <div class="page-header">
     <h1>Register</h1>
 </div>
 <div class="col-md-4">
-{% with messages = get_flashed_messages() %}
+{#% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
     {% for message in messages %}
@@ -16,7 +16,7 @@
     {% endfor %}
     </ul>
   {% endif %}
-{% endwith %}
+{% endwith %#}
     {{ wtf.quick_form(form) }}
 </div>
-{% endblock %}
+{% endblock content%}

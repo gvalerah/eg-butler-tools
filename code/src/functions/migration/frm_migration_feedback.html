@@ -1,0 +1,209 @@
+
+<hr>
+<table border= 1>
+    <tr>
+    <!-- BASIC PROGRESS BAR SAMPLE ------------------------------------- -->
+    <table border=0 width=100% align=center>
+        <tr>
+            <td>
+                <h4><b><input class="form-control-plaintext" id="barTitle" name="barTitle" type="text" value="Calculo de uso a la fecha" style="color:red" align="center">
+                </b></h4>
+            </td>
+        </tr>
+        <!-- STRIPPED PROGRESS BAR SAMPLE ---------------------------------- -->
+        <tr><td>
+        <div class="m-4" width=100%>
+            <!-- Progress bar HTML -->
+            <div class="progress" style="height: 32px">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="min-width: 50px;"></div>
+            </div>
+        </div>
+        </td></tr>
+    </table>
+    <!-- GV END OF PROGRESS BAR ------------------------------------ -->
+    </tr>
+    <tr>
+        <div id="div-feedback">
+            <ul id="feedback">
+                <li><h3>
+                    {{ gettext('migrating')|capitalize}} '{{dict(form.mgName.choices).get(form.mgName.data) }}' 
+                    {{ gettext('from') }} 
+                    '{{ dict(form.mgOrigin.choices).get(form.mgOrigin.data) }}' 
+                    {{ gettext('to') }} 
+                    '{{ dict(form.mgDestiny.choices).get(form.mgDestiny.data) }}'
+                    </h3>
+                </li>
+            </ul>
+        </div>
+    </tr>
+</table>
+<hr>
+            <!-- jQuery Script -->
+            <script>
+                const zeroPad = (num, places) => {
+                  const numZeroes = places - num.toString().length + 1;
+                  if (numZeroes > 0) {
+                    return Array(+numZeroes).join("0") + num;
+                  }
+                  return num
+                }
+                
+                var minimum = 0;
+                var maximum = 0;
+                var counter = 0;
+                var percent = 0;
+                var previo  = -1;
+                var value   = 0;
+                var elapsed = 0;
+                var message = "";
+                var remaining = 0;
+                var timeout = 1000;
+                var URL =   window.location.protocol + "//" + 
+                            window.location.hostname + ":"  + 
+                            window.location.port;
+                console.log("URL = "+URL);
+                // builds progress advance get URL
+                var url =   URL + "/read-progress?ipc_mode={{form.mgData.ipc.ipc_mode}}&ipc_id={{form.mgData.ipc.ipc_id}}";
+                console.log("url = "+url);
+                // builds progress advance clean URL
+                var urlclean =   URL + "/clean-progress?ipc_mode={{form.mgData.ipc.ipc_mode}}&ipc_id={{form.mgData.ipc.ipc_id}}";
+                // set a one second sleep prior execution ....
+                console.log("urlclean = "+urlclean);
+                
+                var query = window.location.search;
+                
+                arguments = query.split("&");
+                
+                new_arguments = [];
+                
+                for (let argument of arguments){
+                    arg = argument.split("=");
+                    if (arg[0] == "Update"){ arg[1] = 0 }
+                    new_arguments.push(arg[0]+"="+arg[1])
+                };
+                
+                new_arguments = new_arguments.join("&")
+                // aqui probablemente se deba hacer condicional el puerto
+                //newurl =    URL + window.location.pathname + new_arguments; // GV 20220122 a
+                //newurl =    URL ; // GV 20220122 b
+                //newurl =    URL + window.location.pathname + '#close';  // GV 20220122 b
+                //newurl = '#close'; GV 20220122 c
+                //newurl =    URL + window.location.pathname + '/report/ipc'; GV 20220122 d
+                newurl = URL + "/forms/Migration/report_migration_feedback?ipc_id={{form.mgData.ipc.ipc_id}}";
+                console.log('newurl = ' + newurl);
+                
+                timeout = 1000
+                setTimeout(function(){ console.log('waiting'); }, timeout);
+
+                console.log('url = ' + url);
+                console.log('url clean = ' + urlclean);
+                console.log('new url = ' + newurl);
+                var calls = 0
+                var fulls = 0
+                var empty = 0
+                function makeProgress(){
+                    console.log('makeProgress({{form.mgData.mode}}:{{form.mgData.unique_id}}) percent = ' + percent + '%');
+                    calls = calls + 1;
+                    if(percent <= 100){
+                        // get remote progress data here
+                        try {
+                            $.getJSON( url, function( progress ) {
+                                if (progress.advance != null) {
+                                    percent = progress.percent;
+                                    value   = progress.value;
+                                    maximum = progress.maximum;
+                                    message = progress.message;
+                                    remaining = progress.remaining_seconds;
+                                    fulls = fulls + 1;
+                                }
+                                
+                                else {
+                                    empty = empty + 1;
+                                }
+                                
+                            });
+                        }
+                        catch (error) {
+                            console.log('se capturo un error ...');
+                            console.error(error);
+                        }
+                        if (percent != previo){
+                            console.log('Change !!! read from {{form.mgData.ipc.ipc_mode}}:{{form.mgData.ipc.ipc_id}} <= ' + percent + '%');
+                            timeout = 100;
+                            previo = percent;
+                            $("#barTitle").val(message+' ('+remaining.toFixed(0)+" {{gettext('secs to complete')}}) ...");
+                            try {
+                                // another syntax:
+                                // const padded = (123).toString().padStart(5, '0')
+                                var today = new Date();
+                                var date = today.getFullYear()+'-'+zeroPad((today.getMonth()+1),2)+'-'+zeroPad(today.getDate(),2);
+                                var time = zeroPad(today.getHours(),2) + ":" + zeroPad(today.getMinutes(),2) + ":" + zeroPad(today.getSeconds(),2);
+                                var dateTime = date+' '+time;
+                                var li = document.createElement("li");
+                                //li.innerHTML = dateTime + ' ' + percent.toFixed(2) + '% ' + message;
+                                li.innerHTML = time + ' - ' + percent.toFixed(2) + '% - ' + message;
+                                var lu = document.getElementById('feedback');
+                                lu.appendChild(li);
+                            }
+                            catch (error) {
+                                console.log('add line to feedback list se capturo un error ...');
+                                console.error(error);
+                            }
+                            $(".progress-bar").css("width", percent + "%").text(percent.toFixed(2) + "%");
+                            $(".progress-bar").attr("arie-valuenow", value );
+                            $(".progress-bar").attr("arie-valuemax", maximum );
+                            if (percent >= 100){
+                                /* Server data will not be deleted by this document
+                                try {
+                                    console.log('eliminando server data ...');
+                                    $.getJSON( urlclean, function( data ) {
+                                        if (form.mgData.status != null) {
+                                            console.log(form.mgData.status);
+                                        }
+                                        else {
+                                            console.log('No data from remote server clean function');
+                                        }
+                                    });
+                                }
+                                catch (error) {
+                                    console.log('se capturo un error mientras se eliminaba data remota...');
+                                    console.error(error);
+                                }
+                                */
+                                console.log('stats: fulls + empty = ' + fulls + ' + ' + empty + ' = ' + calls +' calls');
+                                console.log(percent + '% procesado. El proceso continuará ...');
+                                
+                                // TRATA DE ACTIVAR EL MODAL
+                                //console.log('will open modal: my-modal');
+                                //$('#my-modal').modal({
+                                //    show: 'true'
+                                //}); 
+                                // Aqui se redirecciona a la consulta sin update
+                                console.log('will redirect to newurl = ' + newurl);
+                                window.location.replace(newurl);
+                                    
+                            };
+                        }
+                        else {
+                            timeout = 1000;
+                        }
+                    };
+                    setTimeout("makeProgress()", timeout);
+                };
+                
+                makeProgress();
+            </script>
+
+
+<!--p>
+DEBUG PARAGRAPH TO DELETE<br>
+<table border= 1>
+    <tr><td>Id        </td><td>{{ form.mgId                                             }}</td></tr>
+    <tr><td>Origin    </td><td>{{ dict(form.mgOrigin.choices).get(form.mgOrigin.data)   }}</td></tr>
+    <tr><td>Destiny   </td><td>{{ dict(form.mgDestiny.choices).get(form.mgDestiny.data) }}</td></tr>
+        {% for vm in form.mgVms %}
+    <tr><td>{{vm.vm_name}}</td><td>{{vm.vm_uuid}}</td></tr>
+        {% endfor %}
+    <tr><td>Unique Id </td><td>{{ form.mgData.ipc.ipc_id                                }}</td></tr>
+</table>
+</p-->

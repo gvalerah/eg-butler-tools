@@ -3,14 +3,18 @@
    (c) Sertechno 2020                                                
    GLVH @ 2020-11-06                                                 
    ================================================================== #}
-{%- extends "base.html" %}
-{%- block title %}Butler{% endblock %}
-{%- block head %}
-    {{ super() }}
-{%- endblock %}
-{%- block page_content %}
+{%- extends "butler_app.html" %}
+{%- block title %}{{ gettext('virtual machine provisioning request')|capitalize }}{% endblock %}
+{%- block content %}
+
 <div class="page-header">
     <h2>{{ gettext('virtual machine provisioning request')|capitalize }}</h2>
+    
+    <a href="#" onclick="history.go(-1)" class="btn btn-outline-primary"><i class="bi bi-arrow-left text-primary"></i></a>
+    <a href="/select/Request"            class="btn btn-outline-primary"><i class="bi bi-search text-primary" width=32></i></a>
+    <a href="/"                          class="btn btn-outline-primary"><i class="bi bi-house-door text-primary" width=32></i></a>
+    
+    {#
     <a href="#" onclick="history.go(-1)">
         <img src="/static/img/back.png"
         color=yellow width="32" height="32" title="" alt="Add">
@@ -23,10 +27,11 @@
         <img src="/static/img/home.png"
         color=yellow width="32" height="32" title="" alt="Home">
     </a>
+    #}
 </div>
 {%- include 'frm_request.html' %}
 <!-- includes EG Butler Requests scripts list here ----------------- -->
 <script src="/static/js/butler.requests.{{form.vmData.userid}}.js"></script>
 <hr>
-{%- endblock %}
+{%- endblock content %}
 {# ================================================================== #}

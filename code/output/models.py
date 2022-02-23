@@ -84,7 +84,7 @@ def load_user(user_id):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_categories.py
@@ -136,7 +136,7 @@ class categories(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_clusters.py
@@ -194,7 +194,7 @@ class clusters(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
@@ -254,7 +254,7 @@ class cost_centers(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
@@ -299,7 +299,7 @@ def get_cost_centers(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_disk_images.py
@@ -363,7 +363,7 @@ class disk_images(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_domains.py
@@ -415,7 +415,7 @@ class domains(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_interface.py
@@ -477,7 +477,7 @@ class interface(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
@@ -537,7 +537,7 @@ class migration_groups(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
@@ -581,7 +581,7 @@ def get_migration_groups(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
@@ -614,38 +614,46 @@ class migration_groups_vm(db.Model,Serializer):
        __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
-    MG_Id             = db.Column( db.Integer, db.ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
-    vm_uuid           = db.Column( db.String(45), primary_key=True )
-    vm_name           = db.Column( db.String(256) )
-    vm_state          = db.Column( db.Boolean, default=1 )
-    vm_has_pd         = db.Column( db.Boolean, default=0 )
-    vm_pd_name        = db.Column( db.String(45) )
-    vm_pd_active      = db.Column( db.Boolean, default=0 )
-    vm_pd_replicating = db.Column( db.Boolean, default=0 )
-    vm_migrate        = db.Column( db.Boolean, default=0 )
+    MG_Id               = db.Column( db.Integer, db.ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
+    vm_uuid             = db.Column( db.String(45), primary_key=True )
+    vm_cluster_uuid     = db.Column( db.String(45) )
+    vm_name             = db.Column( db.String(256) )
+    vm_state            = db.Column( db.Boolean, default=1 )
+    vm_has_pd           = db.Column( db.Boolean, default=0 )
+    vm_pd_name          = db.Column( db.String(45) )
+    vm_pd_active        = db.Column( db.Boolean, default=0 )
+    vm_pd_replicating   = db.Column( db.Boolean, default=0 )
+    vm_pd_schedules     = db.Column( db.Integer, default=0 )
+    vm_last_replication = db.Column( db.DateTime )
+    vm_migrate          = db.Column( db.Boolean, default=0 )
+    vm_project          = db.Column( db.String(45) )
 
 
     # looking for include file: /home/gvalera/GIT/EG-Suite-Tools/Butler/code/src/include/models/flask_migration_groups_vm_properties.py
     # file: /home/gvalera/GIT/EG-Suite-Tools/Butler/code/src/include/models/flask_migration_groups_vm_properties.py not found
-    def __init__(self, MG_Id=None, vm_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_migrate=0):
-        self.MG_Id             = MG_Id
-        self.vm_uuid           = vm_uuid
-        self.vm_name           = vm_name
-        self.vm_state          = vm_state
-        self.vm_has_pd         = vm_has_pd
-        self.vm_pd_name        = vm_pd_name
-        self.vm_pd_active      = vm_pd_active
-        self.vm_pd_replicating = vm_pd_replicating
-        self.vm_migrate        = vm_migrate
+    def __init__(self, MG_Id=None, vm_uuid='None', vm_cluster_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_pd_schedules=0, vm_last_replication=None, vm_migrate=0, vm_project='None'):
+        self.MG_Id               = MG_Id
+        self.vm_uuid             = vm_uuid
+        self.vm_cluster_uuid     = vm_cluster_uuid
+        self.vm_name             = vm_name
+        self.vm_state            = vm_state
+        self.vm_has_pd           = vm_has_pd
+        self.vm_pd_name          = vm_pd_name
+        self.vm_pd_active        = vm_pd_active
+        self.vm_pd_replicating   = vm_pd_replicating
+        self.vm_pd_schedules     = vm_pd_schedules
+        self.vm_last_replication = vm_last_replication
+        self.vm_migrate          = vm_migrate
+        self.vm_project          = vm_project
 
     def __repr__(self):
-        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_migrate='%s')>" % \
-                ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_cluster_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_pd_schedules='%s', vm_last_replication='%s', vm_migrate='%s', vm_project='%s')>" % \
+                ( self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project)
 
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
@@ -662,31 +670,39 @@ def get_migration_groups_vm(table_name_suffix):
            __class__.check_shard(suffix,engine)
         return __class__.__tablename__
 
-    MG_Id             = db.Column( db.Integer, db.ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
-    vm_uuid           = db.Column( db.String(45), primary_key=True )
-    vm_name           = db.Column( db.String(256) )
-    vm_state          = db.Column( db.Boolean, default=1 )
-    vm_has_pd         = db.Column( db.Boolean, default=0 )
-    vm_pd_name        = db.Column( db.String(45) )
-    vm_pd_active      = db.Column( db.Boolean, default=0 )
-    vm_pd_replicating = db.Column( db.Boolean, default=0 )
-    vm_migrate        = db.Column( db.Boolean, default=0 )
+    MG_Id               = db.Column( db.Integer, db.ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
+    vm_uuid             = db.Column( db.String(45), primary_key=True )
+    vm_cluster_uuid     = db.Column( db.String(45) )
+    vm_name             = db.Column( db.String(256) )
+    vm_state            = db.Column( db.Boolean, default=1 )
+    vm_has_pd           = db.Column( db.Boolean, default=0 )
+    vm_pd_name          = db.Column( db.String(45) )
+    vm_pd_active        = db.Column( db.Boolean, default=0 )
+    vm_pd_replicating   = db.Column( db.Boolean, default=0 )
+    vm_pd_schedules     = db.Column( db.Integer, default=0 )
+    vm_last_replication = db.Column( db.DateTime )
+    vm_migrate          = db.Column( db.Boolean, default=0 )
+    vm_project          = db.Column( db.String(45) )
 
 
-    def __init__(self, MG_Id=None, vm_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_migrate=0):
-        self.MG_Id             = MG_Id
-        self.vm_uuid           = vm_uuid
-        self.vm_name           = vm_name
-        self.vm_state          = vm_state
-        self.vm_has_pd         = vm_has_pd
-        self.vm_pd_name        = vm_pd_name
-        self.vm_pd_active      = vm_pd_active
-        self.vm_pd_replicating = vm_pd_replicating
-        self.vm_migrate        = vm_migrate
+    def __init__(self, MG_Id=None, vm_uuid='None', vm_cluster_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_pd_schedules=0, vm_last_replication=None, vm_migrate=0, vm_project='None'):
+        self.MG_Id               = MG_Id
+        self.vm_uuid             = vm_uuid
+        self.vm_cluster_uuid     = vm_cluster_uuid
+        self.vm_name             = vm_name
+        self.vm_state            = vm_state
+        self.vm_has_pd           = vm_has_pd
+        self.vm_pd_name          = vm_pd_name
+        self.vm_pd_active        = vm_pd_active
+        self.vm_pd_replicating   = vm_pd_replicating
+        self.vm_pd_schedules     = vm_pd_schedules
+        self.vm_last_replication = vm_last_replication
+        self.vm_migrate          = vm_migrate
+        self.vm_project          = vm_project
 
     def __repr__(self):
-        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_migrate='%s')>" % \
-                ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_cluster_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_pd_schedules='%s', vm_last_replication='%s', vm_migrate='%s', vm_project='%s')>" % \
+                ( self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project)
 
   migration_groups_vm_Class.__name__ = 'migration_groups_vm_%s'%(table_name_suffix)
   return migration_groups_vm_Class
@@ -694,7 +710,7 @@ def get_migration_groups_vm(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_prism_vm.py
@@ -862,7 +878,7 @@ class nutanix_prism_vm(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_vm_images.py
@@ -916,7 +932,7 @@ class nutanix_vm_images(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_projects.py
@@ -970,7 +986,7 @@ class projects(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
@@ -1044,7 +1060,7 @@ class rates(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
@@ -1103,7 +1119,7 @@ def get_rates(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_requests.py
@@ -1177,7 +1193,7 @@ class requests(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_request_type.py
@@ -1231,7 +1247,7 @@ class request_type(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_roles.py
@@ -1316,7 +1332,7 @@ class Role(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_subnets.py
@@ -1384,7 +1400,7 @@ class subnets(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_users.py

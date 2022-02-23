@@ -1,9 +1,9 @@
-# ======================================================================
-# Main Views Header
-# source file name: views_py_header.py
-# Static Header File. 
-# GLVH 2020-10-11
-# ----------------------------------------------------------------------
+# GV ===================================================================
+# GV Main Views Header
+# GV source file name: views_py_header.py
+# GV Static Header File. 
+# GV GLVH 2020-10-11
+# GV -------------------------------------------------------------------
 from datetime       import datetime
 from time           import strftime
 from pprint         import pformat                    
@@ -30,6 +30,8 @@ from ..             import db
 from ..             import mail
 from ..             import logger
 from ..             import babel
+
+from emtec.debug    import *
 
 # add to you main app code
 @babel.localeselector
@@ -58,24 +60,24 @@ from emtec.butler.db.flask_models       import *
 from emtec.butler.db.orm_model          import *
 from emtec.butler.constants             import *
 
-""" Application decorators for routes """
-""" Decorators specify main routes to be handled by Butler Solution """
+""" GV Application decorators for routes """
+""" GV Decorators specify main routes to be handled by Butler Solution """
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
     logger.debug(f"@main.route('/', methods=['GET', 'POST'])")
     try: logger.debug(f'current_user={current_user}')
     except Exception as e: logger.debug(f'exception={str(e)}')
-    # Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
+    # GV Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
     
-    # Aqui debo setear el ambiente de variables de periodo -------------
+    # GV Aqui debo setear el ambiente de variables de periodo ----------
     try:
         Period = get_period_data(current_user.id,db.engine,Interface)
     except:
         Period = get_period_data()
     logger.debug(f"Period={Period}")    
-    # ------------------------------------------------------------------
-    # Setup all data to render in template
+    # GV ---------------------------------------------------------------
+    # GV Setup all data to render in template
     data =  {   "name":current_app.name,
                 "app_name":current_app.name,
                 "date_time":strftime('%Y-%m-%d %H:%M:%S'),
@@ -94,14 +96,9 @@ def index():
     logger.debug(f"return render_template('butler.html',data=data,butlerdata=butlerdata)")
     return render_template('butler.html',data=data,butlerdata=butlerdata)
 
-@main.route('/es', methods=['GET', 'POST'])
-def es():
-    current_app.config.CURRENT_LANGUAGE = 'es'
-    return redirect('/')
-
-@main.route('/en', methods=['GET', 'POST'])
-def en():
-    current_app.config.CURRENT_LANGUAGE = 'en'
+@main.route('/language/<string:langcode>', methods=['GET', 'POST'])
+def language(langcode):
+    current_app.config.CURRENT_LANGUAGE = langcode
     return redirect('/')
 
 @main.route('/under_construction', methods=['GET','POST'])
@@ -112,49 +109,65 @@ def under_construction():
 def demo():   
     return render_template('demo.html')
 
+@main.route('/struct', methods=['GET', 'POST'])
+def struct():
+    return render_template('struct.html')
+
 @main.route('/test_index', methods=['GET', 'POST'])
 def test_index():
-    
-    # Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
+    try:
+        # Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
 
-    if logger is not None:
-        logger.debug("index() IN")
-    else:
-        print("*** WARNING *** Route: test_index: logger is undefined. !!! No logging functions possible. !!!")
+        if logger is not None:
+            logger.debug("index() IN")
+        else:
+            print("*** WARNING *** Route: test_index: logger is undefined. !!! No logging functions possible. !!!")
 
-    data =  {   "name":current_app.name,
-                "app_name":C.app_name,
-                "date_time":strftime('%Y-%m-%d %H:%M:%S'),
-                "user_agent":request.headers.get('User-Agent'),
-                "current_time":datetime.utcnow(),
-                "db":db,
-                "logger":logger,
-                "C":C,
-                "C.db":C.db,
-                "C.logger":C.logger,
-                "current_app":current_app,
-                "current_app_dir":dir(current_app),
-                "current_app_app_context":current_app.app_context(),
-                "current_app_app_context DIR":dir(current_app.app_context()),
-                }
-    name = None
-    password = None
-    form = NameForm()
+        data =  {   "name":current_app.name,
+                    #"app_name":C.app_name,
+                    "date_time":strftime('%Y-%m-%d %H:%M:%S'),
+                    "user_agent":request.headers.get('User-Agent'),
+                    "current_time":datetime.utcnow(),
+                    "db":db,
+                    "logger":logger,
+                    #"C":C,
+                    #"C.db":C.db,
+                    #"C.logger":C.logger,
+                    "current_app":current_app,
+                    "current_app_dir":dir(current_app),
+                    "current_app_app_context":current_app.app_context(),
+                    "current_app_app_context DIR":dir(current_app.app_context()),
+                    }
+        name = None
+        password = None
+        form = None
+        #form = NameForm()
 
-    return render_template('test.html',data=data, name=name,password=password, form=form)
-
+        return render_template('test.html',data=data, name=name,password=password, form=form)
+    except Exception as e:
+        emtec_handle_general_exception(e,logger)
+        
 from markdown import markdown
 from markdown import markdownFromFile
+from markdown.extensions import tables
+from markdown.extensions import toc
 
 @main.route('/butler_faq', methods=['GET','POST'])
-def butler_faq():   
+def butler_faq():  
+    if logger is not None: 
+        logger.debug(f"markdown = {markdown}")
+        logger.debug(f"markdownFromFile = {markdownFromFile}")
+        logger.debug(f"tables = {tables}")
     main_page_md   = f'{current_app.template_folder}/butler_main.md'
     main_page_html = f'{current_app.template_folder}/butler_main.html'
     markdownFromFile(
         input=main_page_md,
         output=main_page_html,
         encoding='utf8',
-        extensions=['tables']
+        extensions=[
+            'markdown.extensions.tables',
+            'markdown.extensions.toc',
+            ]
         )
     return render_template('butler_faq.html')
 

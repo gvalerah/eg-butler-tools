@@ -113,10 +113,11 @@ if __name__ == '__main__':
     
     logger.setLevel(C.log_level)
     db.logger = logger
+
     
     if logger is not None:
         db.logger = logger
-        logger.info("****** Butler Server *****************")
+        logger.info("****** Butler Server *****************xxx")
         logger.info(" * %s: as '%s' Using configuration: '%s'"%
             (sys.argv[0],getpass.getuser(),config_file))
         logger.info(" * %s: db connection is '%s'"%(sys.argv[0],db))

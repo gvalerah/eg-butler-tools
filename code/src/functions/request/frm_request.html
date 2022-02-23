@@ -390,40 +390,153 @@
         {# %- if row.Status is none or has_status(row.Status,form.vmData.status.NONE) % #}
         {%- if row.Status is none or row.Status == 0 or has_status(row.Status,form.vmData.status.NONE) %}
             <!-- Options for non Created Request ----------------------- -->
-            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="{{gettext('Save')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <span class="icon-input-btn">
+                <i class="fa bi bi-save text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Save')}}" id="submit_Guardar" name="submit_Guardar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+                width="32" height="32" title="">
+            </span>
         {%- elif has_status(row.Status,form.vmData.status.CREATED) %}
             <!-- Options for Created Request ----------------------- -->
-            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="{{gettext('Save')}}">
-            <input class="btn btn-default" id="submit_Completado" name="submit_Completado" type="submit" value="{{gettext('Completed')}}" >
-            <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="{{gettext('Cancel')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <span class="icon-input-btn">
+                <i class="fa bi bi-save text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Save')}}" id="submit_Guardar" name="submit_Guardar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-check-all text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Completed')}}" id="submit_Completado" name="submit_Completado"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-trash text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Cancel')}}" id="submit_Cancelar" name="submit_Cancelar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+                width="32" height="32" title="">
+            </span>
         {%- elif has_status(row.Status,form.vmData.status.REQUESTED) %}
             <!-- Options for Requested Request - ---------------------->
-            <input class="btn btn-default" id="submit_Cancelar"   name="submit_Cancelar"   type="submit" value="{{gettext('Cancel')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">    
+            <span class="icon-input-btn">
+                <i class="fa bi bi-trash text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Cancel')}}" id="submit_Cancelar" name="submit_Cancelar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+                width="32" height="32" title="">
+            </span>
         {%- else %}
             <!-- Options for Inactive Request ---------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <span class="icon-input-btn">
+                <i class="fa bi bi-save text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Save')}}" id="submit_Guardar" name="submit_Guardar"
+                width="32" height="32" title="">
+            </span>
         {%- endif %}
     {%- elif form.vmData.rolename == 'Approver' %}
         <!-- Options for Approver role ----------------------------- -->
         {%- if has_status(row.Status,[form.vmData.status.REQUESTED,form.vmData.status.REVIEWED]) %}
             <!-- Options for Requested Request --------------------- -->
-            <input class="btn btn-default" id="submit_Guardar"    name="submit_Guardar"    type="submit" value="{{gettext('Save')}}">
-            <input class="btn btn-default" id="submit_Rechazar"   name="submit_Rechazar"   type="submit" value="{{gettext('Reject')}}">
-            <input class="btn btn-default" id="submit_Aprobar"    name="submit_Aprobar"    type="submit" value="{{gettext('Approve')}}">
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}"">
+            <span class="icon-input-btn">
+                <i class="fa bi bi-save text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Save')}}" id="submit_Guardar" name="submit_Guardar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-x-lg text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Reject')}}" id="submit_Rechazar" name="submit_Rechazar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-check-all text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Approve')}}" id="submit_Aprobar" name="submit_Aprobar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+                width="32" height="32" title="">
+            </span>
         {%- elif has_status(row.Status,[form.vmData.status.REJECTED,form.vmData.status.APPROVED]) %}
             <!-- Options for Handled Request ----------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">    
+            <span class="icon-input-btn">
+                <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+                width="32" height="32" title="">
+            </span>
         {%- else %}
             <!-- Options for Inactive or post approved Request ----- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+            <span class="icon-input-btn">
+                <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+                width="32" height="32" title="">
+            </span>
         {%- endif %}
+    {%- elif form.vmData.role == form.vmData.roles['GOD'] %}
+        <!-- Options for God role ----------------------------- -->
+            <!-- Options for Requested Request --------------------- -->
+            <span class="icon-input-btn">
+                <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-save text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Save')}}" id="submit_Guardar" name="submit_Guardar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-check-all text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Completed')}}" id="submit_Completado" name="submit_Completado"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-x-lg text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Reject')}}" id="submit_Rechazar" name="submit_Rechazar"
+                width="32" height="32" title="">
+            </span>
+            <span class="icon-input-btn">
+                <i class="fa bi bi-check-all text-secondary" role="img" style="font-size: 1rem"></i>
+                <input type="submit" class="btn btn-outline-primary" 
+                value="{{gettext('Approve')}}" id="submit_Aprobar" name="submit_Aprobar"
+                width="32" height="32" title="">
+            </span>
     {%- else %}
         <!-- Options for Other/Viewer role ------------------------- -->
-            <input class="btn btn-default" id="submit_Retorno"    name="submit_Retorno"    type="submit" value="{{gettext('Return')}}">
+        <span class="icon-input-btn">
+            <i class="fa bi bi-arrow-left text-secondary" role="img" style="font-size: 1rem"></i>
+            <input type="submit" class="btn btn-outline-primary" 
+            value="{{gettext('Return')}}" id="submit_Retorno" name="submit_Retorno"
+            width="32" height="32" title="">
+        </span>
     {%- endif %}
     <!-- HIDDEN DATA -->
     <input id="vmTopCC"    name="vmTopCC"    type="hidden" value="{{form.vmTopCC}}">
@@ -450,5 +563,10 @@
         {{object_to_html_table(form.vmData,1)|safe}}
         <!--DEBUG DATA complete ------------------------------------ -->
     {%- endif %}
-    
+    <p>form.vmData.user = {{ form.vmData.user }}</p>
+    <p>form.vmData.userid = {{ form.vmData.userid }}</p>
+    <p>form.vmData.role = {{ form.vmData.role }}</p>
+    <p>
+        form.vmData = {{ form.vmData }}
+    </p>
 </form>

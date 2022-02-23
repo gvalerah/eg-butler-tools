@@ -16,7 +16,7 @@ from sqlalchemy             import ForeignKey
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 from sqlalchemy                 import Table, Column
@@ -31,7 +31,7 @@ from sqlalchemy                 import VARBINARY
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 import json
 import logging
@@ -45,7 +45,7 @@ Base = declarative_base()
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_categories.py
@@ -206,7 +206,7 @@ class Categories(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_clusters.py
@@ -373,7 +373,7 @@ class Clusters(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -544,7 +544,7 @@ class Cost_Centers(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -705,7 +705,7 @@ def get_Cost_Centers(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_disk_images.py
@@ -880,7 +880,7 @@ class Disk_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_domains.py
@@ -1080,7 +1080,7 @@ class Domains(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_interface.py
@@ -1253,7 +1253,7 @@ class Interface(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
@@ -1459,7 +1459,7 @@ class Migration_Groups(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
@@ -1655,7 +1655,7 @@ def get_Migration_Groups(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
@@ -1689,49 +1689,57 @@ class Migration_Groups_VM(Base):
        __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
-    MG_Id             = Column( Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
-    vm_uuid           = Column( String(45), primary_key=True )
-    vm_name           = Column( String(256) )
-    vm_state          = Column( Boolean )
-    vm_has_pd         = Column( Boolean )
-    vm_pd_name        = Column( String(45) )
-    vm_pd_active      = Column( Boolean )
-    vm_pd_replicating = Column( Boolean )
-    vm_migrate        = Column( Boolean )
+    MG_Id               = Column( Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
+    vm_uuid             = Column( String(45), primary_key=True )
+    vm_cluster_uuid     = Column( String(45) )
+    vm_name             = Column( String(256) )
+    vm_state            = Column( Boolean )
+    vm_has_pd           = Column( Boolean )
+    vm_pd_name          = Column( String(45) )
+    vm_pd_active        = Column( Boolean )
+    vm_pd_replicating   = Column( Boolean )
+    vm_pd_schedules     = Column( Integer )
+    vm_last_replication = Column( DateTime )
+    vm_migrate          = Column( Boolean )
+    vm_project          = Column( String(45) )
     
-    def __init__(self, MG_Id=None, vm_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_migrate=0,engine=None,logger=None):
+    def __init__(self, MG_Id=None, vm_uuid='None', vm_cluster_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_pd_schedules=0, vm_last_replication=None, vm_migrate=0, vm_project='None',engine=None,logger=None):
         """ Initiates a Migration_Groups_VM class record """
         self.engine=engine
         self.logger=logger
-        self.MG_Id             = MG_Id
-        self.vm_uuid           = vm_uuid
-        self.vm_name           = vm_name
-        self.vm_state          = vm_state
-        self.vm_has_pd         = vm_has_pd
-        self.vm_pd_name        = vm_pd_name
-        self.vm_pd_active      = vm_pd_active
-        self.vm_pd_replicating = vm_pd_replicating
-        self.vm_migrate        = vm_migrate
+        self.MG_Id               = MG_Id
+        self.vm_uuid             = vm_uuid
+        self.vm_cluster_uuid     = vm_cluster_uuid
+        self.vm_name             = vm_name
+        self.vm_state            = vm_state
+        self.vm_has_pd           = vm_has_pd
+        self.vm_pd_name          = vm_pd_name
+        self.vm_pd_active        = vm_pd_active
+        self.vm_pd_replicating   = vm_pd_replicating
+        self.vm_pd_schedules     = vm_pd_schedules
+        self.vm_last_replication = vm_last_replication
+        self.vm_migrate          = vm_migrate
+        self.vm_project          = vm_project
 
         self.log('Created %s'%self)
     def __repr__(self):
         """ default class Migration_Groups_VM representation function """
-        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_migrate='%s')>" % \
-                ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_cluster_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_pd_schedules='%s', vm_last_replication='%s', vm_migrate='%s', vm_project='%s')>" % \
+                ( self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project)
 
     def get_list(self):
         """ Gets Migration_Groups_VM record in list format """
-        __list = [ self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate]
+        __list = [ self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project]
         return __list
 
     def get_tuple(self):
         """ Gets Migration_Groups_VM record in tuple format """
-        __tuple = ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        __tuple = ( self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project)
         return __tuple
 
     def get_dict(self):
         """ Gets Migration_Groups_VM record in dict format """
-        __dict={'MG_Id':self.MG_Id,'vm_uuid':self.vm_uuid,'vm_name':self.vm_name,'vm_state':self.vm_state,'vm_has_pd':self.vm_has_pd,'vm_pd_name':self.vm_pd_name,'vm_pd_active':self.vm_pd_active,'vm_pd_replicating':self.vm_pd_replicating,'vm_migrate':self.vm_migrate}
+        __dict={'MG_Id':self.MG_Id,'vm_uuid':self.vm_uuid,'vm_cluster_uuid':self.vm_cluster_uuid,'vm_name':self.vm_name,'vm_state':self.vm_state,'vm_has_pd':self.vm_has_pd,'vm_pd_name':self.vm_pd_name,'vm_pd_active':self.vm_pd_active,'vm_pd_replicating':self.vm_pd_replicating,'vm_pd_schedules':self.vm_pd_schedules,'vm_last_replication':self.vm_last_replication,'vm_migrate':self.vm_migrate,'vm_project':self.vm_project}
 
         return __dict
 
@@ -1783,25 +1791,25 @@ class Migration_Groups_VM(Base):
 
     def get_columns(self):
         """ Gets Migration_Groups_VM record column full details list """
-        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'referenced_table': 'Migration_Groups', 'referenced_class': 'migration_groups', 'foreign_key': 'MG_Id', 'foreign_field': 'MG_Id', 'foreign_value': 'Name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'MG_Id', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'vm_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_state', 'is_time': False}, {'field': 'vm_has_pd', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_has_pd', 'is_time': False}, {'field': 'vm_pd_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_pd_name', 'is_time': False}, {'field': 'vm_pd_active', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_active', 'is_time': False}, {'field': 'vm_pd_replicating', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_replicating', 'is_time': False}, {'field': 'vm_migrate', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_migrate', 'is_time': False}]
+        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'referenced_table': 'Migration_Groups', 'referenced_class': 'migration_groups', 'foreign_key': 'MG_Id', 'foreign_field': 'MG_Id', 'foreign_value': 'Name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'MG_Id', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_cluster_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_cluster_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'vm_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_state', 'is_time': False}, {'field': 'vm_has_pd', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_has_pd', 'is_time': False}, {'field': 'vm_pd_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_pd_name', 'is_time': False}, {'field': 'vm_pd_active', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_active', 'is_time': False}, {'field': 'vm_pd_replicating', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_replicating', 'is_time': False}, {'field': 'vm_pd_schedules', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 10, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'vm_pd_schedules', 'is_time': False}, {'field': 'vm_last_replication', 'type': 'timestamp', 'type_flask': 'db.DateTime', 'type_sqlalchemy': 'DateTime', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 11, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'DateTimeField', 'is_id': False, 'header': 'vm_last_replication', 'is_time': False}, {'field': 'vm_migrate', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 12, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_migrate', 'is_time': False}, {'field': 'vm_project', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 13, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_project', 'is_time': False}]
 
         return __list
 
     def get_column_headers(self):
         """ Gets Migration_Groups_VM record column headers list """
-        __list=['MG_Id', 'vm_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_migrate']
+        __list=['MG_Id', 'vm_uuid', 'vm_cluster_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_pd_schedules', 'vm_last_replication', 'vm_migrate', 'vm_project']
 
         return __list
 
     def get_column_types(self):
         """ Gets Migration_Groups_VM record column data types list """
-        __list=['Integer', 'String(45)', 'String(256)', 'Boolean', 'Boolean', 'String(45)', 'Boolean', 'Boolean', 'Boolean']
+        __list=['Integer', 'String(45)', 'String(45)', 'String(256)', 'Boolean', 'Boolean', 'String(45)', 'Boolean', 'Boolean', 'Integer', 'DateTime', 'Boolean', 'String(45)']
 
         return __list
 
     def get_column_meta(self):
         """ Gets Migration_Groups_VM record column data meta list """
-        __list=[('MG_Id', 'Integer'), ('vm_uuid', 'String(45)'), ('vm_name', 'String(256)'), ('vm_state', 'Boolean'), ('vm_has_pd', 'Boolean'), ('vm_pd_name', 'String(45)'), ('vm_pd_active', 'Boolean'), ('vm_pd_replicating', 'Boolean'), ('vm_migrate', 'Boolean')]
+        __list=[('MG_Id', 'Integer'), ('vm_uuid', 'String(45)'), ('vm_cluster_uuid', 'String(45)'), ('vm_name', 'String(256)'), ('vm_state', 'Boolean'), ('vm_has_pd', 'Boolean'), ('vm_pd_name', 'String(45)'), ('vm_pd_active', 'Boolean'), ('vm_pd_replicating', 'Boolean'), ('vm_pd_schedules', 'Integer'), ('vm_last_replication', 'DateTime'), ('vm_migrate', 'Boolean'), ('vm_project', 'String(45)')]
 
         return __list
 
@@ -1830,7 +1838,7 @@ class Migration_Groups_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
@@ -1850,49 +1858,57 @@ def get_Migration_Groups_VM(table_name_suffix):
            __class__.check_shard(suffix,engine)
        return __class__.__tablename__
 
-    MG_Id             = Column( Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
-    vm_uuid           = Column( String(45), primary_key=True )
-    vm_name           = Column( String(256) )
-    vm_state          = Column( Boolean )
-    vm_has_pd         = Column( Boolean )
-    vm_pd_name        = Column( String(45) )
-    vm_pd_active      = Column( Boolean )
-    vm_pd_replicating = Column( Boolean )
-    vm_migrate        = Column( Boolean )
+    MG_Id               = Column( Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True )
+    vm_uuid             = Column( String(45), primary_key=True )
+    vm_cluster_uuid     = Column( String(45) )
+    vm_name             = Column( String(256) )
+    vm_state            = Column( Boolean )
+    vm_has_pd           = Column( Boolean )
+    vm_pd_name          = Column( String(45) )
+    vm_pd_active        = Column( Boolean )
+    vm_pd_replicating   = Column( Boolean )
+    vm_pd_schedules     = Column( Integer )
+    vm_last_replication = Column( DateTime )
+    vm_migrate          = Column( Boolean )
+    vm_project          = Column( String(45) )
     
-    def __init__(self, MG_Id=None, vm_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_migrate=0,engine=None,logger=None):
+    def __init__(self, MG_Id=None, vm_uuid='None', vm_cluster_uuid='None', vm_name='None', vm_state=1, vm_has_pd=0, vm_pd_name='None', vm_pd_active=0, vm_pd_replicating=0, vm_pd_schedules=0, vm_last_replication=None, vm_migrate=0, vm_project='None',engine=None,logger=None):
         """ Initiates a Migration_Groups_VM class record """
         self.engine=engine
         self.logger=logger
-        self.MG_Id             = MG_Id
-        self.vm_uuid           = vm_uuid
-        self.vm_name           = vm_name
-        self.vm_state          = vm_state
-        self.vm_has_pd         = vm_has_pd
-        self.vm_pd_name        = vm_pd_name
-        self.vm_pd_active      = vm_pd_active
-        self.vm_pd_replicating = vm_pd_replicating
-        self.vm_migrate        = vm_migrate
+        self.MG_Id               = MG_Id
+        self.vm_uuid             = vm_uuid
+        self.vm_cluster_uuid     = vm_cluster_uuid
+        self.vm_name             = vm_name
+        self.vm_state            = vm_state
+        self.vm_has_pd           = vm_has_pd
+        self.vm_pd_name          = vm_pd_name
+        self.vm_pd_active        = vm_pd_active
+        self.vm_pd_replicating   = vm_pd_replicating
+        self.vm_pd_schedules     = vm_pd_schedules
+        self.vm_last_replication = vm_last_replication
+        self.vm_migrate          = vm_migrate
+        self.vm_project          = vm_project
 
         self.log('Created %s'%self)
     def __repr__(self):
         """ default class Migration_Groups_VM representation function """
-        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_migrate='%s')>" % \
-                ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        return "<Migration_Groups_VM( MG_Id='%s', vm_uuid='%s', vm_cluster_uuid='%s', vm_name='%s', vm_state='%s', vm_has_pd='%s', vm_pd_name='%s', vm_pd_active='%s', vm_pd_replicating='%s', vm_pd_schedules='%s', vm_last_replication='%s', vm_migrate='%s', vm_project='%s')>" % \
+                ( self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project)
 
     def get_list(self):
         """ Gets Migration_Groups_VM record in list format """
-        __list = [ self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate]
+        __list = [ self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project]
         return __list
 
     def get_tuple(self):
         """ Gets Migration_Groups_VM record in tuple format """
-        __tuple = ( self.MG_Id, self.vm_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_migrate)
+        __tuple = ( self.MG_Id, self.vm_uuid, self.vm_cluster_uuid, self.vm_name, self.vm_state, self.vm_has_pd, self.vm_pd_name, self.vm_pd_active, self.vm_pd_replicating, self.vm_pd_schedules, self.vm_last_replication, self.vm_migrate, self.vm_project)
         return __tuple
 
     def get_dict(self):
         """ Gets Migration_Groups_VM record in dict format """
-        __dict={'MG_Id':self.MG_Id,'vm_uuid':self.vm_uuid,'vm_name':self.vm_name,'vm_state':self.vm_state,'vm_has_pd':self.vm_has_pd,'vm_pd_name':self.vm_pd_name,'vm_pd_active':self.vm_pd_active,'vm_pd_replicating':self.vm_pd_replicating,'vm_migrate':self.vm_migrate}
+        __dict={'MG_Id':self.MG_Id,'vm_uuid':self.vm_uuid,'vm_cluster_uuid':self.vm_cluster_uuid,'vm_name':self.vm_name,'vm_state':self.vm_state,'vm_has_pd':self.vm_has_pd,'vm_pd_name':self.vm_pd_name,'vm_pd_active':self.vm_pd_active,'vm_pd_replicating':self.vm_pd_replicating,'vm_pd_schedules':self.vm_pd_schedules,'vm_last_replication':self.vm_last_replication,'vm_migrate':self.vm_migrate,'vm_project':self.vm_project}
 
         return __dict
 
@@ -1944,25 +1960,25 @@ def get_Migration_Groups_VM(table_name_suffix):
 
     def get_columns(self):
         """ Gets Migration_Groups_VM record column full details list """
-        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'referenced_table': 'Migration_Groups', 'referenced_class': 'migration_groups', 'foreign_key': 'MG_Id', 'foreign_field': 'MG_Id', 'foreign_value': 'Name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'MG_Id', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'vm_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_state', 'is_time': False}, {'field': 'vm_has_pd', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_has_pd', 'is_time': False}, {'field': 'vm_pd_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_pd_name', 'is_time': False}, {'field': 'vm_pd_active', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_active', 'is_time': False}, {'field': 'vm_pd_replicating', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_replicating', 'is_time': False}, {'field': 'vm_migrate', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_migrate', 'is_time': False}]
+        __list=[{'field': 'MG_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': True, 'referenced_table': 'Migration_Groups', 'referenced_class': 'migration_groups', 'foreign_key': 'MG_Id', 'foreign_field': 'MG_Id', 'foreign_value': 'Name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'MG_Id', 'is_time': False}, {'field': 'vm_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_uuid', 'is_time': False}, {'field': 'vm_cluster_uuid', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_cluster_uuid', 'is_time': False}, {'field': 'vm_name', 'type': 'varchar(256)', 'type_flask': 'db.String(256)', 'type_sqlalchemy': 'String(256)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_name', 'is_time': False}, {'field': 'vm_state', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_state', 'is_time': False}, {'field': 'vm_has_pd', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_has_pd', 'is_time': False}, {'field': 'vm_pd_name', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_pd_name', 'is_time': False}, {'field': 'vm_pd_active', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_active', 'is_time': False}, {'field': 'vm_pd_replicating', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_pd_replicating', 'is_time': False}, {'field': 'vm_pd_schedules', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 10, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'vm_pd_schedules', 'is_time': False}, {'field': 'vm_last_replication', 'type': 'timestamp', 'type_flask': 'db.DateTime', 'type_sqlalchemy': 'DateTime', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 11, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'DateTimeField', 'is_id': False, 'header': 'vm_last_replication', 'is_time': False}, {'field': 'vm_migrate', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 12, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'vm_migrate', 'is_time': False}, {'field': 'vm_project', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 13, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vm_project', 'is_time': False}]
 
         return __list
 
     def get_column_headers(self):
         """ Gets Migration_Groups_VM record column headers list """
-        __list=['MG_Id', 'vm_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_migrate']
+        __list=['MG_Id', 'vm_uuid', 'vm_cluster_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_pd_schedules', 'vm_last_replication', 'vm_migrate', 'vm_project']
 
         return __list
 
     def get_column_types(self):
         """ Gets Migration_Groups_VM record column data types list """
-        __list=['Integer', 'String(45)', 'String(256)', 'Boolean', 'Boolean', 'String(45)', 'Boolean', 'Boolean', 'Boolean']
+        __list=['Integer', 'String(45)', 'String(45)', 'String(256)', 'Boolean', 'Boolean', 'String(45)', 'Boolean', 'Boolean', 'Integer', 'DateTime', 'Boolean', 'String(45)']
 
         return __list
 
     def get_column_meta(self):
         """ Gets Migration_Groups_VM record column data meta list """
-        __list=[('MG_Id', 'Integer'), ('vm_uuid', 'String(45)'), ('vm_name', 'String(256)'), ('vm_state', 'Boolean'), ('vm_has_pd', 'Boolean'), ('vm_pd_name', 'String(45)'), ('vm_pd_active', 'Boolean'), ('vm_pd_replicating', 'Boolean'), ('vm_migrate', 'Boolean')]
+        __list=[('MG_Id', 'Integer'), ('vm_uuid', 'String(45)'), ('vm_cluster_uuid', 'String(45)'), ('vm_name', 'String(256)'), ('vm_state', 'Boolean'), ('vm_has_pd', 'Boolean'), ('vm_pd_name', 'String(45)'), ('vm_pd_active', 'Boolean'), ('vm_pd_replicating', 'Boolean'), ('vm_pd_schedules', 'Integer'), ('vm_last_replication', 'DateTime'), ('vm_migrate', 'Boolean'), ('vm_project', 'String(45)')]
 
         return __list
 
@@ -1995,7 +2011,7 @@ def get_Migration_Groups_VM(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_prism_vm.py
@@ -2274,7 +2290,7 @@ class Nutanix_Prism_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_vm_images.py
@@ -2439,7 +2455,7 @@ class Nutanix_VM_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_projects.py
@@ -2602,7 +2618,7 @@ class Projects(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -2787,7 +2803,7 @@ class Rates(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:817 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -2962,7 +2978,7 @@ def get_Rates(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_request_type.py
@@ -3162,7 +3178,7 @@ class Request_Type(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_requests.py
@@ -3345,7 +3361,7 @@ class Requests(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_roles.py
@@ -3510,7 +3526,7 @@ class Roles(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_subnets.py
@@ -3687,7 +3703,7 @@ class Subnets(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # GV gen_model_flask.py:413 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_users.py

@@ -15,7 +15,7 @@ from    configparser                    import ConfigParser
 from    configparser                    import ExtendedInterpolation
 
 from    flask                           import Flask, render_template, request
-from    flask_bootstrap                 import Bootstrap
+#from    flask_bootstrap                 import Bootstrap
 from    flask_mail                      import Mail
 from    flask_mail                      import Message
 from    flask_moment                    import Moment
@@ -30,7 +30,7 @@ from    emtec.butler.db.orm_model       import *
 
 import re
 
-bootstrap                           = Bootstrap()
+#bootstrap                           = Bootstrap()
 mail                                = Mail()
 moment                              = Moment()
 # This if the oportunity to setup a customized SQLAlchemy Class that
@@ -169,6 +169,11 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'NUTANIX_REMOTE_LOCAL_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','REMOTE_LOCAL_MAX_SNAPSHOTS' ,fallback=0    )})
     app.config.update({'NUTANIX_REMOTE_REMOTE_MAX_SNAPSHOTS': config_ini.getint('Nutanix','REMOTE_REMOTE_MAX_SNAPSHOTS',fallback=0    )})
     app.config.update({'NUTANIX_CLUSTERS': {}})
+    app.config.update({'NUTANIX_PROJECTS': {}})
+    app.config.update({'NUTANIX_MIGRATION_TIMEOUT':300})
+    app.config.update({'NUTANIX_MIGRATION_VALIDATION_STEP':30})
+    app.config.update({'NUTANIX_MIGRATION_CREATE_REMOTE_SCHEDULES':False})
+    app.config.update({'NUTANIX_MIGRATION_CREATE_LOCAL_SCHEDULES':False})
     clusters = config_ini.get('Nutanix','clusters',fallback=None)
     if clusters is not None:
         clusters = clusters.split(',')
@@ -183,10 +188,29 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
                     'uuid':     config_ini.get   (cluster,'uuid',fallback=None),
                 }
             })
+    if 'Projects-Map' in config_ini.sections():
+        projects=config_ini.options('Projects-Map')
+        for project in projects:
+            app.config['NUTANIX_PROJECTS'].update({project:{}})
+            if config_ini.get('Projects-Map',project):
+                for pair in config_ini.get('Projects-Map',project).split(','):
+                    cluster,remote_project = pair.split(':')
+                    app.config['NUTANIX_PROJECTS'][project].update({
+                            cluster:remote_project
+                    })
+    else:
+        print("create_app: WARNING No Projects map available")
     
-
-
-            
+    if 'Migrations' in config_ini.sections():
+        app.config['NUTANIX_MIGRATION_TIMEOUT']                 = config_ini.getint    (
+            'Migrations','migration_timeout',fallback=300)
+        app.config['NUTANIX_MIGRATION_VALIDATION_STEP']         = config_ini.getint    (
+            'Migrations','migration_validation_step',fallback=30)
+        app.config['NUTANIX_MIGRATION_CREATE_REMOTE_SCHEDULES'] = config_ini.getboolean(
+            'Migrations','create_remote_schedules',fallback=False)
+        app.config['NUTANIX_MIGRATION_CREATE_LOCAL_SCHEDULES']  = config_ini.getboolean(
+            'Migrations','create_local_schedules',fallback=False)
+    
     if app.config['DEBUG']:
         print("create_app: %-40s = %s"%("name",__name__))
         print("create_app: %-40s = %s"%("config_file",config_file))
@@ -200,7 +224,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
         print("%-40s = %s"%("create_app: app.root_path",app.root_path))
     
     # Inititializes applications (incomplete by now)
-    bootstrap.init_app      (app)
+    #bootstrap.init_app      (app)
     mail.init_app           (app)
     moment.init_app         (app)
     db.init_app             (app)
@@ -220,7 +244,7 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     print(f'main_blueprint={main_blueprint}')
     print(f'auth_blueprint={auth_blueprint}')
 
-    print(f"Call app.create_jinja_environment()")
+    #print(f"Call app.create_jinja_environment()")
     app.create_jinja_environment()
     return app
     

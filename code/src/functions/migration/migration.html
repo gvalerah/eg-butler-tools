@@ -2,32 +2,23 @@
    Butler VM Request Form                                            
    (c) Sertechno 2020                                                
    GLVH @ 2020-11-06                                                 
+   GLVH @ 2022-02-19 refactoring                                                 
    ================================================================== #}
-{%- extends "base.html" %}
-{%- block title %}Butler{% endblock %}
-{%- block head %}
-    {{ super() }}
-{%- endblock %}
-{%- block page_content %}
+
+<!-- migration.html: GV GLVH 2022-02-20 ---------------------------- -->
+<!-- migration.html: extends "butler_app.html" --------------------- -->
+<!-- migration.html: {{url_for('static',filename='bootstrap/js/bootstrap.bundle.min.js')}} -->
+{%- extends "butler_app.html" %}
+<!-- block title follows -->
+{%- block title %}Migration{% endblock title%}
+<!-- block title completed -->
+{%- block content %}
 <div class="page-header">
-    <p></p>
-    <h2>Grupos de Migración</h2>
-    <a href="#" onclick="history.go(-1)">
-        <img src="/static/img/back.png"
-        color=yellow width="32" height="32" title="" alt="Add">
-    </a>
-    <a href="/select/Request"> 
-        <img src="/static/img/search.png"
-        color=yellow width="32" height="32" title="" alt="Search">
-    </a>
-    <a href="/"> 
-        <img src="/static/img/home.png"
-        color=yellow width="32" height="32" title="" alt="Home">
-    </a>
+    <h2>{{gettext('migration groups')|capitalize}}</h2>
+    <a href="#" onclick="history.go(-1)" class="btn btn-outline-primary"><i class="bi bi-arrow-left text-primary" width=32></i></a>
+    <a href="/"                          class="btn btn-outline-primary"><i class="bi bi-house-door text-primary" width=32></i></a>    
 </div>
 {%- include 'frm_migration.html' %}
-<!-- includes EG Butler Requests scripts list here ----------------- -->
-<script src="/static/js/butler.requests.{{form.mgData.userid}}.js"></script>
 <hr>
-{%- endblock %}
+{%- endblock content%}
 {# ================================================================== #}

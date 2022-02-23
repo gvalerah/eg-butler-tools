@@ -1,0 +1,67 @@
+{# GV ------------------------------------------------------------------
+    butler_app.html
+    Application base template
+    GLVH    2022-02-13  Initial template version
+--------------------------------------------------------------------- #}
+{# GV ------------------------------------------------------------------
+    This is an example structure for cascading templates
+    1.  Extends bootstrap/base.html at the uppest level. This template
+        should map all blocks that need to be overrided later on this
+        template
+    2.  Overrrides title block, defaults to "App Name" (must variable)
+    3.  Inherits base "metas" and may include application specifics
+    4.  Inherits base "styles" and may include application specifics
+    5.  Includes navbar template (application specific and dynamic)
+    6.  Content is a place holder here
+    7.  Inherits base "scripts"
+    7.  App scripts place holder here
+--------------------------------------------------------------------- #}
+
+<!-- butler_app.html: GLVH 2022-02-19 ------------------------------ -->
+<!-- ../code/src/app/templates/butler_app.html --------------------- -->
+<!-- butler_app.html: extends "bootstrap/base.html" -->
+{%- extends "bootstrap/base.html" %}
+{%- block title %}{{title}}{%- endblock title %}
+{%- block metas %}
+    <!-- butler_app.html: includes "bootstrap/metas.html" ---------- -->
+    {%- include "bootstrap/metas.html" %}
+    <!-- butler_app.html: metas placeholder ------------------------ -->
+    {%- include "metas.html" %}
+    <!-- butler_app.html: metas placeholder ------------------------ -->
+{%- endblock metas %}
+{%- block styles %}
+    <!-- butler_app.html: includes "bootstrap/styles.html" --------- -->
+    {%- include "bootstrap/styles.html" %}
+    <!-- butler_app.html: styles placeholder ----------------------- -->
+    {%- include "styles.html" %}
+    <!-- butler_app.html: styles placeholder ----------------------- -->
+{%- endblock styles %}
+
+{%- block navbar %}
+    <!-- butler_app.html: includes "navbar_template.html" ---------- -->
+    
+    {%- include "navbar_template.html" %}
+    
+    <!-- butler_app.html: navbar placeholder ----------------------- -->
+    <!-- butler_app.html: navbar placeholder ----------------------- -->
+{%- endblock navbar %}
+
+{%- block messages %}
+    <!-- butler_app.html: messages placeholder --------------------- -->
+    {%- include "bootstrap/flash.html" %}
+    <!-- butler_app.html: messages placeholder --------------------- -->
+{%- endblock messages %}
+
+{%- block content %}
+    <!-- butler_app.html: content placeholder ---------------------- -->
+    <!-- butler_app.html: content placeholder ---------------------- -->
+{%- endblock content %}
+
+{%- block scripts %}
+    <!-- butler_app.html: includes "bootstrap/scripts.html" -------- -->
+    {%- include "bootstrap/scripts.html" %}
+    <!-- butler_app.html: scripts placeholder ---------------------- -->
+    <!-- butler_app.html: scripts placeholder ---------------------- -->
+{%- endblock scripts %}
+<!-- butler_app.html: GLVH 2022-02-19 ------------------------------ -->
+

@@ -1,15 +1,15 @@
 
 #!/usr/bin/env python
 
-# ----------------------------------------------------------------------
+# GV -------------------------------------------------------------------
 # Top level required definitions
-# ----------------------------------------------------------------------
+# GV -------------------------------------------------------------------
 import  os
 import  sys
 import  getpass
 from    pprint              import pprint
-from    flask_script        import Manager, Shell
-from    flask_migrate       import Migrate, MigrateCommand
+#from    flask_script        import Manager, Shell
+#from    flask_migrate       import Migrate, MigrateCommand
 from    flask_mail          import Message
 import  logging
 import  logging.handlers
@@ -17,11 +17,11 @@ import  logging.handlers
 import  configparser
 from    configparser        import ConfigParser, ExtendedInterpolation
 from    sqlalchemy          import create_engine
-# ----------------------------------------------------------------------
+# GV -------------------------------------------------------------------
 
-# ----------------------------------------------------------------------
-# G Unicorn required definitions
-# ----------------------------------------------------------------------
+# GV -------------------------------------------------------------------
+# GV G Unicorn required definitions
+# GV -------------------------------------------------------------------
 import  multiprocessing
 import  gunicorn
 from    gunicorn.app.base   import Application, Config
@@ -44,22 +44,20 @@ class GUnicornFlaskApplication(Application):
         return Application.run(self)
 
     load = lambda self:self.app
-# ----------------------------------------------------------------------
+# GV -------------------------------------------------------------------
 
-# ----------------------------------------------------------------------
+# GV -------------------------------------------------------------------
 # Emtec group required definitions
-# ----------------------------------------------------------------------
-
+# GV -------------------------------------------------------------------
 
 # GV -------------------------------------------------------------------
 from    emtec.common.functions             import *
 from    emtec.butler.common.context     import Context
-#from    emtec.collector.common.functions   import *
-# ----------------------------------------------------------------------
+# GV -------------------------------------------------------------------
 
-# Setup context data depending on configuration file
+# GV Setup context data depending on configuration file
 
-# Macro level default values
+# GV Macro level default values
 config_file = "butler.ini"
 run_mode    = 'FLASK'
 
@@ -77,12 +75,10 @@ command     = sys.argv[0]
 
 if len(sys.argv) >1:
     config_file = sys.argv[1]
-#elif len(sys.argv) == 4:
-#    config_file = sys.argv[2]
 
 print(f"{this()}: 3 config_file = '{config_file}' filename from command line.")
 if len(sys.argv) > 2:        
-    run_mode=sys.argv[-1]
+    run_mode=sys.argv[2].upper()
 print(f"{this()}: 4 run_mode    = '{run_mode}' from command line.")
 
 if (os.path.isfile(config_file)):
@@ -96,6 +92,9 @@ if (os.path.isfile(config_file)):
         gunicorn_host = config_ini.getint('General','gunicorn_host',fallback='0.0.0.0')
         gunicorn_port = config_ini.getint('General','gunicorn_port',fallback=8100)
         max_workers   = config_ini.getint('General','max_workers'  ,fallback=0)
+        log_when      = config_ini.get   ('General','log_when'     ,fallback='D')
+        log_interval  = config_ini.getint('General','log_interval' ,fallback=7)
+        log_counter   = config_ini.getint('General','log_counter'  ,fallback=53)
 else:
     print(f"{this()}: ERROR invalid config_file '{config_file}'")
     sys.exit(1)
@@ -115,32 +114,41 @@ app = create_app(   config_file,
                     C
                 )
 
-# CONFIGURATION PATCH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# GV CONFIGURATION PATCH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 logger.name = "Butler Web Server"
-# Setup logger handlers
-# Actual File system all logger ----------------------------------------
+# GV Setup logger handlers
+# GV Actual File system all logger -------------------------------------
 file_handler = add_Logging_Handler(
                     logger=logger,
                     level=C.log_level,
                     folder=C.log_folder,
                     nameFormat="%s.log"%logger.name.replace(' ','_'),
-                    handlerType='TIME_ROTATING'
+                    handlerType='TIME_ROTATING',
+                    when=log_when,
+                    interval=log_interval,
+                    backupCount=log_counter
                 )
-# Default File logger filters (omits) AUDIT records, then an audit
-# logger needs to be defined
-file_handler.addFilter(LevelFilter(logging.AUDIT))
-# ----------------------------------------------------------------------
+print(f'{this()}: file_handler = {file_handler}')
 
-# Specialized AUDIT LOG logger -----------------------------------------
+# GV Default File logger filters (omits) AUDIT records, then an audit
+# GV logger needs to be defined
+file_handler.addFilter(LevelFilter(logging.AUDIT))
+# GV -------------------------------------------------------------------
+
+# GV Specialized AUDIT LOG logger --------------------------------------
 audit_handler = add_Logging_Handler(
                     logger=logger,
                     level=logging.AUDIT,
                     folder=C.log_folder,
                     nameFormat="%s.aud"%logger.name.replace(' ','_'),
-                    handlerType='TIME_ROTATING'
+                    handlerType='TIME_ROTATING',
+                    when=log_when,
+                    interval=log_interval,
+                    backupCount=log_counter
                     )
-# ----------------------------------------------------------------------
+print(f'{this()}: audit_handler = {audit_handler}')
+# GV -------------------------------------------------------------------
 
 if config_ini.getboolean('General','DEBUG',fallback=False):
     console_handler = logging.StreamHandler()
@@ -149,12 +157,16 @@ if config_ini.getboolean('General','DEBUG',fallback=False):
     console_handler.setFormatter(logFormatter)
     logger.addHandler(console_handler)
 
-
+logger.info    (f"{this}: logger       = {logger}")
+logger.info    (f"{this}: C.log_folder = {C.log_folder}")
+for handler in logger.handlers:
+    logger.info(f"{this}: handler      = {handler}")
+    
 # GV Internationalization code -----------------------------------------
 from flask_babel import Babel, gettext, ngettext, lazy_gettext, force_locale
 
-#babel = Babel(app)
 print(f"Set App enabled Languages ...")
+# GV This need to be read from configuration
 setattr(app.config,'LANGUAGES',{
         'en': 'English',
         'es': 'Español'
@@ -163,54 +175,10 @@ setattr(app.config,'LANGUAGES',{
 print(f"Set Default App Language ...")
 setattr(app.config,'CURRENT_LANGUAGE',None)
 
-"""
-# add to you main app code
-@babel.localeselector
-def get_locale():
-    global request
-    print(f"get_locale: app = {app}")
-    print(f"get_locale: app.config = {app.config}")
-    print(f"get_locale: locals = {locals()}")
-    print(f"get_locale: globals = ")
-    pprint(globals())
-    if app.config.CURRENT_LANGUAGE is not None:
-        language =  app.config.CURRENT_LANGUAGE
-    else:
-        language =  request.accept_languages.best_match(app.config.LANGUAGES.keys())
-    print(f"get_local returns: {language}")
-    return language
-"""
-print (f"app.config.LANGUAGES            = {app.config.LANGUAGES}")
-print (f"app.config.CURRENT_LANGUAGE     = {app.config.CURRENT_LANGUAGE}")
-print (f"babel.app                       = {babel.app}")
-print (f"babel.default_date_formats      = ")
-for f in babel.date_formats:
-    print(f"  {f}={babel.date_formats[f]}")
-print (f"babel.default_locale            = {babel.default_locale}")
-print (f"babel.default_timezone          = {babel.default_timezone}")
-print (f"babel.domain                    = {babel.domain}")
-print (f"babel.locale_selector_func      = {babel.locale_selector_func}")
-print (f"babel.translation_directories   =")
-for d in babel.translation_directories:
-    print(f"  {d}")
 print (f"Set Global multilanguage strings ...")
 
 # GV -------------------------------------------------------------------
 
-# Global Jinja2 setup
-print(f"dir app               = {dir(app)}")
-print(f"app.jinja_loader      = {app.jinja_loader}")
-print(f"app.jinja_options     = {app.jinja_options}")
-print(f"app.jinja_environment = {app.jinja_environment}")
-print(f"app.jinja_env         = {app.jinja_env}")
-print(f"app.jinja_env dir     = {dir(app.jinja_env)}")
-
-"""
-app.jinja_env.install_gettext_callables(
-    gettext = gettext,
-    lazy_gettext = lazy_gettext
-)
-"""
 if __name__ == '__main__':
     app_ctx = app.app_context()
     app_ctx.push()
@@ -218,37 +186,9 @@ if __name__ == '__main__':
     logger.setLevel(C.log_level)
     db.logger = logger
     
-    # test email send here ---------------------------------------------
-    """
-    try:
-        print(f'Creando mensaje SMTP ...')
-        msg = Message(  f'Prueba de Correo Butler @ {datetime.now()}',
-                        sender = 'gerardovalera@hotmail.com',
-                        recipients = [
-                            'gerardovalera@hotmail.com',
-                            'gvalera@emtecgroup.net',
-                            'gvalera@sertechno.com'
-                            ]
-                    )
-        # Plain/Text body
-        msg.body = "EG Butler\n"
-        # HTML body
-        msg.html = f"<h2>EG Butler</h2>\n"
-        for key in app.config:
-           msg.body += f'{key} = {app.config[key]}\n' 
-           msg.html += f'<b>{key}</b> = {app.config[key]}<br>' 
-        print(f'enviando mensaje ....')
-        print(f'msg={msg}')
-        mail.send(msg)
-        print(f'mensaje enviado ...')
-    except Exception as e:
-        emtec_handle_general_exception(e,fp=sys.stderr)
-    # ------------------------------------------------------------------
-    """
-    
     if logger is not None:
         db.logger = logger
-        logger.info("****** Butler Server *****************")
+        logger.info("****** Butler Server *****************xxx")
         logger.info(" * %s: as '%s' Using configuration: '%s'"%
             (sys.argv[0],getpass.getuser(),config_file))
         logger.info(" * %s: db connection is '%s'"%(sys.argv[0],db))
@@ -264,7 +204,6 @@ if __name__ == '__main__':
         logger.debug("app.static_folder     = %s"%app.static_folder)
         logger.debug("app.template_folder 1 = %s"%app.template_folder)
         logger.debug("babel                 = %s"%babel)
-        print       ("babel                 = %s"%babel)
         app.template_folder="%s/templates"%(app.root_path)
         logger.debug("app.template_folder 2 = %s"%app.template_folder)
         for key in app.config.keys():
@@ -278,19 +217,22 @@ if __name__ == '__main__':
             (sys.argv[0],getpass.getuser(),config_file))
         print(" * %s: db connection is '%s'"%(sys.argv[0],db))
         print(" * logger is %s"%(logger))
-        if logger.getEffectiveLevel() < logging.INFO:
+        if True or logger.getEffectiveLevel() < logging.INFO:
             print("*** logger.handlers are :"%logger.handlers)        
             for h in logger.handlers:
-                print("    *******")
-                print("    handler",h,id(h))
-                print("      format",h.format,id(h.format))
-                print("      formatter",h.formatter,id(h.formatter))
-                print("      filter",h.filter,id(h.filter))
-                print("      filters",h.filters,id(h.filters))
+                print(f"    *******")
+                print(f"    handler {h,id(h)}")
+                print(f"      formatter {h.formatter} {id(h.formatter)}")
+                print(f"      filter {h.filter} {id(h.filter)}")
+                print(f"      filters {h.filters} {id(h.filters)}")
+                for f in h.filters:
+                    print(f"       f = {f} {id(f)}")
+                print(f"      when {h.when} every {h.interval} secs")
+                print(f"      rollover at {h.rolloverAt} {datetime.datetime.fromtimestamp(h.rolloverAt)}")
                 try:
-                    print('      name',h.name,'level',h.level,'mode',h.mode)
+                    print(f'      name {h.name} level {h.level} mode {h.mode}')
                 except:
-                    print('      name',h.name,'level',h.level)
+                    print(f'      name {h.name} level {h.level}')
         logger.trace    ("trace    Init butler Web Server Execution")
         logger.debug    ("debug    Init butler Web Server Execution")
         logger.info     ("info     Init butler Web Server Execution")

@@ -1,7 +1,7 @@
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 
 # gen_model_flask.py:67 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/ORM_model_schema.py
@@ -100,13 +100,17 @@ def Create_Tables(engine):
                 'Migration_Groups_VM',Meta,
                 Column( 'MG_Id',Integer, ForeignKey('Migration_Groups.MG_Id'), primary_key=True ),
                 Column( 'vm_uuid',String(45), primary_key=True ),
+                Column( 'vm_cluster_uuid',String(45) ),
                 Column( 'vm_name',String(256) ),
                 Column( 'vm_state',Boolean ),
                 Column( 'vm_has_pd',Boolean ),
                 Column( 'vm_pd_name',String(45) ),
                 Column( 'vm_pd_active',Boolean ),
                 Column( 'vm_pd_replicating',Boolean ),
+                Column( 'vm_pd_schedules',Integer ),
+                Column( 'vm_last_replication',DateTime ),
                 Column( 'vm_migrate',Boolean ),
+                Column( 'vm_project',String(45) ),
         )
     except Exception as e:
         print('EXCEPTION:',e)

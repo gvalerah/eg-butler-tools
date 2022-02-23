@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+{% extends "butler_app.html" %}
 
-{% block title %}Collector - Forbidden{% endblock %}
+{% block title %}Butler - Forbidden{% endblock %}
 
-{% block page_content %}
+{% block content %}
 <div class="page-header">
     <h1>Forbidden</h1>
     {{request}}
     {{dir(request)}}
 </div>
-{% endblock %}
+{% endblock content%}

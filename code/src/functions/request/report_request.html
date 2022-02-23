@@ -6,22 +6,27 @@
    ================================================================== #}
 {# Removes App header for "body_only" mode -------------------------- #}
 {%- if body_only is not defined %}
-    {%- extends "base.html" %}
+    {%- extends "butler_app.html" %}
 {%- endif %}
 {%- import "bootstrap/wtf.html" as wtf %}
 {%- import "_macros.html" as macros %}
-{%- block title %}Butler{%- endblock %}
-{# Head block not available if not base.html "body_only" mode ------- #}
+{%- block title %}{{ gettext('Detail for request') }} {{row.Requests.Id}}{%- endblock %}
 {%- if body_only is not defined %}
     {%- block head %}
        {{ super() }}
     {%- endblock %}
 {%- endif %}
-{%- block page_content %}
+{%- block content %}
 <div class="page-header">
     <h2>{{ gettext('Detail for request') }} {{row.Requests.Id}}:</h2>
     {# Removes Action icons for "body_only" mode #}
     {%- if body_only is not defined %}
+    
+        <a href="/select/Request"                       class="btn btn-outline-primary"><i class="bi bi-arrow-left text-primary"  width=32></i></a>
+        <a href="/forms/Request?Id={{row.Requests.Id}}" class="btn btn-outline-primary"><i class="bi bi-pencil text-primary" width=32></i></a>
+        <a href="/"                                     class="btn btn-outline-primary"><i class="bi bi-house-door text-primary"  width=32></i></a>
+
+        {#
         <a href="/select/Request">
             <img src="/static/img/back.png"
             color=yellow width="32" height="32" title="" alt="Add">
@@ -34,6 +39,7 @@
             <img src="/static/img/home.png"
             color=yellow width="32" height="32" title="" alt="Home">
         </a>
+        #}
     {%- endif %}
 </div>
     {%- if body_only is not defined %}
@@ -168,5 +174,5 @@
         <hr>
         {{object_to_html_table(data,1)|safe}}
     {%- endif %}
-{%- endblock %}
+{%- endblock content %}
 {# ================================================================== #}

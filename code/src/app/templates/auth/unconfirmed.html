@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "butler_app.html" %}
 
-{% block title %}Flasky - Confirm your account{% endblock %}
+{% block title %}Butler - Confirm your account{% endblock %}
 
-{% block page_content %}
+{% block content %}
 <div class="page-header">
     <h1>
         Hello, {{ current_user.username }}!
@@ -17,4 +17,4 @@
         <a href="{{ url_for('auth.resend_confirmation') }}">Click here</a>
     </p>
 </div>
-{% endblock %}
+{% endblock content %}

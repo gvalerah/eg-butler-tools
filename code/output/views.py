@@ -1,9 +1,9 @@
-# ======================================================================
-# Main Views Header
-# source file name: views_py_header.py
-# Static Header File. 
-# GLVH 2020-10-11
-# ----------------------------------------------------------------------
+# GV ===================================================================
+# GV Main Views Header
+# GV source file name: views_py_header.py
+# GV Static Header File. 
+# GV GLVH 2020-10-11
+# GV -------------------------------------------------------------------
 from datetime       import datetime
 from time           import strftime
 from pprint         import pformat                    
@@ -30,6 +30,8 @@ from ..             import db
 from ..             import mail
 from ..             import logger
 from ..             import babel
+
+from emtec.debug    import *
 
 # add to you main app code
 @babel.localeselector
@@ -58,24 +60,24 @@ from emtec.butler.db.flask_models       import *
 from emtec.butler.db.orm_model          import *
 from emtec.butler.constants             import *
 
-""" Application decorators for routes """
-""" Decorators specify main routes to be handled by Butler Solution """
+""" GV Application decorators for routes """
+""" GV Decorators specify main routes to be handled by Butler Solution """
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
     logger.debug(f"@main.route('/', methods=['GET', 'POST'])")
     try: logger.debug(f'current_user={current_user}')
     except Exception as e: logger.debug(f'exception={str(e)}')
-    # Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
+    # GV Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
     
-    # Aqui debo setear el ambiente de variables de periodo -------------
+    # GV Aqui debo setear el ambiente de variables de periodo ----------
     try:
         Period = get_period_data(current_user.id,db.engine,Interface)
     except:
         Period = get_period_data()
     logger.debug(f"Period={Period}")    
-    # ------------------------------------------------------------------
-    # Setup all data to render in template
+    # GV ---------------------------------------------------------------
+    # GV Setup all data to render in template
     data =  {   "name":current_app.name,
                 "app_name":current_app.name,
                 "date_time":strftime('%Y-%m-%d %H:%M:%S'),
@@ -94,14 +96,9 @@ def index():
     logger.debug(f"return render_template('butler.html',data=data,butlerdata=butlerdata)")
     return render_template('butler.html',data=data,butlerdata=butlerdata)
 
-@main.route('/es', methods=['GET', 'POST'])
-def es():
-    current_app.config.CURRENT_LANGUAGE = 'es'
-    return redirect('/')
-
-@main.route('/en', methods=['GET', 'POST'])
-def en():
-    current_app.config.CURRENT_LANGUAGE = 'en'
+@main.route('/language/<string:langcode>', methods=['GET', 'POST'])
+def language(langcode):
+    current_app.config.CURRENT_LANGUAGE = langcode
     return redirect('/')
 
 @main.route('/under_construction', methods=['GET','POST'])
@@ -112,49 +109,65 @@ def under_construction():
 def demo():   
     return render_template('demo.html')
 
+@main.route('/struct', methods=['GET', 'POST'])
+def struct():
+    return render_template('struct.html')
+
 @main.route('/test_index', methods=['GET', 'POST'])
 def test_index():
-    
-    # Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
+    try:
+        # Espera a capitulo 3 para mejorar procedimiento de respuesta, hard coding mucho aqui
 
-    if logger is not None:
-        logger.debug("index() IN")
-    else:
-        print("*** WARNING *** Route: test_index: logger is undefined. !!! No logging functions possible. !!!")
+        if logger is not None:
+            logger.debug("index() IN")
+        else:
+            print("*** WARNING *** Route: test_index: logger is undefined. !!! No logging functions possible. !!!")
 
-    data =  {   "name":current_app.name,
-                "app_name":C.app_name,
-                "date_time":strftime('%Y-%m-%d %H:%M:%S'),
-                "user_agent":request.headers.get('User-Agent'),
-                "current_time":datetime.utcnow(),
-                "db":db,
-                "logger":logger,
-                "C":C,
-                "C.db":C.db,
-                "C.logger":C.logger,
-                "current_app":current_app,
-                "current_app_dir":dir(current_app),
-                "current_app_app_context":current_app.app_context(),
-                "current_app_app_context DIR":dir(current_app.app_context()),
-                }
-    name = None
-    password = None
-    form = NameForm()
+        data =  {   "name":current_app.name,
+                    #"app_name":C.app_name,
+                    "date_time":strftime('%Y-%m-%d %H:%M:%S'),
+                    "user_agent":request.headers.get('User-Agent'),
+                    "current_time":datetime.utcnow(),
+                    "db":db,
+                    "logger":logger,
+                    #"C":C,
+                    #"C.db":C.db,
+                    #"C.logger":C.logger,
+                    "current_app":current_app,
+                    "current_app_dir":dir(current_app),
+                    "current_app_app_context":current_app.app_context(),
+                    "current_app_app_context DIR":dir(current_app.app_context()),
+                    }
+        name = None
+        password = None
+        form = None
+        #form = NameForm()
 
-    return render_template('test.html',data=data, name=name,password=password, form=form)
-
+        return render_template('test.html',data=data, name=name,password=password, form=form)
+    except Exception as e:
+        emtec_handle_general_exception(e,logger)
+        
 from markdown import markdown
 from markdown import markdownFromFile
+from markdown.extensions import tables
+from markdown.extensions import toc
 
 @main.route('/butler_faq', methods=['GET','POST'])
-def butler_faq():   
+def butler_faq():  
+    if logger is not None: 
+        logger.debug(f"markdown = {markdown}")
+        logger.debug(f"markdownFromFile = {markdownFromFile}")
+        logger.debug(f"tables = {tables}")
     main_page_md   = f'{current_app.template_folder}/butler_main.md'
     main_page_html = f'{current_app.template_folder}/butler_main.html'
     markdownFromFile(
         input=main_page_md,
         output=main_page_html,
         encoding='utf8',
-        extensions=['tables']
+        extensions=[
+            'markdown.extensions.tables',
+            'markdown.extensions.toc',
+            ]
         )
     return render_template('butler_faq.html')
 
@@ -168,7 +181,7 @@ def butler_about():
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_models_code.py:445 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/includes/models_py_imports.py
 from emtec.butler.db.flask_models import categories
@@ -209,15 +222,15 @@ from emtec.butler.forms import frm_User,frm_User_delete
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_categories.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.715610
+#  GLVH @ 2022-02-23 18:24:52.715668
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:50.715663
+# gen_views_form.html:AG 2022-02-23 18:24:52.715693
 @main.route('/forms/Categories', methods=['GET', 'POST'])
 @login_required
 
@@ -330,9 +343,9 @@ def forms_Categories():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.724354
+#  GLVH @ 2022-02-23 18:24:52.724756
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:50.724368
+# gen_views_delete.html:AG 2022-02-23 18:24:52.724771
 @main.route('/forms/Categories_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -398,10 +411,10 @@ def forms_Categories_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.741403
+#  GLVH @ 2022-02-23 18:24:52.744834
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:50.741417        
+# gen_views_select_query.html:AG 2022-02-23 18:24:52.744848        
 @main.route('/select/Categories_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -578,9 +591,9 @@ def select_Categories_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.770647
+#  GLVH @ 2022-02-23 18:24:52.773992
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:50.770662
+# gen_views_api.html:AG 2022-02-23 18:24:52.774007
 # table_name: Categories
 # class_name: categories
 # is shardened: False
@@ -823,15 +836,15 @@ def api_delete_Categories(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_clusters.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.867619
+#  GLVH @ 2022-02-23 18:24:52.866183
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:50.867633
+# gen_views_form.html:AG 2022-02-23 18:24:52.866198
 @main.route('/forms/Clusters', methods=['GET', 'POST'])
 @login_required
 
@@ -950,9 +963,9 @@ def forms_Clusters():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.875601
+#  GLVH @ 2022-02-23 18:24:52.874020
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:50.875613
+# gen_views_delete.html:AG 2022-02-23 18:24:52.874031
 @main.route('/forms/Clusters_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -1018,10 +1031,10 @@ def forms_Clusters_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.891031
+#  GLVH @ 2022-02-23 18:24:52.890767
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:50.906880        
+# gen_views_select_query.html:AG 2022-02-23 18:24:52.890782        
 @main.route('/select/Clusters_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1243,9 +1256,9 @@ def select_Clusters_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:50.934879
+#  GLVH @ 2022-02-23 18:24:52.921006
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:50.934894
+# gen_views_api.html:AG 2022-02-23 18:24:52.921022
 # table_name: Clusters
 # class_name: clusters
 # is shardened: False
@@ -1509,15 +1522,15 @@ def api_delete_Clusters(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_cost_centers.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.034179
+#  GLVH @ 2022-02-23 18:24:53.015469
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:51.034193
+# gen_views_form.html:AG 2022-02-23 18:24:53.015484
 @main.route('/forms/Cost_Centers', methods=['GET', 'POST'])
 @login_required
 
@@ -1635,9 +1648,9 @@ def forms_Cost_Centers():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.043403
+#  GLVH @ 2022-02-23 18:24:53.024210
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:51.043417
+# gen_views_delete.html:AG 2022-02-23 18:24:53.024224
 @main.route('/forms/Cost_Centers_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -1703,10 +1716,10 @@ def forms_Cost_Centers_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.059686
+#  GLVH @ 2022-02-23 18:24:53.041397
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:51.059699        
+# gen_views_select_query.html:AG 2022-02-23 18:24:53.041412        
 @main.route('/select/Cost_Centers_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1971,9 +1984,9 @@ def select_Cost_Centers_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.088397
+#  GLVH @ 2022-02-23 18:24:53.071743
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:51.088411
+# gen_views_api.html:AG 2022-02-23 18:24:53.071758
 # table_name: Cost_Centers
 # class_name: cost_centers
 # is shardened: True
@@ -2249,15 +2262,15 @@ def api_delete_Cost_Centers(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_disk_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.187840
+#  GLVH @ 2022-02-23 18:24:53.182111
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:51.187855
+# gen_views_form.html:AG 2022-02-23 18:24:53.182127
 @main.route('/forms/Disk_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -2375,9 +2388,9 @@ def forms_Disk_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.196797
+#  GLVH @ 2022-02-23 18:24:53.190279
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:51.196811
+# gen_views_delete.html:AG 2022-02-23 18:24:53.190291
 @main.route('/forms/Disk_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -2443,10 +2456,10 @@ def forms_Disk_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.213374
+#  GLVH @ 2022-02-23 18:24:53.207763
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:51.213389        
+# gen_views_select_query.html:AG 2022-02-23 18:24:53.207779        
 @main.route('/select/Disk_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -2728,9 +2741,9 @@ def select_Disk_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.248708
+#  GLVH @ 2022-02-23 18:24:53.236753
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:51.248768
+# gen_views_api.html:AG 2022-02-23 18:24:53.236769
 # table_name: Disk_Images
 # class_name: disk_images
 # is shardened: False
@@ -3022,15 +3035,15 @@ def api_delete_Disk_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_domains.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.340192
+#  GLVH @ 2022-02-23 18:24:53.323122
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:51.340206
+# gen_views_form.html:AG 2022-02-23 18:24:53.323137
 @main.route('/forms/Domains', methods=['GET', 'POST'])
 @login_required
 
@@ -3136,9 +3149,9 @@ def forms_Domains():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.348789
+#  GLVH @ 2022-02-23 18:24:53.334357
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:51.348803
+# gen_views_delete.html:AG 2022-02-23 18:24:53.334373
 @main.route('/forms/Domains_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3204,10 +3217,10 @@ def forms_Domains_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.364782
+#  GLVH @ 2022-02-23 18:24:53.351974
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:51.364802        
+# gen_views_select_query.html:AG 2022-02-23 18:24:53.351990        
 @main.route('/select/Domains_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -3399,9 +3412,9 @@ def select_Domains_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.393644
+#  GLVH @ 2022-02-23 18:24:53.380360
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:51.393659
+# gen_views_api.html:AG 2022-02-23 18:24:53.380375
 # table_name: Domains
 # class_name: domains
 # is shardened: False
@@ -3651,15 +3664,15 @@ def api_delete_Domains(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_interface.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.488458
+#  GLVH @ 2022-02-23 18:24:53.479915
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:51.488474
+# gen_views_form.html:AG 2022-02-23 18:24:53.479930
 @main.route('/forms/Interface', methods=['GET', 'POST'])
 @login_required
 
@@ -3774,9 +3787,9 @@ def forms_Interface():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.496960
+#  GLVH @ 2022-02-23 18:24:53.487898
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:51.496975
+# gen_views_delete.html:AG 2022-02-23 18:24:53.487910
 @main.route('/forms/Interface_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3842,10 +3855,10 @@ def forms_Interface_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.513159
+#  GLVH @ 2022-02-23 18:24:53.515114
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:51.513173        
+# gen_views_select_query.html:AG 2022-02-23 18:24:53.515128        
 @main.route('/select/Interface_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -4112,9 +4125,9 @@ def select_Interface_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.541021
+#  GLVH @ 2022-02-23 18:24:53.547854
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:51.541035
+# gen_views_api.html:AG 2022-02-23 18:24:53.547869
 # table_name: Interface
 # class_name: interface
 # is shardened: False
@@ -4397,15 +4410,15 @@ def api_delete_Interface(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_migration_groups.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.635153
+#  GLVH @ 2022-02-23 18:24:53.645705
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:51.635182
+# gen_views_form.html:AG 2022-02-23 18:24:53.645723
 @main.route('/forms/Migration_Groups', methods=['GET', 'POST'])
 @login_required
 
@@ -4530,9 +4543,9 @@ def forms_Migration_Groups():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.644386
+#  GLVH @ 2022-02-23 18:24:53.654695
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:51.644399
+# gen_views_delete.html:AG 2022-02-23 18:24:53.654710
 @main.route('/forms/Migration_Groups_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -4598,10 +4611,10 @@ def forms_Migration_Groups_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.661525
+#  GLVH @ 2022-02-23 18:24:53.671671
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:51.661540        
+# gen_views_select_query.html:AG 2022-02-23 18:24:53.671684        
 @main.route('/select/Migration_Groups_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -4851,9 +4864,9 @@ def select_Migration_Groups_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.689304
+#  GLVH @ 2022-02-23 18:24:53.701004
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:51.689329
+# gen_views_api.html:AG 2022-02-23 18:24:53.701021
 # table_name: Migration_Groups
 # class_name: migration_groups
 # is shardened: True
@@ -5122,15 +5135,15 @@ def api_delete_Migration_Groups(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_migration_groups_vm.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.792892
+#  GLVH @ 2022-02-23 18:24:53.835549
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:51.792907
+# gen_views_form.html:AG 2022-02-23 18:24:53.835565
 @main.route('/forms/Migration_Groups_VM', methods=['GET', 'POST'])
 @login_required
 
@@ -5164,7 +5177,7 @@ def forms_Migration_Groups_VM():
     if row is None:
         row=migration_groups_vm()
         session['is_new_row']=True
-    session['data'] =  {  'MG_Id':row.MG_Id, 'vm_uuid':row.vm_uuid, 'vm_name':row.vm_name, 'vm_state':row.vm_state, 'vm_has_pd':row.vm_has_pd, 'vm_pd_name':row.vm_pd_name, 'vm_pd_active':row.vm_pd_active, 'vm_pd_replicating':row.vm_pd_replicating, 'vm_migrate':row.vm_migrate }
+    session['data'] =  {  'MG_Id':row.MG_Id, 'vm_uuid':row.vm_uuid, 'vm_cluster_uuid':row.vm_cluster_uuid, 'vm_name':row.vm_name, 'vm_state':row.vm_state, 'vm_has_pd':row.vm_has_pd, 'vm_pd_name':row.vm_pd_name, 'vm_pd_active':row.vm_pd_active, 'vm_pd_replicating':row.vm_pd_replicating, 'vm_pd_schedules':row.vm_pd_schedules, 'vm_last_replication':row.vm_last_replication, 'vm_migrate':row.vm_migrate, 'vm_project':row.vm_project }
     
     form = frm_migration_groups_vm()
     
@@ -5178,13 +5191,17 @@ def forms_Migration_Groups_VM():
         if form.submit_Save.data and current_user.role_id > 1:
             row.MG_Id = form.MG_Id.data
             row.vm_uuid = form.vm_uuid.data
+            row.vm_cluster_uuid = form.vm_cluster_uuid.data
             row.vm_name = form.vm_name.data
             row.vm_state = form.vm_state.data
             row.vm_has_pd = form.vm_has_pd.data
             row.vm_pd_name = form.vm_pd_name.data
             row.vm_pd_active = form.vm_pd_active.data
             row.vm_pd_replicating = form.vm_pd_replicating.data
+            row.vm_pd_schedules = form.vm_pd_schedules.data
+            row.vm_last_replication = form.vm_last_replication.data
             row.vm_migrate = form.vm_migrate.data
+            row.vm_project = form.vm_project.data
             try:
                session['new_row']=str(row)
                db.session.flush()
@@ -5233,13 +5250,17 @@ def forms_Migration_Groups_VM():
     
     form.MG_Id.data = row.MG_Id
     form.vm_uuid.data = row.vm_uuid
+    form.vm_cluster_uuid.data = row.vm_cluster_uuid
     form.vm_name.data = row.vm_name
     form.vm_state.data = row.vm_state
     form.vm_has_pd.data = row.vm_has_pd
     form.vm_pd_name.data = row.vm_pd_name
     form.vm_pd_active.data = row.vm_pd_active
     form.vm_pd_replicating.data = row.vm_pd_replicating
+    form.vm_pd_schedules.data = row.vm_pd_schedules
+    form.vm_last_replication.data = row.vm_last_replication
     form.vm_migrate.data = row.vm_migrate
+    form.vm_project.data = row.vm_project
     session['prev_row'] = str(row)
     session['is_new_row'] = False
     logger.debug('forms_Migration_Groups_VM(): Exit')
@@ -5258,9 +5279,9 @@ def forms_Migration_Groups_VM():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.801503
+#  GLVH @ 2022-02-23 18:24:53.844719
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:51.801517
+# gen_views_delete.html:AG 2022-02-23 18:24:53.844735
 @main.route('/forms/Migration_Groups_VM_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -5274,7 +5295,7 @@ def forms_Migration_Groups_VM_delete():
 
     if row is None:
         row=migration_groups_vm()
-    session['data'] =  {  'MG_Id':row.MG_Id, 'vm_uuid':row.vm_uuid, 'vm_name':row.vm_name, 'vm_state':row.vm_state, 'vm_has_pd':row.vm_has_pd, 'vm_pd_name':row.vm_pd_name, 'vm_pd_active':row.vm_pd_active, 'vm_pd_replicating':row.vm_pd_replicating, 'vm_migrate':row.vm_migrate }
+    session['data'] =  {  'MG_Id':row.MG_Id, 'vm_uuid':row.vm_uuid, 'vm_cluster_uuid':row.vm_cluster_uuid, 'vm_name':row.vm_name, 'vm_state':row.vm_state, 'vm_has_pd':row.vm_has_pd, 'vm_pd_name':row.vm_pd_name, 'vm_pd_active':row.vm_pd_active, 'vm_pd_replicating':row.vm_pd_replicating, 'vm_pd_schedules':row.vm_pd_schedules, 'vm_last_replication':row.vm_last_replication, 'vm_migrate':row.vm_migrate, 'vm_project':row.vm_project }
                        
     form = frm_migration_groups_vm_delete()
 
@@ -5329,10 +5350,10 @@ def forms_Migration_Groups_VM_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.816997
+#  GLVH @ 2022-02-23 18:24:53.863696
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:51.817017        
+# gen_views_select_query.html:AG 2022-02-23 18:24:53.863711        
 @main.route('/select/Migration_Groups_VM_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -5431,13 +5452,17 @@ def select_Migration_Groups_VM_query():
     else:                     mode = 'select'
     MG_Id =  request.args.get('MG_Id',None,type=str)
     vm_uuid =  request.args.get('vm_uuid',None,type=str)
+    vm_cluster_uuid =  request.args.get('vm_cluster_uuid',None,type=str)
     vm_name =  request.args.get('vm_name',None,type=str)
     vm_state =  request.args.get('vm_state',None,type=str)
     vm_has_pd =  request.args.get('vm_has_pd',None,type=str)
     vm_pd_name =  request.args.get('vm_pd_name',None,type=str)
     vm_pd_active =  request.args.get('vm_pd_active',None,type=str)
     vm_pd_replicating =  request.args.get('vm_pd_replicating',None,type=str)
+    vm_pd_schedules =  request.args.get('vm_pd_schedules',None,type=str)
+    vm_last_replication =  request.args.get('vm_last_replication',None,type=str)
     vm_migrate =  request.args.get('vm_migrate',None,type=str)
+    vm_project =  request.args.get('vm_project',None,type=str)
     
     # Build default query all fields from table
     
@@ -5464,6 +5489,17 @@ def select_Migration_Groups_VM_query():
                 Argument_1='vm_uuid:vm_uuid',
                 Argument_2='LIKE',
                 Argument_3='\"%%%s%%\"'%vm_uuid
+                )
+    
+    
+    if vm_cluster_uuid is not None and len(vm_cluster_uuid)>0:
+            set_query_option(engine=db.engine,Interface=Interface,
+                User_Id=current_user.id,
+                Table_name=class_name,
+                Option_Type=OPTION_FILTER,
+                Argument_1='vm_cluster_uuid:vm_cluster_uuid',
+                Argument_2='LIKE',
+                Argument_3='\"%%%s%%\"'%vm_cluster_uuid
                 )
     
     
@@ -5533,6 +5569,28 @@ def select_Migration_Groups_VM_query():
                 )
     
     
+    if vm_pd_schedules is not None and len(vm_pd_schedules)>0:
+            set_query_option(engine=db.engine,Interface=Interface,
+                User_Id=current_user.id,
+                Table_name=class_name,
+                Option_Type=OPTION_FILTER,
+                Argument_1='vm_pd_schedules:vm_pd_schedules',
+                Argument_2='LIKE',
+                Argument_3='\"%%%s%%\"'%vm_pd_schedules
+                )
+    
+    
+    if vm_last_replication is not None and len(vm_last_replication)>0:
+            set_query_option(engine=db.engine,Interface=Interface,
+                User_Id=current_user.id,
+                Table_name=class_name,
+                Option_Type=OPTION_FILTER,
+                Argument_1='vm_last_replication:vm_last_replication',
+                Argument_2='LIKE',
+                Argument_3='\"%%%s%%\"'%vm_last_replication
+                )
+    
+    
     if vm_migrate is not None and len(vm_migrate)>0:
             set_query_option(engine=db.engine,Interface=Interface,
                 User_Id=current_user.id,
@@ -5541,6 +5599,17 @@ def select_Migration_Groups_VM_query():
                 Argument_1='vm_migrate:vm_migrate',
                 Argument_2='LIKE',
                 Argument_3='\"%%%s%%\"'%vm_migrate
+                )
+    
+    
+    if vm_project is not None and len(vm_project)>0:
+            set_query_option(engine=db.engine,Interface=Interface,
+                User_Id=current_user.id,
+                Table_name=class_name,
+                Option_Type=OPTION_FILTER,
+                Argument_1='vm_project:vm_project',
+                Argument_2='LIKE',
+                Argument_3='\"%%%s%%\"'%vm_project
                 )
     
     
@@ -5559,7 +5628,7 @@ def select_Migration_Groups_VM_query():
         rows = query.all()
         for row in rows:
             dict['detail'].append({})
-            for column in ['MG_Id', 'vm_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_migrate']:
+            for column in ['MG_Id', 'vm_uuid', 'vm_cluster_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_pd_schedules', 'vm_last_replication', 'vm_migrate', 'vm_project']:
                 dict['detail'][count].update( { column:str(row.__getattribute__(column))})
                 
             count += 1
@@ -5569,7 +5638,7 @@ def select_Migration_Groups_VM_query():
         dataframe      = json_normalize(data, 'detail').assign(**data['header'])
         fh,output_file = tempfile.mkstemp(suffix='', prefix='%_'%table_name, dir='/tmp', text=False)
         xlsx_file      = '%s/%s'%(current_app.root_path,url_for('static',filename='%s.xls'%(output_file)))
-        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['MG_Id', 'vm_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_migrate'])
+        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['MG_Id', 'vm_uuid', 'vm_cluster_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_pd_schedules', 'vm_last_replication', 'vm_migrate', 'vm_project'])
         return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file.replace('/','_')+'.xls')
     elif mode == 'add':
         return redirect(url_for('.forms_%s'%table_name))
@@ -5583,6 +5652,9 @@ def select_Migration_Groups_VM_query():
             if field == 'vm_uuid':
                 if value is not None:
                     query = query.filter_by(vm_uuid=value)
+            if field == 'vm_cluster_uuid':
+                if value is not None:
+                    query = query.filter_by(vm_cluster_uuid=value)
             if field == 'vm_name':
                 if value is not None:
                     query = query.filter_by(vm_name=value)
@@ -5601,9 +5673,18 @@ def select_Migration_Groups_VM_query():
             if field == 'vm_pd_replicating':
                 if value is not None:
                     query = query.filter_by(vm_pd_replicating=value)
+            if field == 'vm_pd_schedules':
+                if value is not None:
+                    query = query.filter_by(vm_pd_schedules=value)
+            if field == 'vm_last_replication':
+                if value is not None:
+                    query = query.filter_by(vm_last_replication=value)
             if field == 'vm_migrate':
                 if value is not None:
                     query = query.filter_by(vm_migrate=value)
+            if field == 'vm_project':
+                if value is not None:
+                    query = query.filter_by(vm_project=value)
             # ------------------------------------------------------------------
     # JOIN other tables and generate foreign fields
     # Will replace class name by sharding class in joins structure
@@ -5637,9 +5718,9 @@ def select_Migration_Groups_VM_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:51.846091
+#  GLVH @ 2022-02-23 18:24:53.891906
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:51.846105
+# gen_views_api.html:AG 2022-02-23 18:24:53.891921
 # table_name: Migration_Groups_VM
 # class_name: migration_groups_vm
 # is shardened: True
@@ -5679,6 +5760,8 @@ def api_get_Migration_Groups_VM(id=None):
                         query = query.filter(Migration_Groups_VM.MG_Id == request.args.get('MG_Id'))
                     if 'vm_uuid' in request.args:
                         query = query.filter(Migration_Groups_VM.vm_uuid == request.args.get('vm_uuid'))
+                    if 'vm_cluster_uuid' in request.args:
+                        query = query.filter(Migration_Groups_VM.vm_cluster_uuid == request.args.get('vm_cluster_uuid'))
                     if 'vm_name' in request.args:
                         query = query.filter(Migration_Groups_VM.vm_name == request.args.get('vm_name'))
                     if 'vm_state' in request.args:
@@ -5691,8 +5774,14 @@ def api_get_Migration_Groups_VM(id=None):
                         query = query.filter(Migration_Groups_VM.vm_pd_active == request.args.get('vm_pd_active'))
                     if 'vm_pd_replicating' in request.args:
                         query = query.filter(Migration_Groups_VM.vm_pd_replicating == request.args.get('vm_pd_replicating'))
+                    if 'vm_pd_schedules' in request.args:
+                        query = query.filter(Migration_Groups_VM.vm_pd_schedules == request.args.get('vm_pd_schedules'))
+                    if 'vm_last_replication' in request.args:
+                        query = query.filter(Migration_Groups_VM.vm_last_replication == request.args.get('vm_last_replication'))
                     if 'vm_migrate' in request.args:
                         query = query.filter(Migration_Groups_VM.vm_migrate == request.args.get('vm_migrate'))
+                    if 'vm_project' in request.args:
+                        query = query.filter(Migration_Groups_VM.vm_project == request.args.get('vm_project'))
                 rows = query.all()
             if rows is not None:
                 if type(rows) == list:
@@ -5732,13 +5821,17 @@ def api_post_Migration_Groups_VM():
             # Populates row from json, if ID=int:autoincrement then None
             row.MG_Id = request.json.get('MG_Id',None)
             row.vm_uuid = request.json.get('vm_uuid',None)
+            row.vm_cluster_uuid = request.json.get('vm_cluster_uuid',None)
             row.vm_name = request.json.get('vm_name',None)
             row.vm_state = request.json.get('vm_state',1)
             row.vm_has_pd = request.json.get('vm_has_pd',0)
             row.vm_pd_name = request.json.get('vm_pd_name',None)
             row.vm_pd_active = request.json.get('vm_pd_active',0)
             row.vm_pd_replicating = request.json.get('vm_pd_replicating',0)
+            row.vm_pd_schedules = request.json.get('vm_pd_schedules',0)
+            row.vm_last_replication = request.json.get('vm_last_replication',None)
             row.vm_migrate = request.json.get('vm_migrate',0)
+            row.vm_project = request.json.get('vm_project',None)
             # ----------------------------------------------------------
             db.session.add(row)
             db.session.flush()
@@ -5783,6 +5876,8 @@ def api_put_Migration_Groups_VM(id):
             # If row exists then continue:
             if row is not None:
                 # Second loop seek for updated fields ----------------------
+                if 'vm_cluster_uuid' in request.json.keys():
+                    row.vm_cluster_uuid = request.json.get('vm_cluster_uuid')
                 if 'vm_name' in request.json.keys():
                     row.vm_name = request.json.get('vm_name')
                 if 'vm_state' in request.json.keys():
@@ -5795,8 +5890,14 @@ def api_put_Migration_Groups_VM(id):
                     row.vm_pd_active = request.json.get('vm_pd_active')
                 if 'vm_pd_replicating' in request.json.keys():
                     row.vm_pd_replicating = request.json.get('vm_pd_replicating')
+                if 'vm_pd_schedules' in request.json.keys():
+                    row.vm_pd_schedules = request.json.get('vm_pd_schedules')
+                if 'vm_last_replication' in request.json.keys():
+                    row.vm_last_replication = request.json.get('vm_last_replication')
                 if 'vm_migrate' in request.json.keys():
                     row.vm_migrate = request.json.get('vm_migrate')
+                if 'vm_project' in request.json.keys():
+                    row.vm_project = request.json.get('vm_project')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -5846,6 +5947,8 @@ def api_patch_Migration_Groups_VM(id):
                 # Second loop seek for updated fields ----------------------
                 db.session.rollback()
                 if request.values is not None and len(request.values):
+                    if 'vm_cluster_uuid' in request.values:
+                        row.vm_cluster_uuid = request.values.get('vm_cluster_uuid')
                     if 'vm_name' in request.values:
                         row.vm_name = request.values.get('vm_name')
                     if 'vm_state' in request.values:
@@ -5858,8 +5961,14 @@ def api_patch_Migration_Groups_VM(id):
                         row.vm_pd_active = request.values.get('vm_pd_active')
                     if 'vm_pd_replicating' in request.values:
                         row.vm_pd_replicating = request.values.get('vm_pd_replicating')
+                    if 'vm_pd_schedules' in request.values:
+                        row.vm_pd_schedules = request.values.get('vm_pd_schedules')
+                    if 'vm_last_replication' in request.values:
+                        row.vm_last_replication = request.values.get('vm_last_replication')
                     if 'vm_migrate' in request.values:
                         row.vm_migrate = request.values.get('vm_migrate')
+                    if 'vm_project' in request.values:
+                        row.vm_project = request.values.get('vm_project')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -5936,15 +6045,15 @@ def api_delete_Migration_Groups_VM(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_prism_vm.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.068496
+#  GLVH @ 2022-02-23 18:24:54.098992
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:52.068509
+# gen_views_form.html:AG 2022-02-23 18:24:54.099006
 @main.route('/forms/Nutanix_Prism_VM', methods=['GET', 'POST'])
 @login_required
 
@@ -6174,9 +6283,9 @@ def forms_Nutanix_Prism_VM():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.076577
+#  GLVH @ 2022-02-23 18:24:54.108884
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:52.076588
+# gen_views_delete.html:AG 2022-02-23 18:24:54.108902
 @main.route('/forms/Nutanix_Prism_VM_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -6244,10 +6353,10 @@ def forms_Nutanix_Prism_VM_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.091799
+#  GLVH @ 2022-02-23 18:24:54.131724
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:52.091813        
+# gen_views_select_query.html:AG 2022-02-23 18:24:54.131742        
 @main.route('/select/Nutanix_Prism_VM_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -7335,9 +7444,9 @@ def select_Nutanix_Prism_VM_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.123513
+#  GLVH @ 2022-02-23 18:24:54.164699
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:52.123528
+# gen_views_api.html:AG 2022-02-23 18:24:54.164714
 # table_name: Nutanix_Prism_VM
 # class_name: nutanix_prism_vm
 # is shardened: False
@@ -7993,15 +8102,15 @@ def api_delete_Nutanix_Prism_VM(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_vm_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.217189
+#  GLVH @ 2022-02-23 18:24:54.259363
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:52.217210
+# gen_views_form.html:AG 2022-02-23 18:24:54.259377
 @main.route('/forms/Nutanix_VM_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -8109,9 +8218,9 @@ def forms_Nutanix_VM_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.226298
+#  GLVH @ 2022-02-23 18:24:54.268141
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:52.226312
+# gen_views_delete.html:AG 2022-02-23 18:24:54.268154
 @main.route('/forms/Nutanix_VM_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -8177,10 +8286,10 @@ def forms_Nutanix_VM_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.242436
+#  GLVH @ 2022-02-23 18:24:54.285604
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:52.242450        
+# gen_views_select_query.html:AG 2022-02-23 18:24:54.285618        
 @main.route('/select/Nutanix_VM_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -8387,9 +8496,9 @@ def select_Nutanix_VM_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.271149
+#  GLVH @ 2022-02-23 18:24:54.315909
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:52.271164
+# gen_views_api.html:AG 2022-02-23 18:24:54.315924
 # table_name: Nutanix_VM_Images
 # class_name: nutanix_vm_images
 # is shardened: False
@@ -8646,15 +8755,15 @@ def api_delete_Nutanix_VM_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_projects.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.357644
+#  GLVH @ 2022-02-23 18:24:54.407927
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:52.357660
+# gen_views_form.html:AG 2022-02-23 18:24:54.407948
 @main.route('/forms/Projects', methods=['GET', 'POST'])
 @login_required
 
@@ -8769,9 +8878,9 @@ def forms_Projects():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.365724
+#  GLVH @ 2022-02-23 18:24:54.417531
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:52.365755
+# gen_views_delete.html:AG 2022-02-23 18:24:54.417546
 @main.route('/forms/Projects_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -8837,10 +8946,10 @@ def forms_Projects_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.384027
+#  GLVH @ 2022-02-23 18:24:54.434328
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:52.384058        
+# gen_views_select_query.html:AG 2022-02-23 18:24:54.434343        
 @main.route('/select/Projects_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9032,9 +9141,9 @@ def select_Projects_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.411718
+#  GLVH @ 2022-02-23 18:24:54.463066
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:52.411732
+# gen_views_api.html:AG 2022-02-23 18:24:54.463310
 # table_name: Projects
 # class_name: projects
 # is shardened: False
@@ -9284,15 +9393,15 @@ def api_delete_Projects(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_rates.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.511110
+#  GLVH @ 2022-02-23 18:24:54.576414
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:52.511126
+# gen_views_form.html:AG 2022-02-23 18:24:54.576431
 @main.route('/forms/Rates', methods=['GET', 'POST'])
 @login_required
 
@@ -9418,9 +9527,9 @@ def forms_Rates():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.519856
+#  GLVH @ 2022-02-23 18:24:54.585718
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:52.519883
+# gen_views_delete.html:AG 2022-02-23 18:24:54.585733
 @main.route('/forms/Rates_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -9486,10 +9595,10 @@ def forms_Rates_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.536957
+#  GLVH @ 2022-02-23 18:24:54.602688
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:52.536972        
+# gen_views_select_query.html:AG 2022-02-23 18:24:54.602702        
 @main.route('/select/Rates_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9814,9 +9923,9 @@ def select_Rates_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.564903
+#  GLVH @ 2022-02-23 18:24:54.631498
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:52.564923
+# gen_views_api.html:AG 2022-02-23 18:24:54.631513
 # table_name: Rates
 # class_name: rates
 # is shardened: True
@@ -10120,15 +10229,15 @@ def api_delete_Rates(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_requests.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.822459
+#  GLVH @ 2022-02-23 18:24:54.889564
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:52.822474
+# gen_views_form.html:AG 2022-02-23 18:24:54.889579
 @main.route('/forms/Requests', methods=['GET', 'POST'])
 @login_required
 
@@ -10266,9 +10375,9 @@ def forms_Requests():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.830829
+#  GLVH @ 2022-02-23 18:24:54.897784
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:52.830849
+# gen_views_delete.html:AG 2022-02-23 18:24:54.897797
 @main.route('/forms/Requests_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10336,10 +10445,10 @@ def forms_Requests_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.847505
+#  GLVH @ 2022-02-23 18:24:54.916231
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:52.847521        
+# gen_views_select_query.html:AG 2022-02-23 18:24:54.916248        
 @main.route('/select/Requests_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -10691,9 +10800,9 @@ def select_Requests_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.876064
+#  GLVH @ 2022-02-23 18:24:54.944312
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:52.876079
+# gen_views_api.html:AG 2022-02-23 18:24:54.944327
 # table_name: Requests
 # class_name: requests
 # is shardened: False
@@ -11011,15 +11120,15 @@ def api_delete_Requests(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_request_type.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.659918
+#  GLVH @ 2022-02-23 18:24:54.721448
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:52.659933
+# gen_views_form.html:AG 2022-02-23 18:24:54.721464
 @main.route('/forms/Request_Type', methods=['GET', 'POST'])
 @login_required
 
@@ -11134,9 +11243,9 @@ def forms_Request_Type():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.669187
+#  GLVH @ 2022-02-23 18:24:54.730445
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:52.669200
+# gen_views_delete.html:AG 2022-02-23 18:24:54.730460
 @main.route('/forms/Request_Type_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -11202,10 +11311,10 @@ def forms_Request_Type_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.687872
+#  GLVH @ 2022-02-23 18:24:54.748679
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:52.687887        
+# gen_views_select_query.html:AG 2022-02-23 18:24:54.748694        
 @main.route('/select/Request_Type_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -11397,9 +11506,9 @@ def select_Request_Type_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.717114
+#  GLVH @ 2022-02-23 18:24:54.777904
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:52.717194
+# gen_views_api.html:AG 2022-02-23 18:24:54.777920
 # table_name: Request_Type
 # class_name: request_type
 # is shardened: False
@@ -11649,15 +11758,15 @@ def api_delete_Request_Type(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_roles.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.963275
+#  GLVH @ 2022-02-23 18:24:55.040929
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:52.963289
+# gen_views_form.html:AG 2022-02-23 18:24:55.040944
 @main.route('/forms/Roles', methods=['GET', 'POST'])
 @login_required
 
@@ -11774,9 +11883,9 @@ def forms_Roles():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.971452
+#  GLVH @ 2022-02-23 18:24:55.050253
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:52.971467
+# gen_views_delete.html:AG 2022-02-23 18:24:55.050268
 @main.route('/forms/Roles_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -11842,10 +11951,10 @@ def forms_Roles_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:52.988516
+#  GLVH @ 2022-02-23 18:24:55.067576
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:52.988530        
+# gen_views_select_query.html:AG 2022-02-23 18:24:55.067591        
 @main.route('/select/Roles_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -12052,9 +12161,9 @@ def select_Roles_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.018576
+#  GLVH @ 2022-02-23 18:24:55.096568
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:53.018591
+# gen_views_api.html:AG 2022-02-23 18:24:55.096586
 # table_name: Roles
 # class_name: Role
 # is shardened: False
@@ -12311,15 +12420,15 @@ def api_delete_Roles(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_subnets.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.120411
+#  GLVH @ 2022-02-23 18:24:55.206366
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:53.120425
+# gen_views_form.html:AG 2022-02-23 18:24:55.206382
 @main.route('/forms/Subnets', methods=['GET', 'POST'])
 @login_required
 
@@ -12448,9 +12557,9 @@ def forms_Subnets():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.129457
+#  GLVH @ 2022-02-23 18:24:55.216542
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:53.129471
+# gen_views_delete.html:AG 2022-02-23 18:24:55.216557
 @main.route('/forms/Subnets_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -12516,10 +12625,10 @@ def forms_Subnets_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.147940
+#  GLVH @ 2022-02-23 18:24:55.232477
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:53.147954        
+# gen_views_select_query.html:AG 2022-02-23 18:24:55.232495        
 @main.route('/select/Subnets_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -12816,9 +12925,9 @@ def select_Subnets_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.176202
+#  GLVH @ 2022-02-23 18:24:55.261116
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:53.176217
+# gen_views_api.html:AG 2022-02-23 18:24:55.261131
 # table_name: Subnets
 # class_name: subnets
 # is shardened: False
@@ -13117,15 +13226,15 @@ def api_delete_Subnets(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-01-10 16:03:50
+# GLVH @ 2022-02-23 18:24:52
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_users.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.272984
+#  GLVH @ 2022-02-23 18:24:55.362857
 # ======================================================================        
-# gen_views_form.html:AG 2022-01-10 16:03:53.273004
+# gen_views_form.html:AG 2022-02-23 18:24:55.362875
 @main.route('/forms/Users', methods=['GET', 'POST'])
 @login_required
 
@@ -13242,9 +13351,9 @@ def forms_Users():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.282355
+#  GLVH @ 2022-02-23 18:24:55.373938
 # ======================================================================        
-# gen_views_delete.html:AG 2022-01-10 16:03:53.282370
+# gen_views_delete.html:AG 2022-02-23 18:24:55.373954
 @main.route('/forms/Users_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -13312,10 +13421,10 @@ def forms_Users_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.300930
+#  GLVH @ 2022-02-23 18:24:55.391920
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-01-10 16:03:53.300950        
+# gen_views_select_query.html:AG 2022-02-23 18:24:55.391935        
 @main.route('/select/Users_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -13577,9 +13686,9 @@ def select_Users_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-01-10 16:03:53.331991
+#  GLVH @ 2022-02-23 18:24:55.421550
 # ======================================================================
-# gen_views_api.html:AG 2022-01-10 16:03:53.332008
+# gen_views_api.html:AG 2022-02-23 18:24:55.421569
 # table_name: Users
 # class_name: User
 # is shardened: False
@@ -13853,1089 +13962,2262 @@ def api_delete_Users(id):
     return get_api_response(code=code,message=message,kind='Users',entities=[],name=current_app.config['NAME'])
 
 # ======================================================================# ======================================================================
-# BUTLER REQUEST ROUTES
-# View for General request Edition
-# (c) Sertechno 2020
-# GLVH @ 2020-11-06
+# BUTLER MIGRATION ROUTES
+# View for Protection Domains/VMs Migration Edition
+# (c) Emtec/Sertechno 2022
+# GLVH @ 2022-01-19
 # ======================================================================
+import os
+import sys
 import jinja2
 import copy
 from pprint                 import pformat
 from sqlalchemy             import desc
+from emtec                  import *
 from emtec.debug            import *
 from emtec.data             import *
 from emtec.butler.forms     import frm_migration_01,form_log
 from emtec.butler.functions import *
+from emtec.feedback         import *
+from wtforms                import BooleanField
+from wtforms                import IntegerField
+from flask                  import Flask
+from flask                  import g
+from emtec.nutanix          import *
+import  pandas
+from    pandas.io.json          import json_normalize
+from    flask                   import send_file
+import  tempfile
+
+import urllib3
+urllib3.disable_warnings()
 
 # Templates will reside on view_request_template.py
 # Functions will reside on view_request_functions.py
 
-# Support functions
+def format_timestamp(timestamp,format="%Y-%m-%d %H:%M:%S"):
+    ''' Fortmat a timestamp as and returns a formated string '''
+    if timestamp is None:
+        return ""
+    return datetime.fromtimestamp(timestamp).strftime(format)
 
-import urllib3
-def nutanix_get_vm_list(host=None,port=9440,username=None,password=None,protocol='https',version=2,verify=False):
-    urllib3.disable_warnings()
+# GV Support functions
+def nutanix_get_vm_list(host=None,port=9440,username=None,password=None,protocol='https',version=2,verify=False,timeout=10,logger=None):
     response = None
     try:
-        if version == 2:
-            method   = 'GET'
+        if version == 2:            
             endpoint = '/api/nutanix/v2.0/vms/'
-            headers  = {'Accept': 'application/json'}
             url      = f"{protocol}://{host}:{port}/{endpoint}"
-            response = requests.get(url,auth=(username,password),headers=headers,verify=verify)
+            response = api_request(
+                method         = 'GET',
+                url            = url,
+                headers        = {'Accept': 'application/json'},
+                data           = None,
+                timeout        = 10,
+                authentication = None,
+                username       = username,
+                password       = password,
+                verify         = verify,
+                logger         = logger
+                )
+            #response = requests.get(url,auth=(username,password),headers=headers,verify=verify,timeout=timeout)
         elif version == 3:
+            '''
             method   = 'POST'
             endpoint = '/api/nutanix/v3/vms/list'
             headers  = {'Accept':'application/json','Content-Type': 'application/json'}
             data     = {'kind':'vm'}
             url      = f"{protocol}://{host}:{port}/{endpoint}"
-            response = requests.get(url,auth=(username,password),headers=headers,data=data,verify=verify)
+            response = requests.get(url,auth=(username,password),headers=headers,data=data,verify=verify,timeout=timeout)
+            '''
+            protocol = 'https'
+            endpoint = '/api/nutanix/v3/vms/list'
+            url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+            response = api_request(
+                method         = 'POST',
+                url            = url,
+                headers        = {'Accept':'application/json','Content-Type': 'application/json'},
+                data           = {'kind':'vm'},
+                timeout        = 10,
+                authentication = None,
+                username       = cluster.get('username'),
+                password       = cluster.get('password'),
+                verify         = False,
+                logger         = logger
+                )
+            
+            
+            
     except Exception as e:
-        print(f"nutanix_get_vm_list: Exception = {str(e)}")
+        emtec_handle_general_exception(e,logger=logger)
     return response
 
-
-# View functions are in view_request_functions.py  
-    # ------------------------------------------------------------------
-
-"""@main.route('/select/Request', methods=['GET', 'POST'])
-@login_required
-def select_Request():
-    logger.debug(f'{this()}: Enter')    
-    data={}
-    # Pagination/Filter required  field
-    page    = request.args.get('page'   ,1           ,type=int)
-    field   = request.args.get('field'  ,None        ,type=str)
-    value   = request.args.get('value'  ,None        ,type=str)
-    # Spacific Filter fields
-    Status  = request.args.get('Status' ,default=None,type=int)
-    User_Id = request.args.get('User_Id',default=None,type=int)
-    # Define basical query, joining Requests with related tables
-    # Basic Query will get a JOIN of related tables
-    logger.debug(f'{this()}: page    = {page}')    
-    logger.debug(f'{this()}: field   = {field}')    
-    logger.debug(f'{this()}: value   = {value}')    
-    logger.debug(f'{this()}: Status  = {Status}')    
-    logger.debug(f'{this()}: User_id = {User_Id}')    
-    # Setup query for required fields only, no need to load all table
-    # fields
-    # 20210603 cambiado de modelo flask a ORM requests -> Requests
-    
-    # DB Control -------------------------------------------------------
-    try:    
-        db.session.flush()
-        db.session.commit()
-    except Exception as e:
-        logger.error(f"{this()}: DB Control Exception: {str(e)}. rolling back ...")
-        try:
-            db.session.rollback()
-            logger.error(f"{this()}: Rolled back.")
-        except Exception as e:
-            logger.error(f"{this()}: While rolling back Exception{str(e)}.")
-    # DB Control -------------------------------------------------------
-
-    query = db.session.query(
-                Requests.Id,
-                Requests.Status,
-                Requests.Last_Status_Time,
-                nutanix_prism_vm.vm_name,
-                Users.username,
-                Cost_Centers.CC_Description
-                ).join(nutanix_prism_vm,
-                    nutanix_prism_vm.Request_Id == Requests.Id
-                ).join(Users,
-                    Users.id == Requests.User_Id
-                ).join(Cost_Centers,
-                    Cost_Centers.CC_Id == Requests.CC_Id
-                )
-    # Various filters to conditionaly implement
-    # Filter by REQUESTOR, requestor can not see others user's requests
-    if current_user.role_id == ROLE_REQUESTOR:
-        query = query.filter(Requests.User_Id == current_user.id)
-    
-    fltr=''
-    # Select requests with "Status" Flag on, as per request argument
-    if Status is not None:
-        # See specific bitwise operator use for comparison
-        # This is an AND comparison between:
-        # request.Status AND Status <> request.Status & Status
-        query = query.filter(Requests.Status.op("&")(Status))
-        fltr=f'Status={Status}'
-    if User_Id is not None:
-        if User_Id and current_user.role_id != ROLE_REQUESTOR:
-            query = query.filter(Requests.User_Id == User_Id)
-            fltr=fltr+f'&User_Id={User_Id}'
-        else:
-            query = query.filter(Requests.User_Id == current_user.id)
-            fltr=fltr+f'&User_Id={current_user.id}'
-    # Will allways order by time, newer first
-    query = query.order_by(desc(Requests.Last_Status_Time))
-    logger.debug(f'{this()}: query   = {query}')    
-    
-    # Actually query DB and get all requests upon filter
-    
-    # getting paginated rows for query
-    rows =  query.paginate(  
-                page, 
-                per_page  = current_app.config['LINES_PER_PAGE'], 
-                error_out = False
-            )
-    # Setting pagination variables ...
-    if field is not None:
-       next_url = url_for('.select_Request', field=field, value=value, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_Request', field=field, value=value, page=rows.prev_num) if rows.has_prev else None
-    else:
-       next_url = url_for('.select_Request', page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_Request', page=rows.prev_num) if rows.has_prev else None
-    # Actual rendering ...
-    
-    # Option to return json list 
-    if request.headers.get('Content-Type') is not None or request.args.get('JSON',None,type=str) is not None:
-        # NOTE: needs review for JSONnifiyng output when needed (API Interface?)
-        if "JSON" in request.headers.get('Content-Type') or request.args.get('JSON',None,type=str) is not None:
-            return json.dumps(serialize_object(rows.__dict__))
-    
-    # Setup exploit functions for Jinja template 
-    current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
-    current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
-    current_app.jinja_env.globals.update(has_status=has_status)
-    current_app.jinja_env.globals.update(get_description=get_description)
-    logger.debug(f'{this()}: will render select_request.html rows={type(rows)}')    
-    return render_template('select_request.html',rows=rows,fltr=fltr)
-"""
-import  pandas
-from    pandas.io.json          import json_normalize
-from    flask                   import send_file
-import tempfile
-
-"""@main.route('/export/Request', methods=['GET', 'POST'])
-@login_required
-def export_Request():
-    logger.debug(f'{this()}: Enter')    
-    data={}
-    # Pagination/Filter required  field
-    page    = request.args.get('page'   ,1           ,type=int)
-    field   = request.args.get('field'  ,None        ,type=str)
-    value   = request.args.get('value'  ,None        ,type=str)
-    # Spacific Filter fields
-    Status  = request.args.get('Status' ,default=None,type=int)
-    User_Id = request.args.get('User_Id',default=None,type=int)
-    # Define basical query, joining Requests with related tables
-    # Basic Query will get a JOIN of related tables
-    logger.debug(f'{this()}: page    = {page}')    
-    logger.debug(f'{this()}: field   = {field}')    
-    logger.debug(f'{this()}: value   = {value}')    
-    logger.debug(f'{this()}: Status  = {Status}')    
-    logger.debug(f'{this()}: User_id = {User_Id}')    
-    # Setup query for required fields only, no need to load all table
-    # fields
-    # 20210603 cambiado de modelo flask a ORM requests -> Requests
-    
-    # DB Control -------------------------------------------------------
-    try:    
-        db.session.flush()
-        db.session.commit()
-    except Exception as e:
-        logger.error(f"{this()}: DB Control Exception: {str(e)}. rolling back ...")
-        try:
-            db.session.rollback()
-            logger.error(f"{this()}: Rolled back.")
-        except Exception as e:
-            logger.error(f"{this()}: While rolling back Exception{str(e)}.")
-    # DB Control -------------------------------------------------------
-
-    query = db.session.query(
-                Requests.Id,
-                Requests.Status,
-                Requests.Last_Status_Time,
-                nutanix_prism_vm.vm_name,
-                Users.username,
-                Cost_Centers.CC_Description
-                ).join(nutanix_prism_vm,
-                    nutanix_prism_vm.Request_Id == Requests.Id
-                ).join(Users,
-                    Users.id == Requests.User_Id
-                ).join(Cost_Centers,
-                    Cost_Centers.CC_Id == Requests.CC_Id
-                )
-    # Various filters to conditionaly implement
-    # Filter by REQUESTOR, requestor can not see others user's requests
-    if current_user.role_id == ROLE_REQUESTOR:
-        query = query.filter(Requests.User_Id == current_user.id)
-    # Select requests with "Status" Flag on, as per request argument
-    if Status is not None:
-        # See specific bitwise operator use for comparison
-        # This is an AND comparison between:
-        # request.Status AND Status <> request.Status & Status
-        query = query.filter(Requests.Status.op("&")(Status))
-    if User_Id is not None:
-        if User_Id and current_user.role_id != ROLE_REQUESTOR:
-            query = query.filter(Requests.User_Id == User_Id)
-        else:
-            query = query.filter(Requests.User_Id == current_user.id)
-    # Will allways order by time, newer first
-    query = query.order_by(desc(Requests.Last_Status_Time))
-    logger.debug(f'{this()}: query   = {query}')    
-    
-    # Actually query DB and get all requests upon filter
-    
-    # getting all rows for query
-    rows =  query.all()
-    # Actual rendering ...
-
-    #def export_to_xls(output_file,rows,Customer,From,To,Status,Currency):
-
-    temp_name   = next(tempfile._get_candidate_names())
-    output_file = f"{temp_name}.xlsx"
-    
-    d = {'detail':[]}
-    
-    for row in rows:
-        d['detail'].append(
-            {   
-                'Id':row.Id,
-                'Estado':', '.join(get_request_status_description(row.Status)),
-                'Ultima modificacion':row.Last_Status_Time,
-                'Nombre de MV':row.vm_name,
-                'Usuario':row.username,
-                'Centro de Costo':row.CC_Description            
-            }
+def get_vm_project(form,vm_uuid):
+    project = None
+    cluster = form.mgData.get('clusters_uuid').get('prism_central')
+    logger.debug(f"{this()}: cluster: {cluster}")
+    protocol = 'https'
+    endpoint = f'api/nutanix/v3/vms/{vm_uuid}'
+    url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+    response = api_request(
+        method         = 'GET',
+        url            = url,
+        headers        = {'Content-Type': 'application/json'},
+        data           = None,
+        timeout        = 10,
+        authentication = None,
+        username       = cluster.get('username'),
+        password       = cluster.get('password'),
+        verify         = False,
+        logger         = logger
         )
-
-    #f1 = json_normalize(d, 'detail').assign(**d['header'])        
-    df1 = json_normalize(d, 'detail')       
-    xlsx_file="%s/%s"%(current_app.root_path,url_for('static',filename='tmp/%s'%(output_file)))
-    df1.to_excel(xlsx_file,'Sheet 1')
-    return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file)
-"""
-
-"""@main.route('/forms/Request', methods=['GET', 'POST'])
-@login_required
-def forms_Request():
-    logger.debug(f"{this()}: Enter")
-    logger.debug(f"{this()}: logger.handlers       = {logger.handlers}")
-    logger.debug(f"{this()}: session               = {session}")
-    logger.debug(f"{this()}: session dir           = {dir(session)}")
-    logger.debug(f"{this()}: session keys          = {session.keys()}")
-    logger.debug(f"{this()}: session.prev_row      = {session.get('prev_row')}")
-    if session.get('data') is not None:
-        logger.debug(f"{this()}: session.data.prev_row = {session.get('data').get('prev_row')}")
-    logger.debug(f"{this()}: request               = {request}")
-    logger.debug(f"{this()}: request dir           = {dir(request)}")
-    
-    # DB Control -------------------------------------------------------
-    try:    
-        db.session.flush()
-        db.session.commit()
-    except Exception as e:
-        logger.error(f"{this()}: DB Control Exception: {str(e)}. rolling back ...")
-        try:
-            db.session.rollback()
-            logger.error(f"{this()}: Rolled back.")
-        except Exception as e:
-            logger.error(f"{this()}: While rolling back Exception{str(e)}.")
-    # DB Control -------------------------------------------------------
-    # Get Id if any
-    Id  =  request.args.get('Id',0,type=int)
-    
-    # Setup initial data -----------------------------------------------
-    # look for initial data in DB if any
-    logger.debug(f'{this()}: load row from DB for Id={Id}')
-    # GV 20210603 GV row =  Requests.query.filter(Requests.Id == Id).first()
-    row =  db.session.query(Migration_Groups).filter(Migration_Groups.MG_Id == Id).first()
-    if row is None:
-        logger.debug(f'{this()}: row no existe inicializa objetos vacios')
-        row=Migration_Groups()
-        session['is_new_row']=True
-        # set defaults
-    else:
-
-    # Setup some session context data
-    
-    # Asures Current App Configuration is captured as dict
-    d={}
-    for key in current_app.config.keys():
-        d.update({key:current_app.config.get(key)})
-    session['data']={
-        'user'  : current_user.username,
-        'userid': current_user.id,
-        'role'  : current_user.role_id,
-        'roles' : ROLES,
-        'status': BUTLER_STATUS,
-        'debug' : current_app.config.get('DEBUG',False),
-        'extra' : current_app.config.get('BUTLER_EXTRA',False),
-        'config': serialize_object(d),
-        'top_cost_center_id': 0,
-        'top_cost_center_code': '',
-    }
-        
-    if   current_user.role_id in [ROLE_REQUESTOR]:
-        session['data']['rolename'] = 'Requestor'
-    elif current_user.role_id in [ROLE_APPROVER]:
-        session['data']['rolename'] = 'Approver'
-    elif current_user.role_id in [ROLE_VIEWER]:
-        session['data']['rolename'] = 'Viewer'
-    elif current_user.role_id in [ROLE_AUDITOR]:
-        session['data']['rolename'] = 'Auditor'
-    elif current_user.role_id in [ROLE_OPERATOR]:
-        session['data']['rolename'] = 'Operator'
-    else:
-        session['data']['rolename'] = 'Other'
-        
-    # ------------------------------------------------------------------
-    # ******************************************************************
-    # Instance form
-    logger.debug(f'{this()}: instance new form <= frm_request')
-    form              = frm_request_01()
-    
-    # ******************************************************************
-    
-    # Inicializacion de datos debe reemplazarse por las rutinas de
-    # poblamiento de opciones principalmente
-    # ------------------------------------------------------------------
-
-    # OJO Control con falla de configuracion/archivo mientras default tonto
-    
-    # ******************************************************************
-    # ******************************************************************
-    
-    # ******************************************************************
-    # Aqui está cargado todo el contexto
-    data = Get_data_context(current_app,db,mail,row.Id,current_user)
-
-    # ******************************************************************
-    # ******************************************************************
-
-    # Populates vm Data with all captured session data -----------------
-
-    form.vmData.update(data)
-    
-
-
-    vmCorporate_choices  = []
-    vmDepartment_choices = []
-    vmCC_choices         = []
-    vmType_choices       = []
-    vmDiskImage_choices  = [('','')] # An empty option is valid in this context
-    vmCluster_choices    = []
-    vmProject_choices    = []
-    vmCategory_choices   = []
-    vmSubnet_choices     = []    
-    
-    for corporate in data.get('corporates'):
-        vmCorporate_choices.append(corporate)
-    for department in data.get('departments'):
-        vmDepartment_choices.append(department)
-    for cc in data.get('ccs'):
-        vmCC_choices.append(cc)
-    vmType_choices = data.get('types')
-
-    for uuid,description,size in data.get('images'):
-        vmDiskImage_choices.append((uuid,f'{description} ({size} GB)'))
-    # Load Select Fields Choices and codes -----------------------------
-    form.vmCorporate.choices  = vmCorporate_choices
-    form.vmDepartment.choices = vmDepartment_choices
-    form.vmCC.choices         = vmCC_choices
-    form.vmType.choices       = vmType_choices
-    # load uuid and name only
-    form.vmCluster.choices = []
-    for cluster in data.get('clusters'):
-        form.vmCluster.choices.append((cluster[0],cluster[1]))
-    form.vmProject.choices    = data.get('projects')
-    form.vmCategory.choices   = data.get('categories')
-    
-    subnet_options = []
-    for project,subnets in data.get('subnet_options'):
-        if project == form.vmProject.data:
-            subnet_options = [('','')] + subnets
-            break
-    
-    logger.debug(pformat(subnet_options))
-
-    form.vmVlan0Name.choices  = subnet_options
-    form.vmVlan1Name.choices  = subnet_options
-    form.vmVlan2Name.choices  = subnet_options
-    form.vmVlan3Name.choices  = subnet_options
-
-
-    for i in range(1):
-        getattr(form,f'vmDisk{i}Image').choices = vmDiskImage_choices
-    # ------------------------------------------------------------------
-
-    logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()}")
-    logger.debug(f"{this()}: form.errors         = {form.errors}")
-    # Will check if all validated
-    if form.is_submitted() and len(form.errors)==0:
-        logger.debug(f"{this()}: will call form.validate()")
-        try:
-            form.validate()
-        except Exception as e:
-            logger.error(f"form.validate exception: {str(e)}")
-            logger.error(f"form.errors: {form.errors}")
-            emtec_handle_general_exception(e,logger=logger)
-        logger.debug(f"{this()}: return from form.validate() errors={len(form.errors)}")
-        if len(form.errors) != 0:
-            logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
-        else:
-            logger.debug(f"no errors will evaluate button pushed")
-            #form_log(form,logger.debug)
-            
-            # Gets sure vmData buffer is complete **********************
-            form.vmData.update(Get_data_context(current_app,db,mail,row.Id,current_user))
-            # **********************************************************
-            # ----------------------------------------------------------
-            # Basic Requestor's submits
-            # ----------------------------------------------------------
-            # Guardar --------------------------------------------------
-            if     form.submit_Guardar.data and row.Status:
-                # Get data from context --------------------------------
-                row.MG_Id         = Id     
-                save_form(form,row,rox)
-                form.vmData.update({'row':row,'rox':rox})
-                # Aqui ajusta valor en BD ------------------------------
-                try:
-                    ## GV db.session.close()
-                    if row.Id == 0: 
-                        session['is_new_row'] = True
-                        db.session.add(row)
-                        db.session.flush()
-                        # specific query to get last id, other approach seem
-                        # not to work
-                        session['new_row']    = str(row)
-                    else:
-                        session['is_new_row'] = False
-                        session['new_row']    = str(row)
-                        db.session.merge(row)
-                    saved_row=copy.copy(row)
-                    db.session.commit()
-                    ## GV db.session.close()
-                    if session['is_new_row']==True:
-                        form.vmData['row']=saved_row
-                        logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                    else:
-                        # Check this code, cookie must transport premodification state
-                        # so we can save audit data conditionaly
-                        logger.debug(f"session.get('prev_row')={session.get('prev_row')}")
-                        logger.debug(f"form.vmData.get('prev_row')={form.vmData.get('prev_row')}")
-                        session['prev_row']=form.vmData.get('prev_row')
-                        if session.get('prev_row') is not None:
-                            logger.debug(f"session.prev_row is available")
-                            if session['new_row'] != session['prev_row']:
-                                logger.debug(f"change detected, session.prev_row is available")
-                                form.vmData['row']=saved_row
-                                logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                                logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                                '''
-                                try:
-                                    butler_notify_request(
-                                        f"Solicitud {Id} Modificada por '{current_user.username}'",
-                                        data=form.vmData,
-                                        html_function=butler_output_request
-                                        )
-                                    message=Markup(f"<b>Solicitud {Id} Modificada</b>")
-                                except Exception as e:
-                                    message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
-                                    emtec_handle_general_exeption(e,logger=logger)
-                                '''
-                            else:
-                                logger.debug(f"change NOT detected, session.prev_row is available")
-                                message=Markup(f'<b>Grupo de Migración {Id} no fue modificado</b>')                        
-                        else:
-                            logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                            '''
-                            try:
-                                butler_notify_request(
-                                    f"Solicitud {Id} Modificada por '{current_user.username}'",
-                                    data=form.vmData,
-                                    html_function=butler_output_request
-                                    )
-                                message=Markup(f"<b>Solicitud {Id} Modificada</b>")                            
-                            except Exception as e:
-                                message=Markup(f"<b>Solicitud {Id} Modificion excepcion: {str(e)}</b>")
-                                emtec_handle_general_exception(e,logger=logger)                            
-                            '''
-                except Exception as e:
-                    emtec_handle_general_exception(e,logger=logger)
-                    db.session.rollback()
-                    # GV db.session.close()
-                    message=Markup(f'ERROR salvando Solicitud : {str(e)}')
-                flash(message)
-                # GV db.session.close()
-                return redirect(url_for('.select_Request' ))
-            # Eliminar -----------------------------------------------------
-            elif   form.submit_Cancelar.data:
-                # Aqui ajusta valor en BD
-            # Retorno ------------------------------------------------------
-            elif   form.submit_Retorno.data and session['data']['rolename'] == 'Requestor':
-                message=Markup(f'<b>Modificaciones a Grupo de Migración {Id} descartadas</b>')
-                flash(message)
-                ## GV db.session.close()
-                return redirect(url_for('.select_Request' ))
-            # --------------------------------------------------------------
-            # Approver's submits
-            # --------------------------------------------------------------
-            # Guardar ------------------------------------------------------ 
-            elif   form.submit_Guardar.data:
-                ## GV db.session.close()
-                # Get Data from form
-                # CC Id is a mix of distribution CC + Storage Type
-                save_form(form,row,rox)
-                #orm.vmData.update({'row':row,'rox':rox})
-                form.vmData.update({'row':row})
-                # Aqui ajusta valor en BD
-                try:
-                    session['new_row']   = str(row)
-                    # Check for changes in request
-                    if session.get('new_row') is not None:
-                        #row.Status           = row.Status | REQUEST_REVIEWED
-                        #row.Last_Status_Time = datetime.now()
-                        #row.Approver_Id      = current_user.id
-                        #if row.Comments is None: row.Comments = ''
-                        #if len(row.Comments): row.Comments += '\n'
-                        #row.Comments         = row.Comments + f"Solicitud modificada por '{current_user.username}' @ {datetime.now().strftime('%d/%m/%y %H:%M')}. "
-                        db.session.merge(row)
-                        #db.session.merge(rox)
-                        saved_row=copy.copy(row)
-                        #saved_rox=copy.copy(rox)
-                        db.session.commit()
-                        ## GV db.session.close()
-                        if session.get('prev_row') is not None:
-                            logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                        logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                        #orm.vmData.update({'row':row,'rox':rox})
-                        form.vmData.update({'row':row})
-                        form.vmData['row']=saved_row
-                        form.vmData['rox']=saved_rox
-                        butler_notify_request(
-                            f'Solicitud {Id} Modificada por {current_user.username}',
-                            data=form.vmData,
-                            html_function=butler_output_request
-                            )
-                        message=Markup(f"<b>Grupo de Migración {Id} Modificado por '{current_user.username}'</b>")
-                    else:
-                        message=Markup(f"<b>grupo de Migración {Id} no Modificado'</b>")
-                except Exception as e:
-                    emtec_handle_general_exception(e,logger=logger)
-                    db.session.rollback()
-                    ## GV db.session.close()
-                    message=Markup(f'<b>ERROR modificando Solicitud {Id}: {str(e)}</b>')
-                ## GV db.session.close()
-                flash(message)
-                return redirect(url_for('.report_Request', Id = Id ))
-            # Rechazar -----------------------------------------------------
-            elif   form.submit_Rechazar.data:
-                # Aqui ajusta valor en BD
-                try:
-                    row.Status           = REQUEST_REJECTED
-                    row.Last_Status_Time = datetime.now()
-                    row.Approver_Id      = current_user.id
-                    session['new_row']   = str(row)+str(rox)
-                    db.session.merge(row)
-                    db.session.merge(rox)
-                    saved_row=copy.copy(row)
-                    saved_rox=copy.copy(rox)
-                    db.session.commit()
-                    ## GV db.session.close()
-                    if session.get('prev_row') is not None:
-                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                    logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    form.vmData.update({'row':saved_row,'rox':saved_rox})
-                    butler_notify_request(
-                        f'Rechazada por {current_user.username}',
-                        data=form.vmData,
-                        html_function=butler_output_request
-                        )
-                    message=Markup('<b>Solicitud Rechazada</b>')
-                except Exception as e:
-                    emtec_handle_general_exception(e,logger=logger)
-                    db.session.rollback()
-                    ## GV db.session.close()
-                    message=Markup(f'ERROR rechazando Solicitud : {str(e)}')
-                ## GV db.session.close()
-                flash(message)
-                return redirect(url_for('.select_Request' ))
-            # Aprobar ------------------------------------------------------
-            elif   form.submit_Aprobar.data:
-                save_form(form,row,rox)
-                # Aqui ajusta valor en BD
-                try:
-                    row.Status           = REQUEST_APPROVED
-                    row.Last_Status_Time = datetime.now()
-                    row.Approver_Id      = current_user.id
-                    session['new_row']   = str(row)+str(rox)
-                    db.session.merge(row)
-                    db.session.merge(rox)
-                    saved_row=copy.copy(row)
-                    saved_rox=copy.copy(rox)
-                    db.session.commit()
-                    ## GV db.session.close()
-                    if session.get('prev_row') is not None:
-                        logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                    logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                    form.vmData.update({'row':saved_row,'rox':saved_rox})
-                    butler_notify_request(
-                        f'Aprobada por {current_user.username}',
-                        data=form.vmData,
-                        html_function=butler_output_request
-                        )
-                    message=Markup(f'<b>Solicitud {Id} Aprobada</b>')
-                except Exception as e:
-                    emtec_handle_general_exception(e,logger=logger)
-                    db.session.rollback()
-                    ## GV db.session.close()
-                    message=Markup(f'ERROR aprobando Solicitud {Id}: {str(e)}')
-                ## GV db.session.close()
-                flash(message)
-                return redirect(url_for('.select_Request' ))
-            # Other roles non action submits
-            # Retorno ------------------------------------------------------
-            elif   form.submit_Retorno.data:
-                message=Markup(f'<b>Retorno sin acción ...</b>')
-                flash(message)
-                return redirect(url_for('.select_Request'))
-            # Accion inesperada ERROR
+    logger.debug(f"{this()}: response: {response}")
+    if response is not None:
+        if response.ok:
+            if response.status_code == 200:
+                data = response.json()
+                if 'metadata' in data:
+                    project = data['metadata'].get('project_reference')
+                else:
+                    logger.error(f"{this()}: no 'metadata' in response: {response}")                    
             else:
-                flash('<b>Form validado pero no sometido ???. Llamar al administrador del sistema</b>')
-            return redirect(url_for('.select_Request'))
-
-    logger.debug(f"{this()}: form is_submitted() = {form.is_submitted()}")
-    logger.debug(f"{this()}: form errors         = {form.errors}")
-    
-    if form.is_submitted():
-        logger.debug(f'{this()}: form is submitted !!!! wont load form !!!...')
-        calculate_form(form,row,rox)
+                logger.warning(f"{this()}: response status = {response}")
+        else:
+            logger.warning(f"{this()}: response not OK = {response}")            
     else:
-        # load actual data into form fields prior rendering
-        logger.debug(f'{this()}: form is not submitted !!!! will load form !!!...')
-        load_form(form,row,rox)
-        form.vmData.update({'row':row,'rox':rox})
-        logger.debug(f"{this()}: after load_form vmTopCC = {form.vmTopCC} vmCorporate = {form.vmCorporate.data} vmDepartment = {form.vmDepartment.data} vmCC={form.vmCC.data} vmType = {form.vmType.data}")
-        logger.debug(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
-        logger.debug(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
+        logger.warning(f"{this()}: response = {response}")
+        
+    return project
 
-    logger.debug(f'{this()}: loading jinja globals functions ...')
-    current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
-    current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
-    current_app.jinja_env.globals.update(has_status=has_status)
-    current_app.jinja_env.globals.update(get_description=get_description)
-    current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
-    session['prev_row'] = str(row)+str(rox)   
-    session['is_new_row'] = False
-    session['data']['prev_row'] = session['prev_row']
-    session['data']['is_new_row'] = session['is_new_row']
-    
-    logger.debug(f"{this()}: session.prev_row       = {session.get('prev_row',None)}")
-    logger.debug(f"{this()}: session.is_new_row     = {session.get('is_new_row',None)}")
-    logger.trace(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
-    logger.trace(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
+def get_projects_list(form):
+    projects_list = {}
+    cluster = form.mgData.get('clusters_uuid').get('prism_central')
+    logger.debug(f"{this()}: cluster: {cluster}")
+    protocol = 'https'
+    endpoint = f'api/nutanix/v3/projects/list'
+    url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+    response = api_request(
+        method         = 'POST',
+        url            = url,
+        headers        = {'Accept': 'application/json','Content-Type': 'application/json'},
+        data           = json.dumps({
+                            'kind':'project'
+                            }),
+        timeout        = 10,
+        authentication = None,
+        username       = cluster.get('username'),
+        password       = cluster.get('password'),
+        verify         = False,
+        logger         = logger
+        )
+        
+    logger.debug(f"{this()}: response: {response}")
+    if response is not None:
+        if response.ok:
+            if response.status_code == 200:
+                data = response.json()
+                entities = data.get('entities')
+                logger.debug(f"{this()}: {len(entities)} projects found in {cluster.get('host')}")
+                for entity in entities:
+                    projects_list.update({
+                        entity.get('status').get('name'):{
+                            'status': entity.get('status').get('status'),
+                            'uuid'  : entity.get('metadata').get('uuid'),
+                            }
+                    })
+            else:
+                logger.warning(f"{this()}: response status = {response}")
+        else:
+            logger.warning(f"{this()}: response not OK = {response}")            
+            logger.warning(f"{this()}: response url    = {response.url}")            
+            logger.warning(f"{this()}: response not OK = {response.text}")            
+            logger.warning(f"{this()}: response not OK = {dir(response)}")            
+            logger.warning(f"{this()}: response request = {response.request}")            
+            logger.warning(f"{this()}: response request = {dir(response.request)}")            
+            logger.warning(f"{this()}: response request body= {response.request.body}")            
+    else:
+        logger.warning(f"{this()}: response = {response}")
+        
+    return projects_list
 
-    form.vmData.update(session.get('data'))
-
-    logger.trace(f"{this()}: form.vmData['storage'] = {form.vmData.get('storage',None)}")
-    logger.trace(f"{this()}: form.vmData['month']   = {form.vmData.get('month',None)}")
-    # Fill vmData detail change to debug on new population 
-    logger.trace(f'{this()}: form.vmData            = {pformat(form.vmData)}')
-    
-    logger.debug(f"{this()}: will render form with template 'request.html'...")
-    # Will display all errors as Flask Flash messages ...
-    for key in form.errors:
-        for error in form.errors[key]:
-            logger.error(f"{this()}: {key}: {error}")
-            flash(f"{key}: {error}")
-
-    form.vmData.update({'row':row,'rox':rox})
-    # Patch lists for proper render
-    if form.vmVlan0Name.choices is None: form.vmVlan0Name.choices=[]
-    if form.vmVlan1Name.choices is None: form.vmVlan1Name.choices=[]
-    if form.vmVlan2Name.choices is None: form.vmVlan2Name.choices=[]
-    if form.vmVlan3Name.choices is None: form.vmVlan3Name.choices=[]
-    logger.debug(f'PRE RENDER')
-    logger.debug(f"form.vmCorporate.data    = {form.vmCorporate.data}")
-    logger.debug(f"form.vmCorporate.choices = {pformat(form.vmCorporate.choices)}")
-    logger.debug(f"form.vmDepartment.data   = {form.vmDepartment.data}")
-    logger.debug(f"form.vmDepartment.choices= {pformat(form.vmDepartment.choices)}")
-    logger.debug(f"form.vmCC.data           = {form.vmCC.data}")
-    logger.debug(f"form.vmCC.choices        = {pformat(form.vmCC.choices)}")
-    logger.debug(f"form.vmType.data         = {form.vmType.data}")
-    logger.debug(f"form.vmType.choices      = {pformat(form.vmType.choices)}")
-    logger.debug(f"form.vmDisk0Image.data   = {form.vmDisk0Image.data}")
-    logger.debug(f"form.vmDisk0Image.choices= {pformat(form.vmDisk0Image.choices)}")
-    logger.debug(f"form.vmCluster.data      = {form.vmCluster.data}")
-    logger.debug(f"form.vmCluster.choices   = {pformat(form.vmCluster.choices)}")
-    logger.debug(f"form.vmVlan0Name.data    = {form.vmVlan0Name.data}")
-    logger.debug(f"form.vmVlan0Name.choices = {pformat(form.vmVlan0Name.choices)}")
-    logger.debug(f"form.vmVlan1Name.data    = {form.vmVlan1Name.data}")
-    logger.debug(f"form.vmVlan1Name.choices = {pformat(form.vmVlan1Name.choices)}")
-    logger.debug(f"form.vmVlan2Name.data    = {form.vmVlan2Name.data}")
-    logger.debug(f"form.vmVlan2Name.choices = {pformat(form.vmVlan2Name.choices)}")
-    logger.debug(f"form.vmVlan3Name.data    = {form.vmVlan3Name.data}")
-    logger.debug(f"form.vmVlan3Name.choices = {pformat(form.vmVlan3Name.choices)}")
-    
-    return render_template(
-            'request.html',
-            form = form,
-            row = row,
-            rox = rox,
-            )
-"""
-
-
-@main.route('/forms/Migration/popup1', methods=['GET', 'POST'])
-@login_required
-def form_Migration_popup1():
-    print(f"Will render template migration_popup1.html")
-    return render_template('migration_popup1.html')
-
-@main.route('/forms/Migration/popup2', methods=['GET', 'POST'])
-@login_required
-def form_Migration_popup2():
-    mgId=request.args.get('mgId',None)
-    print(f"Will render template migration_popup2.html with mgId={mgId}")
-    return render_template('migration_popup2.html',mgId=mgId)
-
-#@main.route('/forms/Migration/create_group', methods=['GET', 'POST'])
-#@login_required
-#ef forms_Migration_create_group():
+# GV Group Oriented functions
 def forms_Migration_create_group(form):
-    logger.debug(f"{this()}: IN new name = {form.mgNewName.data}")
-    #roupid   = request.form.get('groupid',0)
-    #roupname = request.form.get('groupname',None)
-    groupid   = form.mgId
-    groupname = form.mgNewName.data
-    logger.debug(f"{this()}: groupid={groupid} groupname={groupname}")
-    # Aqui debe crear el grupo de migracion si no existe y 
-    # llamar a forms/Migration con el nuevo Id
-    mgs = db.session.query(Migration_Groups
-            ).filter(Migration_Groups.Name == groupname
-        ).all()
-    #orm.mgNewName=groupname
-    if mgs is None or len(mgs)==0:
-        # GV its a new group then create one
-        # creo nuevo grupo en BD y cargo ultimo id
-        newmg = Migration_Groups(
-                    Name=groupname
-                    )
-        logger.debug(f"{this()}: newmg={newmg}")
-        db.session.add(newmg)
+    groupid=0
+    try:
+        logger.debug(f"{this()}: IN new name = {form.mgNewName.data}")
+        logger.debug(f"{this()}: form.data = {form.data}")
+        logger.debug(f"{this()}: type(form.data) = {type(form.data)}")
+        if form.mgNewName.data is not None and len(form.mgNewName.data):
+            groupid   = form.mgId
+            groupname = form.mgNewName.data
+            Origin    = form.data.get('mgOrigin')
+            Destiny   = form.data.get('mgDestiny')
+            Customer  = form.data.get('mgCustomer')
+            Platform  = form.data.get('mgPlatform')
+            if Origin   is None: Origin = ''
+            if Destiny  is None: Destiny = ''
+            if Customer is None: Customer = 0
+            if Platform is None: Platform = 0
+            logger.debug(f"{this()}: groupid={groupid} groupname={groupname}")
+            logger.debug(f"{this()}: Origin   = {Origin}")
+            logger.debug(f"{this()}: Destiny  = {Destiny}")
+            logger.debug(f"{this()}: Customer = {Customer}")
+            logger.debug(f"{this()}: Platform = {Platform}")
+            # Aqui debe crear el grupo de migracion si no existe y 
+            # llamar a forms/Migration con el nuevo Id
+            mgs = db.session.query(Migration_Groups
+                    ).filter(Migration_Groups.Name == groupname
+                ).all()
+            if mgs is None or len(mgs)==0:
+                # GV its a new group then create one
+                # creo nuevo grupo en BD y cargo ultimo id
+                try:
+                    newmg = Migration_Groups(
+                                Name=groupname,
+                                Origin  =Origin,
+                                Destiny =Destiny,
+                                Customer=Customer,
+                                Platform=Platform
+                                )
+                    logger.debug(f"{this()}: 785 groupname={groupname} add newmg={newmg}")
+                    db.session.add(newmg)
+                    logger.debug(f"{this()}: groupname={groupname} commit {newmg}")
+                    try:
+                        db.session.commit()
+                        logger.warning(f"{this()}: 790 get mg record to get id of {groupname}...")
+                        mg = db.session.query(Migration_Groups
+                                                ).filter(Migration_Groups.Name==groupname
+                                                ).one_or_none()
+                        form.mgNewId.data   = mg.MG_Id
+                        form.mgNewName.data = mg.Name                        
+                    except Exception as e:
+                        emtec_handle_general_exception(e,logger=logger)
+                        form.mgNewId.data = None
+                        db.session.rollback()
+                        db.session.flush()
+                        flash(f"{this()}: {gettext('exception')}: {str(e)}","error")  
+                    logger.debug(f"{this()}: form.mgNewId.data =  {form.mgNewId.data}")                                    
+                except Exception as e:
+                    emtec_handle_general_exception(e,logger=logger)
+                    flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+                    db.session.rollback()
+                    db.session.flush()
+            else:
+                # GV This groupname already exists
+                logger.warning(f"""{this()}: {gettext("Group '%s' already exists")}"""%groupname)
+                logger.warning(f"""{this()}: {gettext("Group '%s' already exists")}"""%mgs)
+                for mg in mgs:
+                    if mg.Name == groupname:
+                        form.mgNewId.data=mg.MG_Id
+                        break
+                logger.warning(f"""{this()}: {gettext("Group '%s' already exists with id = %s")}"""%(groupname,form.mgNewId.data))
+                flash(gettext("Group '%s' already exists with id = %s")%(groupname,form.mgNewId.data))
+            groupid   = form.mgNewId.data
+            logger.debug(f"{this()}: OUT returns Group Id = {groupid}")
+        else:
+            flash(gettext("Invalid group '%s'")%(form.mgNewName.data),"error")        
+            groupid   = form.mgId
+    except Exception as e:
+        flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+        emtec_handle_general_exception(e,logger=logger)
+        db.session.rollback()
+        db.session.flush()
+    return groupid
+
+def forms_Migration_add_vm_to_group(form,vmId):
+    vmName = None
+    # Aqui debe crear el registro de vm asociado al grupo 
+    # llamar a forms/Migration con el mismo form.mgId
+    try:
+        try:
+            for cluster_uuid in form.mgData.get('vm_list'):
+                logger.debug(f"cluster_uuid={cluster_uuid}")
+                vms = form.mgData.get('vm_list').get(cluster_uuid).get('vms')
+                for vm_name in vms:
+                    logger.debug(f"vm_name={vm_name}")
+                    if vms.get(vm_name).get('uuid') == vmId:
+                        vmName = vm_name
+                logger.info(f"vmName={vmName}")
+        except Exception as e:
+            emtec_handle_general_exception(e,logger=logger)
+            vmName = None
+        vm = Migration_Groups_VM(MG_Id=form.mgId,vm_uuid=vmId,vm_name=vmName,vm_migrate=True)
+        db.session.merge(vm)
         db.session.commit()
         db.session.flush()
-        db.session.refresh(newmg)
-        logger.debug(f"{this()}: newmg={newmg}")
-        logger.info(f"Creo grupo '{groupname}' ...")
-        flash(f"Creo grupo '{groupname}' ...")
-        form.mgNewId.data=newmg.MG_Id
-    else:
-        #lash(f"Grupo '{groupname}' ya existe","warning")
-        logger.warning(f"Grupo '{groupname}' ya existe")
-        logger.warning(f"Grupo '{mgs}' ya existe")
-        for mg in mgs:
-            if mg.Name == groupname:
-                form.mgNewId.data=mg.MG_Id
-                break
-        logger.warning(f"Grupo '{groupname}' ya existe con id={form.mgNewId.data}")
-        flash(f"Grupo '{groupname}' ya existe con id={form.mgNewId.data}")
+        flash(gettext("'%s' added to migration group '%s'")%(
+                vmName,
+                dict(form.mgName.choices).get(form.mgName.data)
+                ),"info")
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)
     
-    groupid   = form.mgNewId.data
-    logger.debug(f"{this()}: OUT returns Group Id={groupid}")
-    return groupid
-    #return redirect(url_for('.forms_Migration',Id=groupid))
+    logger.info(f"{this()}: return vmName = {vmName}")
+    return vmName
 
-@main.route('/forms/Migration/add_vm_to_group', methods=['GET', 'POST'])
+def forms_Migration_save_group(form):
+    logger.info(f"{this()}: IN")
+    logger.debug  (f"{this()}: IN {form.data}")
+    try:
+        if current_user.confirmed:
+            mg = Migration_Groups(
+                    MG_Id    = form.mgId,
+                    Name     = dict(form.mgName.choices).get(form.mgName.data),
+                    Origin   = form.mgOrigin.data,
+                    Destiny  = form.mgDestiny.data,
+                    Customer = form.mgCustomer,
+                    Platform = form.mgPlatform
+                    )
+            counter = 0
+            for vm in form.mgVms:
+                try:
+                    logger.info(f"{this()}: merging vm: {vm.vm_uuid} {vm.vm_name:30} {vm.vm_migrate}")
+                    db.session.merge(vm)
+                except Exception as e:
+                    emtec_handle_general_exception(e,logger=logger)
+                counter+=1
+            logger.info(f"{this()}: merging mg: {mg.MG_Id} {mg.Name}")
+            db.session.merge(mg)
+            db.session.commit()
+            db.session.flush()
+            flash(gettext("MG saved: (%s) '%s'"%(form.mgId,dict(form.mgName.choices).get(form.mgName.data))),"info")
+        else:
+            flash(gettext("MG save request by non privileged user: %s")%(current_user.username))
+            logger.error(gettext("MG save request by non privileged user: %s")%(current_user.username))
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)    
+        flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+    logger.info(f"{this()}: return Migration Group Id = {form.mgId} {form.mgName.data}")
+    return form.mgId
+
+def forms_Migration_clone_group(form):
+    original_groupid   = form.mgId
+    original_groupname = dict(form.mgName.choices).get(int(form.mgName.data))
+    try:
+        # GV Asigna nombre de clon
+        form.mgNewName = form.mgCloneName
+        logger.info(f"{this()}: mgNewName={form.mgNewName.data} mgCloneName={form.mgCloneName.data}")
+        new_groupid = forms_Migration_create_group(form)
+        logger.info(f"{this()}: new groupid = {new_groupid}")
+        try:
+            # Cloning VMs, get all former MG VMs
+            logger.info(f"{this()}: creating vms from group {original_groupid} to cloned group {new_groupid} ...")
+            vms = db.session.query(Migration_Groups_VM
+                                ).filter(Migration_Groups_VM.MG_Id==original_groupid
+                                ).all()
+            # repeat records with new MG Id
+            if len(vms):
+                logger.info(f"{this()}: original vms count is {len(vms)}")
+            try:
+                for vm in vms:
+                    newvm=Migration_Groups_VM(
+                        MG_Id             = new_groupid,
+                        vm_uuid           = vm.vm_uuid,
+                        vm_name           = vm.vm_name,
+                        vm_state          = vm.vm_state,
+                        vm_has_pd         = vm.vm_has_pd,
+                        vm_pd_name        = vm.vm_pd_name,
+                        vm_pd_active      = vm.vm_pd_active,
+                        vm_pd_replicating = vm.vm_pd_replicating,
+                        vm_migrate        = vm.vm_migrate
+                    )
+                    logger.debug(f"{this()}: new vm = {newvm}")
+                    db.session.merge(newvm)
+                db.session.commit()
+                logger.info(f"{this()}: MG {original_groupname} successfully cloned as {form.mgNewName.data}")
+                flash(gettext("'%s' successfully cloned as '%s'")%(original_groupname,form.mgNewName.data),"info")
+            except Exception as e:
+                emtec_handle_general_exception(e,logger=logger)
+                form.mgNewId.data = None
+                db.session.rollback()
+                db.session.flush()                        
+                flash(gettext("'%s' could not be cloned as '%s'")%(original_groupname,form.mgNewName.data),"error")
+        except Exception as e:
+            emtec_handle_general_exception(e,logger=logger)
+            form.mgNewId.data = None
+            db.session.rollback()
+            db.session.flush()
+            flash(gettext("'%s' could not be cloned")%(original_groupname),"error")
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)
+        flash(gettext("'%s' could not be cloned")%(original_groupname),"error")
+    return form.mgNewId.data
+
+def forms_Migration_edit_group(form):
+    original_groupid   = form.mgId
+    original_groupname = dict(form.mgName.choices).get(form.mgName.data)
+    try:
+        # GV Nuevo nombre desde modal
+        logger.info(f"{this()}: mgEditName={form.mgEditName.data}")
+        try:
+            # Editing MG Name
+            mg = db.session.query(Migration_Groups
+                                ).filter(Migration_Groups.MG_Id==original_groupid
+                                ).one_or_none()
+            if mg:
+                # repeat records with new MG Id
+                logger.warning(f"{this()}: mg={mg}")
+                original_groupname = mg.Name
+                
+                mg.Name = form.mgEditName.data
+                logger.warning(f"{this()}: mg={mg}")
+                try:
+                    db.session.merge(mg)
+                    db.session.commit()
+                    logger.info(f"{this()}: MG '{original_groupid}' '{original_groupname}' renamed to '{mg.Name}'")
+                    flash(gettext("'%s' renamed to '%s'")%(original_groupname,mg.Name),"info")
+                except Exception as e:
+                    db.session.rollback()
+                    db.session.flush()
+                    emtec_handle_general_exception(e,logger=logger)
+                    flash(gettext("'%s' could not be renamed to '%s'")%(original_groupname,mg.Name),"error")
+            else:
+                logger.error(f"{this()}: MG '{original_groupid}' cuold not be renamed to '{mg.Name}'","info")
+                flash(gettext("'%s' could not be renamed to '%s'")%(original_groupname,mg.Name),"error")
+        except Exception as e:
+            emtec_handle_general_exception(e,logger=logger)
+            form.mgNewId.data = None
+            db.session.rollback()
+            db.session.flush()
+            flash(gettext("'%s' could not be edited")%(original_groupname),"error")
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)
+        flash(gettext("'%s' could not be edited")%(original_groupname),"error")
+    return form.mgId
+
+def forms_Migration_delete_group(form):
+    mgId=form.mgId
+    
+    try:
+        vms = db.session.query(Migration_Groups_VM
+                    ).filter(Migration_Groups_VM.MG_Id==mgId
+                    ).delete()
+        logger.warning(f"{this()}: deleted vms = {vms}")
+        mg = db.session.query(Migration_Groups
+                ).filter(Migration_Groups.MG_Id==mgId
+                ).delete()
+        logger.warning(f"{this()}: deleted mg = {mg}")
+        db.session.commit()
+        db.session.flush()
+        flash(gettext("MG deleted: (%s) '%s'")%(mgId,dict(form.mgName.choices).get(int(form.mgName.data))),"info")
+        mgId = 0
+    except Exception as e:
+        db.session.rollback()
+        emtec_handle_general_exception(e,logger=logger)    
+        flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+    if mgId is None:
+        mgId = 0
+    return mgId
+
+def poll_tasks(form,cluster,version=2):
+    logger.debug(f"{this()}: IN cluster = {cluster.get('name')} {len(form.mgData['tasks'])} tasks")
+    try:
+        for t in range(len(form.mgData['tasks'])):
+            task = form.mgData['tasks'][t]
+            logger.debug(f"{this()}: INFO task: {task}")
+            if not task.get('completed'):
+                protocol = 'https'
+                if version == 2:
+                    endpoint = f"PrismGateway/services/rest/v2.0/tasks/{task.get('uuid')}"
+                elif version == 3:
+                    endpoint = f"api/nutanix/v3/tasks/{task.get('uuid')}"
+                url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+                logger.debug(f"{this()}: INFO url: {url}")
+                response = api_request(
+                    method         = 'GET',
+                    url            = url,
+                    headers        = {'Accept':'application/json'},
+                    data           = None,
+                    timeout        = 10,
+                    authentication = None,
+                    username       = cluster.get('username'),
+                    password       = cluster.get('password'),
+                    verify         = False,
+                    logger         = logger
+                    )
+                    
+                logger.debug(f"{this()}: INFO response: {response}")
+                if response is not None:
+                    if response.ok:
+                        data = response.json()
+                        logger.debug(f"{this()}: data: {data}")
+                        if response.status_code == 200:
+                            form.mgData['tasks'][t].update(data)
+                            if version == 2:
+                                if task.get('progress_status').upper() in ['SUCCEDED','FAILED']:
+                                    form.mgData['tasks'][t]['completed'] = True
+                                logger.debug(f"{this()}: task: {task.get('uuid')} {task.get('percentage_complete')}% '{task.get('progress_status')}' completed={form.mgData['tasks'][t]['completed']}")
+                            elif version == 3:
+                                if task.get('progress_message').upper() in ['SUCCEDED','FAILED']:
+                                    form.mgData['tasks'][t]['completed'] = True
+                                logger.debug(f"{this()}: task: {task.get('uuid')} {task.get('percentage_complete')}% '{task.get('progress_message')}' {task.get('status')} completed={form.mgData['tasks'][t]['completed']}")
+                        else:
+                            logger.warning(f"{this()}: task: {uuid} status = {response.status_code}")
+                    else:
+                        logger.error(f"{this()}: task: {uuid} ok     = {response.ok}")
+                        logger.error(f"{this()}: task: {uuid} reason = {response.reason}")
+                        logger.error(f"{this()}: task: {uuid} test   = {response.text}")
+                else:
+                    logger.error(f"{this()}: invalid response {response}")
+            else:
+                logger.debug(f"{this()}: task: {task.get('uuid')} {task.get('percentage_complete')}% {task.get('progress_status')} completed={task['completed']}")
+
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)                
+    logger.debug(f"{this()}: OUT")
+
+'''def forms_Migration_update_vms_slow(form):
+    logger.debug(f"{this()}: IN")
+    vm_protection  = {}
+    found_clusters = 0
+    found_pds      = 0
+    found_vms      = 0
+    found_rls      = 0
+    # Build updated VM Protection Data
+    logger.debug(f"{this()}: ***** Build updated VM Protection Data")
+    for cluster_uuid in form.mgData.get('clusters_uuid'):
+        cluster = form.mgData.get('clusters_uuid').get(cluster_uuid)
+        if cluster.get('name') != "Prism Central":
+            found_clusters += 1
+            vm_protection.update({cluster_uuid:{}})
+            logger.debug(f"{this()}: cluster: {cluster}")
+            protocol = 'https'
+            endpoint = 'api/nutanix/v2.0/protection_domains/'
+            url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+            response = api_request(
+                method         = 'GET',
+                url            = url,
+                headers        = {'Accept':'application/json'},
+                data           = None,
+                timeout        = 10,
+                authentication = None,
+                username       = cluster.get('username'),
+                password       = cluster.get('password'),
+                verify         = False,
+                logger         = logger
+                )
+                
+            logger.debug(f"{this()}: response: {response}")
+            if response is not None:
+                if response.ok:
+                    data = response.json()
+                    if response.status_code == 200:
+                        logger.debug(f"{this()}: data.entities = {len(data['entities'])}")
+                        for pd in data['entities']:
+                            found_pds += 1
+                            logger.debug(f"{this()}: pd name={pd.get('name')} active={pd.get('active')} vms ={len(pd.get('vms'))} replication links ={len(pd.get('replication_links'))}")
+                            remote_site_name = None
+                            last_replication = None
+                            last_datetime    = None
+                            for rl in pd.get('replication_links'):
+                                found_rls += 1
+                                remote_site_name = rl.get('remote_site_name')
+                                last_replication = rl.get('last_replication_start_time_in_usecs')
+                                last_datetime    = datetime.fromtimestamp(last_replication/1000000)
+                                logger.debug(f"{this()}:   rl = {remote_site_name} {last_replication} {last_datetime}")
+                            for vm in pd.get('vms'):
+                                found_vms += 1
+                                logger.debug(f"{this()}:   vm = {vm.get('vm_id')} {vm.get('vm_name')}")
+                                # this structure is intented to ease future search
+                                if rl.get('last_replication_start_time_in_usecs'):
+                                    last_replication = rl.get('last_replication_start_time_in_usecs')
+                                    last_datetime    = datetime.fromtimestamp(last_replication/1000000)
+                                else:
+                                    last_replication = None
+                                    last_datetime    = None
+                                
+                                vm_protection[cluster_uuid].update({
+                                    vm.get('vm_id'): {
+                                        'vm_name'          : vm.get('vm_name'),
+                                        'cluster_uuid'     : cluster_uuid,
+                                        'cluster_name'     : cluster.get('name'),
+                                        'pd_name'          : pd.get('name'),
+                                        'pd_active'        : pd.get('active'),
+                                        'pd_schedules'     : len(pd.get('cron_schedules',[])),
+                                        'vms'              : len(pd.get('vms')),
+                                        'replication_links': len(pd.get('replication_links')),
+                                        'remote_site_name' : rl.get('remote_site_name'),
+                                        'last_replication' : last_replication,
+                                        'last_datetime'    : last_datetime,
+                                    }
+                                })
+                    else:
+                        logger.warning(f"{this()}: response status : {response}")                                            
+                else:
+                    logger.warning(f"{this()}: response not OK : {response}")                    
+            else:
+                logger.error(f"{this()}: Invalid response : {response}")                    
+                
+            logger.debug(f"{this()}: found vms     : {found_vms}")
+        else:
+            logger.debug(f"{this()}: Prism Central is ignored for PD search")
+             
+    logger.debug(f"{this()}: ***** found clusters: {found_clusters} pds: {found_pds} rls: {found_rls} vms: {found_vms}")
+    # GV Updating data for Migration Group VMs
+    logger.debug(f"{this()}: ***** Updating data for Migration Group {form.mgId}, {len(form.mgVms)} VMs")
+    for vm in form.mgVms:
+        # GV Get Protection domain details for VM
+        for cluster_uuid in form.mgData.get('clusters_uuid'):
+            cluster = form.mgData.get('clusters_uuid').get(cluster_uuid)
+            if cluster.get('name') != "Prism Central":
+                logger.debug(f"{this()}: search for vm : {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid} in cluster {cluster_uuid}")
+                detail = vm_protection.get(cluster_uuid).get(vm.vm_uuid,None)
+                if detail:
+                    break
+        logger.debug(f"{this()}:   detail for {vm.vm_uuid} = {detail}")
+        project = get_vm_project(form,vm.vm_uuid)
+        if project:
+            project_name = project.get('name')
+        else:
+            project_name = None
+        if detail:
+            pd_replicating = True if detail.get('remote_site_name') is not None else False
+            logger.debug(f"{this()}: PD updates : vm_cluster_id       {detail.get('cluster_uuid')}")
+            logger.debug(f"{this()}:              vm_has_pd           {True}")
+            logger.debug(f"{this()}:              vm_pd_name          {detail.get('pd_name')}")
+            logger.debug(f"{this()}:              vm_pd_is_active     {detail.get('pd_active')}")
+            logger.debug(f"{this()}:              vm_pd_replicating   {pd_replicating}")
+            logger.debug(f"{this()}:              vm_pd_schedules     {detail.get('pd_schedules')}")
+            logger.debug(f"{this()}:              vm_last_replication {detail.get('last_datetime')}")
+            logger.debug(f"{this()}:              vm_project          {project_name}")
+            cluster = form.mgData.get('clusters_uuid').get(cluster_uuid)
+            logger.debug(f"{this()}:               : CLUSTER             {cluster}")
+            
+            protocol = 'https'
+            endpoint = f'PrismGateway/services/rest/v2.0/vms/{vm.vm_uuid}'
+            url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+            response = api_request(
+                method         = 'GET',
+                url            = url,
+                headers        = {'Accept':'application/json'},
+                data           = None,
+                timeout        = 10,
+                authentication = None,
+                username       = cluster.get('username'),
+                password       = cluster.get('password'),
+                verify         = False,
+                logger         = logger
+                )
+
+            logger.debug(f"{this()}: response: {response}")
+            if response is not None and response.ok:
+                data = response.json()
+                power_state = data.get('power_state')
+                if str(power_state).upper() in ['ON','TRUE','SI','VERDADERO','T','V','S','1']:
+                    vm.vm_state = True
+                else:
+                    vm.vm_state = False
+                logger.debug(f"{this()}:              power_state = {vm.vm_state}")
+            else:
+                logger.warning(f"{this()}:            Couldn't get power_state for vm {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid}")
+            vm.vm_cluster_uuid     = detail.get('cluster_uuid')
+            vm.vm_has_pd           = True
+            vm.vm_pd_name          = detail.get('pd_name')
+            vm.vm_pd_active        = detail.get('pd_active')
+            vm.vm_pd_schedules     = detail.get('pd_schedules')
+            vm.vm_pd_replicating   = pd_replicating
+            vm.vm_last_replication = detail.get('last_datetime')
+            vm.vm_project          = project_name
+        else:
+            logger.error(f"{this()}: no PD details for vm: {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid}")
+        # GV vm.vm_migrate is loaded from calling form
+        # GV Actual VM update here ....
+        try:
+            logger.debug(f"{this()}: updating DB VM: {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid} pwr:{vm.vm_state}")
+            db.session.merge(vm)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            emtec_handle_general_exception(e,logger=logger)
+    
+    logger.debug(f"{this()}: OUT")
+    return 
+'''
+
+def forms_Migration_update_vms(form):
+    logger.debug(f"{this()}: IN")
+    vm_protection  = {}
+    found_clusters = 0
+    found_pds      = 0
+    found_vms      = 0
+    found_rls      = 0
+    # Build updated VM Protection Data
+    logger.debug(f"{this()}: ***** Build updated VM Protection Data")
+    formVms = []
+    for vm in form.mgVms:
+        formVms.append(vm.vm_uuid)
+    for cluster_uuid in form.mgData.get('clusters_uuid'):
+        cluster = form.mgData.get('clusters_uuid').get(cluster_uuid)
+        if cluster.get('name') != "Prism Central":
+            found_clusters += 1
+            vm_protection.update({cluster_uuid:{}})
+            logger.debug(f"{this()}: cluster: {cluster}")
+            protocol = 'https'
+            data = {'include_deleted':False}
+            endpoint = 'api/nutanix/v2.0/protection_domains/'
+            url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+            response = api_request(
+                method         = 'GET',
+                url            = url,
+                headers        = {'Accept':'application/json'},
+                data           = data,
+                timeout        = 10,
+                authentication = None,
+                username       = cluster.get('username'),
+                password       = cluster.get('password'),
+                verify         = False,
+                logger         = logger
+                )
+                
+            logger.debug(f"{this()}: response: {response}")
+            if response is not None:
+                if response.ok:
+                    data = response.json()
+                    if response.status_code == 200:
+                        logger.info(f"{this()}: protection domains found = {len(data['entities'])} in cluster {cluster.get('name')}")
+                        for pd in data['entities']:
+                            # Initialize temporary list for faster searches 
+                            pd_vms               = pd.get('vms',[])
+                            pd_replication_links = pd.get('replication_links',[])
+                            # check if VM within PD's vms list
+                            if (len(pd.get('vms'))):
+                                logger.debug(f"{this()}: will look for {'|'.join(formVms)} in {len(pd.get('vms'))} vms")
+                                
+                                for vm_uuid in formVms:
+                                    # GV 20220221 for i in range(len(pd.get('vms'))):
+                                    for i in range(len(pd_vms)):
+                                        if pd_vms[i]['vm_id'] == vm_uuid:
+                                            logger.info(f"{this()}: found vm '{vm_uuid}' in pd '{pd.get('name')}'")
+                                            found_pds += 1
+                                            logger.debug(f"{this()}: pd name={pd.get('name')} active={pd.get('active')} vms ={len(pd.get('vms'))} replication links ={len(pd.get('replication_links'))}")
+                                            remote_site_name = None
+                                            last_replication = None
+                                            last_datetime    = None
+                                            # GV 20220221 for rl in pd.get('replication_links'):
+                                            for rl in pd_replication_links:
+                                                found_rls += 1
+                                                remote_site_name = rl.get('remote_site_name')
+                                                last_replication = rl.get('last_replication_start_time_in_usecs')
+                                                last_datetime    = datetime.fromtimestamp(last_replication/1000000)
+                                                logger.debug(f"{this()}:   rl = {remote_site_name} {last_replication} {last_datetime}")
+                                            # GV 20220221 for vm in pd.get('vms'):
+                                            for vm in pd_vms:
+                                                found_vms += 1
+                                                logger.debug(f"{this()}:   vm = {vm.get('vm_id')} {vm.get('vm_name')}")
+                                                # this structure is intented to ease future search
+                                                '''
+                                                try:
+                                                    if rl.get('last_replication_start_time_in_usecs'):
+                                                        last_replication = rl.get('last_replication_start_time_in_usecs')
+                                                        last_datetime    = datetime.fromtimestamp(last_replication/1000000)
+                                                    else:
+                                                        last_replication = None
+                                                        last_datetime    = None
+                                                except Exception as e:
+                                                    logger.warning(f"exception: {str(e)}")
+                                                    last_replication = None
+                                                    last_datetime    = None
+                                                '''
+                                                vm_protection[cluster_uuid].update({
+                                                    vm.get('vm_id'): {
+                                                        'vm_name'          : vm.get('vm_name'),
+                                                        'cluster_uuid'     : cluster_uuid,
+                                                        'cluster_name'     : cluster.get('name'),
+                                                        'pd_name'          : pd.get('name'),
+                                                        'pd_active'        : pd.get('active'),
+                                                        'pd_schedules'     : len(pd.get('cron_schedules',[])),
+                                                        # GV 20220221 'vms'              : len(pd.get('vms',[])),
+                                                        # GV 20220221 'replication_links': len(pd.get('replication_links'.[])),
+                                                        'vms'              : len(pd_vms),
+                                                        'replication_links': len(pd_replication_links),
+                                                        'remote_site_name' : remote_site_name,
+                                                        'last_replication' : last_replication,
+                                                        'last_datetime'    : last_datetime,
+                                                    }
+                                                })
+                                        else:
+                                            pass            
+                            else:
+                                # discards any PD wit empty vms list
+                                pass
+                    else:
+                        logger.warning(f"{this()}: response status : {response}")                                            
+                else:
+                    logger.warning(f"{this()}: response not OK : {response}")                    
+            else:
+                logger.error(f"{this()}: Invalid response : {response}")                    
+                
+            logger.debug(f"{this()}: found vms     : {found_vms}")
+        else:
+            logger.debug(f"{this()}: Prism Central is ignored for PD search")
+             
+    logger.info(f"{this()}: ***** found clusters: {found_clusters} pds: {found_pds} rls: {found_rls} vms: {found_vms}")
+    # GV Updating data for Migration Group VMs
+    logger.debug(f"{this()}: ***** Updating data for Migration Group {form.mgId}, {len(form.mgVms)} VMs")
+    for vm in form.mgVms:
+        detail = None
+        project_name = None
+        # GV Get Protection domain details for VM
+        for cluster_uuid in form.mgData.get('clusters_uuid'):
+            cluster = form.mgData.get('clusters_uuid').get(cluster_uuid)
+            if cluster.get('name') != "Prism Central":
+                logger.debug(f"{this()}: search for vm : {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid} in cluster {cluster_uuid}")
+                detail = vm_protection.get(cluster_uuid).get(vm.vm_uuid,None)
+                if detail:
+                    break
+        logger.debug(f"{this()}:   detail for {vm.vm_uuid} = {detail}")
+        project = get_vm_project(form,vm.vm_uuid)
+        if project:
+            project_name = project.get('name')
+        if detail:
+            pd_replicating = True if detail.get('remote_site_name') is not None else False
+            logger.debug(f"{this()}: PD updates : vm_cluster_id       {detail.get('cluster_uuid')}")
+            logger.debug(f"{this()}:              vm_has_pd           {True}")
+            logger.debug(f"{this()}:              vm_pd_name          {detail.get('pd_name')}")
+            logger.debug(f"{this()}:              vm_pd_is_active     {detail.get('pd_active')}")
+            logger.debug(f"{this()}:              vm_pd_replicating   {pd_replicating}")
+            logger.debug(f"{this()}:              vm_pd_schedules     {detail.get('pd_schedules')}")
+            logger.debug(f"{this()}:              vm_last_replication {detail.get('last_datetime')}")
+            logger.debug(f"{this()}:              vm_project          {project_name}")
+            cluster = form.mgData.get('clusters_uuid').get(cluster_uuid)
+            logger.debug(f"{this()}:               : CLUSTER             {cluster}")
+            
+            protocol = 'https'
+            endpoint = f'PrismGateway/services/rest/v2.0/vms/{vm.vm_uuid}'
+            url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+            response = api_request(
+                method         = 'GET',
+                url            = url,
+                headers        = {'Accept':'application/json'},
+                data           = None,
+                timeout        = 10,
+                authentication = None,
+                username       = cluster.get('username'),
+                password       = cluster.get('password'),
+                verify         = False,
+                logger         = logger
+                )
+
+            logger.debug(f"{this()}: response: {response}")
+            if response is not None and response.ok:
+                data = response.json()
+                power_state = data.get('power_state')
+                if str(power_state).upper() in ['ON','TRUE','SI','VERDADERO','T','V','S','1']:
+                    vm.vm_state = True
+                else:
+                    vm.vm_state = False
+                logger.debug(f"{this()}:              power_state = {vm.vm_state}")
+            else:
+                logger.warning(f"{this()}:            Couldn't get power_state for vm {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid}")
+            vm.vm_cluster_uuid     = detail.get('cluster_uuid')
+            vm.vm_has_pd           = True
+            vm.vm_pd_name          = detail.get('pd_name')
+            vm.vm_pd_active        = detail.get('pd_active')
+            vm.vm_pd_schedules     = detail.get('pd_schedules')
+            vm.vm_pd_replicating   = pd_replicating
+            vm.vm_last_replication = detail.get('last_datetime')
+            vm.vm_project          = project_name
+        else:
+            logger.error(f"{this()}: no PD details for vm: {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid}")
+        # GV vm.vm_migrate is loaded from calling form
+        # GV Actual VM update here ....
+        try:
+            logger.debug(f"{this()}: updating DB VM: {vm.vm_name} {vm.MG_Id}:{vm.vm_uuid} pwr:{vm.vm_state}")
+            db.session.merge(vm)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            emtec_handle_general_exception(e,logger=logger)
+    
+    logger.debug(f"{this()}: OUT")
+    return 
+
+def forms_Migration_Validate(form):
+    logger.info(f"{this()}: IN")
+    infos    = []
+    errors   = []
+    warnings = []
+    # Check Origin Cluster
+    Origin    = gettext('unknown').capitalize()
+    Destiny   = gettext('unknown').capitalize()
+    if form.mgOrigin.data is None:
+        errors.append(gettext('invalid origin cluster').capitalize())
+    else:
+        pass # check for valid cluster
+        Origin = dict(form.mgOrigin.choices).get(form.mgOrigin.data)
+    # Check Destiny Cluster
+    if form.mgDestiny.data is None:
+        errors.append(gettext('invalid Origin Cluster').capitalize())
+    else:
+        Destiny = dict(form.mgDestiny.choices).get(form.mgDestiny.data)
+        # check for valid cluster
+        if form.mgDestiny.data == form.mgOrigin.data:
+            errors.append(gettext('destiny cluster should be different than origin cluster').capitalize())
+    # VM Checks
+    if form.mgVms:
+        for vm in form.mgVms:
+            if vm.vm_migrate:
+                # Check for Origin cluster integrity
+                if vm.vm_cluster_uuid != form.mgOrigin.data:
+                    errors.append(gettext("vm '%s' is not active in cluster '%s'").capitalize()%(vm.vm_name,Origin))
+                # Check for Power off
+                if vm.vm_state:
+                    errors.append(gettext("vm '%s' is powered on").capitalize()%(vm.vm_name))
+                # Check for PD availabiliity
+                if not vm.vm_has_pd:
+                    errors.append(gettext("vm '%s' hasn't protection domain").capitalize()%(vm.vm_name))
+                else:
+                    if not vm.vm_pd_active:
+                        errors.append(gettext("vm '%s' protection domain '%s' is not active").capitalize()%(vm.vm_name,vm_pd_name))
+                    else:
+                        pass
+                # Check for Replication
+                if not vm.vm_pd_replicating:
+                    errors.append(gettext("pd '%s' is not replicating").capitalize()%(vm.vm_name))
+                else:
+                    if vm.vm_last_replication is None:
+                        errors.append(gettext("vm '%s' hasn't remote replica").capitalize()%(vm.vm_name))
+                    else:
+                        elapsed = (datetime.now() - vm.vm_last_replication).seconds
+                        if elapsed > 3600:
+                            logger.warning(f"Migration of '{vm.vm_name}' may take more than usual since last replication was on {vm.vm_last_replication} ({elapsed:,.0f} seconds ago)")
+                            warnings.append(gettext("Migration of '%s' may take more than usual since last replication was on %s (%s hours ago)"
+                                ).capitalize()%(vm.vm_name,vm.vm_last_replication.strftime('%Y-%m-%d %H:%M:%S'),f"{elapsed/3600:,.1f}"))
+                        else:
+                            pass
+                # Check for category
+                project = get_vm_project(form,vm.vm_uuid)
+                if project is None:
+                    warnings.append(gettext("vm '%s' invalid project: '%s'")%(vm.vm_name,project))
+                    logger.warning(f"{this()}: vm '{vm.vm_name}' invalid project: '{project}' {type(project)}")
+                else:
+                    logger.debug(f"{this()}: project={project}")
+                    logger.debug(f"{this()}: current_app.config.get('NUTANIX_PROJECTS') = {current_app.config.get('NUTANIX_PROJECTS')}")
+                    project_name = project.get('name').lower()
+                    logger.debug(f"{this()}: project_name = {project_name}")
+                    if project_name:
+                        if current_app.config.get("NUTANIX_PROJECTS").get(project_name):
+                            destiny_project = current_app.config.get("NUTANIX_PROJECTS").get(project_name).get(Destiny)
+                            logger.info(f"{this()}: '{vm.vm_name}' project: '{project_name}' would be migrated to {Destiny}:{destiny_project}")
+                        else:
+                            logger.warning(f"{this()}: project_name '{project_name}' not in NUTANIX_PROJECTS.")                        
+                    else:
+                        logger.warning(f"{this()}: '{vm.vm_name}' project: '{project_name}' wouldn't be migrated.")                        
+            else:
+                infos.append(gettext("'%s' not selected for migration")%(vm.vm_name))
+                logger.info(f"{this()}: '{vm.vm_name}' not selected for migration")
+    else:
+        errors.append(gettext('no virtual machines asociated to migration group').capitalize())
+        logger.error(f"{this()}: No virtual machines asociated to migration group")
+    if len(infos):
+        Infos = ""
+        for info in infos:
+            logger.info(info)
+            Infos += f"<li>{info}</li>"
+        flash(Markup(f"<ul>{Infos}</ul>"),"info")
+    if len(warnings):
+        Warnings = ""
+        for warning in warnings:
+            logger.warning(warning)
+            Warnings += f"<li>{warning}</li>"
+        flash(Markup(f"<ul>{Warnings}</ul>"),"warning")
+    if len(errors):
+        Errors = ""
+        for error in errors:
+            logger.error(error)
+            Errors += f"<li>{error}</li>"
+        flash(Markup(f"<ul>{Errors}</ul><br>"),"error")
+    
+    if len(warnings):
+        flash(gettext("Detected %s warning(s). Migration can continue at your discretion")%(len(warnings)),"warning")
+        form.mgData['can_migrate'] = True
+    if len(errors):
+        flash(gettext("Detected %s error(s). Migration can not continue. Please fix it/them and try again")%(len(errors)),"error")
+        form.mgData['can_migrate'] = False
+    
+    logger.info(f"{this()}: OUT (Id:{form.mgId},err:{len(errors)},war:{len(warnings)})")
+    return form.mgId,errors,warnings
+
+def forms_Migration_migrate_vm(form,vm):
+    logger.debug(f"{this()}: IN")
+    task = None
+    try:
+        Origin  = dict(form.mgOrigin.choices).get(form.mgOrigin.data)
+        Destiny = dict(form.mgDestiny.choices).get(form.mgDestiny.data)
+        logger.info(f"{this()}: Migrating {Origin}:{vm.vm_name}")
+        logger.info(f"{this()}: Origin  : {form.mgOrigin.data} {Origin}")
+        logger.info(f"{this()}: Destiny : {form.mgDestiny.data} {Destiny}")
+        cluster = form.mgData.get('clusters_uuid').get(form.mgOrigin.data)
+        prism_central = form.mgData.get('clusters_uuid').get('prism_central')
+        poll_tasks(form,prism_central,3)
+        if vm.vm_has_pd and vm.vm_pd_name is not None:
+            protocol = 'https'
+            endpoint = f'PrismGateway/services/rest/v2.0/protection_domains/{vm.vm_pd_name}/migrate'
+            url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+            logger.debug(f"{this()}: url: {url}")
+            response = None
+            # Forzado a no ejecutarse por ahora
+            if not current_app.config.get('BUTLER_TEST_ONLY_MODE'):
+                protocol = 'https'
+                url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+                response = api_request(
+                    method         = 'POST',
+                    url            = url,
+                    headers        = {'Content-Type': 'application/json'},
+                    data           = json.dumps({'value':Destiny}),
+                    timeout        = 10,
+                    authentication = None,
+                    username       = cluster.get('username'),
+                    password       = cluster.get('password'),
+                    verify         = False,
+                    logger         = logger
+                    )
+                
+                logger.debug(f"{this()}: response: {response}")
+                if response is not None:
+                    data = response.json()
+                    logger.debug(f"{this()}: response data: {data}")
+                    if response.ok:
+                        if response.status_code in  [200,201]:
+                            task_uuid = f"task_for_{vm.vm_name}"
+                            task = {
+                                'uuid': task_uuid,
+                                'vm'  : vm,
+                            }
+                        else:
+                            logger.warning(f"{this()}: response status = {response}")
+                    else:
+                        logger.error(f"{this()}: response not ok  = {response}")
+                        logger.error(f"{this()}: response.reason  = {response.reason}")
+                        logger.error(f"{this()}: response.text  = {response.text}")
+                else:
+                    logger.error(f"{this()}: response invalid = {response}")
+            else:
+                logger.info(f"{this()}: WARNING BUTLER_TEST_ONLY_MODE no actual execution. fake task loaded.")
+                task_uuid = f"fake_task_for_{vm.vm_name}"
+                task = {
+                    'uuid': task_uuid,
+                    'vm'  : vm,
+                }
+        else:
+            logger.error(f"{this()}: '{vm.vm_name}' does not have a valid protection domain")
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)
+    logger.debug(f"{this()}: OUT task = {task}")
+    return task
+
+def forms_Migration_create_schedules(form,pd_name):
+    # All migration validations upon Destiny Cluster
+    destiny_cluster = form.mgData.get('clusters_uuid').get(form.mgDestiny.data)
+    origin_cluster  = form.mgData.get('clusters_uuid').get(form.mgOrigin.data)
+    logger.info(f"{this()}: {pd_name}@{destiny_cluster.get('name')} -> {origin_cluster.get('name')}")
+    remote_created = True
+    local_created  = True
+    if current_app.config.get('NUTANIX_MIGRATION_CREATE_REMOTE_SCHEDULES'):
+        logger.info(f"{this()}: Remote CRON schedules creation requested in {destiny_cluster.get('name')}")
+        schedule_type       = current_app.config.get('NUTANIX_REMOTE_SCHEDULE_TYPE')
+        schedule_every_nth  = current_app.config.get('NUTANIX_REMOTE_EVERY_NTH')
+        schedule_local_max  = current_app.config.get('NUTANIX_REMOTE_LOCAL_MAX_SNAPSHOTS')
+        schedule_remote_max = current_app.config.get('NUTANIX_REMOTE_REMOTE_MAX_SNAPSHOTS')
+        # Actual 'REMOTE' schedules creation here
+        logger.info(f"{this()}: type: {schedule_type} every nth: {schedule_every_nth} local snps: {schedule_local_max} remote snps: {schedule_remote_max}")
+        logger.info(f"{this()}: creating cron in cluster {destiny_cluster.get('name')} remote {origin_cluster.get('name')}")
+        if not current_app.config.get('BUTLER_TEST_ONLY_MODE'):
+            remote_created = create_pd_schedule(
+                    current_app,
+                    host                     = destiny_cluster.get('host'),
+                    port                     = destiny_cluster.get('port'),
+                    username                 = destiny_cluster.get('username'),
+                    password                 = destiny_cluster.get('password'),
+                    protocol                 = 'https',
+                    pdname                   = pd_name,
+                    remote_cluster           = origin_cluster.get('name'),
+                    schedule_type            = schedule_type,
+                    every_nth                = schedule_every_nth,
+                    local_max_snapshots      = schedule_local_max,
+                    remote_max_snapshots     = schedule_remote_max,
+                )
+        else:
+            logger.info(f"{this()}: WARNING BUTLER TEST ONLY MODE will not create REMOTE schedule on {destiny_cluster.get('name')}")
+        if remote_created:
+            logger.info(f"{this()}: Remote CRON Schedule created")
+        else:
+            logger.info(f"{this()}: Remote CRON Schedule not created")
+    else:
+        logger.info(f"{this()}: Remote CRON schedules creation not requested in {destiny_cluster.get('name')}")
+    if current_app.config.get('NUTANIX_MIGRATION_CREATE_LOCAL_SCHEDULES'):
+        logger.info(f"{this()}: Local CRON schedules creation requested in {destiny_cluster.get('name')}")
+        schedule_type       = current_app.config.get('NUTANIX_LOCAL_SCHEDULE_TYPE')
+        schedule_every_nth  = current_app.config.get('NUTANIX_LOCAL_EVERY_NTH')
+        schedule_local_max  = current_app.config.get('NUTANIX_LOCAL_LOCAL_MAX_SNAPSHOTS')
+        schedule_remote_max = current_app.config.get('NUTANIX_LOCAL_REMOTE_MAX_SNAPSHOTS')
+        # Actual 'LOCAL' schedules creation here
+        logger.info(f"{this()}: type: {schedule_type} every nth: {schedule_every_nth} local snps: {schedule_local_max} remote snps: {schedule_remote_max}")
+        logger.info(f"{this()}: creating cron in cluster {destiny_cluster.get('name')} remote {origin_cluster.get('name')}")
+        if not current_app.config.get('BUTLER_TEST_ONLY_MODE'):
+            local_created = create_pd_schedule(
+                    current_app,
+                    host                     = destiny_cluster.get('host'),
+                    port                     = destiny_cluster.get('port'),
+                    username                 = destiny_cluster.get('username'),
+                    password                 = destiny_cluster.get('password'),
+                    protocol                 = 'https',
+                    pdname                   = pd_name,
+                    remote_cluster           = origin_cluster.get('name'),
+                    schedule_type            = schedule_type,
+                    every_nth                = schedule_every_nth,
+                    local_max_snapshots      = schedule_local_max,
+                    remote_max_snapshots     = schedule_remote_max,
+                )
+        else:
+            logger.info(f"{this()}: WARNING BUTLER TEST ONLY MODE wont create LOCAL schedule on {destiny_cluster.get('name')}")
+        if local_created:
+            logger.info(f"{this()}: Local CRON Schedule created")
+        else:
+            logger.info(f"{this()}: Local CRON Schedule not created")
+    else:
+        logger.info(f"{this()}: Local CRON schedules creation not requested in {destiny_cluster.get('name')}")
+    created = remote_created and local_created
+    logger.info(f"{this()}: remote={remote_created} and local={local_created} returns {created}")
+    return created
+
+def forms_Migration_validate_remote_vm(form,vm,count):
+    logger.info(f"{this()}: IN feedback count = {count}")
+    vmMigrationComplete = True
+    vmMigrationWarnings = []
+    count += 1
+    form.mgData['ipc']['last_shown'] = send_feedback(form,count,gettext("Validating VM: '%s'")%(vm.vm_name))
+    vm_ok   = False
+    pr_ok   = False
+    pd_ok   = False
+    pdvm_ok = False
+    cs_ok   = False
+    try:
+        Origin  = dict(form.mgOrigin.choices).get(form.mgOrigin.data)
+        Destiny = dict(form.mgDestiny.choices).get(form.mgDestiny.data)
+        logger.info (f"{this()}: Validating {vm.vm_name}@{Destiny}'")
+        logger.debug(f"{this()}: Origin  : {form.mgOrigin.data} {Origin}")
+        logger.debug(f"{this()}: Destiny : {form.mgDestiny.data} {Destiny}")
+        # All migration validations upon Destiny Cluster
+        cluster         = form.mgData.get('clusters_uuid').get(form.mgDestiny.data)
+        remote_cluster  = form.mgData.get('clusters_uuid').get(form.mgOrigin.data)
+        prism_central   = form.mgData.get('clusters_uuid').get('prism_central')
+        protocol = 'https'
+        endpoint = f"PrismGateway/services/rest/v2.0/vms/{vm.vm_uuid}?include_vm_disk_config=false&include_vm_nic_config=false"
+        url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+        response = api_request(
+            method         = 'GET',
+            url            = url,
+            headers        = {'Content-Type': 'application/json'},
+            data           = None,
+            timeout        = 10,
+            authentication = None,
+            username       = cluster.get('username'),
+            password       = cluster.get('password'),
+            verify         = False,
+            logger         = logger
+            )
+
+        logger.debug(f"{this()}: response: {response}")
+        if response is not None:
+            data = response.json()
+            if response.ok:
+                if response.status_code == 200:
+                    if data.get('name') == vm.vm_name and data.get('uuid') == vm.vm_uuid:
+                        logger.info(f"{this()}: VM Validation: vm name/uuid success !!!")
+                        # Prism Central project Update -----------------
+                        logger.info(f"{this()}: VM Validation: will procded to update project")
+                        # get VM data from Prism Central
+                        
+                        vm_ok=True
+                        endpoint = f"api/nutanix/v3/vms/{vm.vm_uuid}"
+                        url      = f"{protocol}://{prism_central.get('host')}:{prism_central.get('port')}/{endpoint}"
+                        response = api_request(
+                            method         = 'GET',
+                            url            = url,
+                            headers        = {'Content-Type': 'application/json'},
+                            data           = None,
+                            timeout        = 10,
+                            authentication = None,
+                            username       = cluster.get('username'),
+                            password       = cluster.get('password'),
+                            verify         = False,
+                            logger         = logger
+                            )
+
+                        logger.debug(f"{this()}: response: {response}")
+                        if response is not None:
+                            vm_data = response.json()
+                            logger.debug(f"{this()}: GOT VM DATA FROM PC WILL PROCEED TO UPDATE PROJECT")
+                            logger.debug(f"{this()}: nutanix projects  : {current_app.config.get('NUTANIX_PROJECTS')}")
+                            logger.debug(f"{this()}: old vm.vm_project : {vm.vm_project} to {Destiny}")
+                            name    = current_app.config.get('NUTANIX_PROJECTS').get(vm.vm_project.lower()).get(Destiny)
+                            if name:
+                                if form.mgData.get('projects_list').get(name):
+                                    uuid = form.mgData.get('projects_list').get(name).get('uuid')
+                                else:
+                                    uuid = None
+                            else:
+                                name = None
+                                uuid = None
+                            logger.debug(f"{this()}: new project uuid  : {uuid}")
+                            logger.debug(f"{this()}: vm_data           : {vm_data}")
+                            if name and uuid:
+                                logger.info(f"{this()}: Project update {vm.vm_project}@{Origin} --> {name}@{Destiny} {uuid}")
+                                # update project fields only all other remain untouched
+                                vm_data['metadata']['project_reference']['name']=name
+                                vm_data['metadata']['project_reference']['uuid']=uuid
+                                data     = json.dumps({
+                                              "spec"    : vm_data.get('spec'),
+                                              "metadata": vm_data.get('metadata'),
+                                            })
+
+                                logger.debug(f"{this()}: request data: {data}")
+                                response = api_request(
+                                    method         = 'PUT',
+                                    url            = url,
+                                    headers  = {'Content-Type': 'application/json','Accept': 'application/json'},
+                                    data           = data,
+                                    timeout        = 10,
+                                    authentication = None,
+                                    username       = cluster.get('username'),
+                                    password       = cluster.get('password'),
+                                    verify         = False,
+                                    logger         = logger
+                                    )
+                                
+                                logger.debug(f"{this()}: response: {response}")
+                                if response is not None:
+                                    data = response.json()
+                                    logger.debug(f"{this()}: response data = {data}")
+                                    if response.ok:
+                                        if response.status_code in [200,201,202]:
+                                            logger.info(f"{this()}: VM Validation: project update task sent OK ({data.get('status').get('execution_context').get('task_uuid')})")
+                                            form.mgData['tasks'].append({
+                                                'uuid'      : data.get('status').get('execution_context').get('task_uuid'),
+                                                'completed' : False
+                                            })
+                                            pr_ok=True
+                                            # Check tasks in prism central
+                                            poll_tasks(form,prism_central,3)
+                                        else:
+                                            logger.warning(f"{this()}: VM Validation: project PUT response status = {response}")
+                                            logger.warning(f"{this()}: VM Validation: project PUT response status = {dir(response)}")
+                                    else:
+                                        logger.warning(f"{this()}: VM Validation: project PUT response not ok={response}")
+                                        logger.warning(f"{this()}: VM Validation: project PUT response status: {response.status_code} state: {data.get('state')} errors: {data.get('message_list')}")
+                                        vmMigrationWarnings.append(gettext("update project warning: response: %s %s %s %s").capitalize()%(
+                                            response,
+                                            response.status_code,
+                                            data.get('code'),
+                                            data.get('message')
+                                            )
+                                        )
+                                else:
+                                    logger.warning(f"{this()}: VM Validation: response={response}")
+                                    vmMigrationWarnings.append(gettext("update project warning: response: %s").capitalize()%(
+                                            response
+                                            )
+                                    )
+                            else:
+                                logger.warning(f"{this()}: Couldn't update project: {name}:{uuid}")
+                                vmMigrationComplete=False
+                        else:
+                            logger.warning(f"{this()}: VM Validation: not found in Prism central !!!")
+                            vmMigrationComplete=False
+                    else:
+                        logger.error(f"{this()}: VM Validation: vm name/uuid error")
+                        vmMigrationComplete=False
+                else:
+                    logger.warning(f"{this()}: VM Validation: response status = {response}")
+                    logger.warning(f"{this()}: VM Validation: response status = {dir(response)}")
+            else:
+                if response.status_code == 500:
+                    if data.get('error_code').get('code') == 1202:
+                        logger.info(f"{this()}: {vm.vm_name}@{Destiny} does not exist")
+                    else:
+                        logger.warning(f"{this()}: VM Validation: response not ok={response}")
+                        logger.warning(f"{this()}: VM Validation: response status: {response.status_code} error: {data.get('error_code').get('code')} {data.get('message')}")
+                else:
+                    logger.warning(f"{this()}: VM Validation: response not ok={response}")
+                    logger.warning(f"{this()}: VM Validation: response status: {response.status_code} error: {data.get('error_code').get('code')} {data.get('message')}")
+                vmMigrationComplete=False
+        else:
+            logger.warning(f"{this()}: VM Validation: response={response}")
+            vmMigrationComplete=False
+        count += 1
+        form.mgData['ipc']['last_shown'] = send_feedback(form,count,gettext("Validating PD: '%s'")%(vm.vm_pd_name))
+
+        # GV Validate PD active in Destiny
+        logger.info(f"{this()}: Validating PD {vm.vm_pd_name}@{Destiny}")
+        protocol = 'https'
+        endpoint = f"/PrismGateway/services/rest/v2.0/protection_domains/{vm.vm_pd_name}"
+        url      = f"{protocol}://{cluster.get('host')}:{cluster.get('port')}/{endpoint}"
+        response = api_request(
+            method         = 'GET',
+            url            = url,
+            headers        = {'Accept': 'application/json'},
+            data           = None,
+            timeout        = 10,
+            authentication = None,
+            username       = cluster.get('username'),
+            password       = cluster.get('password'),
+            verify         = False,
+            logger         = logger
+            )
+
+        logger.debug(f"{this()}: response: {response}")
+        # look for name = vm.vm_pd_name, in vms[] look for vm_name=vm.vm_name (o vm.vm_pd_name), active = true
+        # validate schedule in destiny
+        # look for cron_schedules if missing will try to create them
+        if response is not None:
+            if response.ok:
+                data = response.json()
+                if response.status_code == 200:
+                    if data.get('name') == vm.vm_pd_name:                    
+                        logger.info(f"{this()}: PD Validation: pd name/uuid success !!!")
+                        pd_ok=True
+                        # GV Will check for PD active in Destiny cluster
+                        if data.get('active'):
+                            logger.info(f"{this()}: PD Validation: pd {vm.vm_name}@{Destiny} is active")
+                        else:
+                            logger.info(f"{this()}: PD Validation: {vm.vm_name}@{Destiny} is not active")
+                            vmMigrationComplete=False
+
+                        # Will check for VM in PD'd vms list 
+                        vfound = False
+                        
+                        logger.debug(f"{this()}: data.get('vms')= {type(data.get('vms'))} {data.get('vms')}")
+                        
+                        for v in data.get('vms'):
+                            logger.debug(f"{this()}: looking for vm '{v.get('vm_name')}' {v.get('vm_id')} in pd '{vm.vm_pd_name}'")
+                            if v.get('vm_name') == vm.vm_name and v.get('vm_id')==vm.vm_uuid:
+                                vfound = True
+                                break
+                        if vfound:
+                            logger.info(f"{this()}: PD Validation: vm name/uuid found in PD's vms list !!!")
+                            pdvm_ok=True
+                        else:
+                            logger.error(f"{this()}: PD Validation: vm name/uuid error: VM '{vm.vm_name}' not found in PD '{vm.vm_pd_name}'")
+                            vmMigrationComplete=False                            
+                            
+                        # Will check for any CRON Schedules in Destiny cluster
+                        if data.get('cron_schedules'):
+                            if len(data.get('cron_schedules')):
+                                logger.info(f"{this()}: PD Validation: PD schedule list has {len(data.get('cron_schedules'))} schedules")
+                                cs_ok=True
+                            else:
+                                logger.warning(f"{this()}: PD Validation: PD schedule list is empty. Will create schedules if required.")
+                                created = forms_Migration_create_schedules(form,vm.vm_pd_name)
+                                cs_ok=created
+                                logger.info(f"{this()}: required schedules created = {created}")
+                                vmMigrationComplete = vmMigrationComplete and created
+                        else:
+                            logger.info(f"{this()}: PD Validation: PD schedule list not found. Will create schedules if required.")
+                            created = forms_Migration_create_schedules(form,vm.vm_pd_name)
+                            cs_ok=created
+                            logger.info(f"{this()}: required schedules created = {created}")
+                            vmMigrationComplete = vmMigrationComplete and created
+                    else:
+                        logger.warning(f"{this()}: PD Validation: PD name does not match. failure.")
+                        vmMigrationComplete=False
+                else:
+                    logger.warning(f"{this()}: PD Validation: response status = {response}")
+                    vmMigrationComplete=False
+            else:
+                logger.warning(f"{this()}: PD Validation: response not ok={response}")
+                logger.warning(f"{this()}: PD Validation: response status: {response.status_code} error: {data.get('error_code').get('code')} {data.get('message')}")
+                vmMigrationComplete=False                
+        else:
+            logger.warning(f"{this()}: PD Validation: response={response}")
+            vmMigrationComplete=False
+
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)    
+    logger.info(f"{this()}: vm:{vm_ok} pr:{pr_ok} pd:{pd_ok} pdvm:{pdvm_ok} cs:{cs_ok} complete:{vm_ok and pr_ok and pd_ok and pdvm_ok and cs_ok}")
+    logger.info(f"{this()}: OUT {vm.vm_name} migration complete? {vmMigrationComplete}")
+    count+=1
+    status = " (vm:%s pr:%s pd:%s pdvm:%s cs:%s)"%(
+            'OK' if vm_ok   else '?',
+            'OK' if pr_ok   else '?',
+            'OK' if pd_ok   else '?',
+            'OK' if pdvm_ok else '?',
+            'OK' if cs_ok   else '?'
+            )
+    logger.info(f"{this()}: OUT status ={status}")
+    form.mgData['ipc']['last_shown'] = send_feedback(form,count,gettext("Migration validation of '%s' complete")%(vm.vm_name)+status)
+    return vmMigrationComplete
+    
+def forms_Migration_Migrate(form):
+    logger.info(f"{this()}: IN")
+    form.MgId,errors,warnings = forms_Migration_Validate(form)
+    
+    tasks = []
+    
+    if len(errors) == 0 or current_app.config.get('BUTLER_TEST_ONLY_MODE'):
+        if len(errors):
+            flash(gettext("will execute with %s errors. DEVELOPMENT MODE ONLY").capitalize()%(
+                len(errors)),"error")
+        if len(warnings):
+            flash(gettext("will execute with %s warnings.").capitalize()%(
+                len(warnings)),"warning")            
+            logger.warning(f"{this()}: Validation reports {len(warnings)} warnings")
+        #GV flash(gettext('Migration execution starts'),"message")
+        logger.info(f"{this()}: Starts Migration execution ...")
+        for vm in form.mgVms:
+            if vm.vm_migrate:
+                task = forms_Migration_migrate_vm(form,vm)
+                if task is not None:
+                    tasks.append(task)
+            else:
+                logger.info(f"{this()}: '{vm.vm_name}' excluded from migration")
+    else:
+        logger.error  (f"{this()}: Validation reports {len(errors)} errors")
+        logger.warning(f"{this()}: Validation reports {len(warnings)} warnings")
+        logger.warning(f"{this()}: Migration execution can not proceed")
+        flash(gettext("Migration execution can not proceed due to validation errors"),"error")
+        
+    logger.info(f"{this()}: tasks = {len(tasks)}")
+    logger.info(f"{this()}: OUT form.mgId = {form.mgId}")
+    return form.mgId,tasks
+
+def forms_Migration_populate_lists(form):
+    logger.debug(f"{this()}: IN")
+    cluster_options = []
+    clusters_uuid   = {}
+    vm_list         = {}
+    vms_uuid        = {}
+    try:
+        logger.info(f"{this()}: Getting Prism Central from Nutanix. Upon Butler Configuration: {current_app.config.get('NUTANIX_HOST')}")
+        clusters_uuid.update({
+            'prism_central':{
+                'name'    : 'Prism Central',
+                'host'    : current_app.config.get('NUTANIX_HOST'),
+                'port'    : current_app.config.get('NUTANIX_PORT'),
+                'username': current_app.config.get('NUTANIX_USERNAME'),
+                'password': current_app.config.get('NUTANIX_PASSWORD'),
+                }
+            })
+        logger.info(f"{this()}: Getting clusters from Nutanix. Upon Butler Configuration: {','.join( list(current_app.config.get('NUTANIX_CLUSTERS').keys())) }")
+        for cluster_name in current_app.config.get('NUTANIX_CLUSTERS'):
+            logger.debug(f"{this()}: cluster_name={cluster_name}")
+            cluster          = current_app.config.get('NUTANIX_CLUSTERS').get(cluster_name)
+            cluster_uuid     = cluster.get('uuid')
+            cluster_options.append(
+                (cluster_uuid,cluster_name)
+            )
+            clusters_uuid.update({
+                cluster_uuid:{
+                    'name'    :cluster_name,
+                    'host'    :cluster.get('host'),
+                    'port'    :cluster.get('port'),
+                    'username':cluster.get('username'),
+                    'password':cluster.get('password'),
+                    }
+                })
+            vm_list.update({cluster_uuid:{'name':cluster_name,'vms':{}}})
+            vm_list[cluster_uuid]['vms'] = {}
+            try:
+                logger.debug(f"{this()}: Getting VM list from {cluster_name} @ {cluster.get('host')}")
+                response = nutanix_get_vm_list(
+                    host     = cluster.get('host'),
+                    username = cluster.get('username'),
+                    password = cluster.get('password'),
+                    logger   = logger
+                    )
+                if response and response.ok:
+                    for vm in response.json().get('entities'):
+                        vm_list[cluster_uuid]['vms'].update({
+                            vm.get('name'):{
+                                'uuid'       :vm.get('uuid'),
+                                'power_state':vm.get('power_state'),
+                                }
+                        })
+                    logger.debug(f"{this()}: len vm_list[{cluster_uuid}]['vms'] = {len(vm_list[cluster_uuid]['vms'])}")
+                else:
+                    logger.error(f"{this()}: Invalid response {response} no vms found in {cluster_name} @ {cluster.get('host')}")
+                    flash(gettext("Invalid response '%s' no vms found in %s @ %s"%(
+                        response,cluster_name,cluster.get('host'))),"error")
+                    return None
+            except Exception as e:
+                emtec_handle_general_exception(e,logger=logger)
+                flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+                return None
+        logger.debug(f"{this()}: clusters_uuid = {clusters_uuid}")
+    except Exception as e:
+            emtec_handle_general_exception(e,logger=logger)
+            flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+            return None
+    logger.debug(f"{this()}: OUT")
+    return  {
+                'cluster_options':cluster_options,
+                'clusters_uuid'  :clusters_uuid,
+                'vm_list'        :vm_list,
+                'vms_uuid'       :vms_uuid
+            }
+
+def send_feedback(form,count,message):
+    form.mgData['ipc'].update({'value':count,'message':message})
+    last_shown = display_advance(**form.mgData['ipc'])
+    time.sleep(1.5) # gv This is required to be sure all feedback is captured by interface
+    return last_shown
+
+def forms_Migration_Feedback(form,tasks):
+    if current_app.config.get('BUTLER_TEST_ONLY_MODE'):
+        timeout   = 20       # SHOULD BE CONFIGURABLE OR CALCULATED UPON NUMBER OF TASKS
+        step      = 5
+    else:
+        timeout   = current_app.config.get('NUTANIX_MIGRATION_TIMEOUT')
+        step      = current_app.config.get('NUTANIX_MIGRATION_VALIDATION_STEP')
+    completed = False
+    message = gettext("process timeout=%.0f seconds, idle step=%.0f seconds, max iterations=%.0f"
+                        ).capitalize()%(timeout,step,timeout/step)
+    logger.info(f"{this()}: {message}")
+    # Feedback Initialize    
+    num_subtasks = 4 # This is the number of validation sub-steps
+
+    form.mgData['ipc'].update({
+        'value'      : 0,
+        'maximum'    : len(tasks)*num_subtasks+num_subtasks+5,
+        'last_shown' : 0,
+        'step'       : 0.01,
+        'start'      : datetime.now(),
+        'logger'     : logger,
+        'message'    : message,
+        'fmt'        : 'json',
+        })
+    # GV Send first message with initialization data
+    logger.debug(f"{this()}: form.mgData['ipc']={form.mgData['ipc']}")
+    form.mgData['ipc']['last_shown'] = send_feedback(form,1,message)
+    count = 0
+    validation_iteration = 0
+    while not completed and timeout>0:
+        validation_iteration += 1
+        completed_text = gettext('yes').capitalize if completed else gettext('no').capitalize()
+        message = gettext("validation iteration %s starts. %s idle seconds to go, waiting %s seconds, %s validation tasks to go").capitalize()%(
+            validation_iteration,
+            timeout,
+            step,
+            len(tasks)
+        )
+        logger.info(f"{this()}: {message}")
+        # GV reesets fedback counter to 1
+        count = 2
+        form.mgData['ipc']['last_shown'] = send_feedback(form,count,message)
+        time.sleep(step)
+        timeout -= step
+        # GV completad means all VMs completed, any false will uncomplete loop
+        completed = True
+        task_counter = 0
+        for task in tasks:
+            # feedback counter reset to: 0=2, 1=6, 2=10, ...
+            count = task_counter * num_subtasks + 3
+            logger.info(f"{this()}: Validation task = '{task.get('uuid')}'")
+            if task:
+                vm = task.get('vm')
+                if vm:
+                    if forms_Migration_validate_remote_vm(form,vm,count):
+                        message = gettext("%s@%s validated OK")%(vm.vm_name,dict(form.mgDestiny.choices).get(form.mgDestiny.data))
+                        logger.info(f"{this()}: {message}")
+                    else:
+                        message = gettext("%s@%s migration not successful yet")%(vm.vm_name,dict(form.mgDestiny.choices).get(form.mgDestiny.data))
+                        logger.info(f"{this()}: {message}")
+                        completed = False
+                else:
+                    message = gettext("invalid vm: '%s'").capitalize()%(vm)
+                    logger.error(f"{this()}: {message}")
+                    completed = False
+            else:
+                message = gettext("invalid task: %s").capitalize()%(task)
+                logger.info(f"{this()}: {message}")
+                completed = False
+            # GV feedback counter reset to 0=7, 1=11
+            count = task_counter * num_subtasks + 3 + num_subtasks
+            form.mgData['ipc']['last_shown'] = send_feedback(form,count,message)
+            task_counter += 1
+        
+        prism_central = form.mgData.get('clusters_uuid').get('prism_central')
+        logger.info(f"{this()}: iteration  final 'poll_tasks({prism_central.get('name')})' call ...")
+
+        poll_tasks(form,prism_central,3)
+        
+        completed_text = gettext('yes') if completed else gettext('no')
+        logger.info(f"{this()}: completed = {completed}")
+        message = "%s %s, %s = '%s'"%(
+                gettext('validation iteration').capitalize(),
+                validation_iteration,
+                gettext('completed'),
+                completed_text.capitalize()
+                )
+        #message = gettext('validation iteration').capitalize()  %s, {gettext('completed')} = '%s'"%(validation_iteration,completed_text)
+        form.mgData['ipc']['last_shown'] = send_feedback(form,form.mgData['ipc']['maximum']-1,message)
+        if completed:
+            break            
+    # Ver aqui si se puede poner un Modal que espere y muestre avance?????
+    # logger.info(f"{this()}: redirecting to '.forms_Migration' with Id = {form.mgId}")
+    # logger.info(f"{this()}: **************************")
+    logger.info(f"{this()}: returns completed = {completed}")
+    message = gettext("final migration status completed = %s").capitalize()%(completed_text)
+    form.mgData['ipc']['last_shown'] = send_feedback(form,form.mgData['ipc']['maximum'],message)
+    return completed #,feedback
+
+# GV Feedback buffer/cache area
+FEEDBACK = {}
+
+# GV ROUTES
+@main.route('/read-progress',methods=['GET'])
+def read_progress():
+    ''' Reads progress data from cache file in file system 
+        and returns it as a JSON string
+    '''
+    global FEEDBACK
+    ipc_mode          = request.args.get('ipc_mode'    , None)
+    ipc_id            = request.args.get('ipc_id'      , None)
+    logger.trace(f"{this()}: IPC mode:{ipc_mode} id:{ipc_id} FEEDBACK = {FEEDBACK}")  
+
+    temp_dir = tempfile.gettempdir()   
+    error = False 
+    if   ipc_mode == 'filesystem':
+        progress_filename = f"{temp_dir}/{ipc_id}"  
+    elif ipc_mode == 'fifo':
+        progress_fifo     = f"{temp_dir}/{ipc_id}"  
+    elif ipc_mode == 'queue':
+        progress_queue    = FEEDBACK.get(ipc_id,None)
+        if progress_queue is not None:
+            logger.trace(f"{this()}: IPC mode:{ipc_mode} id:{ipc_id} queue:{progress_queue} size={progress_queue.qsize()} FEEDBACK = {FEEDBACK}")  
+        else:
+            logger.error(f"{this()}: IPC mode:{ipc_mode} id:{ipc_id} queue:{progress_queue} size=None FEEDBACK = {FEEDBACK} url={request.url}")              
+            error = True
+    else:
+        logger.error(f"{this()}: IPC invalid mode:{ipc_mode} id:{ipc_id} FEEDBACK = {FEEDBACK}")  
+        error = True
+    data={}
+    if not error:
+        if   ipc_mode == 'filesystem':
+            try:
+                logger.trace(f"{this()}: will read file: '{progress_filename}' ...")
+                with open(progress_filename,'r') as fp:
+                    read_bytes = fp.read(1024*1024)
+                    logger.trace(f"{this()}: read bytes = {len(read_bytes)} bytes")
+                    data = json.loads(read_bytes.encode())
+            except FileNotFoundError:
+                logger.trace(f"{this()}: File '{progress_filename}' does not exist.")
+            except Exception as e:
+                emtec_handle_general_exception(e,logger=logger)
+                data={}
+            finally:
+                # GV anyway remove temporary file
+                try:
+                    if os.path.exists(progress_filename):
+                        os.remove(progress_filename)
+                except:
+                    pass
+        elif ipc_mode == 'fifo':
+            try:
+                logger.warning(f"{this()}: will read fifo: '{progress_fifo}' ...")
+                ffh = os.open(progress_fifo,os.O_RDONLY|os.O_NONBLOCK)
+                if ffh:
+                    read_bytes = os.read(ffh,1024*1024)
+                    logger.warning(f"{this()}: read bytes = {len(read_bytes)} bytes")
+                    if len(read_bytes) == 0:
+                        data={} # GV data will be empty 
+                    else:
+                        lines=read_bytes.encode().split('\n')
+                        logger.warning(f"{this()}: lines = {len(lines)}")
+                        for line in lines:
+                            data = json.loads(line) # GV data will have last line read only
+                    os.close(ffh)
+                    logger.warning(f"{this()}: fifo fh {ffh} closed.")
+            except Exception as e:
+                emtec_handle_general_exception(e,logger=logger)
+                data={}        
+        elif ipc_mode == 'queue':
+            if progress_queue:
+                logger.trace(f"{this()}: will read queue: '{ipc_id}' ... {progress_queue} qsize={progress_queue.qsize()}")
+                try:
+                    #data = progress_queue.get(block=False,timeout=1)
+                    data = progress_queue.get(block=False)
+                    progress_queue.task_done()
+                except Empty:
+                    logger.trace(f"{this()}: empty queue {ipc_id}.")
+                    data={}
+                except Exception as e:
+                    emtec_handle_general_exception(e,logger=logger)
+                    data={}
+            else:
+                logger.warning(f"{this()}: Invalid queue {progress_queue} FEEDBACK = {FEEDBACK}")
+                data={}
+    if len(data):
+        logger.trace(f"{this()}: read from: {ipc_mode}:{ipc_id} => {type(data)} data:{data}")  
+    return json.dumps(data)
+        
+@main.route('/clean-progress',methods=['GET'])
+def clean_progress():
+    ''' Deletes/cleans up progress data from server
+    '''
+    global FEEDBACK
+    status = f"{this()}: UNKNOWN"
+    
+    ipc_mode          = request.args.get('ipc_mode'    , None)
+    ipc_id            = request.args.get('ipc_id'      , None)
+
+    temp_dir = tempfile.gettempdir()
+    
+    if   ipc_mode == 'filesystem':
+        progress_filename = f"{temp_dir}/{ipc_id}.log"  
+        trace_filename    = f"{temp_dir}/{ipc_id}.trace"  
+    elif ipc_mode == 'fifo':
+        progress_fifo     = f"{temp_dir}/{ipc_id}"  
+    elif ipc_mode == 'queue':
+        progress_queue    = FEEDBACK.get(ipc_id)
+    else:
+        logger.error(f"{this()}: IPC invalid mode:{ipc_mode} id:{ipc_id} FEEDBACK = {FEEDBACK}")  
+
+    logger.debug(f"{this()}: IPC mode:{ipc_mode} id:{ipc_id} FEEDBACK = {FEEDBACK}")  
+
+    if ipc_mode == 'filesystem':
+        status = ''
+        if os.path.exists(progress_filename):
+            try:
+                os.remove(progress_filename)
+                status = f"file: '{progress_filename}' removed OK. "
+            except Exception as e:
+                status = f"exception: {str(e)}. "
+                emtec_handle_general_exception(e,logger=logger)
+        else:
+            status = f"'{progress_filename}' did not exist. "
+            emtec_handle_general_exception(e,logger=logger)
+        if os.path.exists(trace_filename):
+            try:
+                os.remove(trace_filename)
+                status = status + f"file: '{trace_filename}' removed OK."
+            except Exception as e:
+                status = status + f"exception: {str(e)}."
+                emtec_handle_general_exception(e,logger=logger)
+        else:
+            status = status + f"file: '{trace_filename}' did not exist."
+    if ipc_mode == 'fifo':
+        try:
+            os.remove(progress_fifo)
+            status = f"{this()}: named pipe fifo'{progress_fifo}' removed OK"
+        except Exception as e:
+            status = f"{this()}: exception: {str(e)}"
+            emtec_handle_general_exception(e,logger=logger)
+    if ipc_mode == 'queue':
+        try:
+            while not progress_queue.empty():
+                item = progress_queue.get(block=False)
+            FEEDBACK.pop(ipc_id,None)
+            status = f"{this()}: OK queue '{ipc_id}' is empty and deleted now"
+        except queue.exc.Empty:
+            status = f"{this()}: OK queue is empty"
+        except Exception as e:
+            status = f"{this()}: ERROR exception: {str(e)}"
+            emtec_handle_general_exception(e,logger=logger)
+    logger.info(f"{this()}: status = {status}")
+    data = { 'status' : status }
+    return json.dumps(data)
+
+@main.route('/forms/Migration/delete_vm_from_group', methods=['GET', 'POST'])
 @login_required
-def forms_Migration_add_vm_to_group():
-    mgId = request.form.get('mgId',None)
-    vmId = request.form.get('vmId',None)
-    # Aqui debe crear el registro de vm asociado al grupo 
+def forms_Migration_delete_vm_from_group(form=None):
+    mgId   = request.values.get('mgId',None)
+    vmId   = request.values.get('vmId',None)
+    # Aqui debe eliminar el registro de vm asociado al grupo 
     # llamar a forms/Migration con el mismo mgId
-    print(f"{this()}: Enter. mgId = {mgId} vmId={vmId}")
-    return f"{this()}: Enter. mgId = {mgId} vmId={vmId}"
+    try:
+        vm = db.session.query(Migration_Groups_VM
+            ).filter(   
+                Migration_Groups_VM.MG_Id==mgId,
+                Migration_Groups_VM.vm_uuid==vmId
+                ).one_or_none()
+        logger.debug(f"{this()}: vm to delete = {vm}")
+        if vm is not None:
+            vmName=vm.vm_name
+            db.session.delete(vm)
+            db.session.commit()
+            db.session.flush()
+        flash(gettext("'%s' deleted from migration group '%s'")%(vmName,mgId),"info")
+    except Exception as e:
+        emtec_handle_general_exception(e,logger=logger)    
+        flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+    return redirect(url_for('.forms_Migration',Id=mgId))
+
+@main.route('/forms/Migration/report_migration_feedback', methods=['GET', 'POST'])
+@login_required
+def forms_Migration_report_migration_feedback():
+    logger.info (f"{this()}: IN {request.method} Migration Group Id = {request.values.get('Id')} User = {current_user}")
+    ipc_id = request.values.get('ipc_id')
+    if ipc_id:
+        try:
+            logger.debug(f'{this()}: got Id={ipc_id} from request.form {request}')        
+            temp_dir = tempfile.gettempdir()
+            try:
+                trace_filename = f"{temp_dir}/{ipc_id}.trace"
+                with open(trace_filename,"r") as fp:
+                    resume = json.loads(fp.read())
+            except Exception as e:
+                emtec_handle_general_exception(e,logger=logger)
+                resume = {}
+            data = {
+            'resume':resume,
+            'lines' :[]
+            }
+            log_filename = f"{temp_dir}/{ipc_id}.log"
+            logger.debug(f"{this()}:data = {type(data)} {data}")
+            if os.path.exists(trace_filename):
+                logger.debug(f"{this()}: file {trace_filename} exists")
+                with open(log_filename,"r") as fp:
+                    lines = fp.readlines()
+                if len(lines):
+                    for line in lines:
+                        log,feedback = line.split('|')
+                        data['lines'].append({
+                            'log':log,
+                            'feedback':json.loads(feedback)
+                            })
+            logger.debug(f"{this()}: data = {type(data)} {len(data)} rows")
+            logger.info(f"{this()}: will render migration_report.html ...")
+            current_app.jinja_env.filters['format_timestamp'] = format_timestamp
+            return render_template('migration_report.html',
+                    data = data
+                    )
+        except Exception as e:
+            emtec_handle_general_exception(e,logger=logger)
+            flash(f"{this()}: {gettext('exception')}: {str(e)}","error")
+            return redirect("/")
+    else:
+        flash(gettext('invalid migration report id = %s').capitalize()%ipc_id,'error')
+        return redirect("/")
 
 @main.route('/forms/Migration', methods=['GET', 'POST'])
 @login_required
 def forms_Migration():
-    logger.debug(f"{this()}: Enter")
-    logger.debug(f"{this()}: request = {request}")
-    
+    ''' GV current_user must me 'confirmed' in order to have update privileges '''
+    tracebox_log(f"{this()}: IN {request.method} Migration Group Id = {request.values.get('Id')} User = {current_user} confirmed = {current_user.confirmed}",
+            logger = logger,
+            level  = logging.INFO,
+            length = TRACEBOX_LOG_LENGTH
+            )
+
+    logger.debug (f"{this()}: ***** -----------------------------------")
+    logger.debug (f"{this()}: request          = {request}")
+    logger.debug (f"{this()}: request.args     = {request.args}")
+    logger.debug (f"{this()}: request.form     = {request.form}")
+    logger.debug (f"{this()}: Nutanix Projects = {current_app.config.get('NUTANIX_PROJECTS')}")
+    logger.debug (f"{this()}: Test Only Mode   = {current_app.config.get('BUTLER_TEST_ONLY_MODE')}")
+        
     # DB Control -------------------------------------------------------
+    logger.debug(f"{this()}: Reseting DB state ...")
     try:    
         db.session.flush()
         db.session.commit()
     except Exception as e:
-        logger.error(f"{this()}: DB Control Exception: {str(e)}. rolling back ...")
+        emtec_handle_general_exception(e,logger=logger)
         try:
             db.session.rollback()
             logger.error(f"{this()}: Rolled back.")
         except Exception as e:
-            logger.error(f"{this()}: While rolling back Exception{str(e)}.")
+            emtec_handle_general_exception(e,logger=logger)
     # DB Control -------------------------------------------------------
-    # Get Id if any
-    Id  =  request.args.get('Id',0,type=int)
-    
+    # Get Id if any, dont care if GET (query string) or POST (post data) Method
+    Id = request.form.get('mgMigrationGroups',0,type=int)
+    logger.debug(f'{this()}: got Id={Id} from request.form {request}')        
+    if not Id:
+        Id = request.values.get('Id',0,type=int)
+    logger.debug(f'{this()}: got Id={Id} from request.values {request}')        
     # Setup initial data -----------------------------------------------
     # look for initial data in DB if any
-    logger.debug(f'{this()}: load row from DB for Id={Id}')
-    # GV 20210603 GV row =  Requests.query.filter(Requests.Id == Id).first()
-    logger.debug(f"{this()}: Id = {Id}")
+    row =  None
+    rox =  None
+    logger.debug(f'{this()}: load Migration Group row from DB for Id = {Id}')
     if Id>0:
-        logger.debug(f"getting specific group for Id={Id}")
         row =  db.session.query(Migration_Groups).filter(Migration_Groups.MG_Id == Id).first()
     else:
-        logger.debug(f"{this()}: getting first group")
+        logger.info(f"{this()}: No specific Id. Getting first group")
         row =  db.session.query(Migration_Groups).first()        
-    logger.debug(f"{this()}: row = {row}")
-    rox =  None
+    logger.debug(f'{this()}: load Migration Group prow from DB for Id = {Id}')
     if row is None:
-        logger.debug(f'{this()}: row no existe inicializa objetos vacios')
+        logger.debug(f'{this()}: Migration Group row does not exist. Initialize empty objects.')
         row=Migration_Groups()
-        session['is_new_row']=True
+        #session['is_new_row']=True
         # GV set defaults
-    else:
-        # GV row ya está cargado
-        pass
     if row is not None:
-        logger.debug(f"{this()}: getting rows from Id={Id}")
-        rox = db.session.query(Migration_Groups_VM).filter(Migration_Groups_VM.MG_Id == row.MG_Id).all()
+        logger.debug(f"{this()}: Getting VM rows for Migration Group = ({row.MG_Id}) {row.Name}")
+        rox = db.session.query(Migration_Groups_VM
+                ).filter(Migration_Groups_VM.MG_Id == row.MG_Id
+                ).all()
     else:
         rox = None
-    logger.debug(f"{this()}: row id  = {row.MG_Id}")
-    logger.debug(f"{this()}: len rox = {len(rox)}")
-        
+    logger.debug(f"{this()}: Migration_Group table row id  = {row.MG_Id}")
+    logger.debug(f"{this()}: Migration_Group_VM rows len   = {len(rox)}")
     
-    # GV Setup some session context data
-    form = frm_migration_01()
-    form.mgVms = []
-    if row is not None:
-        form.mgId=row.MG_Id
+    logger.debug(f"{this()}: Preparing form instantiation ...")
+    logger.debug(f"{this()}: Setting up VMs & checkboxes for 'migration' option")
+
+    mgVmCheckBoxes=[]
+    mgVms=[]
     for r in rox:
-        form.mgVms.append(r)
+        #orm.mgVms.append(r)
+        mgVms.append(r)
+        name = f'cbx_1_{r.vm_uuid}'
+        mgVmCheckBoxes.append({'name':name})
     
+    # FORM BORNS HERE ##################################################
+    
+    logger.debug(f"{this()}: Creating form object ...")
+    form       = frm_migration_01(mgMigration=mgVmCheckBoxes)
+    logger.debug(f"{this()}: form = {form} ...")
+    # Basic form Initialization
+    if row is not None:
+        form.mgId           = row.MG_Id 
+        form.mgOrigin.data  = row.Origin 
+        form.mgDestiny.data = row.Destiny
+    else:
+        form.mgId           = 0 
+        form.mgOrigin.data  = None 
+        form.mgDestiny.data = None
+        
+    form.mgVms          = mgVms
+    
+    # FORM BORNS HERE ##################################################
+
+    logger.debug(f"{this()}: Getting migration groups list")
     migration_group_list = get_migration_group_list()
-    migration_group_options = [('','')]
+    logger.debug(f"{this()}: {len(migration_group_list)} migration groups list found.")
+    
+    migration_group_options = []
     for mgid,name,origin,destiny in migration_group_list:
         migration_group_options.append((mgid,name))
+
+    if len(migration_group_options):
+        migration_group_options = unique_list(migration_group_options)
+        migration_group_options.sort(key=lambda tup: tup[1])
+        form.mgName.choices = migration_group_options
+        if not form.mgName.data:
+            if form.mgId is not None:
+                form.mgName.data = form.mgId
+            else:
+                form.mgName.data = form.mgName.choices[0][0]
+    else:
+        form.mgName.choices = []
+        form.mgName.data    = 0
+
+    logger.debug(f"{this()}: form.mgName.choices = {form.mgName.choices}")
+    logger.debug(f"{this()}: form.mgName.data    = {form.mgName.data}")
+    logger.debug(f"{this()}: form.mgId           = {form.mgId}")
+            
+    # GV POST/GET request method depending  initializations ------------
+    if request.method == 'POST':
+        logger.debug(f"{this()}: POST request initializations ...")
+        # GV -----------------------------------------------------------
+        logger.debug(f"{this()}: Trying to populate 'migrate' flags ...")
+        logger.debug(f"{this()}: form.mgVms len   = {len(form.mgVms)} ...")
+
+        logger.debug(f"{this()}: form.mgMigration.data = {len(form.mgMigration.data)} {form.mgMigration.data} ...")
+        for vmcounter in range(len(form.mgVms)):
+            if str(request.form.get(f"mgMigration-{vmcounter}")) == 'on':
+                mgVms[vmcounter].vm_migrate = True
+            else:
+                mgVms[vmcounter].vm_migrate = False
+            logger.debug(f"{this()}: vm {vmcounter} {mgVms[vmcounter].vm_uuid} {mgVms[vmcounter].vm_name:30} migrate={mgVms[vmcounter].vm_migrate}")
+            vmcounter += 1
+            form.mgId = request.form.get('mgMigrationGroups')
+        form.mgNewName.data   = request.form.get('mgNewName')
+        form.mgEditName.data  = request.form.get('mgEditName')
+        form.mgCloneName.data = request.form.get('mgCloneName')
+        if request.form.get('mgName'):
+            form.mgName.data = int(request.form.get('mgName'))
+            form.mgId        = int(request.form.get('mgName'))
+        if request.form.get('mgOrigin'):
+            form.mgOrigin.data = request.form.get('mgOrigin')
+        if request.form.get('mgDestiny'):
+            form.mgDestiny.data = request.form.get('mgDestiny')
+        # GV -----------------------------------------------------------
+    elif request.method == 'GET':
+        logger.debug(f"{this()}: GET request initializations ...")
+        form.mgData.update({'can_migrate':request.values.get('can_migrate')})
+        if form.mgData.get('can_migrate'):
+            if form.mgData['can_migrate'].upper() in ['TRUE']:
+                form.mgData['can_migrate'] = True
+            else:
+                form.mgData['can_migrate'] = False
+        else:
+            form.mgData['can_migrate'] = False
+            
+        form.mgName.data = form.mgId
+    # GV ---------------------------------------------------------------    
     
-    cluster_list = get_cluster_list()
-    cluster_options = [('','')]
-    for uuid,name,ip in cluster_list:
-        cluster_options.append((uuid,name))
+    logger.debug(f"{this()}: form.mgName.choices = {form.mgName.choices}")
+    logger.debug(f"{this()}: form.mgName.data    = {form.mgName.data} {dict(form.mgName.choices).get(form.mgName.data)}")
+    logger.debug(f"{this()}: form.mgId           = {form.mgId}")
+        
+    if form.mgName.data is None:
+        logger.warning(f"{this()}: form.mgName.data correction ...")
+        form.mgName.data = form.mgId
+
+    logger.debug(f"{this()}: form.mgName.choices = {form.mgName.choices}")
+    logger.debug(f"{this()}: form.mgName.data    = {form.mgName.data}  {dict(form.mgName.choices).get(form.mgName.data)}")
+    logger.debug(f"{this()}: form.mgId           = {form.mgId}")
+    logger.debug(f"{this()}: form.mgName         = {dict(form.mgName.choices).get(form.mgName.data)}")
+        
+    lists = forms_Migration_populate_lists(form)
     
+    if lists is None:
+        return redirect('/')
+    
+    cluster_options = lists.get('cluster_options')
+    clusters_uuid   = lists.get('clusters_uuid')
+    vm_list         = lists.get('vm_list')
+    vms_uuid        = lists.get('vms_uuid')
     
     form.mgName.choices    = migration_group_options
     form.mgOrigin.choices  = cluster_options
     form.mgDestiny.choices = cluster_options
     
-    form.mgName.data    = row.MG_Id 
-    form.mgOrigin.data  = row.Origin 
-    form.mgDestiny.data = row.Destiny
-        
-    vm_list = {}
-    for cluster_name in current_app.config.get('NUTANIX_CLUSTERS'):
-        cluster  = current_app.config.get('NUTANIX_CLUSTERS').get(cluster_name)
-        uuid     = cluster.get('uuid')
-        vm_list.update({uuid:{'name':cluster_name,'vms':{}}})
-        vm_list[uuid]['vms'] = {}
-        try:
-            response = nutanix_get_vm_list(
-                host     = cluster.get('host'),
-                username = cluster.get('username'),
-                password = cluster.get('password')
-                )
-            if response.ok:
-                for vm in response.json().get('entities'):
-                    vm_list[uuid]['vms'].update({
-                        vm.get('name'):{
-                            'uuid'       :vm.get('uuid'),
-                            'power_state':vm.get('power_state'),
-                            }
-                    })
-            else:
-                logger.error(f"{this()}: Invalid response {response}")
-        except Exception as e:
-            emtec_handle_general_exception(e,logger=logger)
-            
-    form.mgData = {
-        'migration_group_list': migration_group_list,
-        'cluster_list': cluster_list,
-        'vm_list': vm_list,
-    }
-    
-    form.mgOriginVms.choices = []
-    logger.debug(f"{this()}: row.Origin={row.Origin} None? {row.Origin is None} type? {type(row.Origin)}")
-    if row.Origin is not None and row.Origin != 'None':
-        OriginVms = vm_list.get(row.Origin).get('vms')
-        #print(f"OriginVms={OriginVms}")
-        for vm in OriginVms:
-            form.mgOriginVms.choices.append(
-                (
-                    OriginVms.get(vm).get('uuid'),
-                    vm
-                )
-            )
+    if not form.mgName.data:
+        form.mgName.data = form.mgId
 
-    logger.debug(f"{this()}: len migration groups = {len(migration_group_list)}")
-    logger.debug(f"{this()}: len clusters         = {len(cluster_list)}")
-    logger.debug(f"{this()}: len vm_list          = {len(vm_list)}")
-    logger.debug(f"{this()}: len origin vms       = {len(form.mgOriginVms.choices)}")
+    # GV Building reverse uuid hashed map ------------------------------
+    for cluster_uuid in vm_list:
+        logger.debug(f"{this()}: cluster_uuid={cluster_uuid} vm_list[cluster_uuid].get('vms')={len(vm_list[cluster_uuid].get('vms'))}")
+        for vmname in vm_list[cluster_uuid].get('vms'):
+            vm = vm_list[cluster_uuid].get('vms').get(vmname)
+            vms_uuid.update(
+                {
+                    vm.get('uuid'):{
+                        'name':vm.get('name'),
+                        'cluster':cluster_uuid,
+                        'power_state':vm.get('power_state'),
+                        }
+                }
+            )
+    # GV ---------------------------------------------------------------
     
+    form.mgData.update({
+        'migration_group_list': migration_group_list,
+        'vm_list'      : vm_list,
+        'clusters_uuid': clusters_uuid,
+        'vms_uuid'     : vms_uuid,    
+        'tasks'        : [],    
+        })
+    # GV get_projects_list requires form.mgData populated at this stage
+    form.mgData.update({
+        'projects_list': get_projects_list(form),
+        })
+    
+    logger.debug(f"{this()}: form.mgData['projects_list']={form.mgData.get('projects_list')}")
+    
+    # GV Will consider all VMs from all cluster as choice options
+    # GV since VMs may migrate among clusters
+    logger.debug(f"{this()}: Getting list of VMs for all Clusters")
+    form.mgAllVms.choices = []
+    form.mgAllVms.data    = None
+    
+    AllVms={}
+    for cluster_uuid in vm_list.keys():
+        AllVms.update(vm_list.get(cluster_uuid).get('vms'))
+    for vm in AllVms:
+        form.mgAllVms.choices.append((AllVms.get(vm).get('uuid'),vm))
+
+    logger.info(f"{this()}: Total {len(form.mgAllVms.choices)} VMs found in all Clusters ...")
+    
+    form.mgAllVms.choices = unique_list(form.mgAllVms.choices)
+    form.mgAllVms.choices.sort(key=lambda tup: tup[1])
+        
+    if len(form.mgAllVms.choices):
+        form.mgAllVms.data = form.mgAllVms.choices[0][0]
+    else:
+        flash(gettext('No virtual machines available for selection'),"error")
+    
+    logger.debug(f"{this()}: len migration groups = {len(migration_group_list)}")
+    logger.debug(f"{this()}: len clusters         = {len(clusters_uuid)}")
+    logger.debug(f"{this()}: len vm_list          = {len(vm_list)}")
+    for uuid in vm_list:
+        logger.debug(f"{this()}: {uuid} : {vm_list[uuid]['name']} = {len(vm_list[uuid]['vms'])} vms")
+    logger.debug(f"{this()}: len origin vms       = {len(form.mgAllVms.choices)}")
     # GV ***************************************************************
 
     logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()}")
     logger.debug(f"{this()}: form.errors         = {form.errors}")
     # Will check if all validated
     if form.is_submitted() and len(form.errors)==0:
-        logger.debug(f"submit_Crear.data    = {form.submit_Crear.data}")
-        logger.debug(f"submit_Agregar.data  = {form.submit_Agregar.data}")
-        logger.debug(f"submit_Clonar.data   = {form.submit_Clonar.data}")
-        logger.debug(f"submit_Salvar.data   = {form.submit_Salvar.data}")
-        logger.debug(f"submit_Eliminar.data = {form.submit_Eliminar.data}")
-        logger.debug(f"submit_Cancelar.data = {form.submit_Cancelar.data}")
-        logger.debug(f"submit_Validar.data  = {form.submit_Validar.data}")
-        logger.debug(f"submit_Migrar.data   = {form.submit_Migrar.data}")
-        #ogger.debug(f"form dir             = {dir(form)}")
-        logger.debug(f"form data            = {form.data}")
-        logger.debug(f"form.mgNewName       = {form.mgNewName.data}")
-        logger.debug(f"form.mgNewId         = {form.mgNewId.data}")
-        if form.submit_Crear.data or form.submit_Agregar.data:
-            if form.submit_Crear.data:
-                logger.debug(f"{this()}: Create code here. then redirect")
-                flash(f"Create code here. then redirect")
+        logger.info (f"{this()}: form submited and no errors (not validated yet)")
+        logger.debug(f"{this()}: form data = {form.data}")
+        # GV Functions that do not require validation    
+        if form.submit_Choose.data or form.submit_Create.data or form.submit_Add.data or form.submit_Clone.data or form.submit_Edit.data or form.submit_Delete.data:
+            if   form.submit_Choose.data:
+                logger.info(f"{this()}: Option Choose MG {form.mgName.data} {dict(form.mgName.choices).get(form.mgName.data)}")
+                return redirect(url_for('.forms_Migration',Id=form.mgName.data))
+            elif form.submit_Create.data:
+                logger.info(f"{this()}: Option Create new MG")
                 groupid = forms_Migration_create_group(form)
-                logger.debug(f"{this()}: groupid = {groupid}")
-                logger.debug(f"{this()}: form.mgNewId.data = {form.mgNewId.data}")
+                logger.debug(f"{this()}: form.mgNewId.data = {form.mgNewId.data} redirecting ...")
                 return redirect(url_for('.forms_Migration',Id=form.mgNewId.data))
-            elif form.submit_Agregar.data:
-                #lash(f"Add VM here. then redirect","warning")
-                logger.debug(f"{this()}: Add VM here. then redirect")
-                flash(f"{this()}: Add VM here. then redirect")
+            elif form.submit_Add.data:
+                vmId=request.form.get('vmId')
+                logger.info(f"{this()}: Option Add VM {vmId} to MG {form.mgId}")
+                vmName = forms_Migration_add_vm_to_group(form,vmId)
                 return redirect(url_for('.forms_Migration',Id=form.mgId))
+            elif form.submit_Clone.data:
+                logger.info(f"{this()}: Option Clone MG {form.mgId}")
+                form.mgNewId.data = forms_Migration_clone_group(form)
+                return redirect(url_for('.forms_Migration',Id=form.mgNewId.data))
+            elif form.submit_Edit.data:
+                logger.info(f"{this()}: Option Edit MG {form.mgId} Name")
+                form.mgNewId.data = forms_Migration_edit_group(form)                
+                return redirect(url_for('.forms_Migration',Id=form.mgNewId.data))
+            elif form.submit_Delete.data:
+                logger.info(f"{this()}: Option Delete MG {form.mgId}")
+                form.mgId = forms_Migration_delete_group(form)
+                return redirect(url_for('.forms_Migration',Id=0))
         else:
-            logger.debug(f"{this()}: will call form.validate()")
+            # GV Functions that do require validation    
+            logger.info(f"{this()}: validating ...")
             try:
                 form.validate()
             except Exception as e:
-                logger.error(f"form.validate exception: {str(e)}")
-                logger.error(f"form.errors: {form.errors}")
+                logger.error(f"{this()}: form.validate exception: {str(e)}")
+                logger.error(f"{this()}: form.errors: {form.errors}")
                 emtec_handle_general_exception(e,logger=logger)
-            logger.debug(f"{this()}: return from form.validate() errors={len(form.errors)}")
-            if len(form.errors) != 0:
-                logger.debug(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
+            logger.debug(f"{this()}: returned from form.validate() errors={len(form.errors)} {form.errors}")
+            if len(form.errors) > 0:
+                logger.error(f"{this()}: form.is_submitted() = {form.is_submitted()} form.errors = {form.errors}")
+                logger.error(f"{this()}: form.data           = {form.data}")
             else:
-                logger.debug(f"no errors will evaluate button pushed")
+                logger.debug(f"{this()}: no errors will evaluate button pushed")
                 
-                # Gets sure vmData buffer is complete **********************
+                # Gets sure vmData buffer is complete ******************
                 #form.vmData.update(Get_data_context(current_app,db,mail,row.Id,current_user))
-                # **********************************************************
+                # ******************************************************
                 # ------------------------------------------------------
                 # Basic Requestor's submits
                 # ------------------------------------------------------
-                # Clonar -----------------------------------------------
-                if form.submit_Clonar.data:
-                    alert(f"Clonar")
-                # Salvar -----------------------------------------------
-                elif form.submit_Salvar.data:
-                    alert(f"Salvar")
-                # Eliminar ---------------------------------------------
-                elif form.submit_Eliminar.data:
-                    alert(f"Eliminar")
-                # Eliminar ---------------------------------------------
-                elif form.submit_Cancelar.data:
-                    alert(f"Cancelar")
-                # Eliminar ---------------------------------------------
-                elif form.submit_Validar.data:
-                    alert(f"Validar")
-                # Eliminar ---------------------------------------------
-                elif form.submit_Migrar.data:
-                    alert(f"Migrar")
+                if   form.submit_Save.data:
+                    logger.info(f"{this()}: Save button selected.")
+                    form.mgId = forms_Migration_save_group(form)
+                    logger.info(f"{this()}: redirecting to '.forms_Migration' with Id = {form.mgId}")
+                    return redirect(url_for('.forms_Migration',Id=form.mgId))
+                elif form.submit_Switch.data:
+                    logger.info(f"{this()}: Switch button selected.")
+                    temp = row.Origin
+                    row.Origin  = row.Destiny
+                    row.Destiny = temp
+                    try:
+                        db.session.merge(row)
+                        db.session.commit()
+                    except Exception as e:
+                        db.session.rollback()
+                        emtec_handle_general_exception(e,logger=logger)
+                    logger.info(f"{this()}: redirecting to '.forms_Migration' with Id = {form.mgId}")
+                    return redirect(url_for('.forms_Migration',Id=form.mgId))
+                elif form.submit_Validate.data:
+                    logger.info(f"{this()}: Validate button selected.")
+                    form.mgId,errors,warnings = forms_Migration_Validate(form)
+                    form.mgData.update({'can_migrate':True})
+                    if len(errors):
+                        form.mgData.update({'can_migrate':False})
+                    else:
+                        if len(warnings):
+                            pass
+                        else:
+                            flash(gettext("Validation OK. Migration can proceed"),"message")
+                    logger.info(f"{this()}: redirecting to '.forms_Migration' with Id = {form.mgId}")
+                    return redirect(url_for('.forms_Migration',Id=form.mgId,can_migrate=form.mgData.get('can_migrate')))
+                elif form.submit_Migrate.data:
+                    logger.info(f"{this()}: Migrate button selected.")
+                    form.mgId,tasks = forms_Migration_Migrate(form)
+                    if form.mgId and len(tasks):
+                        logger.info(f"{this()}: form.mgId={form.mgId} tasks={len(tasks)}")
+                        #flash(gettext('migration validation feedback follows'),'message')
+                        form.mgData.update({
+                            'ipc':{
+                                'ipc_mode':'filesystem',
+                                'ipc_id'  :datetime.timestamp(datetime.now()),
+                                'fmt'     :'json',
+                                'verbose' :1,
+                                'trace'   :True,
+                                'FEEDBACK':FEEDBACK,
+                                }
+                            })
+                        logger.debug(f"{this()}: form.mgData.get('ipc').get('trace') = {form.mgData.get('ipc').get('trace')}")
+                        if form.mgData.get('ipc').get('trace'):
+                            temp_dir = tempfile.gettempdir()
+                            trace_filemame = f"{temp_dir}/{form.mgData.get('ipc').get('ipc_id')}.trace"
+                            logger.debug(f"{this()}: creating {trace_filemame}")
+                            mgVms = []
+                            for vm in form.mgVms:
+                                if vm.vm_migrate:
+                                    mgVms.append({
+                                        'uuid':vm.vm_uuid,
+                                        'name':vm.vm_name,
+                                    })
+                                else:
+                                    pass
+                            with open(trace_filemame,"w") as fp:
+                                resume = {
+                                    'mgId':form.mgId,
+                                    'mgName':dict(form.mgName.choices).get(form.mgName.data),
+                                    'mgOrigin':dict(form.mgOrigin.choices).get(form.mgOrigin.data),
+                                    'mgDestiny':dict(form.mgDestiny.choices).get(form.mgDestiny.data),
+                                    'mgVms':mgVms,
+                                    'ipc':form.mgData.get('ipc')
+                                }
+                                written = fp.write(json.dumps(resume))
+                                logger.debug(f"{this()}: written {written} bytes to {trace_filemame}")
+                            
+                        logger.debug(f"{this()}: form IPC mode={form.mgData.get('ipc').get('ipc_mode')} id = {form.mgData.get('ipc').get('ipc_id')} fmt={form.mgData.get('ipc').get('fmt')}")
+                        newpid = os.fork()
+                        if newpid == 0:
+                            logger.info(f"{this()}: Child pid = {os.getpid()} unique = {form.mgData.get('ipc').get('ipc_id')}")
+                            logger.info(f"{this()}: Remote Migration validation starts")
+                            completed = forms_Migration_Feedback(form,tasks)
+                            if completed:
+                                tracebox_log(f"{this()}: Migration completed successfully",
+                                    logger = logger,
+                                    level  = logging.INFO,
+                                    length = TRACEBOX_LOG_LENGTH
+                                    )
+
+                            else:
+                                logger.warning(f"{this()}: Migration not completed")
+                            # GV Flask requires a non None return, in this case
+                            # GV Child will only process and generate feedback
+                            # GV for parent render below
+                            return ''
+                        else:                            
+                            tracebox_log(f"{this()}: Parent forked into process newpid = {newpid} unique = {form.mgData.get('ipc').get('ipc_id')}",
+                                logger = logger,
+                                level  = logging.INFO,
+                                length = TRACEBOX_LOG_LENGTH
+                                )
+                            logger.info(f"{this()}: Will render template 'migration_feedback.html' for ({form.mgId}):'{dict(form.mgName.choices).get(form.mgName.data)}'")
+                            return render_template('migration_feedback.html',
+                                    form = form
+                                    )
+                    else:
+                        flash(gettext("Invalid Migration response: mg Id=%s migration tasks=%s")%(form.mgId,len(tasks)),"error")    
+                        logger.info(f"{this()}: redirecting to '.forms_Migration' with Id = {form.mgId}")
+                        return redirect(url_for('.forms_Migration',Id=form.mgId))
                 # ------------------------------------------------------
     else:
-        logger.debug(f"form is not submitted")
-
+        logger.info(f"{this()}: form is not submitted")
 
     # GV ***************************************************************
-    logger.debug(f"Will render template: migration.html")
+    logger.info(f"{this()}: updating Vms ...")
+    forms_Migration_update_vms(form)
+    # GV ***************************************************************
+    logger.debug(f"{this()}: form.data =")
+    for key in form.data:
+        logger.debug(f"{this()}:   {key:15s} = {str(type(form.data.get(key))):20s} {form.data.get(key)}")
+        
+    logger.info(f"{this()}: Will render template 'migration.html' for ({form.mgId}):'{dict(form.mgName.choices).get(form.mgName.data)}'")
+    # Setup exploit functions for Jinja template 
+    current_app.jinja_env.globals.update(now=datetime.now)
     return render_template('migration.html',
             form = form
             )
             
-# ======================================================================
-
-# **********************************************************************
-# NOTA Hay que ajustar esta funcion para trabajar bien con los rates !!!
-# **********************************************************************
-
-# 'Magic' argument ID is used to assign ID and mark body_only mode
-# for exploit via external functions like 'notity_request'
-"""@main.route('/report/Request', methods=['GET','POST'])
-@login_required
-def report_Request(ID=None):
-    logger.debug(f'{this()}: Enter')
-    # DB Control -------------------------------------------------------
-    try:    
-        db.session.flush()
-        db.session.commit()
-    except Exception as e:
-        logger.error(f"{this()}: DB Control Exception: {str(e)}. rolling back ...")
-        try:
-            db.session.rollback()
-            logger.error(f"{this()}: Rolled back.")
-        except Exception as e:
-            logger.error(f"{this()}: While rolling back Exception{str(e)}.")
-    # DB Control -------------------------------------------------------
-    if ID is not None:
-        Id = ID
-    else:
-        Id  =  request.args.get('Id',default=0,type=int)
-
-
-    row=rox=None
-    data={}
-    logger.debug(f'{this()}: inicializa listas de opciones ...') 
-    
-    data = Get_data_context(current_app,db,mail,Id,current_user)
-    
-    if Id > 0:
-        # GV db.session.close()
-        row = db.session.query(
-                Requests,
-                Nutanix_Prism_VM,
-                Users,
-                Cost_Centers,
-                Request_Type
-                ).join(Nutanix_Prism_VM,Nutanix_Prism_VM.Request_Id==Requests.Id
-                ).join(Users,Users.id==Requests.User_Id
-                ).join(Cost_Centers,Cost_Centers.CC_Id==Requests.CC_Id
-                ).join(Request_Type,Request_Type.Id==Requests.Type
-                ).filter(Requests.Id == Id
-                ).first()
-        # GV db.session.close()
-        data['status_description'] = get_request_status_description(row.Requests.Status)
-        data['storage_type']       = row.Nutanix_Prism_VM.disk_type
-        for i in range(12):
-            if i == 0:
-                uuid = getattr(row.Nutanix_Prism_VM,f'disk_{i}_image')
-                data['disk_images'].append(get_description('images',uuid,data))
-            data['storage'] += getattr(row.Nutanix_Prism_VM,f'disk_{i}_size')
-        data['month'] = get_monthly_rate(row.Requests,row.Nutanix_Prism_VM)
-    # will render for screen or body only depending on call
-    current_app.jinja_env.globals.update(get_request_status_description=get_request_status_description)
-    current_app.jinja_env.globals.update(get_vm_resume=get_vm_resume)
-    current_app.jinja_env.globals.update(has_status=has_status)
-    current_app.jinja_env.globals.update(get_description=get_description)
-    current_app.jinja_env.globals.update(object_to_html_table=object_to_html_table)
-    if ID is None:
-        return render_template(
-                'report_request.html',
-                data = data,
-                row  = row,
-        )
-    else:
-        return render_template(
-                'report_request.html',
-                data      = data,
-                row       = row,
-                body_only = True
-        )
-"""
 # EOF ******************************************************************
 # ======================================================================
 # BUTLER REQUEST FUNCTIONS

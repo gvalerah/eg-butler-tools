@@ -3,21 +3,16 @@
 {# (c) Sertechno 2018                                                            #}
 {# GLVH @ 2018-11-11                                                             #}
 {# ============================================================================= #}
-{% extends "base.html" %}
+{% extends "butler_app.html" %}
 
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% import "_macros.html" as macros %}
 
+{% block title %}Butler v 2.1.0{% endblock %}
 
-{% block title %}Collector{% endblock %}
-
-{% block head %}
-   {{ super() }}
-{% endblock %}
-
-{% block page_content %}
+{% block content %}
 {% include 'butler_main.html' %}
-{% endblock %}
+{% endblock content %}
 
 {# ============================================================================= #}

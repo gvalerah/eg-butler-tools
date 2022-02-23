@@ -1,0 +1,101 @@
+<hr>
+<table border=0>
+    <tr>
+        <td width=256><b>{{gettext('executed by')|capitalize}}</b></td>
+        <td          >{{ current_user.username }}</td>
+    </tr>
+    <tr>
+        <td          ><b>{{gettext('start')|capitalize}}</b></td>
+        <td          >{{data.lines.0.feedback.start|format_timestamp}}</td>
+    </tr>
+    <tr>
+        <td          ><b>{{gettext('migration group')|capitalize}}</b></td>
+        <td          >{{data.resume.mgId}} '<a href="/forms/Migration?Id={{data.resume.mgId}}">{{data.resume.mgName}}</a>'</td>
+    </tr>
+    <tr>
+        <td          ><b>{{gettext('origin cluster')|capitalize}}</b></td>
+        <td          >{{data.resume.mgOrigin}}</td>
+    </tr>
+    <tr>
+        <td          ><b>{{gettext('destiny cluster')|capitalize}}</b></td>
+        <td          >{{data.resume.mgDestiny}}</td>
+    </tr>
+    <tr>
+        <td          ><b>{{gettext('virtual machines')|capitalize}}</b></td>
+        <td          >
+            <table style="width:100%" class="table table-striped table-hover table-sm" align="center"> 
+                <thead class="thead-light">   
+                    <tr>
+                        <th>{{gettext('name')|capitalize}}</td>
+                        <th>{{gettext('uuid')}}</td>
+                    </tr>
+                </thead>
+                <tbody>   
+            {% for vm in data.resume.mgVms %}
+                <tr>
+                    <td>{{vm.name}}</td>
+                    <td>{{vm.uuid}}</td>
+                </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+{% if data.lines|length %}
+<hr>
+<h3>{{gettext('migration execution resume')|capitalize}}</h3>
+{% endif %}
+<table style="width:100%" class="table table-striped table-hover table-sm" align="center"> 
+    <thead class="thead-light">   
+        <tr>
+            <th align="center" valign="center">{{gettext('timestamp')|capitalize}}                           </th>
+            <th align="center" valign="center">{{gettext('step')|capitalize}}/{{gettext('steps')|capitalize}}</th>
+            <th align="center" valign="center">{{gettext('advance')|capitalize}}                             </th>
+            <th align="center" valign="center">{{gettext('elapsed seconds')|capitalize}}                     </th>
+            <th align="center" valign="center">{{gettext('message')|capitalize}}                             </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for line in data.lines %}
+        <tr>
+            <td align="left"            >{{line.feedback.check|format_timestamp}}         </td>
+            <td align="center"          >{{line.feedback.value}}/{{line.feedback.maximum}}</td>
+            <td align="center"          >{{"%6.2f"|format(line.feedback.percent)}}%       </td>
+            <td align="center" width=10%>{{"%6.1f"|format(line.feedback.elapsed_seconds)}}</td>
+            <td align="left"   width=50%>{{line.feedback.message|capitalize}}             </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<hr>
+<script>
+    var URL =   window.location.protocol + "//" + 
+                window.location.hostname + ":"  + 
+                window.location.port;
+    console.log("URL = "+URL);
+    // builds progress advance clean URL
+    var urlclean =   URL + "/clean-progress?ipc_mode={{data.resume.ipc.ipc_mode}}&ipc_id={{data.resume.ipc.ipc_id}}";
+    console.log("urlclean = "+urlclean);
+    try {
+        console.log('deleting server data ...');
+        $.getJSON( urlclean, function( data ) {
+            if (data.status != null) {
+                console.log(data.status);
+            }
+            else {
+                console.log('No data from remote server clean function');
+            }
+        });
+    }
+    catch (error) {
+        console.log('error catched while deleting remote data ...');
+        console.error(error);
+    }
+</script>
+<!--p>
+DEBUG PARAGRAPH TO DELETE<br>
+<table border= 1>
+    <tr><td>data.resume        </td><td>{{ data.resume }}</td></tr>
+</table>
+</p-->

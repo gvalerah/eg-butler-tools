@@ -47,6 +47,9 @@ if (os.path.isfile(config_file)):
         flask_port    = config_ini.getint('General','core_flask_port'   ,fallback=5300)
         gunicorn_host = config_ini.getint('General','core_gunicorn_host',fallback='0.0.0.0')
         gunicorn_port = config_ini.getint('General','core_gunicorn_port',fallback=8300)
+        log_when      = config_ini.get   ('General','log_when'     ,fallback='D')
+        log_interval  = config_ini.getint('General','log_interval' ,fallback=7)
+        log_counter   = config_ini.getint('General','log_counter'  ,fallback=53)
 else:
     sys.exit(1)
 
@@ -70,8 +73,12 @@ file_handler=add_Logging_Handler(
     level=C.log_level,
     folder=C.log_folder,
     nameFormat="%s.log"%logger.name.replace(' ','_'),
-    handlerType='TIME_ROTATING'
+    handlerType='TIME_ROTATING',
+    when=log_when,
+    interval=log_interval,
+    backupCount=log_counter
     )
+print(f'{this()}: file_handler = {file_handler}')
 # Default File logger filters (omits) AUDIT records, then an audit
 # logger needs to be defined
 file_handler.addFilter(LevelFilter(logging.AUDIT))
@@ -83,8 +90,12 @@ audit_handler=add_Logging_Handler(
     level=logging.AUDIT,
     folder=C.log_folder,
     nameFormat="%s.aud"%logger.name.replace(' ','_'),
-    handlerType='TIME_ROTATING'
+    handlerType='TIME_ROTATING',
+    when=log_when,
+    interval=log_interval,
+    backupCount=log_counter
     )
+print(f'{this()}: audit_handler = {audit_handler}')
 # ----------------------------------------------------------------------
 
 from core.transactions import *

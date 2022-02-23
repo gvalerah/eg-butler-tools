@@ -24,7 +24,7 @@ from flask_babel                        import lazy_gettext
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    #20210710 GV logger not checkd is mandatiry now: logger=check_logger()
+    #20210710 GV logger not checked is mandatory now: logger=check_logger()
     try:
         logger.debug("auth.login login in course ...")
     except:
@@ -69,8 +69,13 @@ def logout():
 def register():
     #20210710 GV logger not checkd is mandatiry now: logger=check_logger()
     form = RegistrationForm()
-    db.session.flush()
-    db.session.commit()
+    try:
+        db.session.flush()
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        db.session.close()
+        emtec_handle_general_exception(e,logger=logger)
     if form.validate_on_submit():
         logger.debug(f"form.username.data = {form.username.data}")
         logger.debug(f"form.role_id.data  = {form.role_id.data}")
@@ -86,10 +91,15 @@ def register():
             logger.debug("Trying to register user: '%s'"%user)
             user.role_id=form.role_id.data
             logger.debug("Trying to register user: '%s'"%user)
-            db.session.close()
-            db.session.add(user)
-            db.session.flush()
-            db.session.commit()
+            try:
+                db.session.close()
+                db.session.add(user)
+                db.session.flush()
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                db.session.close()
+                emtec_handle_general_exception(e,logger=logger)
             logger.debug('New user "%s" can login now.'%form.username.data)
             flash('New user "%s" can login now.'%form.username.data)
             return redirect(url_for('main.index'))
@@ -98,6 +108,7 @@ def register():
             db.session.close()
             flash('Form Data is: [name=%s,role_id=%s,email=%s,password=%s]'%( form.username.data, form.role_id.data, form.email.data, form.password.data))
             flash('Error creating new user. %s'%(e))
+            emtec_handle_general_exception(e,logger=logger)
             return redirect(url_for('auth.register'))
             
     return render_template('auth/register.html', form=form)
@@ -106,8 +117,13 @@ def register():
 @login_required
 def change_password():
     # 20210609 cambio 
-    db.session.flush()
-    db.session.commit()
+    try:
+        db.session.flush()
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        db.session.close()
+        emtec_handle_general_exception(e,logger=logger)
     if current_user.role_id in (4,6):
         form = ResetPasswordForm()
     else:
@@ -121,13 +137,18 @@ def change_password():
             else:
                 user = current_user
             user.password = form.password.data
-            db.session.merge(user)
-            db.session.flush()
-            db.session.commit()
-            if user.username == current_user.username:
-                flash('Your password has been updated.')
-            else:
-                flash(f"'{user.username}' password has been updated.")
+            try:
+                db.session.merge(user)
+                db.session.flush()
+                db.session.commit()
+                if user.username == current_user.username:
+                    flash('Your password has been updated.')
+                else:
+                    flash(f"'{user.username}' password has been updated.")
+            except Exception as e:
+                db.session.rollback()
+                db.session.close()
+                emtec_handle_general_exception(e,logger=logger)
             return redirect(url_for('main.index'))
         else:
             flash('Invalid password.')

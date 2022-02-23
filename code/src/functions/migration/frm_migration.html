@@ -1,3 +1,4 @@
+
 <form method="post" class="form" role="form" id="request">
     <!-- csrf_token: {{ form.csrf_token }} hidden_tag(): {{ form.hidden_tag() }} name: {{ form.name }} -->
     <table bgcolor=white> <!-- MAIN TABLE -------------------------- -->
@@ -5,36 +6,113 @@
             <td width=100%>
                 <table bgcolor=white border=0>  <!-- Main VM fields request form ----------- -->
                     <tr>
-                        <td width=64>
-                            <!-- Incluire codigo para pop up -->
-                            <a role="presentation" class="active" data-toggle="modal" data-target="#create" href="#">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <img src="/static/img/add.png"
-                                color=yellow width="32" height="32" title="" alt="Add">
-                            </a>
-                            <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+                        <td width=192>
+                        
+                        
+                            <!-- Incluire codigo para pop up CHOOSE -->
+                            <a role="presentation" class="active" data-bs-toggle="modal" data-bs-target="#choosemg" href="#"><i class="bi bi-search text-secondary" style="font-size: 2rem"></i></a>
+                            
+                            <div class="modal fade" id="choosemg" tabindex="-1" role="dialog" aria-labelledby="chooseModalLabel"  aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                            <h4 class="modal-title" id="createModalLabel">Crear</h4>
+                                            <h4 class="modal-title" id="createModalLabel">{{gettext('choose')|capitalize}}</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="container">
-                                                <!-- form method=post action="/forms/Migration/create_group" -->
-                                                <form method=post>
-                                                    <dl>
-                                                        <dt><label for="mgNewName">{{gettext('Migration Group')}}</label>
-                                                        <dd><input id="mgNewName" name="mgNewName" type="text" value=""></dd>
-                                                    </dl>
-                                                    <p><input id="submit_crear" name="submit_Crear" type=submit value=Crear>
-                                                </form>
-                                            </div>
+                                            <dl>
+                                                <dt><label for="mgName">{{gettext('Migration Group')}}</label>
+                                                <dd>
+                                                    <select class="form-control" name="mgName" id="mgName">
+                                                        {%- for value,option in form.mgName.choices %}
+                                                            {%- if value == form.mgId %}
+                                                            <option selected value="{{value}}">{{option}}</option>
+                                                            {%- else %}
+                                                            <option value="{{value}}">{{option}}</option>
+                                                            {%- endif %}
+                                                        {%- endfor %}
+                                                    </select>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <p><input id="submit_Choose" name="submit_Choose" type=submit value={{gettext('choose')|capitalize}}></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Incluire codigo para pop up -->
+                            <!-- Incluido codigo para pop up CHOOSE-->
+                            {% if current_user.confirmed %}
+                            <!-- Incluire codigo para pop up ADD -->
+                            <a role="presentation" class="active" data-bs-toggle="modal" data-bs-target="#create" href="#"><i class="bi bi-plus-circle text-secondary" style="font-size: 2rem"></i></a>
+                            
+                            <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"  aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="createModalLabel">{{gettext('Create')}}</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <dl>
+                                                <dt><label for="mgNewName">{{gettext('Migration Group')}}</label>
+                                                <dd><input id="mgNewName" name="mgNewName" type="text" value="" maxlength=256 size=55 placeholder="{{gettext('Migration group new name')}}"></dd>
+                                            </dl>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <p><input id="submit_Create" name="submit_Create" type=submit value={{gettext('Create')}}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Incluido codigo para pop up ADD-->
+                            
+                            <!-- Incluire codigo para pop up CLONE -->
+                            <a role="presentation" class="active" data-bs-toggle="modal" data-bs-target="#clonemg" href="#"><i class="bi bi-yin-yang text-secondary" style="font-size: 2rem"></i></a>
+                            <div class="modal fade" id="clonemg" tabindex="-1" role="dialog" aria-labelledby="cloneModalLabel"  aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="createModalLabel">{{gettext('Clone')}}</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <dl>
+                                                <dt><label for="mgCloneName">{{gettext('Clone')}} '{{dict(form.mgName.choices).get(form.mgName.data)}}' {{gettext('as')}}:</label>
+                                                <dd><input id="mgCloneName" name="mgCloneName" type="text" value="{{dict(form.mgName.choices).get(form.mgName.data)}} (Clone)" maxlength=256 size=55></dd>
+                                            </dl>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <p><input id="submit_Clone" name="submit_Clone" type=submit value={{gettext('Clone')}}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Incluido codigo para pop up CLONE -->      
+                                                  
+                            <!-- Incluire codigo para pop up EDIT -->
+                            <a role="presentation" class="active" data-bs-toggle="modal" data-bs-target="#editmg" href="#"><i class="bi bi-pencil text-secondary" style="font-size: 2rem"></i></a>
+                            <div class="modal fade" id="editmg" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"  aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="editModalLabel">{{gettext('Edit')}}</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <dl>
+                                                <dt><label for="mgEditName">{{gettext('Edit')}} '{{dict(form.mgName.choices).get(form.mgName.data)}}' {{gettext('as')}}:</label>
+                                                <dd><input id="mgEditName" name="mgEditName" type="text" value="{{dict(form.mgName.choices).get(form.mgName.data)}}" maxlength=256 size=55></dd>
+                                            </dl>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <p><input id="submit_Edit" name="submit_Edit" type=submit value={{gettext('Edit')}}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Incluido codigo para pop up EDIT -->    
+                            {% endif %}                        
                         </td>
                         <td><b>{{gettext('Migration Group')}}</b> <span style="color: blue">{{form.mgId}}</span></td>
                     </tr>
@@ -45,33 +123,44 @@
             <td>
                 <table border = 0>
                     <tr>
-                        <td width=64></td>
+                        <td width=192></td>
                         <td><b>{{gettext('name')|capitalize}}</b></td>
-                        <td>
-                          <select class="form-control" name="mgName" id="mgName">
-                            {%- for value,option in form.mgName.choices %}
-                              {%- if value == form.mgName.data %}
-                              <option selected value="{{value}}">{{option}}</option>
-                              {%- else %}
-                              <option value="{{value}}">{{option}}</option>
-                              {%- endif %}
-                            {%- endfor %}
-                          </select>
-                        </td>
+                        <td><b>{{dict(form.mgName.choices).get(form.mgId)}}</b></td>
                     </tr>
                     
-                    
-                    <tr><td></td>
+                    <tr>
+                        <td>
+                            {% if current_user.confirmed %}
+                            <!-- Incluire codigo para boton SWITCH -->
+                            <span class="icon-input-btn">
+                                <i class="fa bi bi-shuffle text-secondary" role="img" style="font-size: 1rem"></i>
+                                <input type="submit" class="btn btn-outline-primary" 
+                                    value="{{gettext('Switch')}}" id="submit_Switch" name="submit_Switch"
+                                    width="32" height="32" title="">
+                            </span>
+                            {% endif %}
+                        </td>
                         <td><b>{{gettext('origin cluster')|capitalize}}</b></td>
                         <td>
+                            
                           <select class="form-control" name="mgOrigin" id="mgOrigin">
-                            {%- for value,option in form.mgOrigin.choices %}
-                              {%- if value == form.mgOrigin.data %}
-                              <option selected value="{{value}}">{{option}}</option>
-                              {%- else %}
-                              <option value="{{value}}">{{option}}</option>
-                              {%- endif %}
-                            {%- endfor %}
+                            {% if current_user.confirmed %}
+                                {%- for value,option in form.mgOrigin.choices %}
+                                    {%- if value == form.mgOrigin.data %}
+                                  <option selected value="{{value}}">{{option}}</option>
+                                    {%- else %}
+                                  <option value="{{value}}">{{option}}</option>
+                                    {%- endif %}
+                                {%- endfor %}
+                            {% else %}
+                                {%- for value,option in form.mgOrigin.choices %}
+                                    {%- if value == form.mgOrigin.data %}
+                                  <option selected value="{{value}}" disabled>{{option}}</option>
+                                    {%- else %}
+                                  <option value="{{value}}" disabled>{{option}}</option>
+                                    {%- endif %}
+                                {%- endfor %}
+                            {% endif %}
                           </select>
                         </td>
                     </tr>
@@ -79,13 +168,23 @@
                         <td><b>{{gettext('destiny cluster')|capitalize}}</b></td>
                         <td>
                           <select class="form-control" name="mgDestiny" id="mgDestiny">
-                            {%- for value,option in form.mgDestiny.choices %}
-                              {%- if value == form.mgDestiny.data %}
+                            {% if current_user.confirmed %}
+                                {%- for value,option in form.mgDestiny.choices %}
+                                  {%- if value == form.mgDestiny.data %}
                               <option selected value="{{value}}">{{option}}</option>
-                              {%- else %}
+                                  {%- else %}
                               <option value="{{value}}">{{option}}</option>
-                              {%- endif %}
-                            {%- endfor %}
+                                  {%- endif %}
+                                {%- endfor %}
+                            {%- else %}
+                                {%- for value,option in form.mgDestiny.choices %}
+                                    {%- if value == form.mgDestiny.data %}
+                              <option selected value="{{value}}" disabled>{{option}}</option>
+                                    {%- else %}
+                              <option value="{{value}}" disabled>{{option}}</option>
+                                    {%- endif %}
+                                {%- endfor %}
+                            {%- endif %}
                           </select>
                         <td>
                     </tr>
@@ -97,51 +196,54 @@
                 <table style="width:100%" class="table table-striped table-hover table-sm" align="center"> 
                     <thead class="thead-light">   
                         <tr>
-                            <th><!-- a href="#" onclick="history.go(-1)">
-                                <!-- Incluira codigo pop up -->
-                                <a role="presentation" class="active" data-toggle="modal" data-target="#addvm" href="#">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                    <img src="/static/img/add.png"
-                                    color=yellow width="32" height="32" title="" alt="Add">
-                                </a>
-                                <div class="modal fade" id="addvm" tabindex="-1" role="dialog" aria-labelledby="addvmModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                                <h4 class="modal-title" id="addvmModalLabel">Agregar</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="container">
-                                                    <form method=post action="/forms/Migration/add_vm_to_group">
-                                                        <dl>
-                                                            <dt><label for="vmId">{{gettext('virtual machine for group')|capitalize}} {{form.mgId}}</label>
-                                                            <dd><input id="mgId" name="mgId" type="hidden" value="{{form.mgId}}"></dd>
-                                                            <dd>
-                                                                <select class="form-control" name="vmId" id="vmId">
-                                                                    {%- for value,option in form.mgOriginVms.choices %}
-                                                                    {%- if value == form.mgOriginVms.data %}
-                                                                    <option selected value="{{value}}">{{option}}</option>
-                                                                    {%- else %}
-                                                                    <option value="{{value}}">{{option}}</option>
-                                                                    {%- endif %}
-                                                                    {%- endfor %}
-                                                                </select>
-                                                            </dd>
-                                                        </dl>
-                                                        <p><input id="submit_Agregar" name="submit_Agregar" "type=submit value=Agregar>
-                                                    </form>
-                                                </div>
-                                            </div>
+                            <th>
+                                
+                            <!-- Incluire codigo para pop up ADD VM -->
+                            {% if current_user.confirmed %}
+                            <a role="presentation" class="active" data-bs-toggle="modal" data-bs-target="#addvm" href="#">
+                                <i class="bi bi-plus-circle text-secondary" style="font-size: 2rem"></i>
+                            </a>
+                            <div class="modal fade" id="addvm" tabindex="-1" role="dialog" aria-labelledby="addvmModalLabel"  aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="createModalLabel">{{gettext('add')|capitalize}}</h4>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <dl>
+                                                <dt><label for="vmId">{{gettext('virtual machine for group')|capitalize}} '{{dict(form.mgName.choices).get(form.mgName.data)}}'</label>
+                                                <dd><input id="mgId" name="mgId" type="hidden" value="{{form.mgId}}"></dd>
+                                                <dd>
+                                                    <select class="form-control" name="vmId" id="vmId">
+                                                        {%- for value,option in form.mgAllVms.choices %}
+                                                            {%- if value == form.mgAllVms.data %}
+                                                            <option selected value="{{value}}">{{option}}</option>
+                                                            {%- else %}
+                                                            <option value="{{value}}">{{option}}</option>
+                                                            {%- endif %}
+                                                        {%- endfor %}
+                                                    </select>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <p><input id="submit_Add" name="submit_Add" type=submit value="{{gettext('add')|capitalize}}"></p>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Incluira codigo pop up -->
-                                
+                            </div>
+                            {% endif %}
+                            <!-- Incluido codigo para pop up ADD VM-->
                             </th>
                             <th>{{gettext('virtual machines')|capitalize}}</th>
-                            <th>{{gettext('migrate')|capitalize}}</th>
+                            <th>{{gettext('cluster')         |capitalize}}</th>
+                            <th>{{gettext('project')         |capitalize}}</th>
+                            <th>{{gettext('power on')        |capitalize}}</th>
+                            <th>{{gettext('protection')      |capitalize}}</th>
+                            <th>{{gettext('schedules')       |capitalize}}</th>
+                            <th>{{gettext('replica')         |capitalize}}</th>
+                            <th>{{gettext('migrate')         |capitalize}}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -149,21 +251,86 @@
                     {% for r in form.mgVms %}
                     <tr>
                         <td width=64></td>
-                        <td width=384>{{r.vm_uuid}}:{{ r.vm_name }}</td>
+                        <!-- td width=384>{{ r.vm_name }}</td -->
+                        <td>{{ r.vm_name }}</td>
                         <td>
-                            <div class="form-check form-switch" align="center">
-                            {% if r.vm_migrate %}
-                            <a><input class="form-check-input" type="checkbox" name="cbx_1_{{r.vm_uuid}}" id="cbx_1_{{r.vm_uuid}}" style="width: 32,height: 32" checked></a>
-                            {% else %}
-                            <a><input class="form-check-input" type="checkbox" name="cbx_1_{{r.vm_uuid}}" id="cbx_1_{{r.vm_uuid}}" style="width: 32,height: 32" ></a>
-                            {% endif %}
-                            </div>
+                            {%- if r.vm_uuid %}
+                                {% if form.mgData.vms_uuid[r.vm_uuid]['cluster'] == form.mgOrigin.data %}
+                                    {{form.mgData.clusters_uuid[form.mgData.vms_uuid[r.vm_uuid].cluster].name|safe}}
+                                {%- else %}
+                                    <span style="color:red"><b>{{form.mgData.clusters_uuid[form.mgData.vms_uuid[r.vm_uuid].cluster].name|safe}}</b></span>
+                                {%- endif %}
+                            {%- else %}
+                                <span style="color:red"><b>error</b></span>
+                            {%- endif %}          
                         </td>
                         <td>
-                            <a href="#" onclick="history.go(-1)">
-                                <img src="/static/img/delete.png"
-                                    color=yellow width="32" height="32" title="" alt="Delete"
-                            </a>
+                            {%- if r.vm_project %}
+                                {{r.vm_project}} 
+                            {%- else %}
+                                <span style="color:red"><b>{{gettext('missing')}}</b></span> 
+                            {%- endif %}
+                        </td>
+                        <td align=center>
+                            {%- if r.vm_state %}
+                                <span style="color:red"><b>{{gettext('on')|upper}}</b></span> 
+                            {%- else %}
+                                <span style="color:green"><b>{{gettext('off')|upper}}</b></span> 
+                            {%- endif %}
+                        </td>
+                        <td>             
+                            {%- if r.vm_has_pd %}
+                                {%- if r.vm_pd_active %}
+                                    <span style="color:green"><b>{{r.vm_pd_name}}</b></span>
+                                {%- else %}
+                                    <span style="color:red"><b>{{r.vm_pd_name}}</b></span>  
+                                {%- endif %}
+                            {%- else %}
+                                <span style="color:red"><b>{{gettext('missing')}}</b></span>
+                            {%- endif %}
+                        </td>
+                        <td align=center>             
+                            {%- if r.vm_pd_schedules %}
+                                <span style="color:green"><b>{{r.vm_pd_schedules}}</b></span>
+                            {%- else %}
+                                <span style="color:red"><b>{{r.vm_pd_schedules}}</b></span>  
+                            {%- endif %}
+                        </td>
+                        <td>             
+                            {%- if r.vm_last_replication %}
+                                <!-- check last replica longevity -->
+                                {%- if (now()-r.vm_last_replication).seconds < 3600 %} 
+                                    <span style="color:green">{{r.vm_last_replication.strftime('%y-%m-%d %H:%M:%S')}}</span>  
+                                {%- else %}
+                                    <span style="color:orange"><b>{{r.vm_last_replication.strftime('%y-%m-%d %H:%M:%S')}}</b></span>  
+                                {%- endif %}
+                            {%- else %}
+                                <span style="color:red"><b>{{gettext('never')}}</b></span>
+                            {%- endif %}
+                        </td>
+                        <td>
+                            {% if current_user.confirmed %}
+                            <div class="form-check form-switch" align="center">
+                                {%- if r.vm_migrate %}
+                            <a><input class="form-check-input" type="checkbox" name="mgMigration-{{loop.index0}}" id="mgMigration-{{loop.index0}}" style="width: 32,height: 32" checked></a>
+                                {%- else %}
+                            <a><input class="form-check-input" type="checkbox" name="mgMigration-{{loop.index0}}" id="mgMigration-{{loop.index0}}" style="width: 32,height: 32" ></a>
+                                {%- endif %}
+                            </div>
+                            {% else %}
+                            <div class="form-check form-switch" align="center">
+                                {%- if r.vm_migrate %}
+                            <a><input class="form-check-input" type="checkbox" name="mgMigration-{{loop.index0}}" id="mgMigration-{{loop.index0}}" style="width: 32,height: 32" checked onclick="return false"></a>
+                                {%- else %}
+                            <a><input class="form-check-input" type="checkbox" name="mgMigration-{{loop.index0}}" id="mgMigration-{{loop.index0}}" style="width: 32,height: 32"  onclick="return false"></a>
+                                {%- endif %}
+                            </div>                            
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if current_user.confirmed %}
+                            <a href="/forms/Migration/delete_vm_from_group?mgId={{form.mgId}}&vmId={{r.vm_uuid}}"><i class="bi bi-trash text-secondary" style="font-size: 2rem"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -174,17 +341,56 @@
     </table>
     <hr>
     <!-- Buttons code -->
-    <input class="btn btn-default" id="submit_Clonar"   name="submit_Clonar"   type="submit" value="{{gettext('Clone')}}" >
-    <input class="btn btn-default" id="submit_Salvar"   name="submit_Salvar"   type="submit" value="{{gettext('Save')}}">
-    <input class="btn btn-default" id="submit_Eliminar" name="submit_Eliminar" type="submit" value="{{gettext('Delete')}}">
-    <input class="btn btn-default" id="submit_Cancelar" name="submit_Cancelar" type="submit" value="{{gettext('Cancel')}}">
-    <input class="btn btn-default" id="submit_Validar"  name="submit_Validar"  type="submit" value="{{gettext('Validate')}}">
-    <input class="btn btn-default" id="submit_Migrar"   name="submit_Migrar"   type="submit" value="{{gettext('Migrate')}}">
+    {% if current_user.confirmed %}
     
-    <p>
-    DEBUG PARAGRAPH TO DELETE<br>
-    form.mgVms: {{form.mgVms}}<br>
-    form.mgData: {{form.mgData}}
-    </p>
+    <!--input class="btn btn-outline-primary" id="submit_Save"     name="submit_Save"     type="submit" value="{{gettext('Save')}}"-->
+    
+    <span class="icon-input-btn">
+    <i class="fa bi bi-save text-secondary" role="img" style="font-size: 1rem"></i>
+    <input type="submit" class="btn btn-outline-primary" 
+        value="{{gettext('Save')}}" id="submit_Save" name="submit_Save"
+        width="32" height="32" title="">
+    </span>
+
+    
+    
+    <!--input class="btn btn-outline-primary" id="submit_Delete"   name="submit_Delete"   type="submit" value="{{gettext('Delete')}}"-->
+
+    <span class="icon-input-btn">
+    <i class="fa bi bi-trash text-secondary" role="img" style="font-size: 1rem"></i>
+    <input type="submit" class="btn btn-outline-primary" 
+        value="{{gettext('Delete')}}" id="submit_Delete" name="submit_Delete"
+        width="32" height="32" title="">
+    </span>
+
+
+
+    {% endif %}
+    <!--input class="btn btn-outline-primary" id="submit_Validate" name="submit_Validate" type="submit" value="{{gettext('Validate')}}"-->
+    
+    <span class="icon-input-btn">
+    <i class="fa bi bi-check-all text-secondary" role="img" style="font-size: 1rem"></i>
+    <input type="submit" class="btn btn-outline-primary" 
+        value="{{gettext('Validate')}}" id="submit_Validate" name="submit_Validate"
+        width="32" height="32" title="">
+    </span>
+    
+    
+    <!-- form.mgData.can_migrate = {{form.mgData.can_migrate}} --> 
+    {% if current_user.confirmed %}
+        {%- if form.mgData.can_migrate %}
+    <!--input class="btn btn-outline-primary" id="submit_Migrate"  name="submit_Migrate"  type="submit" value="{{gettext('Migrate')}}"-->
+    
+    <span class="icon-input-btn">
+    <i class="fa bi bi-arrow-right text-secondary" role="img" style="font-size: 1rem"></i>
+    <input type="submit" class="btn btn-outline-primary" 
+        value="{{gettext('Migrate')}}" id="submit_Migrate" name="submit_Migrate"
+        width="32" height="32" title="">
+    </span>
+    
+    
+        {% endif %}
+    {% endif %}
+    
     
 </form>

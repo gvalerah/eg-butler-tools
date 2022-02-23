@@ -1,17 +1,17 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+<!-- will extend "base.html" -->
+{%- extends "butler_app.html" %}
+<!-- will import bootstrap/wtf.html" as wtf -->
+{%- import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Butler{% endblock %}
+<!-- will replace title block here -->
+{%- block title %}Butler{% endblock title %}
 
-{% block head %}
-{{ super() }}
-{% endblock %}
-
-{% block page_content %}
+<!-- will replace page_content block here -->
+{%- block content %}
 <div class="page-header">
     
     <h1>Butler v 2.1.0</h1>
-    <p>(c) EMTEC GROUP 2018/2019/2020/2021/2022 - GLVH</p>
+    <p>(c) EMTEC GROUP 2018-2022 - GLVH</p>
     <!-- <p>Flask Current Application Name is "{{ data["name"] }}"</p> -->
     <hr>
     <!-- <p>Butler local C Context Name is "{{ data["app_name"] }}"</p> -->
@@ -38,7 +38,7 @@
     {% endif % #}
 </div>
 
-{% endblock %}
+{%- endblock content %}
 
 
 
