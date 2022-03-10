@@ -1,4 +1,4 @@
-<!-- will extend "base.html" -->
+<!-- will extend "butler_app.html" -->
 {%- extends "butler_app.html" %}
 <!-- will import bootstrap/wtf.html" as wtf -->
 {%- import "bootstrap/wtf.html" as wtf %}
@@ -6,7 +6,7 @@
 <!-- will replace title block here -->
 {%- block title %}Butler{% endblock title %}
 
-<!-- will replace page_content block here -->
+<!-- will replace content block here -->
 {%- block content %}
 <div class="page-header">
     
@@ -15,13 +15,13 @@
     <!-- <p>Flask Current Application Name is "{{ data["name"] }}"</p> -->
     <hr>
     <!-- <p>Butler local C Context Name is "{{ data["app_name"] }}"</p> -->
-    {% if current_user.is_authenticated %}
+    {%- if current_user.is_authenticated %}
         <p>{{ gettext('Current logged in user is') }} '{{ current_user.username }}' {{ gettext('with role') }} '{{ current_user.role.name }}'</p>
         <hr>
         <p>({{current_user.password_hash[17:]}}-{{"%04X"|format(current_user.role.permissions)}})</p>         
-    {% else %}
+    {%- else %}
         <p>{{ gettext('No user is authenticated in Butler now. You can login') }} <a href="{{ url_for('auth.login') }}"><b>{{ gettext('here') }}</b></a></p>     
-    {% endif %}
+    {%- endif %}
     <hr>
     <p>{{ gettext('Your browser is') }} "{{ data["user_agent"] }}"</p>
     <p>{{ gettext('Local time is') }} @ {{ data["date_time"] }}</p>

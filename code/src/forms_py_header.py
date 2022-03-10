@@ -1,10 +1,14 @@
 # ----------------------------------------------------------------------
 # code/src/forms_py_header.py
 # Flask required modules
+import os
+from flask                  import current_app
 from flask_wtf              import FlaskForm as Form
 from wtforms                import Field
 from wtforms                import StringField
-from wtforms                import TextField
+# GV 20220224  Obsolete TextField will be replaced by StrigField
+# GV System Wide 
+# GV from wtforms           import TextField
 from wtforms                import TextAreaField
 from wtforms                import IntegerField
 from wtforms                import DecimalField

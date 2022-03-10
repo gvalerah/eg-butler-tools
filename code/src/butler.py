@@ -254,9 +254,8 @@ if __name__ == '__main__':
     from    emtec.butler.db.flask_models    import User
     from    emtec.butler.db.flask_models    import Role
 
-
     # GV print(f"app.config.get('NUTANIX_CLUSTERS')={app.config.get('NUTANIX_CLUSTERS')}")
-
+    
     # GV Will be replaced by embedded Green Unicorn HTTP Server
     if run_mode == 'FLASK':
         print(f" * Running {app} in Flask app mode ({flask_host}:{flask_port})")

@@ -84,10 +84,10 @@ def load_user(user_id):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_categories.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_categories.py
 class categories(db.Model,Serializer):
     __tablename__ = 'Categories'
 
@@ -136,10 +136,10 @@ class categories(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_clusters.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_clusters.py
 class clusters(db.Model,Serializer):
     __tablename__ = 'Clusters'
 
@@ -194,10 +194,10 @@ class clusters(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
 class cost_centers(db.Model,Serializer):
     __tablename__ = 'Cost_Centers'
 
@@ -254,12 +254,12 @@ class cost_centers(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
+# gen_model_flask.py:717 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
 def get_cost_centers(table_name_suffix):
-  # gen_model_flask.py:678 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
+  # gen_model_flask.py:725 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
   class cost_centers_Class(db.Model,Serializer):
     __tablename__ = 'Cost_Centers_%s'%(table_name_suffix)
 
@@ -295,14 +295,14 @@ def get_cost_centers(table_name_suffix):
 
   cost_centers_Class.__name__ = 'cost_centers_%s'%(table_name_suffix)
   return cost_centers_Class
-  # gen_model_flask.py 801 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
+  # gen_model_flask.py 849 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_cost_centers.py
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_disk_images.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_disk_images.py
 class disk_images(db.Model,Serializer):
     __tablename__ = 'Disk_Images'
 
@@ -363,10 +363,10 @@ class disk_images(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_domains.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_domains.py
 class domains(db.Model,Serializer):
     __tablename__ = 'Domains'
 
@@ -415,10 +415,10 @@ class domains(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_interface.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_interface.py
 class interface(db.Model,Serializer):
     __tablename__ = 'Interface'
 
@@ -477,10 +477,10 @@ class interface(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
 class migration_groups(db.Model,Serializer):
     __tablename__ = 'Migration_Groups'
 
@@ -537,12 +537,12 @@ class migration_groups(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
+# gen_model_flask.py:717 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
 def get_migration_groups(table_name_suffix):
-  # gen_model_flask.py:678 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
+  # gen_model_flask.py:725 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
   class migration_groups_Class(db.Model,Serializer):
     __tablename__ = 'Migration_Groups_%s'%(table_name_suffix)
 
@@ -577,14 +577,14 @@ def get_migration_groups(table_name_suffix):
 
   migration_groups_Class.__name__ = 'migration_groups_%s'%(table_name_suffix)
   return migration_groups_Class
-  # gen_model_flask.py 801 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
+  # gen_model_flask.py 849 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups.py
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
 class migration_groups_vm(db.Model,Serializer):
     __tablename__ = 'Migration_Groups_VM'
 
@@ -653,12 +653,12 @@ class migration_groups_vm(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
+# gen_model_flask.py:717 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
 def get_migration_groups_vm(table_name_suffix):
-  # gen_model_flask.py:678 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
+  # gen_model_flask.py:725 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
   class migration_groups_vm_Class(db.Model,Serializer):
     __tablename__ = 'Migration_Groups_VM_%s'%(table_name_suffix)
 
@@ -706,14 +706,14 @@ def get_migration_groups_vm(table_name_suffix):
 
   migration_groups_vm_Class.__name__ = 'migration_groups_vm_%s'%(table_name_suffix)
   return migration_groups_vm_Class
-  # gen_model_flask.py 801 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
+  # gen_model_flask.py 849 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_migration_groups_vm.py
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_prism_vm.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_prism_vm.py
 class nutanix_prism_vm(db.Model,Serializer):
     __tablename__ = 'Nutanix_Prism_VM'
 
@@ -878,10 +878,10 @@ class nutanix_prism_vm(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_vm_images.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_nutanix_vm_images.py
 class nutanix_vm_images(db.Model,Serializer):
     __tablename__ = 'Nutanix_VM_Images'
 
@@ -932,10 +932,10 @@ class nutanix_vm_images(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_projects.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_projects.py
 class projects(db.Model,Serializer):
     __tablename__ = 'Projects'
 
@@ -986,10 +986,10 @@ class projects(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
 class rates(db.Model,Serializer):
     __tablename__ = 'Rates'
 
@@ -1060,12 +1060,12 @@ class rates(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:670 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
+# gen_model_flask.py:717 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
 def get_rates(table_name_suffix):
-  # gen_model_flask.py:678 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
+  # gen_model_flask.py:725 =>/home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
   class rates_Class(db.Model,Serializer):
     __tablename__ = 'Rates_%s'%(table_name_suffix)
 
@@ -1115,14 +1115,14 @@ def get_rates(table_name_suffix):
         pass
   rates_Class.__name__ = 'rates_%s'%(table_name_suffix)
   return rates_Class
-  # gen_model_flask.py 801 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
+  # gen_model_flask.py 849 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_rates.py
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_requests.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_requests.py
 class requests(db.Model,Serializer):
     __tablename__ = 'Requests'
 
@@ -1193,10 +1193,10 @@ class requests(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_request_type.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_request_type.py
 class request_type(db.Model,Serializer):
     __tablename__ = 'Request_Type'
 
@@ -1247,10 +1247,10 @@ class request_type(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_roles.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_roles.py
 class Role(db.Model,Serializer):
     __tablename__ = 'Roles'
 
@@ -1332,10 +1332,10 @@ class Role(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_subnets.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_subnets.py
 class subnets(db.Model,Serializer):
     __tablename__ = 'Subnets'
 
@@ -1400,10 +1400,10 @@ class subnets(db.Model,Serializer):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask.py:115 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_users.py
+# gen_model_flask.py:117 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/flask_users.py
 class User(UserMixin, db.Model,Serializer):
     __tablename__ = 'Users'
 

@@ -1,10 +1,14 @@
 # ----------------------------------------------------------------------
 # code/src/forms_py_header.py
 # Flask required modules
+import os
+from flask                  import current_app
 from flask_wtf              import FlaskForm as Form
 from wtforms                import Field
 from wtforms                import StringField
-from wtforms                import TextField
+# GV 20220224  Obsolete TextField will be replaced by StrigField
+# GV System Wide 
+# GV from wtforms           import TextField
 from wtforms                import TextAreaField
 from wtforms                import IntegerField
 from wtforms                import DecimalField
@@ -26,10 +30,10 @@ from wtforms.validators     import Regexp, Required
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_categories.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_categories.py
 from decimal import ROUND_HALF_UP
 
 class frm_categories(Form):
@@ -50,10 +54,10 @@ class frm_categories_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_clusters.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_clusters.py
 from decimal import ROUND_HALF_UP
 
 class frm_clusters(Form):
@@ -77,10 +81,10 @@ class frm_clusters_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_cost_centers.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_cost_centers.py
 from decimal import ROUND_HALF_UP
 
 class frm_cost_centers(Form):
@@ -105,10 +109,10 @@ class frm_cost_centers_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_disk_images.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_disk_images.py
 from decimal import ROUND_HALF_UP
 
 class frm_disk_images(Form):
@@ -136,16 +140,16 @@ class frm_disk_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_domains.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_domains.py
 from decimal import ROUND_HALF_UP
 
 class frm_domains(Form):
     Domain_Id         = IntegerField("Domain_Id?", validators=[Required()])
     Name              = StringField("Name?")
-    Comments          = TextField("Comments?")
+    Comments          = StringField("Comments?")
 
     submit_Save       = SubmitField  ('Save')
     submit_New        = SubmitField  ('New')
@@ -161,10 +165,10 @@ class frm_domains_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_interface.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_interface.py
 from decimal import ROUND_HALF_UP
 
 class frm_interface(Form):
@@ -190,10 +194,10 @@ class frm_interface_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_migration_groups.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_migration_groups.py
 from decimal import ROUND_HALF_UP
 
 class frm_migration_groups(Form):
@@ -217,10 +221,10 @@ class frm_migration_groups_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_migration_groups_vm.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_migration_groups_vm.py
 from decimal import ROUND_HALF_UP
 
 class frm_migration_groups_vm(Form):
@@ -252,10 +256,10 @@ class frm_migration_groups_vm_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_prism_vm.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_prism_vm.py
 from decimal import ROUND_HALF_UP
 
 class frm_nutanix_prism_vm(Form):
@@ -269,7 +273,7 @@ class frm_nutanix_prism_vm(Form):
     num_sockets              = IntegerField("num_sockets?")
     memory_size_mib          = IntegerField("memory_size_mib?")
     memory_size_gib          = IntegerField("memory_size_gib?")
-    Comments                 = TextField("Comments?")
+    Comments                 = StringField("Comments?")
     vm_uuid                  = StringField("vm_uuid?")
     vm_ip                    = StringField("vm_ip?")
     subnet_uuid              = SelectField("subnet_uuid?")
@@ -319,7 +323,7 @@ class frm_nutanix_prism_vm(Form):
     nic_3_vlan               = StringField("nic_3_vlan?")
     nic_3_ip                 = StringField("nic_3_ip?")
     nic_3_mac                = StringField("nic_3_mac?")
-    request_text             = TextField("request_text?")
+    request_text             = StringField("request_text?")
 
     submit_Save              = SubmitField  ('Save')
     submit_New               = SubmitField  ('New')
@@ -335,10 +339,10 @@ class frm_nutanix_prism_vm_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_vm_images.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_vm_images.py
 from decimal import ROUND_HALF_UP
 
 class frm_nutanix_vm_images(Form):
@@ -361,10 +365,10 @@ class frm_nutanix_vm_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_projects.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_projects.py
 from decimal import ROUND_HALF_UP
 
 class frm_projects(Form):
@@ -386,10 +390,10 @@ class frm_projects_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_rates.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_rates.py
 from decimal import ROUND_HALF_UP
 
 class frm_rates(Form):
@@ -418,10 +422,10 @@ class frm_rates_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_requests.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_requests.py
 from decimal import ROUND_HALF_UP
 
 class frm_requests(Form):
@@ -431,12 +435,12 @@ class frm_requests(Form):
     Status                   = IntegerField("Status?")
     Creation_Time            = DateTimeField("Creation_Time?", format='%Y-%m-%d %H:%M:%S')
     Last_Status_Time         = DateTimeField("Last_Status_Time?", format='%Y-%m-%d %H:%M:%S')
-    Comments                 = TextField("Comments?")
+    Comments                 = StringField("Comments?")
     Task_uuid                = StringField("Task_uuid?")
     Task_status              = IntegerField("Task_status?")
     CC_Id                    = IntegerField("CC_Id?")
     uuid                     = StringField("uuid?")
-    User_Comments            = TextField("User_Comments?")
+    User_Comments            = StringField("User_Comments?")
 
     submit_Save              = SubmitField  ('Save')
     submit_New               = SubmitField  ('New')
@@ -452,10 +456,10 @@ class frm_requests_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_request_type.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_request_type.py
 from decimal import ROUND_HALF_UP
 
 class frm_request_type(Form):
@@ -477,10 +481,10 @@ class frm_request_type_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_roles.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_roles.py
 from decimal import ROUND_HALF_UP
 
 class frm_Role(Form):
@@ -503,10 +507,10 @@ class frm_Role_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_subnets.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_subnets.py
 from decimal import ROUND_HALF_UP
 
 class frm_subnets(Form):
@@ -535,10 +539,10 @@ class frm_subnets_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-02-23 18:24:52
+# GLVH @ 2022-03-04 17:13:20
 # =============================================================================
 
-# gen_model_flask:259 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_users.py
+# gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_users.py
 from decimal import ROUND_HALF_UP
 
 class frm_User(Form):

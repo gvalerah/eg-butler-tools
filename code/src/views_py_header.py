@@ -146,14 +146,16 @@ def test_index():
         return render_template('test.html',data=data, name=name,password=password, form=form)
     except Exception as e:
         emtec_handle_general_exception(e,logger)
-        
+
+""" GV        
 from markdown import markdown
 from markdown import markdownFromFile
 from markdown.extensions import tables
 from markdown.extensions import toc
-
+"""
 @main.route('/butler_faq', methods=['GET','POST'])
 def butler_faq():  
+    """
     if logger is not None: 
         logger.debug(f"markdown = {markdown}")
         logger.debug(f"markdownFromFile = {markdownFromFile}")
@@ -169,6 +171,7 @@ def butler_faq():
             'markdown.extensions.toc',
             ]
         )
+    """
     return render_template('butler_faq.html')
 
 @main.route('/butler_about', methods=['GET','POST'])

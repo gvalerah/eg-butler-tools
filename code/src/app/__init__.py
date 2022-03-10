@@ -15,6 +15,7 @@ from    configparser                    import ConfigParser
 from    configparser                    import ExtendedInterpolation
 
 from    flask                           import Flask, render_template, request
+from    flask                           import current_app
 #from    flask_bootstrap                 import Bootstrap
 from    flask_mail                      import Mail
 from    flask_mail                      import Message
