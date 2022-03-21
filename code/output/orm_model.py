@@ -16,7 +16,7 @@ from sqlalchemy             import ForeignKey
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 from sqlalchemy                 import Table, Column
@@ -31,7 +31,7 @@ from sqlalchemy                 import VARBINARY
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 import json
 import logging
@@ -45,10 +45,11 @@ Base = declarative_base()
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_categories.py
+import sqlalchemy
 class Categories(Base):
     __tablename__ = 'Categories'
     engine        = None
@@ -57,19 +58,29 @@ class Categories(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -206,10 +217,11 @@ class Categories(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_clusters.py
+import sqlalchemy
 class Clusters(Base):
     __tablename__ = 'Clusters'
     engine        = None
@@ -218,19 +230,29 @@ class Clusters(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -373,10 +395,11 @@ class Clusters(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
+import sqlalchemy
 class Cost_Centers(Base):
     __tablename__ = 'Cost_Centers'
     engine        = None
@@ -385,19 +408,29 @@ class Cost_Centers(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -544,7 +577,7 @@ class Cost_Centers(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -705,10 +738,11 @@ def get_Cost_Centers(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_disk_images.py
+import sqlalchemy
 class Disk_Images(Base):
     __tablename__ = 'Disk_Images'
     engine        = None
@@ -717,19 +751,29 @@ class Disk_Images(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -880,10 +924,11 @@ class Disk_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_domains.py
+import sqlalchemy
 class Domains(Base):
     __tablename__ = 'Domains'
     engine        = None
@@ -892,19 +937,29 @@ class Domains(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -1080,10 +1135,11 @@ class Domains(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_interface.py
+import sqlalchemy
 class Interface(Base):
     __tablename__ = 'Interface'
     engine        = None
@@ -1092,19 +1148,29 @@ class Interface(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -1253,10 +1319,11 @@ class Interface(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
+import sqlalchemy
 class Migration_Groups(Base):
     __tablename__ = 'Migration_Groups'
     engine        = None
@@ -1265,19 +1332,29 @@ class Migration_Groups(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -1459,7 +1536,7 @@ class Migration_Groups(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
@@ -1655,10 +1732,11 @@ def get_Migration_Groups(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
+import sqlalchemy
 class Migration_Groups_VM(Base):
     __tablename__ = 'Migration_Groups_VM'
     engine        = None
@@ -1667,19 +1745,29 @@ class Migration_Groups_VM(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -1838,7 +1926,7 @@ class Migration_Groups_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
@@ -2011,10 +2099,11 @@ def get_Migration_Groups_VM(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_prism_vm.py
+import sqlalchemy
 class Nutanix_Prism_VM(Base):
     __tablename__ = 'Nutanix_Prism_VM'
     engine        = None
@@ -2023,19 +2112,29 @@ class Nutanix_Prism_VM(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -2290,10 +2389,11 @@ class Nutanix_Prism_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_vm_images.py
+import sqlalchemy
 class Nutanix_VM_Images(Base):
     __tablename__ = 'Nutanix_VM_Images'
     engine        = None
@@ -2302,19 +2402,29 @@ class Nutanix_VM_Images(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -2455,10 +2565,11 @@ class Nutanix_VM_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_projects.py
+import sqlalchemy
 class Projects(Base):
     __tablename__ = 'Projects'
     engine        = None
@@ -2467,19 +2578,29 @@ class Projects(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -2618,10 +2739,11 @@ class Projects(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
+import sqlalchemy
 class Rates(Base):
     __tablename__ = 'Rates'
     engine        = None
@@ -2630,19 +2752,29 @@ class Rates(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -2803,7 +2935,7 @@ class Rates(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -2978,10 +3110,11 @@ def get_Rates(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_request_type.py
+import sqlalchemy
 class Request_Type(Base):
     __tablename__ = 'Request_Type'
     engine        = None
@@ -2990,19 +3123,29 @@ class Request_Type(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -3178,10 +3321,11 @@ class Request_Type(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_requests.py
+import sqlalchemy
 class Requests(Base):
     __tablename__ = 'Requests'
     engine        = None
@@ -3190,19 +3334,29 @@ class Requests(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -3361,10 +3515,11 @@ class Requests(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_roles.py
+import sqlalchemy
 class Roles(Base):
     __tablename__ = 'Roles'
     engine        = None
@@ -3373,19 +3528,29 @@ class Roles(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -3526,10 +3691,11 @@ class Roles(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_subnets.py
+import sqlalchemy
 class Subnets(Base):
     __tablename__ = 'Subnets'
     engine        = None
@@ -3538,19 +3704,29 @@ class Subnets(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -3703,10 +3879,11 @@ class Subnets(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_users.py
+import sqlalchemy
 class Users(Base):
     __tablename__ = 'Users'
     engine        = None
@@ -3715,19 +3892,29 @@ class Users(Base):
     def check_shard(suffix=None,engine=None):
        if engine is not None:
            try:
-               if not engine.dialect.has_table(engine, __class__.__tablename__):
+               if sqlalchemy.__version__ >= '1.4':
+                   inspector = sqlalchemy.inspect(engine)
+                   table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
+               else:
+                   table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+               if not table_exists:
                    metadata=MetaData()
                    metadata.bind=engine
                    __class__.__table__.metadata=metadata
                    __class__.__table__.create(checkfirst=True)
-                   if not engine.dialect.has_table(engine, __class__.__tablename__):
-                       print('462 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   if sqlalchemy.__version__ >= '1.4':
+                       inspector = sqlalchemy.inspect(engine)
+                       table_exists = inspector.has_table(__class__.__tablename__,schema='butler')
                    else:
-                       pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
+                       table_exists = engine.dialect.has_table(engine, __class__.__tablename__)
+                   if not table_exists:
+                       print('460 Table %s does not exist. creation error?'% __class__.__tablename__)
+                   else:
+                       pass # GV print('462 Table %s exist !!!'% __class__.__tablename__)
                else:
-                   pass # GV print('466 Table %s exist !!!'% __class__.__tablename__)
+                   pass # GV print('464 Table %s exist !!!'% __class__.__tablename__)
            except Exception as e:
-              print(f'468 exception: {str(e)}')
+              print(f'gen/gen_model_flask.py: 466 exception: {str(e)}')
            return
     def set_shard(suffix=None,engine=None):
        if suffix is not None:
@@ -3739,43 +3926,47 @@ class Users(Base):
 
     id            = Column( Integer, primary_key=True, autoincrement=True )
     username      = Column( String(64) )
+    name          = Column( String(255) )
     role_id       = Column( Integer, ForeignKey('Roles.id') )
     email         = Column( String(64) )
     password_hash = Column( String(128) )
     confirmed     = Column( Boolean )
     CC_Id         = Column( Integer )
+    roles         = Column( String(255) )
     
-    def __init__(self, id=0, username='None', role_id=None, email='None', password_hash='None', confirmed=0, CC_Id=1,engine=None,logger=None):
+    def __init__(self, id=0, username='None', name='None', role_id=None, email='None', password_hash='None', confirmed=0, CC_Id=1, roles='None',engine=None,logger=None):
         """ Initiates a Users class record """
         self.engine=engine
         self.logger=logger
         self.id            = id
         self.username      = username
+        self.name          = name
         self.role_id       = role_id
         self.email         = email
         self.password_hash = password_hash
         self.confirmed     = confirmed
         self.CC_Id         = CC_Id
+        self.roles         = roles
 
         self.log('Created %s'%self)
     def __repr__(self):
         """ default class Users representation function """
-        return "<Users( id='%s', username='%s', role_id='%s', email='%s', password_hash='%s', confirmed='%s', CC_Id='%s')>" % \
-                ( self.id, self.username, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id)
+        return "<Users( id='%s', username='%s', name='%s', role_id='%s', email='%s', password_hash='%s', confirmed='%s', CC_Id='%s', roles='%s')>" % \
+                ( self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles)
 
     def get_list(self):
         """ Gets Users record in list format """
-        __list = [ self.id, self.username, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id]
+        __list = [ self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles]
         return __list
 
     def get_tuple(self):
         """ Gets Users record in tuple format """
-        __tuple = ( self.id, self.username, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id)
+        __tuple = ( self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles)
         return __tuple
 
     def get_dict(self):
         """ Gets Users record in dict format """
-        __dict={'id':self.id,'username':self.username,'role_id':self.role_id,'email':self.email,'password_hash':self.password_hash,'confirmed':self.confirmed,'CC_Id':self.CC_Id}
+        __dict={'id':self.id,'username':self.username,'name':self.name,'role_id':self.role_id,'email':self.email,'password_hash':self.password_hash,'confirmed':self.confirmed,'CC_Id':self.CC_Id,'roles':self.roles}
 
         return __dict
 
@@ -3827,25 +4018,25 @@ class Users(Base):
 
     def get_columns(self):
         """ Gets Users record column full details list """
-        __list=[{'field': 'id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': 'auto_increment', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': True, 'header': 'id', 'is_time': False}, {'field': 'username', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'username', 'is_time': False}, {'field': 'role_id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'MUL', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'id', 'referenced_table': 'Roles', 'referenced_class': 'Role', 'foreign_key': 'id', 'foreign_value': 'name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'role_id', 'is_time': False}, {'field': 'email', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'email', 'is_time': False}, {'field': 'password_hash', 'type': 'varchar(128)', 'type_flask': 'db.String(128)', 'type_sqlalchemy': 'String(128)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'password_hash', 'is_time': False}, {'field': 'confirmed', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'confirmed', 'is_time': False}, {'field': 'CC_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'CC_Id', 'is_time': False}]
+        __list=[{'field': 'id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': 'auto_increment', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': True, 'header': 'id', 'is_time': False}, {'field': 'username', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'username', 'is_time': False}, {'field': 'name', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'name', 'is_time': False}, {'field': 'role_id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'MUL', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'id', 'referenced_table': 'Roles', 'referenced_class': 'Role', 'foreign_key': 'id', 'foreign_value': 'name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'role_id', 'is_time': False}, {'field': 'email', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'email', 'is_time': False}, {'field': 'password_hash', 'type': 'varchar(128)', 'type_flask': 'db.String(128)', 'type_sqlalchemy': 'String(128)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'password_hash', 'is_time': False}, {'field': 'confirmed', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'confirmed', 'is_time': False}, {'field': 'CC_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'CC_Id', 'is_time': False}, {'field': 'roles', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'roles', 'is_time': False}]
 
         return __list
 
     def get_column_headers(self):
         """ Gets Users record column headers list """
-        __list=['id', 'username', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id']
+        __list=['id', 'username', 'name', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id', 'roles']
 
         return __list
 
     def get_column_types(self):
         """ Gets Users record column data types list """
-        __list=['Integer', 'String(64)', 'Integer', 'String(64)', 'String(128)', 'Boolean', 'Integer']
+        __list=['Integer', 'String(64)', 'String(255)', 'Integer', 'String(64)', 'String(128)', 'Boolean', 'Integer', 'String(255)']
 
         return __list
 
     def get_column_meta(self):
         """ Gets Users record column data meta list """
-        __list=[('id', 'Integer'), ('username', 'String(64)'), ('role_id', 'Integer'), ('email', 'String(64)'), ('password_hash', 'String(128)'), ('confirmed', 'Boolean'), ('CC_Id', 'Integer')]
+        __list=[('id', 'Integer'), ('username', 'String(64)'), ('name', 'String(255)'), ('role_id', 'Integer'), ('email', 'String(64)'), ('password_hash', 'String(128)'), ('confirmed', 'Boolean'), ('CC_Id', 'Integer'), ('roles', 'String(255)')]
 
         return __list
 

@@ -55,6 +55,26 @@ from    emtec.common.functions             import *
 from    emtec.butler.common.context     import Context
 # GV -------------------------------------------------------------------
 
+
+# Get Version and Build data
+def print_version():
+    print (f"EG Butler v {MAYOR}.{MINOR}.{PATCH} build {BUILD}")
+
+def version():
+    print (f"{MAYOR}.{MINOR}.{PATCH}")
+
+from butler_version import *
+
+if len(sys.argv) < 2:
+    sys.exit(1)
+
+if sys.argv[1] == '--version':
+    version()
+    sys.exit(1)
+elif sys.argv[1] == '--print-version':
+    print_version()
+    sys.exit(1)
+
 # GV Setup context data depending on configuration file
 
 # GV Macro level default values
@@ -177,6 +197,10 @@ setattr(app.config,'CURRENT_LANGUAGE',None)
 
 print (f"Set Global multilanguage strings ...")
 
+# GV -------------------------------------------------------------------
+
+# GV Global JINJA 2 Functions
+app.jinja_env.globals.update(has_access=has_access)
 # GV -------------------------------------------------------------------
 
 if __name__ == '__main__':

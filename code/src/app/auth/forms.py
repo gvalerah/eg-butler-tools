@@ -1,7 +1,8 @@
 # source: app/auth/forms.py
 from flask_wtf                          import FlaskForm
 from wtforms                            import StringField, PasswordField, BooleanField, SubmitField, SelectField
-from wtforms.validators                 import Required, Length, Email, Regexp, EqualTo
+from wtforms.validators                 import DataRequired as Required
+from wtforms.validators                 import Length, Email, Regexp, EqualTo
 from wtforms                            import ValidationError
 #from emtec.collector.db.flask_models    import User
 from emtec.butler.db.flask_models       import User

@@ -2092,9 +2092,9 @@ def forms_Migration():
                 logger.debug(f"{this()}: form.mgNewId.data = {form.mgNewId.data} redirecting ...")
                 return redirect(url_for('.forms_Migration',Id=form.mgNewId.data))
             elif form.submit_Add.data:
-                vmId=request.form.get('vmId')
-                logger.info(f"{this()}: Option Add VM {vmId} to MG {form.mgId}")
-                vmName = forms_Migration_add_vm_to_group(form,vmId)
+                for vmId in request.form.getlist('vmId'):
+                    logger.info(f"{this()}: Option Add VM {vmId} to MG {form.mgId}")
+                    vmName = forms_Migration_add_vm_to_group(form,vmId)
                 return redirect(url_for('.forms_Migration',Id=form.mgId))
             elif form.submit_Clone.data:
                 logger.info(f"{this()}: Option Clone MG {form.mgId}")

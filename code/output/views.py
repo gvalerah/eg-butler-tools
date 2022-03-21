@@ -63,6 +63,11 @@ from emtec.butler.constants             import *
 """ GV Application decorators for routes """
 """ GV Decorators specify main routes to be handled by Butler Solution """
 
+""" GV Include JINJA 2 global functions/filters
+"""
+
+
+
 @main.route('/', methods=['GET', 'POST'])
 def index():
     logger.debug(f"@main.route('/', methods=['GET', 'POST'])")
@@ -184,7 +189,7 @@ def butler_about():
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_models_code.py:445 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/includes/models_py_imports.py
 from emtec.butler.db.flask_models import categories
@@ -225,15 +230,15 @@ from emtec.butler.forms import frm_User,frm_User_delete
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_categories.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.277140
+#  GLVH @ 2022-03-16 19:41:36.650116
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:21.277160
+# gen_views_form.html:AG 2022-03-16 19:41:36.650137
 @main.route('/forms/Categories', methods=['GET', 'POST'])
 @login_required
 
@@ -346,9 +351,9 @@ def forms_Categories():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.285422
+#  GLVH @ 2022-03-16 19:41:36.662835
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:21.285435
+# gen_views_delete.html:AG 2022-03-16 19:41:36.662850
 @main.route('/forms/Categories_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -414,10 +419,10 @@ def forms_Categories_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.302354
+#  GLVH @ 2022-03-16 19:41:36.684139
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:21.302368        
+# gen_views_select_query.html:AG 2022-03-16 19:41:36.684155        
 @main.route('/select/Categories_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -594,9 +599,9 @@ def select_Categories_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.330444
+#  GLVH @ 2022-03-16 19:41:36.716618
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:21.330460
+# gen_views_api.html:AG 2022-03-16 19:41:36.716635
 # table_name: Categories
 # class_name: categories
 # is shardened: False
@@ -839,15 +844,15 @@ def api_delete_Categories(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_clusters.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.433563
+#  GLVH @ 2022-03-16 19:41:36.818472
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:21.433577
+# gen_views_form.html:AG 2022-03-16 19:41:36.818520
 @main.route('/forms/Clusters', methods=['GET', 'POST'])
 @login_required
 
@@ -966,9 +971,9 @@ def forms_Clusters():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.441918
+#  GLVH @ 2022-03-16 19:41:36.829504
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:21.441940
+# gen_views_delete.html:AG 2022-03-16 19:41:36.829520
 @main.route('/forms/Clusters_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -1034,10 +1039,10 @@ def forms_Clusters_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.458244
+#  GLVH @ 2022-03-16 19:41:36.870705
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:21.458258        
+# gen_views_select_query.html:AG 2022-03-16 19:41:36.870720        
 @main.route('/select/Clusters_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -1259,9 +1264,9 @@ def select_Clusters_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.486704
+#  GLVH @ 2022-03-16 19:41:36.907922
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:21.486719
+# gen_views_api.html:AG 2022-03-16 19:41:36.907937
 # table_name: Clusters
 # class_name: clusters
 # is shardened: False
@@ -1525,135 +1530,16 @@ def api_delete_Clusters(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_cost_centers.py
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.603406
-# ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:21.603461
-@main.route('/forms/Cost_Centers', methods=['GET', 'POST'])
-@login_required
-
-def forms_Cost_Centers():
-    """ Form handling function for table Cost_Centers """
-    logger.debug('forms_Cost_Centers(): Enter')
-    
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Cost_Centers'
-    class_name='cost_centers'
-    template_name='Cost_Centers'
-    sharding=False
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        cost_centers.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%cost_centers.__table__.name)
-    CC_Id  =  request.args.get('CC_Id',0,type=int)
-    
-    # Ensures DB Data is commited prior main query
-    try:
-        db.session.commit()
-    except:
-        db.session.rollback()
-    row =  cost_centers.query.filter(cost_centers.CC_Id == CC_Id).first()
-    if row is None:
-        row=cost_centers()
-        session['is_new_row']=True
-    session['data'] =  {  'CC_Id':row.CC_Id, 'CC_Code':row.CC_Code, 'CC_Description':row.CC_Description, 'Cur_Code':row.Cur_Code, 'CC_Parent_Code':row.CC_Parent_Code, 'CC_Reg_Exp':row.CC_Reg_Exp, 'CC_Reference':row.CC_Reference }
-    
-    form = frm_cost_centers()
-    
-    # Actual Form activation here
-    if form.validate_on_submit():
-        # Code for SAVE option -----------------------------------------
-        if form.submit_Save.data and current_user.role_id > 1:
-            
-            row.CC_Code = form.CC_Code.data
-            row.CC_Description = form.CC_Description.data
-            row.Cur_Code = form.Cur_Code.data
-            row.CC_Parent_Code = form.CC_Parent_Code.data
-            row.CC_Reg_Exp = form.CC_Reg_Exp.data
-            row.CC_Reference = form.CC_Reference.data
-            try:
-               session['new_row']=str(row)
-               db.session.flush()
-               db.session.add(row)
-               db.session.commit()
-               db.session.flush()
-               if session['is_new_row']==True:
-                   logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                   flash('New Cost_centers created OK')
-               else:
-                   logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                   logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                   message=Markup('<b>Cost_centers CC_Id saved OK</b>')
-                   flash(message)
-               db.session.flush()
-            except Exception as e:
-               db.session.rollback()
-               db.session.flush()
-               message=Markup('ERROR saving Cost_centers record : %s'%(e))
-               flash(message)
-            return redirect(url_for('.select_Cost_Centers_query'))
-        # --------------------------------------------------------------
-        # Code for NEW option
-        # GV 20190109 f.write(        "        elif   form.submit_New.data:\n")
-        elif   form.submit_New.data and current_user.role_id>1:
-            #print('New Data Here ...')
-            session['is_new_row']=True
-            db.session.flush()
-            row=cost_centers()
-    
-            return redirect(url_for('.forms_Cost_Centers',CC_Id=row.CC_Id))
-    
-        # Code for CANCEL option 
-        elif   form.submit_Cancel.data:
-            #print('Cancel Data Here ... does nothing')
-            message=Markup('Cost_centers Record modifications discarded ...')
-            flash(message)
-        # Code for ANY OTHER option should never get here
-        else:
-            #print('form validated but not submited ???')
-            message=Markup("<b>Cost_centers data modifications not allowed for user '%s'. Please contact EG Suite's Administrator ...</b>"%(current_user.username))    
-            flash(message)
-    
-            return redirect(url_for('.forms_Cost_Centers',CC_Id=row.CC_Id))
-    
-    
-    form.CC_Code.data = row.CC_Code
-    form.CC_Description.data = row.CC_Description
-    form.Cur_Code.data = row.Cur_Code
-    form.CC_Parent_Code.data = row.CC_Parent_Code
-    form.CC_Reg_Exp.data = row.CC_Reg_Exp
-    form.CC_Reference.data = row.CC_Reference
-    session['prev_row'] = str(row)
-    session['is_new_row'] = False
-    logger.debug('forms_Cost_Centers(): Exit')
-    # Generates pagination data here
-    P=[]
-    # Tab Relations = []
-    
-    # Generation of pagination data completed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    return render_template('cost_centers.html', form=form, row=row, P=P,collectordata=collectordata)    
-# ======================================================================
-
-
 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.611629
+#  GLVH @ 2022-03-16 19:41:37.041419
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:21.611641
+# gen_views_delete.html:AG 2022-03-16 19:41:37.041436
 @main.route('/forms/Cost_Centers_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -1712,284 +1598,12 @@ def forms_Cost_Centers_delete():
     return render_template('cost_centers_delete.html', form=form, data=session.get('data'),row=row,collectordata=collectordata)
 #===============================================================================
 
-# table_name: Cost_Centers
-# class_name: cost_centers
-# is shardened: True
-# current_app: 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.629106
+#  GLVH @ 2022-03-16 19:41:37.094477
 # ======================================================================
-
-# gen_views_select_query.html:AG 2022-03-04 17:13:21.629124        
-@main.route('/select/Cost_Centers_Query', methods=['GET','POST'])
-@login_required
-@admin_required
-def select_Cost_Centers_query():
-    """ Select rows handling function for table 'Cost_Centers' """
-    logger.debug('select_Cost_Centers_query(): Enter')
-    #chk_c000001(filename=os.path.join(current_app.root_path, '.c000001'),request=request,db=db,logger=logger)
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Cost_Centers'
-    class_name='cost_centers'
-    template_name='Cost_Centers'
-    sharding=False
-
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        cost_centers.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%cost_centers.__table__.name) 
-
-
-    logger.debug("-----------------------------------------------------------")
-    logger.debug("%s: template_name            = %s",__name__,template_name)
-
-    logger.debug("%s: COLLECTOR_CIT_SHARDING   = %s",__name__,current_app.config.get('COLLECTOR_CIT_SHARDING'))
-    logger.debug("%s: sharding                 = %s",__name__,sharding)
-    logger.debug("%s: suffix                   = %s",__name__,suffix)
-    logger.debug("%s: table_name               = %s",__name__,table_name)
-    logger.debug("%s: class_name               = %s",__name__,class_name)
-    logger.debug("%s: class_name              = %s",__name__,class_name)
-
-    logger.debug("-----------------------------------------------------------")    
-        
-    # Get parameters from URL call
-    ia       =  request.args.get('ia',     None,type=str)
-    if ia is not None:
-        ia=ia.split(',')
-        if ia[0]=='ORDER':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='cost_centers',Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-        elif ia[0]=='GROUP':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='cost_centers',Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-        elif ia[0]=='LIMIT':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='cost_centers',Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-
-    iad      =  request.args.get('iad',     None,type=int)
-    if iad is not None: delete_query_option(engine=db.engine,Interface=Interface,Id=iad) 
-    
-    field    =  request.args.get('field',   None,type=str)
-    value    =  request.args.get('value',   None,type=str)
-    
-    # Populates a list of foreign keys used for advanced filtering
-    # ------------------------------------------------------------------
-    foreign_keys={}
-    
-    # ------------------------------------------------------------------
-    
-    if field is not None:
-        reset_query_options(    engine=db.engine,Interface=Interface,
-                                User_Id=current_user.id,
-                                #Table_name='cost_centers'
-                                Table_name=class_name
-                                )
-
-        
-        if field in foreign_keys.keys():
-            Class,referenced_classname,referenced_Field,referenced_Value,column_Header=foreign_keys[field]
-            foreign_field='%s.%s:%s'%(referenced_classname,referenced_Value,column_Header)
-            foreign_record=Class.query.get(value)
-            foreign_description="'%s'"%getattr(foreign_record,referenced_Value)
-        set_query_option(   engine=db.engine,Interface=Interface,
-                        User_Id=current_user.id,
-                        Table_name=class_name,
-                        Option_Type=OPTION_FILTER,
-                        Argument_1=foreign_field,
-                        Argument_2='==',
-                        Argument_3=foreign_description
-                        )
-    page     =  request.args.get('page',    1   ,type=int)
-    addx     =  request.args.get('add.x',   None,type=int)
-    addy     =  request.args.get('add.y',   None,type=int)
-    exportx  =  request.args.get('export.x',None,type=int)
-    exporty  =  request.args.get('export.y',None,type=int)
-    filterx  =  request.args.get('filter.x',None,type=int)
-    filtery  =  request.args.get('filter.y',None,type=int)
-    # Select excluyent view mode
-    if   addx    is not None: mode = 'add'
-    elif exportx is not None: mode = 'export'
-    elif filterx is not None: mode = 'filter'
-    else:                     mode = 'select'
-    CC_Id =  request.args.get('CC_Id',None,type=str)
-    CC_Code =  request.args.get('CC_Code',None,type=str)
-    CC_Description =  request.args.get('CC_Description',None,type=str)
-    Cur_Code =  request.args.get('Cur_Code',None,type=str)
-    CC_Parent_Code =  request.args.get('CC_Parent_Code',None,type=str)
-    CC_Reg_Exp =  request.args.get('CC_Reg_Exp',None,type=str)
-    CC_Reference =  request.args.get('CC_Reference',None,type=str)
-    
-    # Build default query all fields from table
-    
-
-    if CC_Id is not None and len(CC_Id)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CC_Id:CC_Id',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CC_Id
-                )
-    
-    
-    if CC_Code is not None and len(CC_Code)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CC_Code:CC_Code',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CC_Code
-                )
-    
-    
-    if CC_Description is not None and len(CC_Description)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CC_Description:CC_Description',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CC_Description
-                )
-    
-    
-    if Cur_Code is not None and len(Cur_Code)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Cur_Code:Cur_Code',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Cur_Code
-                )
-    
-    
-    if CC_Parent_Code is not None and len(CC_Parent_Code)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CC_Parent_Code:CC_Parent_Code',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CC_Parent_Code
-                )
-    
-    
-    if CC_Reg_Exp is not None and len(CC_Reg_Exp)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CC_Reg_Exp:CC_Reg_Exp',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CC_Reg_Exp
-                )
-    
-    
-    if CC_Reference is not None and len(CC_Reference)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CC_Reference:CC_Reference',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CC_Reference
-                )
-    
-    
-    
-    statement_query,options=get_query_options(engine=db.engine,Interface=Interface,Table_name=class_name,User_Id=current_user.id)
-    tracebox_log(statement_query,logger,length=80)
-    query=eval(statement_query)
-    filtered_query = query    
-    if mode == 'filter':
-        query=filtered_query
-    elif mode == 'export':
-        query=filtered_query
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%s_'%table_name, dir=None, text=False)
-        dict = {'header':{},'detail':[]}
-        count = 0
-        rows = query.all()
-        for row in rows:
-            dict['detail'].append({})
-            for column in ['CC_Id', 'CC_Code', 'CC_Description', 'Cur_Code', 'CC_Parent_Code', 'CC_Reg_Exp', 'CC_Reference']:
-                dict['detail'][count].update( { column:str(row.__getattribute__(column))})
-                
-            count += 1
-        dict['header'].update({'count':count})
-        jsonarray      = json.dumps(dict)
-        data           = json.loads(jsonarray)  
-        dataframe      = json_normalize(data, 'detail').assign(**data['header'])
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%_'%table_name, dir='/tmp', text=False)
-        xlsx_file      = '%s/%s'%(current_app.root_path,url_for('static',filename='%s.xls'%(output_file)))
-        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['CC_Id', 'CC_Code', 'CC_Description', 'Cur_Code', 'CC_Parent_Code', 'CC_Reg_Exp', 'CC_Reference'])
-        return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file.replace('/','_')+'.xls')
-    elif mode == 'add':
-        return redirect(url_for('.forms_%s'%table_name))
-    elif mode == 'select':
-        pass
-        # if some filter is required
-        if field is not None:
-            if field == 'CC_Id':
-                if value is not None:
-                    query = query.filter_by(CC_Id=value)
-            if field == 'CC_Code':
-                if value is not None:
-                    query = query.filter_by(CC_Code=value)
-            if field == 'CC_Description':
-                if value is not None:
-                    query = query.filter_by(CC_Description=value)
-            if field == 'Cur_Code':
-                if value is not None:
-                    query = query.filter_by(Cur_Code=value)
-            if field == 'CC_Parent_Code':
-                if value is not None:
-                    query = query.filter_by(CC_Parent_Code=value)
-            if field == 'CC_Reg_Exp':
-                if value is not None:
-                    query = query.filter_by(CC_Reg_Exp=value)
-            if field == 'CC_Reference':
-                if value is not None:
-                    query = query.filter_by(CC_Reference=value)
-            
-    # Actual request from DB follows
-    tracebox_log(query,logger,length=80)
-    # getting paginated rows for query
-    rows = query.paginate(page, per_page=current_app.config['LINES_PER_PAGE'], error_out=False)
-    # Setting pagination variables ...
-    if field is not None:
-       next_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.prev_num) if rows.has_prev else None
-    else:
-       next_url = url_for('.select_%s_query'%template_name, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, page=rows.prev_num) if rows.has_prev else None
-    # Actual rendering ...
-    if request.headers.get('Content-Type') is not None or request.args.get('JSON',None,type=str) is not None:
-        # NOTE: needs review for JSONnifiyng output when needed (API Interface?)
-        if "JSON" in request.headers.get('Content-Type') or request.args.get('JSON',None,type=str) is not None:
-            logger.debug('select_%s_query(): will render: JSON rows'%template_name)
-            logger.debug('select_%s_query(): Exit'%template_name)
-            return json.dumps(serialize_object(rows.__dict__))
-    logger.debug('select_%s_query(): will render: %s_All.html'%(template_name,table_name.lower()))
-    logger.debug('select_%s_query(): Exit'%template_name)
-    return render_template('%s_select_All.html'%template_name.lower(),rows=rows,options=options,collectordata=collectordata)
-#===============================================================================
-   
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.657605
-# ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:21.657620
+# gen_views_api.html:AG 2022-03-16 19:41:37.094494
 # table_name: Cost_Centers
 # class_name: cost_centers
 # is shardened: True
@@ -2265,15 +1879,15 @@ def api_delete_Cost_Centers(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_disk_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.755740
+#  GLVH @ 2022-03-16 19:41:37.218976
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:21.755755
+# gen_views_form.html:AG 2022-03-16 19:41:37.218995
 @main.route('/forms/Disk_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -2391,9 +2005,9 @@ def forms_Disk_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.764564
+#  GLVH @ 2022-03-16 19:41:37.228342
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:21.764577
+# gen_views_delete.html:AG 2022-03-16 19:41:37.228356
 @main.route('/forms/Disk_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -2459,10 +2073,10 @@ def forms_Disk_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.781888
+#  GLVH @ 2022-03-16 19:41:37.246169
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:21.781902        
+# gen_views_select_query.html:AG 2022-03-16 19:41:37.246184        
 @main.route('/select/Disk_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -2744,9 +2358,9 @@ def select_Disk_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.810261
+#  GLVH @ 2022-03-16 19:41:37.276637
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:21.810275
+# gen_views_api.html:AG 2022-03-16 19:41:37.276652
 # table_name: Disk_Images
 # class_name: disk_images
 # is shardened: False
@@ -3038,15 +2652,15 @@ def api_delete_Disk_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_domains.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.896682
+#  GLVH @ 2022-03-16 19:41:37.377133
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:21.896734
+# gen_views_form.html:AG 2022-03-16 19:41:37.377148
 @main.route('/forms/Domains', methods=['GET', 'POST'])
 @login_required
 
@@ -3152,9 +2766,9 @@ def forms_Domains():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.904896
+#  GLVH @ 2022-03-16 19:41:37.386493
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:21.904908
+# gen_views_delete.html:AG 2022-03-16 19:41:37.386507
 @main.route('/forms/Domains_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3220,10 +2834,10 @@ def forms_Domains_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.921183
+#  GLVH @ 2022-03-16 19:41:37.407388
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:21.921198        
+# gen_views_select_query.html:AG 2022-03-16 19:41:37.407414        
 @main.route('/select/Domains_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -3415,9 +3029,9 @@ def select_Domains_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:21.948982
+#  GLVH @ 2022-03-16 19:41:37.440575
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:21.948996
+# gen_views_api.html:AG 2022-03-16 19:41:37.440591
 # table_name: Domains
 # class_name: domains
 # is shardened: False
@@ -3667,15 +3281,15 @@ def api_delete_Domains(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_interface.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.043261
+#  GLVH @ 2022-03-16 19:41:37.554392
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:22.043275
+# gen_views_form.html:AG 2022-03-16 19:41:37.554407
 @main.route('/forms/Interface', methods=['GET', 'POST'])
 @login_required
 
@@ -3790,9 +3404,9 @@ def forms_Interface():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.051315
+#  GLVH @ 2022-03-16 19:41:37.562827
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:22.051328
+# gen_views_delete.html:AG 2022-03-16 19:41:37.562840
 @main.route('/forms/Interface_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -3858,10 +3472,10 @@ def forms_Interface_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.067117
+#  GLVH @ 2022-03-16 19:41:37.587446
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:22.067214        
+# gen_views_select_query.html:AG 2022-03-16 19:41:37.587467        
 @main.route('/select/Interface_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -4128,9 +3742,9 @@ def select_Interface_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.095482
+#  GLVH @ 2022-03-16 19:41:37.621390
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:22.095501
+# gen_views_api.html:AG 2022-03-16 19:41:37.621406
 # table_name: Interface
 # class_name: interface
 # is shardened: False
@@ -4413,142 +4027,16 @@ def api_delete_Interface(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_migration_groups.py
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.213328
-# ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:22.213341
-@main.route('/forms/Migration_Groups', methods=['GET', 'POST'])
-@login_required
-
-def forms_Migration_Groups():
-    """ Form handling function for table Migration_Groups """
-    logger.debug('forms_Migration_Groups(): Enter')
-    
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Migration_Groups'
-    class_name='migration_groups'
-    template_name='Migration_Groups'
-    sharding=False
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        migration_groups.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%migration_groups.__table__.name)
-    MG_Id  =  request.args.get('MG_Id',0,type=int)
-    
-    # Ensures DB Data is commited prior main query
-    try:
-        db.session.commit()
-    except:
-        db.session.rollback()
-    row =  migration_groups.query.filter(migration_groups.MG_Id == MG_Id).first()
-    if row is None:
-        row=migration_groups()
-        session['is_new_row']=True
-    session['data'] =  {  'MG_Id':row.MG_Id, 'Name':row.Name, 'Origin':row.Origin, 'Destiny':row.Destiny, 'Customer':row.Customer, 'Platform':row.Platform }
-    
-    form = frm_migration_groups()
-    
-    # Actual Form activation here
-    if form.validate_on_submit():
-        # Code for SAVE option -----------------------------------------
-        if form.submit_Save.data and current_user.role_id > 1:
-            
-            row.Name = form.Name.data
-            row.Origin = form.Origin.data
-            row.Destiny = form.Destiny.data
-            row.Customer = form.Customer.data
-            row.Platform = form.Platform.data
-            try:
-               session['new_row']=str(row)
-               db.session.flush()
-               db.session.add(row)
-               db.session.commit()
-               db.session.flush()
-               if session['is_new_row']==True:
-                   logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                   flash('New Migration_groups created OK')
-               else:
-                   logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                   logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                   message=Markup('<b>Migration_groups MG_Id saved OK</b>')
-                   flash(message)
-               db.session.flush()
-            except Exception as e:
-               db.session.rollback()
-               db.session.flush()
-               message=Markup('ERROR saving Migration_groups record : %s'%(e))
-               flash(message)
-            return redirect(url_for('.select_Migration_Groups_query'))
-        # --------------------------------------------------------------
-        # Code for NEW option
-        # GV 20190109 f.write(        "        elif   form.submit_New.data:\n")
-        elif   form.submit_New.data and current_user.role_id>1:
-            #print('New Data Here ...')
-            session['is_new_row']=True
-            db.session.flush()
-            row=migration_groups()
-    
-            return redirect(url_for('.forms_Migration_Groups',MG_Id=row.MG_Id))
-    
-        # Code for CANCEL option 
-        elif   form.submit_Cancel.data:
-            #print('Cancel Data Here ... does nothing')
-            message=Markup('Migration_groups Record modifications discarded ...')
-            flash(message)
-        # Code for ANY OTHER option should never get here
-        else:
-            #print('form validated but not submited ???')
-            message=Markup("<b>Migration_groups data modifications not allowed for user '%s'. Please contact EG Suite's Administrator ...</b>"%(current_user.username))    
-            flash(message)
-    
-            return redirect(url_for('.forms_Migration_Groups',MG_Id=row.MG_Id))
-    
-    
-    form.Name.data = row.Name
-    form.Origin.data = row.Origin
-    form.Destiny.data = row.Destiny
-    form.Customer.data = row.Customer
-    form.Platform.data = row.Platform
-    session['prev_row'] = str(row)
-    session['is_new_row'] = False
-    logger.debug('forms_Migration_Groups(): Exit')
-    # Generates pagination data here
-    P=[]
-    # Tab Relations = [{'name': 'migration_groups_vm', 'class': 'migration_groups_vm', 'backref': 'migration_groups', 'caption': 'MIGRATION_GROUPS_VM', 'table': 'Migration_Groups_VM'}]
-    
-    from flask_sqlalchemy import Pagination
-    # [{'name': 'migration_groups_vm', 'class': 'migration_groups_vm', 'backref': 'migration_groups', 'caption': 'MIGRATION_GROUPS_VM', 'table': 'Migration_Groups_VM'}]
-    try:
-        if hasattr(row, 'migration_groups_vm'):
-            P.append(({'name': 'migration_groups_vm', 'class': 'migration_groups_vm', 'backref': 'migration_groups', 'caption': 'MIGRATION_GROUPS_VM', 'table': 'Migration_Groups_VM'},row.migration_groups_vm.paginate()))
-    except Exception as e:
-        print(f'Exception: {str(e)}')
-    
-    
-    # Generation of pagination data completed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    return render_template('migration_groups.html', form=form, row=row, P=P,collectordata=collectordata)    
-# ======================================================================
-
-
 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.221911
+#  GLVH @ 2022-03-16 19:41:37.821995
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:22.221923
+# gen_views_delete.html:AG 2022-03-16 19:41:37.822011
 @main.route('/forms/Migration_Groups_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -4607,269 +4095,12 @@ def forms_Migration_Groups_delete():
     return render_template('migration_groups_delete.html', form=form, data=session.get('data'),row=row,collectordata=collectordata)
 #===============================================================================
 
-# table_name: Migration_Groups
-# class_name: migration_groups
-# is shardened: True
-# current_app: 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.237968
+#  GLVH @ 2022-03-16 19:41:37.870589
 # ======================================================================
-
-# gen_views_select_query.html:AG 2022-03-04 17:13:22.238095        
-@main.route('/select/Migration_Groups_Query', methods=['GET','POST'])
-@login_required
-@admin_required
-def select_Migration_Groups_query():
-    """ Select rows handling function for table 'Migration_Groups' """
-    logger.debug('select_Migration_Groups_query(): Enter')
-    #chk_c000001(filename=os.path.join(current_app.root_path, '.c000001'),request=request,db=db,logger=logger)
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Migration_Groups'
-    class_name='migration_groups'
-    template_name='Migration_Groups'
-    sharding=False
-
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        migration_groups.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%migration_groups.__table__.name) 
-
-
-    logger.debug("-----------------------------------------------------------")
-    logger.debug("%s: template_name            = %s",__name__,template_name)
-
-    logger.debug("%s: COLLECTOR_CIT_SHARDING   = %s",__name__,current_app.config.get('COLLECTOR_CIT_SHARDING'))
-    logger.debug("%s: sharding                 = %s",__name__,sharding)
-    logger.debug("%s: suffix                   = %s",__name__,suffix)
-    logger.debug("%s: table_name               = %s",__name__,table_name)
-    logger.debug("%s: class_name               = %s",__name__,class_name)
-    logger.debug("%s: class_name              = %s",__name__,class_name)
-
-    logger.debug("-----------------------------------------------------------")    
-        
-    # Get parameters from URL call
-    ia       =  request.args.get('ia',     None,type=str)
-    if ia is not None:
-        ia=ia.split(',')
-        if ia[0]=='ORDER':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='migration_groups',Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-        elif ia[0]=='GROUP':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='migration_groups',Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-        elif ia[0]=='LIMIT':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='migration_groups',Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-
-    iad      =  request.args.get('iad',     None,type=int)
-    if iad is not None: delete_query_option(engine=db.engine,Interface=Interface,Id=iad) 
-    
-    field    =  request.args.get('field',   None,type=str)
-    value    =  request.args.get('value',   None,type=str)
-    
-    # Populates a list of foreign keys used for advanced filtering
-    # ------------------------------------------------------------------
-    foreign_keys={}
-    
-    # ------------------------------------------------------------------
-    
-    if field is not None:
-        reset_query_options(    engine=db.engine,Interface=Interface,
-                                User_Id=current_user.id,
-                                #Table_name='migration_groups'
-                                Table_name=class_name
-                                )
-
-        
-        if field in foreign_keys.keys():
-            Class,referenced_classname,referenced_Field,referenced_Value,column_Header=foreign_keys[field]
-            foreign_field='%s.%s:%s'%(referenced_classname,referenced_Value,column_Header)
-            foreign_record=Class.query.get(value)
-            foreign_description="'%s'"%getattr(foreign_record,referenced_Value)
-        set_query_option(   engine=db.engine,Interface=Interface,
-                        User_Id=current_user.id,
-                        Table_name=class_name,
-                        Option_Type=OPTION_FILTER,
-                        Argument_1=foreign_field,
-                        Argument_2='==',
-                        Argument_3=foreign_description
-                        )
-    page     =  request.args.get('page',    1   ,type=int)
-    addx     =  request.args.get('add.x',   None,type=int)
-    addy     =  request.args.get('add.y',   None,type=int)
-    exportx  =  request.args.get('export.x',None,type=int)
-    exporty  =  request.args.get('export.y',None,type=int)
-    filterx  =  request.args.get('filter.x',None,type=int)
-    filtery  =  request.args.get('filter.y',None,type=int)
-    # Select excluyent view mode
-    if   addx    is not None: mode = 'add'
-    elif exportx is not None: mode = 'export'
-    elif filterx is not None: mode = 'filter'
-    else:                     mode = 'select'
-    MG_Id =  request.args.get('MG_Id',None,type=str)
-    Name =  request.args.get('Name',None,type=str)
-    Origin =  request.args.get('Origin',None,type=str)
-    Destiny =  request.args.get('Destiny',None,type=str)
-    Customer =  request.args.get('Customer',None,type=str)
-    Platform =  request.args.get('Platform',None,type=str)
-    
-    # Build default query all fields from table
-    
-
-    if MG_Id is not None and len(MG_Id)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='MG_Id:MG_Id',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%MG_Id
-                )
-    
-    
-    if Name is not None and len(Name)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Name:Name',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Name
-                )
-    
-    
-    if Origin is not None and len(Origin)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Origin:Origin',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Origin
-                )
-    
-    
-    if Destiny is not None and len(Destiny)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Destiny:Destiny',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Destiny
-                )
-    
-    
-    if Customer is not None and len(Customer)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Customer:Customer',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Customer
-                )
-    
-    
-    if Platform is not None and len(Platform)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Platform:Platform',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Platform
-                )
-    
-    
-    
-    statement_query,options=get_query_options(engine=db.engine,Interface=Interface,Table_name=class_name,User_Id=current_user.id)
-    tracebox_log(statement_query,logger,length=80)
-    query=eval(statement_query)
-    filtered_query = query    
-    if mode == 'filter':
-        query=filtered_query
-    elif mode == 'export':
-        query=filtered_query
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%s_'%table_name, dir=None, text=False)
-        dict = {'header':{},'detail':[]}
-        count = 0
-        rows = query.all()
-        for row in rows:
-            dict['detail'].append({})
-            for column in ['MG_Id', 'Name', 'Origin', 'Destiny', 'Customer', 'Platform']:
-                dict['detail'][count].update( { column:str(row.__getattribute__(column))})
-                
-            count += 1
-        dict['header'].update({'count':count})
-        jsonarray      = json.dumps(dict)
-        data           = json.loads(jsonarray)  
-        dataframe      = json_normalize(data, 'detail').assign(**data['header'])
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%_'%table_name, dir='/tmp', text=False)
-        xlsx_file      = '%s/%s'%(current_app.root_path,url_for('static',filename='%s.xls'%(output_file)))
-        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['MG_Id', 'Name', 'Origin', 'Destiny', 'Customer', 'Platform'])
-        return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file.replace('/','_')+'.xls')
-    elif mode == 'add':
-        return redirect(url_for('.forms_%s'%table_name))
-    elif mode == 'select':
-        pass
-        # if some filter is required
-        if field is not None:
-            if field == 'MG_Id':
-                if value is not None:
-                    query = query.filter_by(MG_Id=value)
-            if field == 'Name':
-                if value is not None:
-                    query = query.filter_by(Name=value)
-            if field == 'Origin':
-                if value is not None:
-                    query = query.filter_by(Origin=value)
-            if field == 'Destiny':
-                if value is not None:
-                    query = query.filter_by(Destiny=value)
-            if field == 'Customer':
-                if value is not None:
-                    query = query.filter_by(Customer=value)
-            if field == 'Platform':
-                if value is not None:
-                    query = query.filter_by(Platform=value)
-            
-    # Actual request from DB follows
-    tracebox_log(query,logger,length=80)
-    # getting paginated rows for query
-    rows = query.paginate(page, per_page=current_app.config['LINES_PER_PAGE'], error_out=False)
-    # Setting pagination variables ...
-    if field is not None:
-       next_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.prev_num) if rows.has_prev else None
-    else:
-       next_url = url_for('.select_%s_query'%template_name, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, page=rows.prev_num) if rows.has_prev else None
-    # Actual rendering ...
-    if request.headers.get('Content-Type') is not None or request.args.get('JSON',None,type=str) is not None:
-        # NOTE: needs review for JSONnifiyng output when needed (API Interface?)
-        if "JSON" in request.headers.get('Content-Type') or request.args.get('JSON',None,type=str) is not None:
-            logger.debug('select_%s_query(): will render: JSON rows'%template_name)
-            logger.debug('select_%s_query(): Exit'%template_name)
-            return json.dumps(serialize_object(rows.__dict__))
-    logger.debug('select_%s_query(): will render: %s_All.html'%(template_name,table_name.lower()))
-    logger.debug('select_%s_query(): Exit'%template_name)
-    return render_template('%s_select_All.html'%template_name.lower(),rows=rows,options=options,collectordata=collectordata)
-#===============================================================================
-   
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.266573
-# ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:22.266588
+# gen_views_api.html:AG 2022-03-16 19:41:37.870604
 # table_name: Migration_Groups
 # class_name: migration_groups
 # is shardened: True
@@ -5138,153 +4369,16 @@ def api_delete_Migration_Groups(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_migration_groups_vm.py
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.373052
-# ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:22.373066
-@main.route('/forms/Migration_Groups_VM', methods=['GET', 'POST'])
-@login_required
-
-def forms_Migration_Groups_VM():
-    """ Form handling function for table Migration_Groups_VM """
-    logger.debug('forms_Migration_Groups_VM(): Enter')
-    
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Migration_Groups_VM'
-    class_name='migration_groups_vm'
-    template_name='Migration_Groups_VM'
-    sharding=False
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        migration_groups_vm.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%migration_groups_vm.__table__.name)
-    MG_Id  =  request.args.get('MG_Id',0,type=int)
-    vm_uuid  =  request.args.get('vm_uuid',0,type=int)
-    
-    # Ensures DB Data is commited prior main query
-    try:
-        db.session.commit()
-    except:
-        db.session.rollback()
-    row =  migration_groups_vm.query.filter(migration_groups_vm.MG_Id == MG_Id,migration_groups_vm.vm_uuid == vm_uuid).first()
-    if row is None:
-        row=migration_groups_vm()
-        session['is_new_row']=True
-    session['data'] =  {  'MG_Id':row.MG_Id, 'vm_uuid':row.vm_uuid, 'vm_cluster_uuid':row.vm_cluster_uuid, 'vm_name':row.vm_name, 'vm_state':row.vm_state, 'vm_has_pd':row.vm_has_pd, 'vm_pd_name':row.vm_pd_name, 'vm_pd_active':row.vm_pd_active, 'vm_pd_replicating':row.vm_pd_replicating, 'vm_pd_schedules':row.vm_pd_schedules, 'vm_last_replication':row.vm_last_replication, 'vm_migrate':row.vm_migrate, 'vm_project':row.vm_project }
-    
-    form = frm_migration_groups_vm()
-    
-    if form.has_FKs:
-        form.MG_Id.choices = db.session.query(migration_groups.MG_Id,migration_groups.Name).order_by(migration_groups.Name).all()
-
-    
-    # Actual Form activation here
-    if form.validate_on_submit():
-        # Code for SAVE option -----------------------------------------
-        if form.submit_Save.data and current_user.role_id > 1:
-            row.MG_Id = form.MG_Id.data
-            row.vm_uuid = form.vm_uuid.data
-            row.vm_cluster_uuid = form.vm_cluster_uuid.data
-            row.vm_name = form.vm_name.data
-            row.vm_state = form.vm_state.data
-            row.vm_has_pd = form.vm_has_pd.data
-            row.vm_pd_name = form.vm_pd_name.data
-            row.vm_pd_active = form.vm_pd_active.data
-            row.vm_pd_replicating = form.vm_pd_replicating.data
-            row.vm_pd_schedules = form.vm_pd_schedules.data
-            row.vm_last_replication = form.vm_last_replication.data
-            row.vm_migrate = form.vm_migrate.data
-            row.vm_project = form.vm_project.data
-            try:
-               session['new_row']=str(row)
-               db.session.flush()
-               db.session.add(row)
-               db.session.commit()
-               db.session.flush()
-               if session['is_new_row']==True:
-                   logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                   flash('New Migration_groups_vm created OK')
-               else:
-                   logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                   logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                   message=Markup('<b>Migration_groups_vm MG_Id,vm_uuid saved OK</b>')
-                   flash(message)
-               db.session.flush()
-            except Exception as e:
-               db.session.rollback()
-               db.session.flush()
-               message=Markup('ERROR saving Migration_groups_vm record : %s'%(e))
-               flash(message)
-            return redirect(url_for('.select_Migration_Groups_VM_query'))
-        # --------------------------------------------------------------
-        # Code for NEW option
-        # GV 20190109 f.write(        "        elif   form.submit_New.data:\n")
-        elif   form.submit_New.data and current_user.role_id>1:
-            #print('New Data Here ...')
-            session['is_new_row']=True
-            db.session.flush()
-            row=migration_groups_vm()
-    
-            return redirect(url_for('.forms_Migration_Groups_VM'))    
-    
-        # Code for CANCEL option 
-        elif   form.submit_Cancel.data:
-            #print('Cancel Data Here ... does nothing')
-            message=Markup('Migration_groups_vm Record modifications discarded ...')
-            flash(message)
-        # Code for ANY OTHER option should never get here
-        else:
-            #print('form validated but not submited ???')
-            message=Markup("<b>Migration_groups_vm data modifications not allowed for user '%s'. Please contact EG Suite's Administrator ...</b>"%(current_user.username))    
-            flash(message)
-    
-            return redirect(url_for('.forms_'))    
-    
-    
-    form.MG_Id.data = row.MG_Id
-    form.vm_uuid.data = row.vm_uuid
-    form.vm_cluster_uuid.data = row.vm_cluster_uuid
-    form.vm_name.data = row.vm_name
-    form.vm_state.data = row.vm_state
-    form.vm_has_pd.data = row.vm_has_pd
-    form.vm_pd_name.data = row.vm_pd_name
-    form.vm_pd_active.data = row.vm_pd_active
-    form.vm_pd_replicating.data = row.vm_pd_replicating
-    form.vm_pd_schedules.data = row.vm_pd_schedules
-    form.vm_last_replication.data = row.vm_last_replication
-    form.vm_migrate.data = row.vm_migrate
-    form.vm_project.data = row.vm_project
-    session['prev_row'] = str(row)
-    session['is_new_row'] = False
-    logger.debug('forms_Migration_Groups_VM(): Exit')
-    # Generates pagination data here
-    P=[]
-    # Tab Relations = []
-    
-    # Generation of pagination data completed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    return render_template('migration_groups_vm.html', form=form, row=row, P=P,collectordata=collectordata)    
-# ======================================================================
-
-
 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.381952
+#  GLVH @ 2022-03-16 19:41:38.034004
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:22.381966
+# gen_views_delete.html:AG 2022-03-16 19:41:38.034022
 @main.route('/forms/Migration_Groups_VM_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -5346,384 +4440,12 @@ def forms_Migration_Groups_VM_delete():
     return render_template('migration_groups_vm_delete.html', form=form, data=session.get('data'),row=row,collectordata=collectordata)
 #===============================================================================
 
-# table_name: Migration_Groups_VM
-# class_name: migration_groups_vm
-# is shardened: True
-# current_app: 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.408936
+#  GLVH @ 2022-03-16 19:41:38.086476
 # ======================================================================
-
-# gen_views_select_query.html:AG 2022-03-04 17:13:22.408950        
-@main.route('/select/Migration_Groups_VM_Query', methods=['GET','POST'])
-@login_required
-@admin_required
-def select_Migration_Groups_VM_query():
-    """ Select rows handling function for table 'Migration_Groups_VM' """
-    logger.debug('select_Migration_Groups_VM_query(): Enter')
-    #chk_c000001(filename=os.path.join(current_app.root_path, '.c000001'),request=request,db=db,logger=logger)
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Migration_Groups_VM'
-    class_name='migration_groups_vm'
-    template_name='Migration_Groups_VM'
-    sharding=False
-
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        migration_groups_vm.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%migration_groups_vm.__table__.name) 
-
-
-    logger.debug("-----------------------------------------------------------")
-    logger.debug("%s: template_name            = %s",__name__,template_name)
-
-    logger.debug("%s: COLLECTOR_CIT_SHARDING   = %s",__name__,current_app.config.get('COLLECTOR_CIT_SHARDING'))
-    logger.debug("%s: sharding                 = %s",__name__,sharding)
-    logger.debug("%s: suffix                   = %s",__name__,suffix)
-    logger.debug("%s: table_name               = %s",__name__,table_name)
-    logger.debug("%s: class_name               = %s",__name__,class_name)
-    logger.debug("%s: class_name              = %s",__name__,class_name)
-
-    logger.debug("-----------------------------------------------------------")    
-        
-    # Get parameters from URL call
-    ia       =  request.args.get('ia',     None,type=str)
-    if ia is not None:
-        ia=ia.split(',')
-        if ia[0]=='ORDER':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='migration_groups_vm',Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-        elif ia[0]=='GROUP':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='migration_groups_vm',Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-        elif ia[0]=='LIMIT':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='migration_groups_vm',Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-
-    iad      =  request.args.get('iad',     None,type=int)
-    if iad is not None: delete_query_option(engine=db.engine,Interface=Interface,Id=iad) 
-    
-    field    =  request.args.get('field',   None,type=str)
-    value    =  request.args.get('value',   None,type=str)
-    
-    # Populates a list of foreign keys used for advanced filtering
-    # ------------------------------------------------------------------
-    foreign_keys={}
-    
-    foreign_keys.update({'MG_Id':(migration_groups,'migration_groups','MG_Id','Name','MG_Id')})
-    # ------------------------------------------------------------------
-    
-    if field is not None:
-        reset_query_options(    engine=db.engine,Interface=Interface,
-                                User_Id=current_user.id,
-                                #Table_name='migration_groups_vm'
-                                Table_name=class_name
-                                )
-
-        
-        if field in foreign_keys.keys():
-            Class,referenced_classname,referenced_Field,referenced_Value,column_Header=foreign_keys[field]
-            foreign_field='%s.%s:%s'%(referenced_classname,referenced_Value,column_Header)
-            foreign_record=Class.query.get(value)
-            foreign_description="'%s'"%getattr(foreign_record,referenced_Value)
-        set_query_option(   engine=db.engine,Interface=Interface,
-                        User_Id=current_user.id,
-                        Table_name=class_name,
-                        Option_Type=OPTION_FILTER,
-                        Argument_1=foreign_field,
-                        Argument_2='==',
-                        Argument_3=foreign_description
-                        )
-    page     =  request.args.get('page',    1   ,type=int)
-    addx     =  request.args.get('add.x',   None,type=int)
-    addy     =  request.args.get('add.y',   None,type=int)
-    exportx  =  request.args.get('export.x',None,type=int)
-    exporty  =  request.args.get('export.y',None,type=int)
-    filterx  =  request.args.get('filter.x',None,type=int)
-    filtery  =  request.args.get('filter.y',None,type=int)
-    # Select excluyent view mode
-    if   addx    is not None: mode = 'add'
-    elif exportx is not None: mode = 'export'
-    elif filterx is not None: mode = 'filter'
-    else:                     mode = 'select'
-    MG_Id =  request.args.get('MG_Id',None,type=str)
-    vm_uuid =  request.args.get('vm_uuid',None,type=str)
-    vm_cluster_uuid =  request.args.get('vm_cluster_uuid',None,type=str)
-    vm_name =  request.args.get('vm_name',None,type=str)
-    vm_state =  request.args.get('vm_state',None,type=str)
-    vm_has_pd =  request.args.get('vm_has_pd',None,type=str)
-    vm_pd_name =  request.args.get('vm_pd_name',None,type=str)
-    vm_pd_active =  request.args.get('vm_pd_active',None,type=str)
-    vm_pd_replicating =  request.args.get('vm_pd_replicating',None,type=str)
-    vm_pd_schedules =  request.args.get('vm_pd_schedules',None,type=str)
-    vm_last_replication =  request.args.get('vm_last_replication',None,type=str)
-    vm_migrate =  request.args.get('vm_migrate',None,type=str)
-    vm_project =  request.args.get('vm_project',None,type=str)
-    
-    # Build default query all fields from table
-    
-
-    if MG_Id is not None and len(MG_Id)>0:
-            Class,referenced_classname,referenced_Field,referenced_Value,column_Header=foreign_keys['MG_Id']
-            foreign_field='%s.%s:%s'%(referenced_classname,referenced_Value,column_Header)            
-            set_query_option(   engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1=foreign_field,
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%MG_Id
-                )
-                                
-    
-    
-    if vm_uuid is not None and len(vm_uuid)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_uuid:vm_uuid',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_uuid
-                )
-    
-    
-    if vm_cluster_uuid is not None and len(vm_cluster_uuid)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_cluster_uuid:vm_cluster_uuid',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_cluster_uuid
-                )
-    
-    
-    if vm_name is not None and len(vm_name)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_name:vm_name',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_name
-                )
-    
-    
-    if vm_state is not None and len(vm_state)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_state:vm_state',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_state
-                )
-    
-    
-    if vm_has_pd is not None and len(vm_has_pd)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_has_pd:vm_has_pd',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_has_pd
-                )
-    
-    
-    if vm_pd_name is not None and len(vm_pd_name)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_pd_name:vm_pd_name',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_pd_name
-                )
-    
-    
-    if vm_pd_active is not None and len(vm_pd_active)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_pd_active:vm_pd_active',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_pd_active
-                )
-    
-    
-    if vm_pd_replicating is not None and len(vm_pd_replicating)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_pd_replicating:vm_pd_replicating',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_pd_replicating
-                )
-    
-    
-    if vm_pd_schedules is not None and len(vm_pd_schedules)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_pd_schedules:vm_pd_schedules',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_pd_schedules
-                )
-    
-    
-    if vm_last_replication is not None and len(vm_last_replication)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_last_replication:vm_last_replication',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_last_replication
-                )
-    
-    
-    if vm_migrate is not None and len(vm_migrate)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_migrate:vm_migrate',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_migrate
-                )
-    
-    
-    if vm_project is not None and len(vm_project)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='vm_project:vm_project',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%vm_project
-                )
-    
-    
-    
-    statement_query,options=get_query_options(engine=db.engine,Interface=Interface,Table_name=class_name,User_Id=current_user.id)
-    tracebox_log(statement_query,logger,length=80)
-    query=eval(statement_query)
-    filtered_query = query    
-    if mode == 'filter':
-        query=filtered_query
-    elif mode == 'export':
-        query=filtered_query
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%s_'%table_name, dir=None, text=False)
-        dict = {'header':{},'detail':[]}
-        count = 0
-        rows = query.all()
-        for row in rows:
-            dict['detail'].append({})
-            for column in ['MG_Id', 'vm_uuid', 'vm_cluster_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_pd_schedules', 'vm_last_replication', 'vm_migrate', 'vm_project']:
-                dict['detail'][count].update( { column:str(row.__getattribute__(column))})
-                
-            count += 1
-        dict['header'].update({'count':count})
-        jsonarray      = json.dumps(dict)
-        data           = json.loads(jsonarray)  
-        dataframe      = json_normalize(data, 'detail').assign(**data['header'])
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%_'%table_name, dir='/tmp', text=False)
-        xlsx_file      = '%s/%s'%(current_app.root_path,url_for('static',filename='%s.xls'%(output_file)))
-        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['MG_Id', 'vm_uuid', 'vm_cluster_uuid', 'vm_name', 'vm_state', 'vm_has_pd', 'vm_pd_name', 'vm_pd_active', 'vm_pd_replicating', 'vm_pd_schedules', 'vm_last_replication', 'vm_migrate', 'vm_project'])
-        return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file.replace('/','_')+'.xls')
-    elif mode == 'add':
-        return redirect(url_for('.forms_%s'%table_name))
-    elif mode == 'select':
-        pass
-        # if some filter is required
-        if field is not None:
-            if field == 'MG_Id':
-                if value is not None:
-                    query = query.filter_by(MG_Id=value)
-            if field == 'vm_uuid':
-                if value is not None:
-                    query = query.filter_by(vm_uuid=value)
-            if field == 'vm_cluster_uuid':
-                if value is not None:
-                    query = query.filter_by(vm_cluster_uuid=value)
-            if field == 'vm_name':
-                if value is not None:
-                    query = query.filter_by(vm_name=value)
-            if field == 'vm_state':
-                if value is not None:
-                    query = query.filter_by(vm_state=value)
-            if field == 'vm_has_pd':
-                if value is not None:
-                    query = query.filter_by(vm_has_pd=value)
-            if field == 'vm_pd_name':
-                if value is not None:
-                    query = query.filter_by(vm_pd_name=value)
-            if field == 'vm_pd_active':
-                if value is not None:
-                    query = query.filter_by(vm_pd_active=value)
-            if field == 'vm_pd_replicating':
-                if value is not None:
-                    query = query.filter_by(vm_pd_replicating=value)
-            if field == 'vm_pd_schedules':
-                if value is not None:
-                    query = query.filter_by(vm_pd_schedules=value)
-            if field == 'vm_last_replication':
-                if value is not None:
-                    query = query.filter_by(vm_last_replication=value)
-            if field == 'vm_migrate':
-                if value is not None:
-                    query = query.filter_by(vm_migrate=value)
-            if field == 'vm_project':
-                if value is not None:
-                    query = query.filter_by(vm_project=value)
-            # ------------------------------------------------------------------
-    # JOIN other tables and generate foreign fields
-    # Will replace class name by sharding class in joins structure
-    # will have no effect in no sharding environment
-    query = query.join(migration_groups,migration_groups_vm.MG_Id == migration_groups.MG_Id).add_columns(migration_groups.Name)
-    # ------------------------------------------------------------------
-    
-    # Actual request from DB follows
-    tracebox_log(query,logger,length=80)
-    # getting paginated rows for query
-    rows = query.paginate(page, per_page=current_app.config['LINES_PER_PAGE'], error_out=False)
-    # Setting pagination variables ...
-    if field is not None:
-       next_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.prev_num) if rows.has_prev else None
-    else:
-       next_url = url_for('.select_%s_query'%template_name, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, page=rows.prev_num) if rows.has_prev else None
-    # Actual rendering ...
-    if request.headers.get('Content-Type') is not None or request.args.get('JSON',None,type=str) is not None:
-        # NOTE: needs review for JSONnifiyng output when needed (API Interface?)
-        if "JSON" in request.headers.get('Content-Type') or request.args.get('JSON',None,type=str) is not None:
-            logger.debug('select_%s_query(): will render: JSON rows'%template_name)
-            logger.debug('select_%s_query(): Exit'%template_name)
-            return json.dumps(serialize_object(rows.__dict__))
-    logger.debug('select_%s_query(): will render: %s_All.html'%(template_name,table_name.lower()))
-    logger.debug('select_%s_query(): Exit'%template_name)
-    return render_template('%s_select_All.html'%template_name.lower(),rows=rows,options=options,collectordata=collectordata)
-#===============================================================================
-   
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.436899
-# ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:22.436923
+# gen_views_api.html:AG 2022-03-16 19:41:38.086493
 # table_name: Migration_Groups_VM
 # class_name: migration_groups_vm
 # is shardened: True
@@ -6048,15 +4770,15 @@ def api_delete_Migration_Groups_VM(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_prism_vm.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.628349
+#  GLVH @ 2022-03-16 19:41:38.441603
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:22.628363
+# gen_views_form.html:AG 2022-03-16 19:41:38.441617
 @main.route('/forms/Nutanix_Prism_VM', methods=['GET', 'POST'])
 @login_required
 
@@ -6286,9 +5008,9 @@ def forms_Nutanix_Prism_VM():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.636489
+#  GLVH @ 2022-03-16 19:41:38.451629
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:22.636500
+# gen_views_delete.html:AG 2022-03-16 19:41:38.451643
 @main.route('/forms/Nutanix_Prism_VM_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -6356,10 +5078,10 @@ def forms_Nutanix_Prism_VM_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.651796
+#  GLVH @ 2022-03-16 19:41:38.470917
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:22.651807        
+# gen_views_select_query.html:AG 2022-03-16 19:41:38.470940        
 @main.route('/select/Nutanix_Prism_VM_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -7447,9 +6169,9 @@ def select_Nutanix_Prism_VM_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.682446
+#  GLVH @ 2022-03-16 19:41:38.506292
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:22.682461
+# gen_views_api.html:AG 2022-03-16 19:41:38.506307
 # table_name: Nutanix_Prism_VM
 # class_name: nutanix_prism_vm
 # is shardened: False
@@ -8105,15 +6827,15 @@ def api_delete_Nutanix_Prism_VM(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_nutanix_vm_images.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.771650
+#  GLVH @ 2022-03-16 19:41:38.680794
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:22.771663
+# gen_views_form.html:AG 2022-03-16 19:41:38.680809
 @main.route('/forms/Nutanix_VM_Images', methods=['GET', 'POST'])
 @login_required
 
@@ -8221,9 +6943,9 @@ def forms_Nutanix_VM_Images():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.779461
+#  GLVH @ 2022-03-16 19:41:38.721333
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:22.779473
+# gen_views_delete.html:AG 2022-03-16 19:41:38.721348
 @main.route('/forms/Nutanix_VM_Images_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -8289,10 +7011,10 @@ def forms_Nutanix_VM_Images_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.795237
+#  GLVH @ 2022-03-16 19:41:38.758082
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:22.795269        
+# gen_views_select_query.html:AG 2022-03-16 19:41:38.758096        
 @main.route('/select/Nutanix_VM_Images_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -8499,9 +7221,9 @@ def select_Nutanix_VM_Images_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.822692
+#  GLVH @ 2022-03-16 19:41:38.841207
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:22.822706
+# gen_views_api.html:AG 2022-03-16 19:41:38.841221
 # table_name: Nutanix_VM_Images
 # class_name: nutanix_vm_images
 # is shardened: False
@@ -8758,15 +7480,15 @@ def api_delete_Nutanix_VM_Images(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_projects.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.911173
+#  GLVH @ 2022-03-16 19:41:39.346281
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:22.911188
+# gen_views_form.html:AG 2022-03-16 19:41:39.346295
 @main.route('/forms/Projects', methods=['GET', 'POST'])
 @login_required
 
@@ -8881,9 +7603,9 @@ def forms_Projects():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.919422
+#  GLVH @ 2022-03-16 19:41:39.395545
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:22.919447
+# gen_views_delete.html:AG 2022-03-16 19:41:39.395559
 @main.route('/forms/Projects_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -8949,10 +7671,10 @@ def forms_Projects_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.936278
+#  GLVH @ 2022-03-16 19:41:39.495150
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:22.936292        
+# gen_views_select_query.html:AG 2022-03-16 19:41:39.495165        
 @main.route('/select/Projects_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -9144,9 +7866,9 @@ def select_Projects_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:22.963742
+#  GLVH @ 2022-03-16 19:41:39.635864
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:22.963799
+# gen_views_api.html:AG 2022-03-16 19:41:39.635879
 # table_name: Projects
 # class_name: projects
 # is shardened: False
@@ -9396,143 +8118,16 @@ def api_delete_Projects(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_rates.py
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.064298
-# ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:23.064312
-@main.route('/forms/Rates', methods=['GET', 'POST'])
-@login_required
-
-def forms_Rates():
-    """ Form handling function for table Rates """
-    logger.debug('forms_Rates(): Enter')
-    
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Rates'
-    class_name='rates'
-    template_name='Rates'
-    sharding=False
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        rates.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%rates.__table__.name)
-    Rat_Id  =  request.args.get('Rat_Id',0,type=int)
-    
-    # Ensures DB Data is commited prior main query
-    try:
-        db.session.commit()
-    except:
-        db.session.rollback()
-    row =  rates.query.filter(rates.Rat_Id == Rat_Id).first()
-    if row is None:
-        row=rates()
-        session['is_new_row']=True
-    session['data'] =  {  'Rat_Id':row.Rat_Id, 'Typ_Code':row.Typ_Code, 'Cus_Id':row.Cus_Id, 'Pla_Id':row.Pla_Id, 'CC_Id':row.CC_Id, 'CI_Id':row.CI_Id, 'Rat_Price':row.Rat_Price, 'Cur_Code':row.Cur_Code, 'MU_Code':row.MU_Code, 'Rat_Period':row.Rat_Period, 'Rat_Type':row.Rat_Type }
-    
-    form = frm_rates()
-    
-    # Actual Form activation here
-    if form.validate_on_submit():
-        # Code for SAVE option -----------------------------------------
-        if form.submit_Save.data and current_user.role_id > 1:
-            
-            row.Typ_Code = form.Typ_Code.data
-            row.Cus_Id = form.Cus_Id.data
-            row.Pla_Id = form.Pla_Id.data
-            row.CC_Id = form.CC_Id.data
-            row.CI_Id = form.CI_Id.data
-            row.Rat_Price = form.Rat_Price.data
-            row.Cur_Code = form.Cur_Code.data
-            row.MU_Code = form.MU_Code.data
-            row.Rat_Period = form.Rat_Period.data
-            row.Rat_Type = form.Rat_Type.data
-            try:
-               session['new_row']=str(row)
-               db.session.flush()
-               db.session.add(row)
-               db.session.commit()
-               db.session.flush()
-               if session['is_new_row']==True:
-                   logger.audit ( '%s:NEW:%s' % (current_user.username,session['new_row'] ) )
-                   flash('New Rates created OK')
-               else:
-                   logger.audit ( '%s:OLD:%s' % (current_user.username,session['prev_row']) )
-                   logger.audit ( '%s:UPD:%s' % (current_user.username,session['new_row'] ) )    
-                   message=Markup('<b>Rates Rat_Id saved OK</b>')
-                   flash(message)
-               db.session.flush()
-            except Exception as e:
-               db.session.rollback()
-               db.session.flush()
-               message=Markup('ERROR saving Rates record : %s'%(e))
-               flash(message)
-            return redirect(url_for('.select_Rates_query'))
-        # --------------------------------------------------------------
-        # Code for NEW option
-        # GV 20190109 f.write(        "        elif   form.submit_New.data:\n")
-        elif   form.submit_New.data and current_user.role_id>1:
-            #print('New Data Here ...')
-            session['is_new_row']=True
-            db.session.flush()
-            row=rates()
-    
-            return redirect(url_for('.forms_Rates',Rat_Id=row.Rat_Id))
-    
-        # Code for CANCEL option 
-        elif   form.submit_Cancel.data:
-            #print('Cancel Data Here ... does nothing')
-            message=Markup('Rates Record modifications discarded ...')
-            flash(message)
-        # Code for ANY OTHER option should never get here
-        else:
-            #print('form validated but not submited ???')
-            message=Markup("<b>Rates data modifications not allowed for user '%s'. Please contact EG Suite's Administrator ...</b>"%(current_user.username))    
-            flash(message)
-    
-            return redirect(url_for('.forms_Rates',Rat_Id=row.Rat_Id))
-    
-    
-    form.Typ_Code.data = row.Typ_Code
-    form.Cus_Id.data = row.Cus_Id
-    form.Pla_Id.data = row.Pla_Id
-    form.CC_Id.data = row.CC_Id
-    form.CI_Id.data = row.CI_Id
-    form.Rat_Price.data = row.Rat_Price
-    form.Cur_Code.data = row.Cur_Code
-    form.MU_Code.data = row.MU_Code
-    form.Rat_Period.data = row.Rat_Period
-    form.Rat_Type.data = row.Rat_Type
-    session['prev_row'] = str(row)
-    session['is_new_row'] = False
-    logger.debug('forms_Rates(): Exit')
-    # Generates pagination data here
-    P=[]
-    # Tab Relations = []
-    
-    # Generation of pagination data completed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    return render_template('rates.html', form=form, row=row, P=P,collectordata=collectordata)    
-# ======================================================================
-
-
 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.072380
+#  GLVH @ 2022-03-16 19:41:40.010197
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:23.072391
+# gen_views_delete.html:AG 2022-03-16 19:41:40.010212
 @main.route('/forms/Rates_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -9591,344 +8186,12 @@ def forms_Rates_delete():
     return render_template('rates_delete.html', form=form, data=session.get('data'),row=row,collectordata=collectordata)
 #===============================================================================
 
-# table_name: Rates
-# class_name: rates
-# is shardened: True
-# current_app: 
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.088555
+#  GLVH @ 2022-03-16 19:41:40.245019
 # ======================================================================
-
-# gen_views_select_query.html:AG 2022-03-04 17:13:23.088574        
-@main.route('/select/Rates_Query', methods=['GET','POST'])
-@login_required
-@admin_required
-def select_Rates_query():
-    """ Select rows handling function for table 'Rates' """
-    logger.debug('select_Rates_query(): Enter')
-    #chk_c000001(filename=os.path.join(current_app.root_path, '.c000001'),request=request,db=db,logger=logger)
-    # Shardening Code goes her if needed
-    collectordata={}
-    collectordata.update({"COLLECTOR_PERIOD":get_period_data(current_user.id,db.engine,Interface)})
-    collectordata.update({"CONFIG":current_app.config})
-    suffix = collectordata['COLLECTOR_PERIOD']['active']
-    table_name='Rates'
-    class_name='rates'
-    template_name='Rates'
-    sharding=False
-
-    if 'COLLECTOR_CIT_SHARDING' in current_app.config: 
-        sharding=current_app.config['COLLECTOR_CIT_SHARDING']
-    if sharding:
-        rates.set_shard(suffix,db.engine)
-        flash("Using shardened table: %s"%rates.__table__.name) 
-
-
-    logger.debug("-----------------------------------------------------------")
-    logger.debug("%s: template_name            = %s",__name__,template_name)
-
-    logger.debug("%s: COLLECTOR_CIT_SHARDING   = %s",__name__,current_app.config.get('COLLECTOR_CIT_SHARDING'))
-    logger.debug("%s: sharding                 = %s",__name__,sharding)
-    logger.debug("%s: suffix                   = %s",__name__,suffix)
-    logger.debug("%s: table_name               = %s",__name__,table_name)
-    logger.debug("%s: class_name               = %s",__name__,class_name)
-    logger.debug("%s: class_name              = %s",__name__,class_name)
-
-    logger.debug("-----------------------------------------------------------")    
-        
-    # Get parameters from URL call
-    ia       =  request.args.get('ia',     None,type=str)
-    if ia is not None:
-        ia=ia.split(',')
-        if ia[0]=='ORDER':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='rates',Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_ORDER_BY,Argument_1=ia[1],Argument_2=ia[2])
-        elif ia[0]=='GROUP':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='rates',Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_GROUP_BY,Argument_1=ia[1])
-        elif ia[0]=='LIMIT':
-            #set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name='rates',Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-            set_query_option(engine=db.engine,Interface=Interface,User_Id=current_user.id,Table_name=class_name,Option_Type=OPTION_LIMIT,Argument_1=ia[1])
-
-    iad      =  request.args.get('iad',     None,type=int)
-    if iad is not None: delete_query_option(engine=db.engine,Interface=Interface,Id=iad) 
-    
-    field    =  request.args.get('field',   None,type=str)
-    value    =  request.args.get('value',   None,type=str)
-    
-    # Populates a list of foreign keys used for advanced filtering
-    # ------------------------------------------------------------------
-    foreign_keys={}
-    
-    # ------------------------------------------------------------------
-    
-    if field is not None:
-        reset_query_options(    engine=db.engine,Interface=Interface,
-                                User_Id=current_user.id,
-                                #Table_name='rates'
-                                Table_name=class_name
-                                )
-
-        
-        if field in foreign_keys.keys():
-            Class,referenced_classname,referenced_Field,referenced_Value,column_Header=foreign_keys[field]
-            foreign_field='%s.%s:%s'%(referenced_classname,referenced_Value,column_Header)
-            foreign_record=Class.query.get(value)
-            foreign_description="'%s'"%getattr(foreign_record,referenced_Value)
-        set_query_option(   engine=db.engine,Interface=Interface,
-                        User_Id=current_user.id,
-                        Table_name=class_name,
-                        Option_Type=OPTION_FILTER,
-                        Argument_1=foreign_field,
-                        Argument_2='==',
-                        Argument_3=foreign_description
-                        )
-    page     =  request.args.get('page',    1   ,type=int)
-    addx     =  request.args.get('add.x',   None,type=int)
-    addy     =  request.args.get('add.y',   None,type=int)
-    exportx  =  request.args.get('export.x',None,type=int)
-    exporty  =  request.args.get('export.y',None,type=int)
-    filterx  =  request.args.get('filter.x',None,type=int)
-    filtery  =  request.args.get('filter.y',None,type=int)
-    # Select excluyent view mode
-    if   addx    is not None: mode = 'add'
-    elif exportx is not None: mode = 'export'
-    elif filterx is not None: mode = 'filter'
-    else:                     mode = 'select'
-    Rat_Id =  request.args.get('Rat_Id',None,type=str)
-    Typ_Code =  request.args.get('Typ_Code',None,type=str)
-    Cus_Id =  request.args.get('Cus_Id',None,type=str)
-    Pla_Id =  request.args.get('Pla_Id',None,type=str)
-    CC_Id =  request.args.get('CC_Id',None,type=str)
-    CI_Id =  request.args.get('CI_Id',None,type=str)
-    Rat_Price =  request.args.get('Rat_Price',None,type=str)
-    Cur_Code =  request.args.get('Cur_Code',None,type=str)
-    MU_Code =  request.args.get('MU_Code',None,type=str)
-    Rat_Period =  request.args.get('Rat_Period',None,type=str)
-    Rat_Type =  request.args.get('Rat_Type',None,type=str)
-    
-    # Build default query all fields from table
-    
-
-    if Rat_Id is not None and len(Rat_Id)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Rat_Id:Rat_Id',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Rat_Id
-                )
-    
-    
-    if Typ_Code is not None and len(Typ_Code)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Typ_Code:Typ_Code',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Typ_Code
-                )
-    
-    
-    if Cus_Id is not None and len(Cus_Id)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Cus_Id:Cus_Id',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Cus_Id
-                )
-    
-    
-    if Pla_Id is not None and len(Pla_Id)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Pla_Id:Pla_Id',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Pla_Id
-                )
-    
-    
-    if CC_Id is not None and len(CC_Id)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CC_Id:CC_Id',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CC_Id
-                )
-    
-    
-    if CI_Id is not None and len(CI_Id)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='CI_Id:CI_Id',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%CI_Id
-                )
-    
-    
-    if Rat_Price is not None and len(Rat_Price)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Rat_Price:Rat_Price',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Rat_Price
-                )
-    
-    
-    if Cur_Code is not None and len(Cur_Code)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Cur_Code:Cur_Code',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Cur_Code
-                )
-    
-    
-    if MU_Code is not None and len(MU_Code)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='MU_Code:MU_Code',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%MU_Code
-                )
-    
-    
-    if Rat_Period is not None and len(Rat_Period)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Rat_Period:Rat_Period',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Rat_Period
-                )
-    
-    
-    if Rat_Type is not None and len(Rat_Type)>0:
-            set_query_option(engine=db.engine,Interface=Interface,
-                User_Id=current_user.id,
-                Table_name=class_name,
-                Option_Type=OPTION_FILTER,
-                Argument_1='Rat_Type:Rat_Type',
-                Argument_2='LIKE',
-                Argument_3='\"%%%s%%\"'%Rat_Type
-                )
-    
-    
-    
-    statement_query,options=get_query_options(engine=db.engine,Interface=Interface,Table_name=class_name,User_Id=current_user.id)
-    tracebox_log(statement_query,logger,length=80)
-    query=eval(statement_query)
-    filtered_query = query    
-    if mode == 'filter':
-        query=filtered_query
-    elif mode == 'export':
-        query=filtered_query
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%s_'%table_name, dir=None, text=False)
-        dict = {'header':{},'detail':[]}
-        count = 0
-        rows = query.all()
-        for row in rows:
-            dict['detail'].append({})
-            for column in ['Rat_Id', 'Typ_Code', 'Cus_Id', 'Pla_Id', 'CC_Id', 'CI_Id', 'Rat_Price', 'Cur_Code', 'MU_Code', 'Rat_Period', 'Rat_Type']:
-                dict['detail'][count].update( { column:str(row.__getattribute__(column))})
-                
-            count += 1
-        dict['header'].update({'count':count})
-        jsonarray      = json.dumps(dict)
-        data           = json.loads(jsonarray)  
-        dataframe      = json_normalize(data, 'detail').assign(**data['header'])
-        fh,output_file = tempfile.mkstemp(suffix='', prefix='%_'%table_name, dir='/tmp', text=False)
-        xlsx_file      = '%s/%s'%(current_app.root_path,url_for('static',filename='%s.xls'%(output_file)))
-        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['Rat_Id', 'Typ_Code', 'Cus_Id', 'Pla_Id', 'CC_Id', 'CI_Id', 'Rat_Price', 'Cur_Code', 'MU_Code', 'Rat_Period', 'Rat_Type'])
-        return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file.replace('/','_')+'.xls')
-    elif mode == 'add':
-        return redirect(url_for('.forms_%s'%table_name))
-    elif mode == 'select':
-        pass
-        # if some filter is required
-        if field is not None:
-            if field == 'Rat_Id':
-                if value is not None:
-                    query = query.filter_by(Rat_Id=value)
-            if field == 'Typ_Code':
-                if value is not None:
-                    query = query.filter_by(Typ_Code=value)
-            if field == 'Cus_Id':
-                if value is not None:
-                    query = query.filter_by(Cus_Id=value)
-            if field == 'Pla_Id':
-                if value is not None:
-                    query = query.filter_by(Pla_Id=value)
-            if field == 'CC_Id':
-                if value is not None:
-                    query = query.filter_by(CC_Id=value)
-            if field == 'CI_Id':
-                if value is not None:
-                    query = query.filter_by(CI_Id=value)
-            if field == 'Rat_Price':
-                if value is not None:
-                    query = query.filter_by(Rat_Price=value)
-            if field == 'Cur_Code':
-                if value is not None:
-                    query = query.filter_by(Cur_Code=value)
-            if field == 'MU_Code':
-                if value is not None:
-                    query = query.filter_by(MU_Code=value)
-            if field == 'Rat_Period':
-                if value is not None:
-                    query = query.filter_by(Rat_Period=value)
-            if field == 'Rat_Type':
-                if value is not None:
-                    query = query.filter_by(Rat_Type=value)
-            
-    # Actual request from DB follows
-    tracebox_log(query,logger,length=80)
-    # getting paginated rows for query
-    rows = query.paginate(page, per_page=current_app.config['LINES_PER_PAGE'], error_out=False)
-    # Setting pagination variables ...
-    if field is not None:
-       next_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, field=field, value=value, page=rows.prev_num) if rows.has_prev else None
-    else:
-       next_url = url_for('.select_%s_query'%template_name, page=rows.next_num) if rows.has_next else None
-       prev_url = url_for('.select_%s_query'%template_name, page=rows.prev_num) if rows.has_prev else None
-    # Actual rendering ...
-    if request.headers.get('Content-Type') is not None or request.args.get('JSON',None,type=str) is not None:
-        # NOTE: needs review for JSONnifiyng output when needed (API Interface?)
-        if "JSON" in request.headers.get('Content-Type') or request.args.get('JSON',None,type=str) is not None:
-            logger.debug('select_%s_query(): will render: JSON rows'%template_name)
-            logger.debug('select_%s_query(): Exit'%template_name)
-            return json.dumps(serialize_object(rows.__dict__))
-    logger.debug('select_%s_query(): will render: %s_All.html'%(template_name,table_name.lower()))
-    logger.debug('select_%s_query(): Exit'%template_name)
-    return render_template('%s_select_All.html'%template_name.lower(),rows=rows,options=options,collectordata=collectordata)
-#===============================================================================
-   
-# ======================================================================
-#  Auto-Generated code. Do not modify 
-#  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.117414
-# ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:23.117428
+# gen_views_api.html:AG 2022-03-16 19:41:40.245033
 # table_name: Rates
 # class_name: rates
 # is shardened: True
@@ -10232,15 +8495,15 @@ def api_delete_Rates(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_requests.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.359238
+#  GLVH @ 2022-03-16 19:41:41.099036
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:23.359253
+# gen_views_form.html:AG 2022-03-16 19:41:41.099050
 @main.route('/forms/Requests', methods=['GET', 'POST'])
 @login_required
 
@@ -10378,9 +8641,9 @@ def forms_Requests():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.368222
+#  GLVH @ 2022-03-16 19:41:41.133495
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:23.368236
+# gen_views_delete.html:AG 2022-03-16 19:41:41.133511
 @main.route('/forms/Requests_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -10448,10 +8711,10 @@ def forms_Requests_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.385419
+#  GLVH @ 2022-03-16 19:41:41.208958
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:23.385433        
+# gen_views_select_query.html:AG 2022-03-16 19:41:41.209057        
 @main.route('/select/Requests_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -10803,9 +9066,9 @@ def select_Requests_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.424628
+#  GLVH @ 2022-03-16 19:41:41.306426
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:23.424644
+# gen_views_api.html:AG 2022-03-16 19:41:41.306443
 # table_name: Requests
 # class_name: requests
 # is shardened: False
@@ -11123,15 +9386,15 @@ def api_delete_Requests(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_request_type.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.203540
+#  GLVH @ 2022-03-16 19:41:40.560633
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:23.203555
+# gen_views_form.html:AG 2022-03-16 19:41:40.560648
 @main.route('/forms/Request_Type', methods=['GET', 'POST'])
 @login_required
 
@@ -11246,9 +9509,9 @@ def forms_Request_Type():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.212194
+#  GLVH @ 2022-03-16 19:41:40.601042
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:23.212260
+# gen_views_delete.html:AG 2022-03-16 19:41:40.601090
 @main.route('/forms/Request_Type_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -11314,10 +9577,10 @@ def forms_Request_Type_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.228622
+#  GLVH @ 2022-03-16 19:41:40.675981
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:23.228636        
+# gen_views_select_query.html:AG 2022-03-16 19:41:40.675995        
 @main.route('/select/Request_Type_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -11509,9 +9772,9 @@ def select_Request_Type_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.256497
+#  GLVH @ 2022-03-16 19:41:40.763607
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:23.256512
+# gen_views_api.html:AG 2022-03-16 19:41:40.763622
 # table_name: Request_Type
 # class_name: request_type
 # is shardened: False
@@ -11761,15 +10024,15 @@ def api_delete_Request_Type(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_roles.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.512230
+#  GLVH @ 2022-03-16 19:41:41.726677
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:23.512244
+# gen_views_form.html:AG 2022-03-16 19:41:41.726691
 @main.route('/forms/Roles', methods=['GET', 'POST'])
 @login_required
 
@@ -11886,9 +10149,9 @@ def forms_Roles():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.521181
+#  GLVH @ 2022-03-16 19:41:41.770688
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:23.521195
+# gen_views_delete.html:AG 2022-03-16 19:41:41.770705
 @main.route('/forms/Roles_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -11954,10 +10217,10 @@ def forms_Roles_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.537837
+#  GLVH @ 2022-03-16 19:41:41.855569
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:23.537850        
+# gen_views_select_query.html:AG 2022-03-16 19:41:41.855583        
 @main.route('/select/Roles_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -12164,9 +10427,9 @@ def select_Roles_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.568367
+#  GLVH @ 2022-03-16 19:41:41.932034
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:23.568382
+# gen_views_api.html:AG 2022-03-16 19:41:41.932049
 # table_name: Roles
 # class_name: Role
 # is shardened: False
@@ -12423,15 +10686,15 @@ def api_delete_Roles(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_subnets.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.671477
+#  GLVH @ 2022-03-16 19:41:42.280129
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:23.671491
+# gen_views_form.html:AG 2022-03-16 19:41:42.280145
 @main.route('/forms/Subnets', methods=['GET', 'POST'])
 @login_required
 
@@ -12560,9 +10823,9 @@ def forms_Subnets():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.679527
+#  GLVH @ 2022-03-16 19:41:42.345507
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:23.679539
+# gen_views_delete.html:AG 2022-03-16 19:41:42.345539
 @main.route('/forms/Subnets_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -12628,10 +10891,10 @@ def forms_Subnets_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.696256
+#  GLVH @ 2022-03-16 19:41:42.438853
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:23.696270        
+# gen_views_select_query.html:AG 2022-03-16 19:41:42.438871        
 @main.route('/select/Subnets_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -12928,9 +11191,9 @@ def select_Subnets_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.724629
+#  GLVH @ 2022-03-16 19:41:42.511239
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:23.724643
+# gen_views_api.html:AG 2022-03-16 19:41:42.511254
 # table_name: Subnets
 # class_name: subnets
 # is shardened: False
@@ -13229,15 +11492,15 @@ def api_delete_Subnets(id):
 # ======================================================================# =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 # gen_views.py:32 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/views/view_users.py
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.819830
+#  GLVH @ 2022-03-16 19:41:42.617557
 # ======================================================================        
-# gen_views_form.html:AG 2022-03-04 17:13:23.819845
+# gen_views_form.html:AG 2022-03-16 19:41:42.617583
 @main.route('/forms/Users', methods=['GET', 'POST'])
 @login_required
 
@@ -13265,7 +11528,7 @@ def forms_Users():
     if row is None:
         row=User()
         session['is_new_row']=True
-    session['data'] =  {  'id':row.id, 'username':row.username, 'role_id':row.role_id, 'email':row.email, 'password_hash':row.password_hash, 'confirmed':row.confirmed, 'CC_Id':row.CC_Id }
+    session['data'] =  {  'id':row.id, 'username':row.username, 'name':row.name, 'role_id':row.role_id, 'email':row.email, 'password_hash':row.password_hash, 'confirmed':row.confirmed, 'CC_Id':row.CC_Id, 'roles':row.roles }
     
     form = frm_User()
     
@@ -13279,11 +11542,13 @@ def forms_Users():
         if form.submit_Save.data and current_user.role_id > 1:
             
             row.username = form.username.data
+            row.name = form.name.data
             row.role_id = form.role_id.data
             row.email = form.email.data
             row.password_hash = form.password_hash.data
             row.confirmed = form.confirmed.data
             row.CC_Id = form.CC_Id.data
+            row.roles = form.roles.data
             try:
                session['new_row']=str(row)
                db.session.flush()
@@ -13331,11 +11596,13 @@ def forms_Users():
     
     
     form.username.data = row.username
+    form.name.data = row.name
     form.role_id.data = row.role_id
     form.email.data = row.email
     form.password_hash.data = row.password_hash
     form.confirmed.data = row.confirmed
     form.CC_Id.data = row.CC_Id
+    form.roles.data = row.roles
     session['prev_row'] = str(row)
     session['is_new_row'] = False
     logger.debug('forms_Users(): Exit')
@@ -13354,9 +11621,9 @@ def forms_Users():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.827963
+#  GLVH @ 2022-03-16 19:41:42.627842
 # ======================================================================        
-# gen_views_delete.html:AG 2022-03-04 17:13:23.827976
+# gen_views_delete.html:AG 2022-03-16 19:41:42.627857
 @main.route('/forms/Users_delete', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.DELETE)
@@ -13369,7 +11636,7 @@ def forms_Users_delete():
 
     if row is None:
         row=User()
-    session['data'] =  {  'id':row.id, 'username':row.username, 'role_id':row.role_id, 'email':row.email, 'password_hash':row.password_hash, 'confirmed':row.confirmed, 'CC_Id':row.CC_Id }
+    session['data'] =  {  'id':row.id, 'username':row.username, 'name':row.name, 'role_id':row.role_id, 'email':row.email, 'password_hash':row.password_hash, 'confirmed':row.confirmed, 'CC_Id':row.CC_Id, 'roles':row.roles }
                        
     form = frm_User_delete()
 
@@ -13424,10 +11691,10 @@ def forms_Users_delete():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.844996
+#  GLVH @ 2022-03-16 19:41:42.646730
 # ======================================================================
 
-# gen_views_select_query.html:AG 2022-03-04 17:13:23.845011        
+# gen_views_select_query.html:AG 2022-03-16 19:41:42.646746        
 @main.route('/select/Users_Query', methods=['GET','POST'])
 @login_required
 @admin_required
@@ -13513,11 +11780,13 @@ def select_Users_query():
     else:                     mode = 'select'
     id =  request.args.get('id',None,type=str)
     username =  request.args.get('username',None,type=str)
+    name =  request.args.get('name',None,type=str)
     role_id =  request.args.get('role_id',None,type=str)
     email =  request.args.get('email',None,type=str)
     password_hash =  request.args.get('password_hash',None,type=str)
     confirmed =  request.args.get('confirmed',None,type=str)
     CC_Id =  request.args.get('CC_Id',None,type=str)
+    roles =  request.args.get('roles',None,type=str)
     
     # Build default query all fields from table
     
@@ -13541,6 +11810,17 @@ def select_Users_query():
                 Argument_1='username:username',
                 Argument_2='LIKE',
                 Argument_3='\"%%%s%%\"'%username
+                )
+    
+    
+    if name is not None and len(name)>0:
+            set_query_option(engine=db.engine,Interface=Interface,
+                User_Id=current_user.id,
+                Table_name=class_name,
+                Option_Type=OPTION_FILTER,
+                Argument_1='name:name',
+                Argument_2='LIKE',
+                Argument_3='\"%%%s%%\"'%name
                 )
     
     
@@ -13602,6 +11882,17 @@ def select_Users_query():
                 )
     
     
+    if roles is not None and len(roles)>0:
+            set_query_option(engine=db.engine,Interface=Interface,
+                User_Id=current_user.id,
+                Table_name=class_name,
+                Option_Type=OPTION_FILTER,
+                Argument_1='roles:roles',
+                Argument_2='LIKE',
+                Argument_3='\"%%%s%%\"'%roles
+                )
+    
+    
     
     statement_query,options=get_query_options(engine=db.engine,Interface=Interface,Table_name=class_name,User_Id=current_user.id)
     tracebox_log(statement_query,logger,length=80)
@@ -13617,7 +11908,7 @@ def select_Users_query():
         rows = query.all()
         for row in rows:
             dict['detail'].append({})
-            for column in ['id', 'username', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id']:
+            for column in ['id', 'username', 'name', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id', 'roles']:
                 dict['detail'][count].update( { column:str(row.__getattribute__(column))})
                 
             count += 1
@@ -13627,7 +11918,7 @@ def select_Users_query():
         dataframe      = json_normalize(data, 'detail').assign(**data['header'])
         fh,output_file = tempfile.mkstemp(suffix='', prefix='%_'%table_name, dir='/tmp', text=False)
         xlsx_file      = '%s/%s'%(current_app.root_path,url_for('static',filename='%s.xls'%(output_file)))
-        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['id', 'username', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id'])
+        dataframe.to_excel(xlsx_file,sheet_name=table_name,columns=['id', 'username', 'name', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id', 'roles'])
         return send_file(xlsx_file,as_attachment=True,attachment_filename=output_file.replace('/','_')+'.xls')
     elif mode == 'add':
         return redirect(url_for('.forms_%s'%table_name))
@@ -13641,6 +11932,9 @@ def select_Users_query():
             if field == 'username':
                 if value is not None:
                     query = query.filter_by(username=value)
+            if field == 'name':
+                if value is not None:
+                    query = query.filter_by(name=value)
             if field == 'role_id':
                 if value is not None:
                     query = query.filter_by(role_id=value)
@@ -13656,6 +11950,9 @@ def select_Users_query():
             if field == 'CC_Id':
                 if value is not None:
                     query = query.filter_by(CC_Id=value)
+            if field == 'roles':
+                if value is not None:
+                    query = query.filter_by(roles=value)
             # ------------------------------------------------------------------
     # JOIN other tables and generate foreign fields
     # Will replace class name by sharding class in joins structure
@@ -13689,9 +11986,9 @@ def select_Users_query():
 # ======================================================================
 #  Auto-Generated code. Do not modify 
 #  (C) Sertechno/Emtec Group (2018,2019,2020)
-#  GLVH @ 2022-03-04 17:13:23.873881
+#  GLVH @ 2022-03-16 19:41:42.684774
 # ======================================================================
-# gen_views_api.html:AG 2022-03-04 17:13:23.873896
+# gen_views_api.html:AG 2022-03-16 19:41:42.684789
 # table_name: Users
 # class_name: User
 # is shardened: False
@@ -13729,6 +12026,8 @@ def api_get_Users(id=None):
                         query = query.filter(Users.id == request.args.get('id'))
                     if 'username' in request.args:
                         query = query.filter(Users.username == request.args.get('username'))
+                    if 'name' in request.args:
+                        query = query.filter(Users.name == request.args.get('name'))
                     if 'role_id' in request.args:
                         query = query.filter(Users.role_id == request.args.get('role_id'))
                     if 'email' in request.args:
@@ -13739,6 +12038,8 @@ def api_get_Users(id=None):
                         query = query.filter(Users.confirmed == request.args.get('confirmed'))
                     if 'CC_Id' in request.args:
                         query = query.filter(Users.CC_Id == request.args.get('CC_Id'))
+                    if 'roles' in request.args:
+                        query = query.filter(Users.roles == request.args.get('roles'))
                 rows = query.all()
             if rows is not None:
                 if type(rows) == list:
@@ -13778,11 +12079,13 @@ def api_post_Users():
             # Populates row from json, if ID=int:autoincrement then None
             row.id = None
             row.username = request.json.get('username',None)
+            row.name = request.json.get('name',None)
             row.role_id = request.json.get('role_id',None)
             row.email = request.json.get('email',None)
             row.password_hash = request.json.get('password_hash',None)
             row.confirmed = request.json.get('confirmed',0)
             row.CC_Id = request.json.get('CC_Id',1)
+            row.roles = request.json.get('roles',None)
             # ----------------------------------------------------------
             db.session.add(row)
             db.session.flush()
@@ -13827,6 +12130,8 @@ def api_put_Users(id):
                 # Second loop seek for updated fields ----------------------
                 if 'username' in request.json.keys():
                     row.username = request.json.get('username')
+                if 'name' in request.json.keys():
+                    row.name = request.json.get('name')
                 if 'role_id' in request.json.keys():
                     row.role_id = request.json.get('role_id')
                 if 'email' in request.json.keys():
@@ -13837,6 +12142,8 @@ def api_put_Users(id):
                     row.confirmed = request.json.get('confirmed')
                 if 'CC_Id' in request.json.keys():
                     row.CC_Id = request.json.get('CC_Id')
+                if 'roles' in request.json.keys():
+                    row.roles = request.json.get('roles')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -13886,6 +12193,8 @@ def api_patch_Users(id):
                 if request.values is not None and len(request.values):
                     if 'username' in request.values:
                         row.username = request.values.get('username')
+                    if 'name' in request.values:
+                        row.name = request.values.get('name')
                     if 'role_id' in request.values:
                         row.role_id = request.values.get('role_id')
                     if 'email' in request.values:
@@ -13896,6 +12205,8 @@ def api_patch_Users(id):
                         row.confirmed = request.values.get('confirmed')
                     if 'CC_Id' in request.values:
                         row.CC_Id = request.values.get('CC_Id')
+                    if 'roles' in request.values:
+                        row.roles = request.values.get('roles')
                 # ----------------------------------------------------------
                 db.session.merge(row)
                 db.session.flush()
@@ -16058,9 +14369,9 @@ def forms_Migration():
                 logger.debug(f"{this()}: form.mgNewId.data = {form.mgNewId.data} redirecting ...")
                 return redirect(url_for('.forms_Migration',Id=form.mgNewId.data))
             elif form.submit_Add.data:
-                vmId=request.form.get('vmId')
-                logger.info(f"{this()}: Option Add VM {vmId} to MG {form.mgId}")
-                vmName = forms_Migration_add_vm_to_group(form,vmId)
+                for vmId in request.form.getlist('vmId'):
+                    logger.info(f"{this()}: Option Add VM {vmId} to MG {form.mgId}")
+                    vmName = forms_Migration_add_vm_to_group(form,vmId)
                 return redirect(url_for('.forms_Migration',Id=form.mgId))
             elif form.submit_Clone.data:
                 logger.info(f"{this()}: Option Clone MG {form.mgId}")

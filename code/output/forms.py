@@ -18,26 +18,31 @@ from wtforms                import SelectField
 from wtforms                import SubmitField
 from wtforms                import RadioField
 from wtforms_components     import TimeField
-from wtforms.fields.html5   import DateField
-from wtforms.validators     import Required, AnyOf, DataRequired, Email
+#if wtforms.__version__ < "3.0.0":
+#    from wtforms.fields.html5   import DateField
+#else:
+#    from wtforms.fields     import DateField
+from wtforms.fields         import DateField
+from wtforms.validators     import DataRequired as Required
+from wtforms.validators     import AnyOf, DataRequired, Email
 from wtforms.validators     import EqualTo, HostnameValidation
 from wtforms.validators     import IPAddress, InputRequired, Length
 from wtforms.validators     import MacAddress, NoneOf, NumberRange
 from wtforms.validators     import Optional
-from wtforms.validators     import Regexp, Required
+from wtforms.validators     import Regexp
 # ----------------------------------------------------------------------
 
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_categories.py
 from decimal import ROUND_HALF_UP
 
 class frm_categories(Form):
-    category_name                = StringField("category_name?", validators=[Required()])
+    category_name                = StringField("category_name?", validators=[DataRequired()])
     category_description         = StringField("category_description?")
 
     submit_Save                  = SubmitField  ('Save')
@@ -54,14 +59,14 @@ class frm_categories_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_clusters.py
 from decimal import ROUND_HALF_UP
 
 class frm_clusters(Form):
-    cluster_uuid             = StringField("cluster_uuid?", validators=[Required()])
+    cluster_uuid             = StringField("cluster_uuid?", validators=[DataRequired()])
     cluster_name             = StringField("cluster_name?")
     cluster_username         = StringField("cluster_username?")
     cluster_password         = StringField("cluster_password?")
@@ -81,7 +86,7 @@ class frm_clusters_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_cost_centers.py
@@ -109,14 +114,14 @@ class frm_cost_centers_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_disk_images.py
 from decimal import ROUND_HALF_UP
 
 class frm_disk_images(Form):
-    uuid                     = StringField("uuid?", validators=[Required()])
+    uuid                     = StringField("uuid?", validators=[DataRequired()])
     name                     = StringField("name?")
     annotation               = StringField("annotation?")
     image_type               = StringField("image_type?")
@@ -140,14 +145,14 @@ class frm_disk_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_domains.py
 from decimal import ROUND_HALF_UP
 
 class frm_domains(Form):
-    Domain_Id         = IntegerField("Domain_Id?", validators=[Required()])
+    Domain_Id         = IntegerField("Domain_Id?", validators=[DataRequired()])
     Name              = StringField("Name?")
     Comments          = StringField("Comments?")
 
@@ -165,7 +170,7 @@ class frm_domains_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_interface.py
@@ -194,7 +199,7 @@ class frm_interface_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_migration_groups.py
@@ -221,15 +226,15 @@ class frm_migration_groups_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_migration_groups_vm.py
 from decimal import ROUND_HALF_UP
 
 class frm_migration_groups_vm(Form):
-    MG_Id                       = SelectField("MG_Id?", coerce=int, validators=[Required()])
-    vm_uuid                     = StringField("vm_uuid?", validators=[Required()])
+    MG_Id                       = SelectField("MG_Id?", coerce=int, validators=[DataRequired()])
+    vm_uuid                     = StringField("vm_uuid?", validators=[DataRequired()])
     vm_cluster_uuid             = StringField("vm_cluster_uuid?")
     vm_name                     = StringField("vm_name?")
     vm_state                    = BooleanField("vm_state?")
@@ -256,14 +261,14 @@ class frm_migration_groups_vm_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_prism_vm.py
 from decimal import ROUND_HALF_UP
 
 class frm_nutanix_prism_vm(Form):
-    Request_Id               = SelectField("Request_Id?", coerce=int, validators=[Required()])
+    Request_Id               = SelectField("Request_Id?", coerce=int, validators=[DataRequired()])
     project_uuid             = SelectField("project_uuid?")
     category_name            = SelectField("category_name?")
     cluster_uuid             = SelectField("cluster_uuid?")
@@ -339,14 +344,14 @@ class frm_nutanix_prism_vm_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_nutanix_vm_images.py
 from decimal import ROUND_HALF_UP
 
 class frm_nutanix_vm_images(Form):
-    imageservice_uuid_diskclone         = StringField("imageservice_uuid_diskclone?", validators=[Required()])
+    imageservice_uuid_diskclone         = StringField("imageservice_uuid_diskclone?", validators=[DataRequired()])
     description                         = StringField("description?")
     size_mib                            = StringField("size_mib?")
     comments                            = StringField("comments?")
@@ -365,14 +370,14 @@ class frm_nutanix_vm_images_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_projects.py
 from decimal import ROUND_HALF_UP
 
 class frm_projects(Form):
-    project_uuid            = StringField("project_uuid?", validators=[Required()])
+    project_uuid            = StringField("project_uuid?", validators=[DataRequired()])
     project_name            = StringField("project_name?")
     project_subnets         = StringField("project_subnets?")
 
@@ -390,7 +395,7 @@ class frm_projects_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_rates.py
@@ -422,7 +427,7 @@ class frm_rates_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_requests.py
@@ -456,14 +461,14 @@ class frm_requests_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_request_type.py
 from decimal import ROUND_HALF_UP
 
 class frm_request_type(Form):
-    Id                  = IntegerField("Id?", validators=[Required()])
+    Id                  = IntegerField("Id?", validators=[DataRequired()])
     Description         = StringField("Description?")
     Table_Name          = StringField("Table_Name?")
 
@@ -481,14 +486,14 @@ class frm_request_type_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_roles.py
 from decimal import ROUND_HALF_UP
 
 class frm_Role(Form):
-    id                  = IntegerField("id?", validators=[Required()])
+    id                  = IntegerField("id?", validators=[DataRequired()])
     name                = StringField("name?")
     default             = BooleanField("default?")
     permissions         = IntegerField("permissions?")
@@ -507,14 +512,14 @@ class frm_Role_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_subnets.py
 from decimal import ROUND_HALF_UP
 
 class frm_subnets(Form):
-    uuid                       = StringField("uuid?", validators=[Required()])
+    uuid                       = StringField("uuid?", validators=[DataRequired()])
     name                       = StringField("name?")
     vlan_id                    = IntegerField("vlan_id?")
     vswitch_name               = StringField("vswitch_name?")
@@ -539,7 +544,7 @@ class frm_subnets_delete(Form):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:289 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/forms/frm_users.py
@@ -547,11 +552,13 @@ from decimal import ROUND_HALF_UP
 
 class frm_User(Form):
     username              = StringField("username?")
+    name                  = StringField("name?")
     role_id               = SelectField("role_id?", coerce=int)
     email                 = StringField("email?")
     password_hash         = StringField("password_hash?")
     confirmed             = BooleanField("confirmed?")
     CC_Id                 = IntegerField("CC_Id?")
+    roles                 = StringField("roles?")
 
     submit_Save           = SubmitField  ('Save')
     submit_New            = SubmitField  ('New')

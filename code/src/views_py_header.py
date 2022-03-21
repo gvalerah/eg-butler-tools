@@ -63,6 +63,11 @@ from emtec.butler.constants             import *
 """ GV Application decorators for routes """
 """ GV Decorators specify main routes to be handled by Butler Solution """
 
+""" GV Include JINJA 2 global functions/filters
+"""
+
+
+
 @main.route('/', methods=['GET', 'POST'])
 def index():
     logger.debug(f"@main.route('/', methods=['GET', 'POST'])")

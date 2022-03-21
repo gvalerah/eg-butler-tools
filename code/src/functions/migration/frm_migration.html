@@ -215,7 +215,7 @@
                                                 <dt><label for="vmId">{{gettext('virtual machine for group')|capitalize}} '{{dict(form.mgName.choices).get(form.mgName.data)}}'</label>
                                                 <dd><input id="mgId" name="mgId" type="hidden" value="{{form.mgId}}"></dd>
                                                 <dd>
-                                                    <select class="form-control" name="vmId" id="vmId">
+                                                    <select multiple class="form-control" name="vmId" id="vmId">
                                                         {%- for value,option in form.mgAllVms.choices %}
                                                             {%- if value == form.mgAllVms.data %}
                                                             <option selected value="{{value}}">{{option}}</option>

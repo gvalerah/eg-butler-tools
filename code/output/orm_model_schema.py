@@ -1,7 +1,7 @@
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-04 17:13:20
+# GLVH @ 2022-03-16 19:41:36
 # =============================================================================
 
 # gen_model_flask.py:67 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/ORM_model_schema.py
@@ -276,11 +276,13 @@ def Create_Tables(engine):
                 'Users',Meta,
                 Column( 'id',Integer, primary_key=True, autoincrement=True ),
                 Column( 'username',String(64) ),
+                Column( 'name',String(255) ),
                 Column( 'role_id',Integer, ForeignKey('Roles.id') ),
                 Column( 'email',String(64) ),
                 Column( 'password_hash',String(128) ),
                 Column( 'confirmed',Boolean ),
                 Column( 'CC_Id',Integer ),
+                Column( 'roles',String(255) ),
         )
     except Exception as e:
         print('EXCEPTION:',e)

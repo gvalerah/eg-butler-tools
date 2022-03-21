@@ -18,12 +18,17 @@ from wtforms                import SelectField
 from wtforms                import SubmitField
 from wtforms                import RadioField
 from wtforms_components     import TimeField
-from wtforms.fields.html5   import DateField
-from wtforms.validators     import Required, AnyOf, DataRequired, Email
+#if wtforms.__version__ < "3.0.0":
+#    from wtforms.fields.html5   import DateField
+#else:
+#    from wtforms.fields     import DateField
+from wtforms.fields         import DateField
+from wtforms.validators     import DataRequired as Required
+from wtforms.validators     import AnyOf, DataRequired, Email
 from wtforms.validators     import EqualTo, HostnameValidation
 from wtforms.validators     import IPAddress, InputRequired, Length
 from wtforms.validators     import MacAddress, NoneOf, NumberRange
 from wtforms.validators     import Optional
-from wtforms.validators     import Regexp, Required
+from wtforms.validators     import Regexp
 # ----------------------------------------------------------------------
 
