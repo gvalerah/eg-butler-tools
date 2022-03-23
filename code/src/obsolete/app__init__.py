@@ -3,7 +3,7 @@
 # Application Package constructor
 # source file name: __init__.py
 # Static Header File. 
-# GLVH 2020-11-23
+# GLVH 2020-10-11
 # ----------------------------------------------------------------------
 from pprint         import pprint,pformat
 from requests.auth  import HTTPBasicAuth   
@@ -14,8 +14,9 @@ import  logging
 from    configparser                    import ConfigParser
 from    configparser                    import ExtendedInterpolation
 
-from    flask                           import Flask, render_template
-from    flask_bootstrap                 import Bootstrap
+from    flask                           import Flask, render_template, request
+from    flask                           import current_app
+#from    flask_bootstrap                 import Bootstrap
 from    flask_mail                      import Mail
 from    flask_mail                      import Message
 from    flask_moment                    import Moment
@@ -24,14 +25,15 @@ from    flask_login                     import LoginManager
 
 from    emtec.common.functions          import *
 from    emtec.butler.common.context     import Context
-# required if specific SQLAlchemy class is required , see below
+#from    emtec.butler.common.functions   import *
+# required if specific SQLAlchemy clas is required , see below
 from    emtec.butler.db.orm_model       import *
 
 import re
 
 #bootstrap                           = Bootstrap()
-#mail                                = Mail()
-#moment                              = Moment()
+mail                                = Mail()
+moment                              = Moment()
 # This if the oportunity to setup a customized SQLAlchemy Class that
 # includes specific app functions (stored procedures) if any
 #b                                  = Butler_ORM_DB()
@@ -44,13 +46,30 @@ login_manager.login_view            = 'auth.login'
 
 # create logger logger
 add_Logging_Levels()
-logger                              = logging.getLogger('Butler-API')
+logger                              = logging.getLogger('Butler')
 
+# GV Internationalization code -----------------------------------------
+from flask_babel import Babel, gettext, lazy_gettext, force_locale
+
+babel = Babel()
+"""
+# add to you main app code
+@babel.localeselector
+def get_locale():
+    if current_app.config.CURRENT_LANGUAGE is not None:
+        language =  current_app.config.CURRENT_LANGUAGE
+    else:
+        language =  request.accept_languages.best_match(current_app.config.LANGUAGES.keys())
+    print(f"get_local returns: {language}")
+    return language
+
+# GV -------------------------------------------------------------------
+"""
 def create_app(config_file='butler.ini',config_name='production',C=None):
     config_ini = ConfigParser(interpolation=ExtendedInterpolation())
     config_ini.read( config_file )
     
-    app = Flask(__name__,root_path='%s/api'%C.app_folder)
+    app = Flask(__name__,root_path='%s/app'%C.app_folder)
     # Calls configuration Manager
     # setup all driver specifics here
     rdbms=config_ini.get('DB','rdbms',fallback='mysql')
@@ -82,10 +101,11 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'BUTLER_CONFIG_FILE':           config_file})
     app.config.update({'BUTLER_MAIL_SUBJECT_PREFIX':   config_ini.get       ('General','BUTLER_MAIL_SUBJECT_PREFIX',fallback='[EG Butler]')})
     #pp.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin <gvalera@emtecgroup.net>')})
-    app.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin <gerardovalera@hotmail.com>')})
+    app.config.update({'BUTLER_MAIL_SENDER':           config_ini.get       ('General','BUTLER_MAIL_SENDER',fallback='Butler Admin')})
     app.config.update({'BUTLER_ADMIN':                 config_ini.get       ('General','BUTLER_ADMIN',fallback='butler')})
     app.config.update({'BUTLER_CIT_SHARDING':          config_ini.getboolean('General','BUTLER_CIT_SHARDING',fallback=False)})
     app.config.update({'BUTLER_TOP_COST_CENTER':       config_ini.get       ('General','BUTLER_TOP_COST_CENTER',fallback='BUTLER')})
+    app.config.update({'BUTLER_DEFAULT_COST_CENTER':   config_ini.getint    ('General','BUTLER_DEFAULT_COST_CENTER',fallback=0)})
     app.config.update({'BUTLER_REQUEST_NOTIFICATIONS': config_ini.getboolean('General','BUTLER_REQUEST_NOTIFICATIONS',fallback=False)})
     # default app config settings
     app.config.update({'NAME':                          config_ini.get       ('General','NAME',fallback='Butler')})
@@ -103,6 +123,10 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     app.config.update({'DEBUG':                         config_ini.getboolean('General','DEBUG',fallback=False)})
     app.config.update({'TESTING':                       config_ini.getboolean('General','TESTING',fallback=False)})
     app.config.update({'WTF_CSRF_ENABLED':              config_ini.getboolean('General','WTF_CSRF_ENABLED',fallback=False)})
+    print("LEYENDO LDAP CONFIG ...")
+    app.config.update({'LDAP_HOST':                     config_ini.get       ('LDAP','HOST',fallback='localhost')})
+    app.config.update({'LDAP_PORT':                     config_ini.getint    ('LDAP','PORT',fallback=389)})
+    app.config.update({'LDAP_DOMAIN':                   config_ini.get       ('LDAP','DOMAIN',fallback='localdomain.org')})
     # Force no caching of FLASK JS CSS files & Updates -----------------
     app.config.update({'SEND_FILE_MAX_AGE_DEFAULT':     0})
     app.config.update({'API_USERS':                     config_ini.get       ('API'    ,'USERS',fallback='butler:butler')})
@@ -123,7 +147,75 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
         if re.match("^butler_.*$",key) is not None:
             if key.upper() not in app.config.keys():
                 app.config.update({key.upper():config_ini.get('General',key)})
-
+    for key in app.config:
+        try:
+            if app.config.get(key).upper() in ['Y','YES','T','TRUE','S','SI','V','VERDADERO']:
+                app.config.update({key:True})
+            elif app.config.get(key).upper() in ['N','NO','F','FALSE','FALSO']:
+                app.config.update({key:False})
+        except:
+            pass
+    # Nutanix Configuration settings ----------------------------------- 
+    app.config.update({'NUTANIX_HOST'      :   config_ini.get    ('Nutanix'  ,'HOST'    ,fallback='localhost')})
+    app.config.update({'NUTANIX_PORT'      :   config_ini.getint ('Nutanix'  ,'PORT'    ,fallback=9440       )})
+    app.config.update({'NUTANIX_USERNAME'  :   config_ini.get    ('Nutanix'  ,'USERNAME',fallback='collector')})
+    app.config.update({'NUTANIX_PASSWORD'  :   config_ini.get    ('Nutanix'  ,'PASSWORD',fallback=None       )})
+    app.config.update({'NUTANIX_PROTOCOL'  :   config_ini.get    ('Nutanix'  ,'PROTOCOL',fallback='https'    )})
+    app.config.update({'NUTANIX_PROJECT'   :   config_ini.get    ('Nutanix'  ,'PROJECT' ,fallback='Butler'   )})
+    app.config.update({'NUTANIX_PROJECT_UUID': config_ini.get    ('Nutanix'  ,'PROJECT_UUID' ,fallback=None  )})
+    app.config.update({'NUTANIX_TIMEOUT'   :   config_ini.getint ('Nutanix'  ,'TIMEOUT' ,fallback=5  )})
+    app.config.update({'NUTANIX_IMAGE_NAME':   config_ini.get    ('Nutanix'  ,'IMAGE_NAME' ,fallback=None  )})
+    app.config.update({'NUTANIX_LOCAL_SCHEDULE_TYPE'        : config_ini.get   ('Nutanix','LOCAL_SCHEDULE_TYPE'        ,fallback=None )})
+    app.config.update({'NUTANIX_LOCAL_EVERY_NTH'            : config_ini.getint('Nutanix','LOCAL_EVERY_NTH'            ,fallback=0    )})
+    app.config.update({'NUTANIX_LOCAL_LOCAL_MAX_SNAPSHOTS'  : config_ini.getint('Nutanix','LOCAL_LOCAL_MAX_SNAPSHOTS'  ,fallback=0    )})
+    app.config.update({'NUTANIX_LOCAL_REMOTE_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','LOCAL_REMOTE_MAX_SNAPSHOTS' ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_SCHEDULE_TYPE'       : config_ini.get   ('Nutanix','REMOTE_SCHEDULE_TYPE'       ,fallback=None )})
+    app.config.update({'NUTANIX_REMOTE_EVERY_NTH'           : config_ini.getint('Nutanix','REMOTE_EVERY_NTH'           ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_LOCAL_MAX_SNAPSHOTS' : config_ini.getint('Nutanix','REMOTE_LOCAL_MAX_SNAPSHOTS' ,fallback=0    )})
+    app.config.update({'NUTANIX_REMOTE_REMOTE_MAX_SNAPSHOTS': config_ini.getint('Nutanix','REMOTE_REMOTE_MAX_SNAPSHOTS',fallback=0    )})
+    app.config.update({'NUTANIX_CLUSTERS': {}})
+    app.config.update({'NUTANIX_PROJECTS': {}})
+    app.config.update({'NUTANIX_MIGRATION_TIMEOUT':300})
+    app.config.update({'NUTANIX_MIGRATION_VALIDATION_STEP':30})
+    app.config.update({'NUTANIX_MIGRATION_CREATE_REMOTE_SCHEDULES':False})
+    app.config.update({'NUTANIX_MIGRATION_CREATE_LOCAL_SCHEDULES':False})
+    clusters = config_ini.get('Nutanix','clusters',fallback=None)
+    if clusters is not None:
+        clusters = clusters.split(',')
+    if type(clusters) == list and len(clusters):
+        for cluster in clusters:
+            app.config['NUTANIX_CLUSTERS'].update({
+                cluster:{
+                    'host':     config_ini.get   (cluster,'host',fallback=None),
+                    'port':     config_ini.getint(cluster,'port',fallback=9440),
+                    'username': config_ini.get   (cluster,'username',fallback=None),
+                    'password': config_ini.get   (cluster,'password',fallback=None),
+                    'uuid':     config_ini.get   (cluster,'uuid',fallback=None),
+                }
+            })
+    if 'Projects-Map' in config_ini.sections():
+        projects=config_ini.options('Projects-Map')
+        for project in projects:
+            app.config['NUTANIX_PROJECTS'].update({project:{}})
+            if config_ini.get('Projects-Map',project):
+                for pair in config_ini.get('Projects-Map',project).split(','):
+                    cluster,remote_project = pair.split(':')
+                    app.config['NUTANIX_PROJECTS'][project].update({
+                            cluster:remote_project
+                    })
+    else:
+        print("create_app: WARNING No Projects map available")
+    
+    if 'Migrations' in config_ini.sections():
+        app.config['NUTANIX_MIGRATION_TIMEOUT']                 = config_ini.getint    (
+            'Migrations','migration_timeout',fallback=300)
+        app.config['NUTANIX_MIGRATION_VALIDATION_STEP']         = config_ini.getint    (
+            'Migrations','migration_validation_step',fallback=30)
+        app.config['NUTANIX_MIGRATION_CREATE_REMOTE_SCHEDULES'] = config_ini.getboolean(
+            'Migrations','create_remote_schedules',fallback=False)
+        app.config['NUTANIX_MIGRATION_CREATE_LOCAL_SCHEDULES']  = config_ini.getboolean(
+            'Migrations','create_local_schedules',fallback=False)
+    
     if app.config['DEBUG']:
         print("create_app: %-40s = %s"%("name",__name__))
         print("create_app: %-40s = %s"%("config_file",config_file))
@@ -138,14 +230,16 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     
     # Inititializes applications (incomplete by now)
     #bootstrap.init_app      (app)
-    #mail.init_app           (app)
-    #moment.init_app         (app)
+    mail.init_app           (app)
+    moment.init_app         (app)
     db.init_app             (app)
     login_manager.init_app  (app)
+    babel.init_app          (app)
+    
     # Butler's modules
     
     # attach routes and custom error pages here
-    from api.main   import main as main_blueprint          # NOTE: Example talks on main here .main was required . (Why?)
+    from app.main   import main as main_blueprint          # NOTE: Example talks on main here .main was required . (Why?)
     app.register_blueprint(main_blueprint)
     
     from .auth import auth as auth_blueprint
@@ -155,6 +249,8 @@ def create_app(config_file='butler.ini',config_name='production',C=None):
     print(f'main_blueprint={main_blueprint}')
     print(f'auth_blueprint={auth_blueprint}')
 
+    #print(f"Call app.create_jinja_environment()")
+    app.create_jinja_environment()
     return app
     
 # ----------------------------------------------------------------------

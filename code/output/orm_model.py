@@ -16,7 +16,7 @@ from sqlalchemy             import ForeignKey
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 from sqlalchemy                 import Table, Column
@@ -31,7 +31,7 @@ from sqlalchemy                 import VARBINARY
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 import json
 import logging
@@ -45,7 +45,7 @@ Base = declarative_base()
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_categories.py
@@ -217,7 +217,7 @@ class Categories(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_clusters.py
@@ -395,7 +395,7 @@ class Clusters(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -577,7 +577,7 @@ class Cost_Centers(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_cost_centers.py
@@ -738,7 +738,7 @@ def get_Cost_Centers(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_disk_images.py
@@ -924,7 +924,7 @@ class Disk_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_domains.py
@@ -1135,7 +1135,7 @@ class Domains(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_interface.py
@@ -1319,7 +1319,7 @@ class Interface(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
@@ -1536,7 +1536,7 @@ class Migration_Groups(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups.py
@@ -1732,7 +1732,7 @@ def get_Migration_Groups(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
@@ -1926,7 +1926,7 @@ class Migration_Groups_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_migration_groups_vm.py
@@ -2099,7 +2099,7 @@ def get_Migration_Groups_VM(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_prism_vm.py
@@ -2389,7 +2389,7 @@ class Nutanix_Prism_VM(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_nutanix_vm_images.py
@@ -2565,7 +2565,7 @@ class Nutanix_VM_Images(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_projects.py
@@ -2739,7 +2739,7 @@ class Projects(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -2935,7 +2935,7 @@ class Rates(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # gen_model_flask.py:865 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_rates.py
@@ -3110,7 +3110,7 @@ def get_Rates(table_name_suffix):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_request_type.py
@@ -3321,7 +3321,7 @@ class Request_Type(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_requests.py
@@ -3515,7 +3515,7 @@ class Requests(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_roles.py
@@ -3691,7 +3691,7 @@ class Roles(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_subnets.py
@@ -3879,7 +3879,7 @@ class Subnets(Base):
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # GV gen_model_flask.py:418 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/orm_users.py
@@ -3933,8 +3933,15 @@ class Users(Base):
     confirmed     = Column( Boolean )
     CC_Id         = Column( Integer )
     roles         = Column( String(255) )
+    ldap          = Column( Boolean )
+    ldap_user     = Column( String(45) )
+    ldap_common   = Column( String(45) )
+    ldap_host     = Column( String(45) )
+    ldap_port     = Column( Integer )
+    ldap_domain   = Column( String(45) )
+    vars          = Column( String(255) )
     
-    def __init__(self, id=0, username='None', name='None', role_id=None, email='None', password_hash='None', confirmed=0, CC_Id=1, roles='None',engine=None,logger=None):
+    def __init__(self, id=0, username='None', name='None', role_id=None, email='None', password_hash='None', confirmed=0, CC_Id=1, roles='None', ldap=0, ldap_user='None', ldap_common='None', ldap_host='None', ldap_port=0, ldap_domain='None', vars='None',engine=None,logger=None):
         """ Initiates a Users class record """
         self.engine=engine
         self.logger=logger
@@ -3947,26 +3954,33 @@ class Users(Base):
         self.confirmed     = confirmed
         self.CC_Id         = CC_Id
         self.roles         = roles
+        self.ldap          = ldap
+        self.ldap_user     = ldap_user
+        self.ldap_common   = ldap_common
+        self.ldap_host     = ldap_host
+        self.ldap_port     = ldap_port
+        self.ldap_domain   = ldap_domain
+        self.vars          = vars
 
         self.log('Created %s'%self)
     def __repr__(self):
         """ default class Users representation function """
-        return "<Users( id='%s', username='%s', name='%s', role_id='%s', email='%s', password_hash='%s', confirmed='%s', CC_Id='%s', roles='%s')>" % \
-                ( self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles)
+        return "<Users( id='%s', username='%s', name='%s', role_id='%s', email='%s', password_hash='%s', confirmed='%s', CC_Id='%s', roles='%s', ldap='%s', ldap_user='%s', ldap_common='%s', ldap_host='%s', ldap_port='%s', ldap_domain='%s', vars='%s')>" % \
+                ( self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles, self.ldap, self.ldap_user, self.ldap_common, self.ldap_host, self.ldap_port, self.ldap_domain, self.vars)
 
     def get_list(self):
         """ Gets Users record in list format """
-        __list = [ self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles]
+        __list = [ self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles, self.ldap, self.ldap_user, self.ldap_common, self.ldap_host, self.ldap_port, self.ldap_domain, self.vars]
         return __list
 
     def get_tuple(self):
         """ Gets Users record in tuple format """
-        __tuple = ( self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles)
+        __tuple = ( self.id, self.username, self.name, self.role_id, self.email, self.password_hash, self.confirmed, self.CC_Id, self.roles, self.ldap, self.ldap_user, self.ldap_common, self.ldap_host, self.ldap_port, self.ldap_domain, self.vars)
         return __tuple
 
     def get_dict(self):
         """ Gets Users record in dict format """
-        __dict={'id':self.id,'username':self.username,'name':self.name,'role_id':self.role_id,'email':self.email,'password_hash':self.password_hash,'confirmed':self.confirmed,'CC_Id':self.CC_Id,'roles':self.roles}
+        __dict={'id':self.id,'username':self.username,'name':self.name,'role_id':self.role_id,'email':self.email,'password_hash':self.password_hash,'confirmed':self.confirmed,'CC_Id':self.CC_Id,'roles':self.roles,'ldap':self.ldap,'ldap_user':self.ldap_user,'ldap_common':self.ldap_common,'ldap_host':self.ldap_host,'ldap_port':self.ldap_port,'ldap_domain':self.ldap_domain,'vars':self.vars}
 
         return __dict
 
@@ -4018,25 +4032,25 @@ class Users(Base):
 
     def get_columns(self):
         """ Gets Users record column full details list """
-        __list=[{'field': 'id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': 'auto_increment', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': True, 'header': 'id', 'is_time': False}, {'field': 'username', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'username', 'is_time': False}, {'field': 'name', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'name', 'is_time': False}, {'field': 'role_id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'MUL', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'id', 'referenced_table': 'Roles', 'referenced_class': 'Role', 'foreign_key': 'id', 'foreign_value': 'name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'role_id', 'is_time': False}, {'field': 'email', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'email', 'is_time': False}, {'field': 'password_hash', 'type': 'varchar(128)', 'type_flask': 'db.String(128)', 'type_sqlalchemy': 'String(128)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'password_hash', 'is_time': False}, {'field': 'confirmed', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'confirmed', 'is_time': False}, {'field': 'CC_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'CC_Id', 'is_time': False}, {'field': 'roles', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'roles', 'is_time': False}]
+        __list=[{'field': 'id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'PRI', 'default': None, 'extra': 'auto_increment', 'is_form_editable': True, 'format': None, 'order': 1, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': True, 'header': 'id', 'is_time': False}, {'field': 'username', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 2, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'username', 'is_time': False}, {'field': 'name', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 3, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'name', 'is_time': False}, {'field': 'role_id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'NO', 'key': 'MUL', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 4, 'is_searchable': True, 'is_fk': True, 'foreign_field': 'id', 'referenced_table': 'Roles', 'referenced_class': 'Role', 'foreign_key': 'id', 'foreign_value': 'name', 'is_numeric': False, 'form_type': 'SelectField', 'is_id': False, 'header': 'role_id', 'is_time': False}, {'field': 'email', 'type': 'varchar(64)', 'type_flask': 'db.String(64)', 'type_sqlalchemy': 'String(64)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 5, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'email', 'is_time': False}, {'field': 'password_hash', 'type': 'varchar(128)', 'type_flask': 'db.String(128)', 'type_sqlalchemy': 'String(128)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 6, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'password_hash', 'is_time': False}, {'field': 'confirmed', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 7, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'confirmed', 'is_time': False}, {'field': 'CC_Id', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '1', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 8, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'CC_Id', 'is_time': False}, {'field': 'roles', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 9, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'roles', 'is_time': False}, {'field': 'ldap', 'type': 'tinyint', 'type_flask': 'db.Boolean', 'type_sqlalchemy': 'Boolean', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 10, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'BooleanField', 'is_id': False, 'header': 'ldap', 'is_time': False}, {'field': 'ldap_user', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 11, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'ldap_user', 'is_time': False}, {'field': 'ldap_common', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 12, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'ldap_common', 'is_time': False}, {'field': 'ldap_host', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 13, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'ldap_host', 'is_time': False}, {'field': 'ldap_port', 'type': 'int', 'type_flask': 'db.Integer', 'type_sqlalchemy': 'Integer', 'null': 'YES', 'key': '', 'default': '0', 'extra': '', 'is_form_editable': True, 'format': None, 'order': 14, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'IntegerField', 'is_id': False, 'header': 'ldap_port', 'is_time': False}, {'field': 'ldap_domain', 'type': 'varchar(45)', 'type_flask': 'db.String(45)', 'type_sqlalchemy': 'String(45)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 15, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'ldap_domain', 'is_time': False}, {'field': 'vars', 'type': 'varchar(255)', 'type_flask': 'db.String(255)', 'type_sqlalchemy': 'String(255)', 'null': 'YES', 'key': '', 'default': None, 'extra': '', 'is_form_editable': True, 'format': None, 'order': 16, 'is_searchable': True, 'is_fk': False, 'foreign_field': None, 'is_numeric': False, 'form_type': 'StringField', 'is_id': False, 'header': 'vars', 'is_time': False}]
 
         return __list
 
     def get_column_headers(self):
         """ Gets Users record column headers list """
-        __list=['id', 'username', 'name', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id', 'roles']
+        __list=['id', 'username', 'name', 'role_id', 'email', 'password_hash', 'confirmed', 'CC_Id', 'roles', 'ldap', 'ldap_user', 'ldap_common', 'ldap_host', 'ldap_port', 'ldap_domain', 'vars']
 
         return __list
 
     def get_column_types(self):
         """ Gets Users record column data types list """
-        __list=['Integer', 'String(64)', 'String(255)', 'Integer', 'String(64)', 'String(128)', 'Boolean', 'Integer', 'String(255)']
+        __list=['Integer', 'String(64)', 'String(255)', 'Integer', 'String(64)', 'String(128)', 'Boolean', 'Integer', 'String(255)', 'Boolean', 'String(45)', 'String(45)', 'String(45)', 'Integer', 'String(45)', 'String(255)']
 
         return __list
 
     def get_column_meta(self):
         """ Gets Users record column data meta list """
-        __list=[('id', 'Integer'), ('username', 'String(64)'), ('name', 'String(255)'), ('role_id', 'Integer'), ('email', 'String(64)'), ('password_hash', 'String(128)'), ('confirmed', 'Boolean'), ('CC_Id', 'Integer'), ('roles', 'String(255)')]
+        __list=[('id', 'Integer'), ('username', 'String(64)'), ('name', 'String(255)'), ('role_id', 'Integer'), ('email', 'String(64)'), ('password_hash', 'String(128)'), ('confirmed', 'Boolean'), ('CC_Id', 'Integer'), ('roles', 'String(255)'), ('ldap', 'Boolean'), ('ldap_user', 'String(45)'), ('ldap_common', 'String(45)'), ('ldap_host', 'String(45)'), ('ldap_port', 'Integer'), ('ldap_domain', 'String(45)'), ('vars', 'String(255)')]
 
         return __list
 

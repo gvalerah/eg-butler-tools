@@ -1,7 +1,7 @@
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-16 19:41:36
+# GLVH @ 2022-03-23 18:29:41
 # =============================================================================
 
 # gen_model_flask.py:67 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/ORM_model_schema.py
@@ -283,6 +283,13 @@ def Create_Tables(engine):
                 Column( 'confirmed',Boolean ),
                 Column( 'CC_Id',Integer ),
                 Column( 'roles',String(255) ),
+                Column( 'ldap',Boolean ),
+                Column( 'ldap_user',String(45) ),
+                Column( 'ldap_common',String(45) ),
+                Column( 'ldap_host',String(45) ),
+                Column( 'ldap_port',Integer ),
+                Column( 'ldap_domain',String(45) ),
+                Column( 'vars',String(255) ),
         )
     except Exception as e:
         print('EXCEPTION:',e)

@@ -75,8 +75,6 @@ elif sys.argv[1] == '--print-version':
     print_version()
     sys.exit(1)
 
-# GV Setup context data depending on configuration file
-
 # GV Macro level default values
 config_file = "butler.ini"
 run_mode    = 'FLASK'
@@ -86,6 +84,21 @@ if len(sys.argv) < 2:
     print(f'{sys.argv[0]}: Usage is: {sys.argv[0]} <config file> [FLASK|GUNICORN]')
     print()
     sys.exit(1)
+
+from    app                 import create_app,db,mail,logger,babel
+
+C = Context(    "Butler Web Server",
+                config_file,
+                logger
+            )
+C.Set()
+
+
+
+# GV Setup context data depending on configuration file
+
+
+
 
 print(f"{this()}: 0 caller()    = {caller()}")
 print(f"{this()}: 1 sys.argv    = {sys.argv}")
@@ -120,19 +133,14 @@ else:
     sys.exit(1)
 
 print(f'{this()}: 7 basic initialization completed.')
+print(f'{this()}: 8 calling create_app with {config_file}')
 
-from    app                 import create_app,db,mail,logger,babel
-
-C = Context(    "Butler Web Server",
-                config_file,
-                logger
-            )
-C.Set()
 
 app = create_app(   config_file,
                     os.getenv('BUTLER_CONFIG') or 'production',
                     C
                 )
+#pprint(app.config)
 
 # GV CONFIGURATION PATCH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
