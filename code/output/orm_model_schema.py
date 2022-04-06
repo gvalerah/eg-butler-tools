@@ -1,7 +1,7 @@
 # =============================================================================
 # Auto-Generated code. do not modify
 # (c) Sertechno 2018
-# GLVH @ 2022-03-23 18:29:41
+# GLVH @ 2022-03-24 17:50:52
 # =============================================================================
 
 # gen_model_flask.py:67 => /home/gvalera/GIT/EG-Suite-Tools/Butler/code/auto/models/ORM_model_schema.py
@@ -284,6 +284,7 @@ def Create_Tables(engine):
                 Column( 'CC_Id',Integer ),
                 Column( 'roles',String(255) ),
                 Column( 'ldap',Boolean ),
+                Column( 'ldap_method',String(45) ),
                 Column( 'ldap_user',String(45) ),
                 Column( 'ldap_common',String(45) ),
                 Column( 'ldap_host',String(45) ),

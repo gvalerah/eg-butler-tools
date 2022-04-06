@@ -38,30 +38,94 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         try:    logger.debug(f'auth.login user={current_user}')
         except Exception as e: print(f'auth.login user ??? : {str(e)}')
+        success = False
         if user.ldap:
-            #flash(f"user {user} requires LDAP authentication")
+            flash(f"user {user} requires LDAP authentication")
             try:
-                #flash(f"current_app.config={current_app.config.get('LDAP_HOST')}:{current_app.config.get('LDAP_PORT')}:{current_app.config.get('LDAP_DOMAIN')}")
-                ldap_user_name = user.ldap_user
-                ldap_common_name = user.ldap_common
-                host   = user.ldap_host   if user.ldap_host   is not None else current_app.config.get('LDAP_HOST')
-                port   = user.ldap_port   if user.ldap_port               else current_app.config.get('LDAP_PORT')
-                domain = user.ldap_domain if user.ldap_domain is not None else current_app.config.get('LDAP_DOMAIN')
-                #flash(f"ldap_user_name={ldap_user_name} ldap_common_name={ldap_common_name} host={host} port={port} domain={domain}")
-                
-                LDAP_username = ldap_username(username=ldap_user_name,common_name=ldap_common_name,domain=domain)
-                #flash(f"LDAP username         = {LDAP_username} pwd:{form.password.data}")
-                if ldap_authentication(LDAP_username, form.password.data,host=host,port=port,logger=logger):
-                    #flash(gettext('LDAP Authentication OK'))
-                    login_user(user, False)
-                    return redirect(request.args.get('next') or url_for('main.index'))
+                # LDAP default methos is SIMPLE, otherwise needs to be specified
+                if user.ldap_method is None:
+                    method = 'SIMPLE'
                 else:
-                    flash(gettext('Invalid username or password.'))
+                    method = user.ldap_method.strip().upper()
+                if len(method):
+                    flash(f"method= {method}")
+                    ldap_user_name = user.ldap_user
+                    ldap_common_name = user.ldap_common
+                    host   = user.ldap_host   if user.ldap_host   is not None else current_app.config.get('LDAP_HOST')
+                    port   = user.ldap_port   if user.ldap_port               else current_app.config.get('LDAP_PORT')
+                    domain = user.ldap_domain if user.ldap_domain is not None else current_app.config.get('LDAP_DOMAIN')
+                    # Elemental very simple OPEN LDAP Authentication
+                    if method == 'SIMPLE': 
+                        LDAP_username = ldap_username(username=ldap_user_name,common_name=ldap_common_name,domain=domain)
+                        success = ldap_authentication(LDAP_username, form.password.data,host=host,port=port,logger=logger)
+
+
+                    """
+                    def ldap_authentication_msad(address, username, password,
+                                protocol_version = 3,
+                                options          = [(ldap.OPT_REFERRALS,0)],
+                                return_connection = False,
+                                logger            = logging.getLogger(),
+                        ):
+                    """
+
+                    # MS Windows Active Directory Authentication
+                    elif method in ['MSAD','WINDOWS']:
+                        # Gets sure LDAP username format is DOMAIN\USERNAME
+                        if ldap_user_name.find("\\")>-1: pass
+                        elif ldap_user_name.find("@")>-1: pass
+                        else: ldap_user_name = f"{domain.upper()}\\{ldap_user_name}"
+                        options = {}
+                        # defaults
+                        '''
+                        protocol = 3
+                        options  = [(ldap.OPT_REFERRALS,0)]
+                        if len(user.vars):
+                            pairs = user.vars.split(',')
+                            for pair in pairs:
+                                var,value=pair.split('=')
+                                variables.update({var:value})
+                            for variable in variables:
+                                if variable == 'protocol':protocol=int(value)
+                                else:
+                                    key = getattr(ldap,key)
+                                    if key is not None:
+                                        # cast value to int if possible
+                                        try:
+                                            value=int(value)
+                                        except:
+                                            pass
+                                        options.append((key,value))
+                        '''
+                        if len(user.vars):
+                            vars = json.loads(user.vars)
+                        else:
+                            vars = {}
+                        flash(f"host={host} user={ldap_user_name} pwd={form.password.data} vars={vars}")
+                        success = ldap_authentication_msad(host, ldap_user_name, form.password.data, logger=logger,**vars)
+                    # Legacy NT Lan Manager authentication should be considered obsolete
+                    elif method in ['NTLM']: 
+                        if ldap_user_name.find("\\")>-1: pass
+                        elif ldap_user_name.find("@")>-1:
+                            usr,dom = ldap_user_name.split('@',1)
+                            ldap_user_name = f"{str(dom).upper()}\\{usr}"
+                        else: ldap_user_name = f"{domain.upper()}\\{ldap_user_name}"
+                        flash(f"host={host} user={ldap_user_name} pwd={form.password.data}")
+                        vars = json.loads(user.vars)
+                        url = f"http://{domain}/{vars.get('endpoint')}"
+                        success = ldap_authentication_ntlm(url, ldap_user_name, form.password.data,logger=logger)
+                    if success:
+                        login_user(user, False)
+                        return redirect(request.args.get('next') or url_for('main.index'))
+                    else:
+                        flash(gettext('Invalid username or password.'),'error')
+                else:
+                    flash(gettext('Invalid authentication method required.'),'error')
             except Exception as e:
-                flash(f"EXCEPTION: {str(e)}")
+                flash(f"EXCEPTION: {str(e)}",'error')
         else:
             logger.debug(f"2 user={user}")
-            if user is not None and user.verify_password(form.password.data):
+            if user is not None and user.verify_password(form.password.data.strip()):
                 #login_user(user, form.remember_me.data)
                 login_user(user, False)
                 try:
@@ -71,10 +135,12 @@ def login():
                 logger.debug(f"3.1 request.args.get('next')={request.args.get('next')}")
                 logger.debug(f"3.2 url_for('main.index')   ={url_for('main.index')}")
                 return redirect(request.args.get('next') or url_for('main.index'))
-            flash(gettext('Invalid username or password.'))
+            flash(gettext('Invalid username or password.'),'error')
     else:
-        pass
-        logger.warning("auth.login 4 FORM NOT VALIDATED YET")        
+        try:
+            logger.warning("auth.login 4 FORM NOT VALIDATED YET")        
+        except Exception as e:
+            logger.error(f"app auth login: EXCEPTION: {str(e)}")
     logger.debug(f"auth.login 5 will render template auth/login.html ...")
     return render_template('auth/login.html', form=form)
     
